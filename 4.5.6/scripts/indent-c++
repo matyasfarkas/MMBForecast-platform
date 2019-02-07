@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Reindents the C++ source code file given in argument.
+
+if [ -z "$1" ]; then
+    echo "Give a filename in argument"
+    exit 1
+fi
+
+SCRIPTS_DIR=$(pwd)/$(dirname $0)
+
+uncrustify -l CPP --replace -c ${SCRIPTS_DIR}/uncrustify.cfg $1
+
+cd $(dirname $1)
+emacs -batch $(basename $1) -l ${SCRIPTS_DIR}/indent-c++.el

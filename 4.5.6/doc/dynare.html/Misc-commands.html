@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Misc commands</title>
+
+<meta name="description" content="Dynare Reference Manual: Misc commands">
+<meta name="keywords" content="Dynare Reference Manual: Misc commands">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="The-Configuration-File.html#The-Configuration-File" rel="next" title="The Configuration File">
+<link href="Verbatim-inclusion.html#Verbatim-inclusion" rel="prev" title="Verbatim inclusion">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Misc-commands"></a>
+<div class="header">
+<p>
+Previous: <a href="Verbatim-inclusion.html#Verbatim-inclusion" accesskey="p" rel="prev">Verbatim inclusion</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Misc-commands-1"></a>
+<h3 class="section">4.25 Misc commands</h3>
+
+<dl>
+<dt><a name="index-set_005fdynare_005fseed"></a>Command: <strong>set_dynare_seed</strong> <em>(<var>INTEGER</var>)</em></dt>
+<dt><a name="index-set_005fdynare_005fseed-1"></a>Command: <strong>set_dynare_seed</strong> <em>(`default')</em></dt>
+<dt><a name="index-set_005fdynare_005fseed-2"></a>Command: <strong>set_dynare_seed</strong> <em>(`clock')</em></dt>
+<dt><a name="index-set_005fdynare_005fseed-3"></a>Command: <strong>set_dynare_seed</strong> <em>(`reset')</em></dt>
+<dt><a name="index-set_005fdynare_005fseed-4"></a>Command: <strong>set_dynare_seed</strong> <em>(`<var>ALGORITHM</var>', <var>INTEGER</var>)</em></dt>
+<dd>
+<p>Sets the seed used for random number generation. It is possible to set
+a given integer value, to use a default value, or to use the clock (by
+using the latter, one will therefore get different results across
+different Dynare runs). The <code>reset</code> option serves to reset the
+seed to the value set by the last <code>set_dynare_seed</code> command. On
+MATLAB 7.8 or above, it is also possible to choose a specific
+algorithm for random number generation; accepted values are
+<code>mcg16807</code>, <code>mlfg6331_64</code>, <code>mrg32k3a</code>, <code>mt19937ar</code>
+(the default), <code>shr3cong</code> and <code>swb2712</code>.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-save_005fparams_005fand_005fsteady_005fstate"></a>Command: <strong>save_params_and_steady_state</strong> <em>(<var>FILENAME</var>);</em></dt>
+<dd>
+<p>For all parameters, endogenous and exogenous variables, stores
+their value in a text file, using a simple name/value associative table.
+</p>
+<ul>
+<li> for parameters, the value is taken from the last parameter
+initialization
+
+</li><li> for exogenous, the value is taken from the last initval block
+
+</li><li> for endogenous, the value is taken from the last steady state computation
+(or, if no steady state has been computed, from the last initval block)
+</li></ul>
+
+<p>Note that no variable type is stored in the file, so that the values
+can be reloaded with <code>load_params_and_steady_state</code> in a setup where
+the variable types are different.
+</p>
+<p>The typical usage of this function is to compute the steady-state of a
+model by calibrating the steady-state value of some endogenous
+variables (which implies that some parameters must be endogeneized
+during the steady-state computation).
+</p>
+<p>You would then write a first <samp>.mod</samp> file which computes the
+steady state and saves the result of the computation at the end of the
+file, using <code>save_params_and_steady_state</code>.
+</p>
+<p>In a second file designed to perform the actual simulations, you would
+use <code>load_params_and_steady_state</code> just after your variable
+declarations, in order to load the steady state previously computed
+(including the parameters which had been endogeneized during the
+steady state computation).
+</p>
+<p>The need for two separate <samp>.mod</samp> files arises from the fact that
+the variable declarations differ between the files for steady state
+calibration and for simulation (the set of endogenous and parameters
+differ between the two); this leads to different <code>var</code> and
+<code>parameters</code> statements.
+</p>
+<p>Also note that you can take advantage of the <code>@#include</code>
+directive to share the model equations between the two files
+(see <a href="Macro_002dprocessing-language.html#Macro_002dprocessing-language">Macro-processing language</a>).
+</p>
+</dd></dl>
+
+<a name="load_005fparams_005fand_005fsteady_005fstate"></a><dl>
+<dt><a name="index-load_005fparams_005fand_005fsteady_005fstate"></a>Command: <strong>load_params_and_steady_state</strong> <em>(<var>FILENAME</var>);</em></dt>
+<dd>
+<p>For all parameters, endogenous and exogenous variables, loads
+their value from a file created with <code>save_params_and_steady_state</code>.
+</p>
+<ul>
+<li> for parameters, their value will be initialized as if they
+had been calibrated in the <samp>.mod</samp> file
+
+</li><li> for endogenous and exogenous, their value will be initialized
+as they would have been from an initval block
+</li></ul>
+
+<p>This function is used in conjunction with
+<code>save_params_and_steady_state</code>; see the documentation of that
+function for more information.
+</p>
+</dd></dl>
+
+<a name="dynare_005fversion"></a><dl>
+<dt><a name="index-dynare_005fversion"></a>MATLAB/Octave command: <strong>dynare_version</strong> <em>;</em></dt>
+<dd>
+<p>Output the version of Dynare that is currently being used (<i>i.e.</i>
+the one that is highest on the MATLAB/Octave path).
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-write_005flatex_005fdefinitions"></a>MATLAB/Octave command: <strong>write_latex_definitions</strong> <em>;</em></dt>
+<dd>
+<p>Writes the names, LaTeX names and long names of model variables to
+tables in a file named <code>&lt;&lt;M_.fname&gt;&gt;_latex_definitions.tex</code>. Requires the
+following LaTeX packages: <code>longtable</code>
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-write_005flatex_005fparameter_005ftable"></a>MATLAB/Octave command: <strong>write_latex_parameter_table</strong> <em>;</em></dt>
+<dd>
+<p>Writes the LaTeX names, parameter names, and long names of model parameters to
+a table in a file named <code>&lt;&lt;M_.fname&gt;&gt;_latex_parameters.tex</code>. The command writes the values
+of the parameters currently stored. Thus, if parameters are set or changed in the steady state 
+computation, the command should be called after a <code>steady</code>-command to make sure the 
+parameters were correctly updated. The long names can be used to add parameter descriptions. Requires the
+following LaTeX packages: <code>longtable, booktabs</code>
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-write_005flatex_005fprior_005ftable"></a>MATLAB/Octave command: <strong>write_latex_prior_table</strong> <em>;</em></dt>
+<dd>
+<p>Writes descriptive statistics about the prior distribution to a LaTeX table
+in a file named <code>&lt;&lt;M_.fname&gt;&gt;_latex_priors_table.tex</code>. The command writes
+the prior definitions currently stored. Thus, this command must be invoked
+after the <code>estimated_params</code> block. If priors are defined over the
+measurement errors, the command must also be preceeded by the declaration of
+the observed variables (with <code>varobs</code>). The command displays a warning if
+no prior densities are defined (ML estimation) or if the declaration of the
+observed variables is missing. Requires the following LaTeX packages:
+<code>longtable, booktabs</code>
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-collect_005flatex_005ffiles"></a>MATLAB/Octave command: <strong>collect_latex_files</strong> <em>;</em></dt>
+<dd>
+<p>Writes a LaTeX file named <code>&lt;&lt;M_.fname&gt;&gt;_TeX_binder.tex</code> that collects all TeX output generated by Dynare 
+into a file. This file can be compiled using pdflatex and automatically tries to load all required packages. 
+Requires the following LaTeX packages: <code>breqn</code>, <code>psfrag</code>,
+<code>graphicx</code>, <code>epstopdf</code>, <code>longtable</code>,  <code>booktabs</code>,  <code>caption</code>,
+<code>float</code>, <code>amsmath</code>, <code>amsfonts</code>, and <code>morefloats</code>
+</p></dd></dl>
+
+
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Verbatim-inclusion.html#Verbatim-inclusion" accesskey="p" rel="prev">Verbatim inclusion</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

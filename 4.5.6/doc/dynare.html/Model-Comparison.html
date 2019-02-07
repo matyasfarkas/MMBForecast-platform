@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Model Comparison</title>
+
+<meta name="description" content="Dynare Reference Manual: Model Comparison">
+<meta name="keywords" content="Dynare Reference Manual: Model Comparison">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Shock-Decomposition.html#Shock-Decomposition" rel="next" title="Shock Decomposition">
+<link href="Estimation.html#Estimation" rel="prev" title="Estimation">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Model-Comparison"></a>
+<div class="header">
+<p>
+Next: <a href="Shock-Decomposition.html#Shock-Decomposition" accesskey="n" rel="next">Shock Decomposition</a>, Previous: <a href="Estimation.html#Estimation" accesskey="p" rel="prev">Estimation</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Model-Comparison-1"></a>
+<h3 class="section">4.15 Model Comparison</h3>
+
+<dl>
+<dt><a name="index-model_005fcomparison"></a>Command: <strong>model_comparison</strong> <em><var>FILENAME</var>[(<var>DOUBLE</var>)]&hellip;;</em></dt>
+<dt><a name="index-model_005fcomparison-1"></a>Command: <strong>model_comparison</strong> <em>(marginal_density = laplace | modifiedharmonicmean) <var>FILENAME</var>[(<var>DOUBLE</var>)]&hellip;;</em></dt>
+<dd><a name="model_005fcomparison"></a><p><em>Description</em>
+</p>
+<p>This command computes odds ratios and estimate a posterior density over a
+collection of models (see <i>e.g.</i> <cite>Koop (2003), Ch. 1</cite>). The priors over
+models can be specified as the <var>DOUBLE</var> values, otherwise a uniform prior
+over all models is assumed.  In contrast to frequentist econometrics, the
+models to be compared do not need to be nested.  However, as the computation of
+posterior odds ratios is a Bayesian technique, the comparison of models
+estimated with maximum likelihood is not supported.
+</p>
+<p>It is important to keep in mind that model comparison of this type is only
+valid with proper priors.  If the prior does not integrate to one for all
+compared models, the comparison is not valid. This may be the case if part of
+the prior mass is implicitly truncated because Blanchard and Kahn conditions
+(instability or indeterminacy of the model) are not fulfilled, or because for
+some regions of the parameters space the deterministic steady state is
+undefined (or Dynare is unable to find it). The compared marginal densities
+should be renormalized by the effective prior mass, but this not done by
+Dynare: it is the user&rsquo;s responsibility to make sure that model comparison is
+based on proper priors. Note that, for obvious reasons, this is not an issue if
+the compared marginal densities are based on Laplace approximations.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>marginal_density = <var>ESTIMATOR</var></code></dt>
+<dd><p>Specifies the estimator for computing the marginal data density. <var>ESTIMATOR</var> can 
+take one of the following two values:
+<code>laplace</code> for the Laplace estimator or <code>modifiedharmonicmean</code> for the 
+<cite>Geweke (1999)</cite> Modified Harmonic Mean estimator. Default value: <code>laplace</code>
+</p></dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<p>The results are stored in <code>oo_.Model_Comparison</code>, which is described below.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">model_comparison my_model(0.7) alt_model(0.3);
+</pre></div>
+<p>This example attributes a 70% prior over <code>my_model</code> and 30% prior
+over <code>alt_model</code>.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eModel_005fComparison"></a>MATLAB/Octave variable: <strong>oo_.Model_Comparison</strong></dt>
+<dd><p>Variable set by the <code>model_comparison</code> command. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.Model_Comparison.<var>FILENAME</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+<p>where <var>FILENAME</var> is the file name of the model and <var>VARIABLE_NAME</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>Prior</code></dt>
+<dd><p>(Normalized) prior density over the model
+</p>
+</dd>
+<dt><code>Log_Marginal_Density</code></dt>
+<dd><p>Logarithm of the marginal data density
+</p>
+</dd>
+<dt><code>Bayes_Ratio</code></dt>
+<dd><p>Ratio of the marginal data density of the model relative to the one of the first declared model
+</p>
+</dd>
+<dt><code>Posterior_Model_Probability</code></dt>
+<dd><p>Posterior probability of the respective model
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Shock-Decomposition.html#Shock-Decomposition" accesskey="n" rel="next">Shock Decomposition</a>, Previous: <a href="Estimation.html#Estimation" accesskey="p" rel="prev">Estimation</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

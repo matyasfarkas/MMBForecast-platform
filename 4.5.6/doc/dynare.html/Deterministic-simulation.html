@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Deterministic simulation</title>
+
+<meta name="description" content="Dynare Reference Manual: Deterministic simulation">
+<meta name="keywords" content="Dynare Reference Manual: Deterministic simulation">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Stochastic-solution-and-simulation.html#Stochastic-solution-and-simulation" rel="next" title="Stochastic solution and simulation">
+<link href="Getting-information-about-the-model.html#Getting-information-about-the-model" rel="prev" title="Getting information about the model">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Deterministic-simulation"></a>
+<div class="header">
+<p>
+Next: <a href="Stochastic-solution-and-simulation.html#Stochastic-solution-and-simulation" accesskey="n" rel="next">Stochastic solution and simulation</a>, Previous: <a href="Getting-information-about-the-model.html#Getting-information-about-the-model" accesskey="p" rel="prev">Getting information about the model</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Deterministic-simulation-1"></a>
+<h3 class="section">4.12 Deterministic simulation</h3>
+
+<p>When the framework is deterministic, Dynare can be used for models
+with the assumption of perfect foresight. Typically, the system is
+supposed to be in a state of equilibrium before a period &lsquo;<samp>1</samp>&rsquo; when
+the news of a contemporaneous or of a future shock is learned by the
+agents in the model. The purpose of the simulation is to describe the
+reaction in anticipation of, then in reaction to the shock, until the
+system returns to the old or to a new state of equilibrium. In most
+models, this return to equilibrium is only an asymptotic phenomenon,
+which one must approximate by an horizon of simulation far enough in
+the future.  Another exercise for which Dynare is well suited is to
+study the transition path to a new equilibrium following a permanent
+shock.  For deterministic simulations, the numerical problem consists of solving
+ a nonlinar system of simultaneous equations in <code>n</code> endogenous
+ variables in <code>T</code> periods. Dynare offers several algorithms for
+ solving this problem, which can be chosen via the
+ <code>stack_solve_algo</code>-option. By default (<code>stack_solve_algo=0</code>),
+Dynare uses a Newton-type method to solve the simultaneous equation
+system. Because the resulting Jacobian is in the order of <code>n</code> by
+<code>T</code> and hence will be very large for long simulations with many
+variables, Dynare makes use of the sparse matrix capacities of
+MATLAB/Octave. A slower but potentially less memory consuming alternative
+(<code>stack_solve_algo=6</code>) is based on a Newton-type algorithm first
+proposed by <cite>Laffargue (1990)</cite> and <cite>Boucekkine (1995)</cite>, which
+uses relaxation techniques. Thereby, the algorithm avoids ever storing
+the full Jacobian. The details of the algorithm can be found in
+<cite>Juillard (1996)</cite>. The third type of algorithms makes use of block
+decomposition techniques (divide-and-conquer methods) that exploit the
+structure of the model. The principle is to identify recursive and
+simultaneous blocks in the model structure and use this information to
+aid the solution process.  These solution algorithms can provide a
+significant speed-up on large models.
+</p>
+
+<dl>
+<dt><a name="index-perfect_005fforesight_005fsetup"></a>Command: <strong>perfect_foresight_setup</strong> <em>;</em></dt>
+<dt><a name="index-perfect_005fforesight_005fsetup-1"></a>Command: <strong>perfect_foresight_setup</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>Prepares a perfect foresight simulation, by extracting the information in the
+<code>initval</code>, <code>endval</code> and <code>shocks</code> blocks and converting them into
+simulation paths for exogenous and endogenous variables.
+</p>
+<p>This command must always be called before running the simulation with
+<code>perfect_foresight_solver</code>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>periods = <var>INTEGER</var></code></dt>
+<dd><p>Number of periods of the simulation
+</p>
+</dd>
+<dt><code>datafile = <var>FILENAME</var></code></dt>
+<dd><p>If the variables of the model are not constant over time, their
+initial values, stored in a text file, could be loaded, using that
+option, as initial values before a deterministic simulation.
+</p></dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<p>The paths for the exogenous variables are stored into <code>oo_.exo_simul</code>.
+</p>
+<p>The initial and terminal conditions for the endogenous variables and the
+initial guess for the path of endogenous variables are stored into
+<code>oo_.endo_simul</code>.
+</p>
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-perfect_005fforesight_005fsolver"></a>Command: <strong>perfect_foresight_solver</strong> <em>;</em></dt>
+<dt><a name="index-perfect_005fforesight_005fsolver-1"></a>Command: <strong>perfect_foresight_solver</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>Computes the perfect foresight (or deterministic) simulation of the model.
+</p>
+<p>Note that <code>perfect_foresight_setup</code> must be called before this command, in
+order to setup the environment for the simulation.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>maxit = <var>INTEGER</var></code></dt>
+<dd><p>Determines the maximum number of iterations used in the non-linear solver. The
+default value of <code>maxit</code> is 50. 
+</p>
+</dd>
+<dt><code>tolf = <var>DOUBLE</var></code></dt>
+<dd><p>Convergence criterion for termination based on the function value. Iteration will cease when it proves impossible to
+improve the function value by more than <code>tolf</code>. Default: <code>1e-5</code>
+</p>
+</dd>
+<dt><code>tolx = <var>DOUBLE</var></code></dt>
+<dd><p>Convergence criterion for termination based on the change in the function argument. Iteration will cease when the solver 
+attempts to take a step that is smaller than <code>tolx</code>. Default: <code>1e-5</code>
+</p>
+</dd>
+<dt><code>stack_solve_algo = <var>INTEGER</var></code></dt>
+<dd><p>Algorithm used for computing the solution. Possible values are:
+</p>
+<dl compact="compact">
+<dt><code>0</code></dt>
+<dd><p>Newton method to solve simultaneously all the equations for every
+period, using sparse matrices (Default).
+</p>
+</dd>
+<dt><code>1</code></dt>
+<dd><p>Use a Newton algorithm with a sparse LU solver at each iteration
+(requires <code>bytecode</code> and/or <code>block</code> option, see <a href="Model-declaration.html#Model-declaration">Model declaration</a>).
+</p>
+</dd>
+<dt><code>2</code></dt>
+<dd><p>Use a Newton algorithm with a Generalized Minimal Residual (GMRES)
+solver at each iteration (requires <code>bytecode</code> and/or <code>block</code>
+option, see <a href="Model-declaration.html#Model-declaration">Model declaration</a>; not available under Octave)
+</p>
+</dd>
+<dt><code>3</code></dt>
+<dd><p>Use a Newton algorithm with a Stabilized Bi-Conjugate Gradient
+(BICGSTAB) solver at each iteration (requires <code>bytecode</code> and/or
+<code>block</code> option, see <a href="Model-declaration.html#Model-declaration">Model declaration</a>).
+</p>
+</dd>
+<dt><code>4</code></dt>
+<dd><p>Use a Newton algorithm with a optimal path length at each iteration
+(requires <code>bytecode</code> and/or <code>block</code> option, see <a href="Model-declaration.html#Model-declaration">Model declaration</a>).
+</p>
+</dd>
+<dt><code>5</code></dt>
+<dd><p>Use a Newton algorithm with a sparse Gaussian elimination (SPE) solver
+at each iteration (requires <code>bytecode</code> option, see <a href="Model-declaration.html#Model-declaration">Model declaration</a>).
+</p>
+</dd>
+<dt><code>6</code></dt>
+<dd><p>Use the historical algorithm proposed in <cite>Juillard (1996)</cite>: it is
+slower than <code>stack_solve_algo=0</code>, but may be less memory consuming
+on big models (not available with <code>bytecode</code> and/or <code>block</code>
+options).
+</p>
+</dd>
+<dt><code>7</code></dt>
+<dd><p>Allows the user to solve the perfect foresight model with the solvers available
+through option <code>solve_algo</code> (See <a href="Steady-state.html#solve_005falgo">solve_algo</a> for a list of possible
+values, note that values 5, 6, 7 and 8, which require <code>bytecode</code> and/or
+<code>block</code> options, are not allowed). For instance, the following commands:
+</p><div class="example">
+<pre class="example">perfect_foresight_setup(periods=400);
+perfect_foresight_solver(stack_solve_algo=7, solve_algo=9)
+</pre></div>
+<p>trigger the computation of the solution with a trust region algorithm.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>robust_lin_solve</code></dt>
+<dd><p>Triggers the use of a robust linear solver for the default <code>stack_solve_algo=0</code>. 
+</p>
+</dd>
+<dt><code>solve_algo</code></dt>
+<dd><p>See <a href="Steady-state.html#solve_005falgo">solve_algo</a>. Allows selecting the solver used with <code>stack_solve_algo=7</code>.
+</p>
+</dd>
+<dt><code>no_homotopy</code></dt>
+<dd><p>By default, the perfect foresight solver uses a homotopy technique if it cannot
+solve the problem. Concretely, it divides the problem into smaller steps by
+diminishing the size of shocks and increasing them progressively until the
+problem converges. This option tells Dynare to disable that behavior. Note that
+the homotopy is not implemented for purely forward or backward models.
+</p>
+</dd>
+<dt><code>markowitz = <var>DOUBLE</var></code></dt>
+<dd><p>Value of the Markowitz criterion, used to select the pivot. Only used
+when <code>stack_solve_algo = 5</code>. Default: <code>0.5</code>.
+</p>
+</dd>
+<dt><code>minimal_solving_periods = <var>INTEGER</var></code></dt>
+<dd><p>Specify the minimal number of periods where the model has to be
+solved, before using a constant set of operations for the remaining
+periods. Only used when <code>stack_solve_algo = 5</code>. Default: <code>1</code>.
+</p>
+</dd>
+<dt><code>lmmcp</code></dt>
+<dd><a name="lmmcp"></a><p>Solves the perfect foresight model with a Levenberg-Marquardt mixed complementarity problem (LMMCP) solver
+(<cite>Kanzow and Petra 2004</cite>), which allows to consider inequality constraints on the endogenous variables
+(such as a ZLB on the nominal interest rate or a model with irreversible
+investment). This option is equivalent to <code>stack_solve_algo=7</code> <strong>and</strong>
+<code>solve_algo=10</code>. Using the LMMCP solver requires a particular model setup as the goal is to get rid of 
+any <code>min/max</code> operators and complementary slackness conditions that might introduce 
+a singularity into the Jacobian. This is done by attaching an equation tag (see <a href="Model-declaration.html#Model-declaration">Model declaration</a>)
+with the <code>mcp</code> keyword to affected equations. This tag states that the equation 
+to which the tag is attached has to hold unless the expression within the tag is binding.
+For instance, a ZLB on the nominal interest rate would be specified as follows in the model block:
+</p><div class="example">
+<pre class="example">model;
+   ...
+   [mcp = 'r &gt; -1.94478']
+   r = rho*r(-1) + (1-rho)*(gpi*Infl+gy*YGap) + e;
+   ...
+end;
+</pre></div>
+<p>where 1.94478 is the steady state level of the nominal interest rate and
+<code>r</code> is the nominal interest rate in deviation from the steady state. This construct implies that
+the Taylor rule is operative, unless the implied interest rate <code>r&lt;=-1.94478</code>, in which case the 
+<code>r</code> is fixed at <code>-1.94478</code> (thereby being equivalent to a complementary slackness
+condition). By restricting the value of <code>r</code> coming out of this equation, the
+<code>mcp</code>-tag also avoids using <code>max(r,-1.94478)</code> for other occurrences of <code>r</code> in the 
+rest of the model. It is important to keep in mind that, because the <code>mcp</code>-tag effectively 
+replaces a complementary slackness condition, it cannot be simply attached to any 
+equation. Rather, it must be attached to the correct affected equation as otherwise the 
+solver will solve a different problem than originally intended.
+</p>
+<p>Note that in the current implementation, the content of the <code>mcp</code> equation tag is not parsed by the
+preprocessor. The inequalities must therefore be as simple as possible: an endogenous
+variable, followed by a relational operator, followed by a number (not a
+variable, parameter or expression). 
+</p>
+</dd>
+<dt><code>endogenous_terminal_period</code></dt>
+<dd><p>The  number of  periods is  not constant  across Newton  iterations when
+solving the perfect foresight model. The size of the nonlinear system of
+equations  is  reduced  by  removing  the  portion  of  the  paths  (and
+associated equations) for which the solution has already been identified
+(up to the  tolerance parameter). This strategy can be  interpreted as a
+mix  of the  shooting and  relaxation  approaches. Note  that round  off
+errors are  more important with  this mixed strategy (user  should check
+the reported value  of the maximum absolute error).  Only available with
+option <code>stack_solve_algo==0</code>.
+</p>
+</dd>
+<dt><code>linear_approximation</code></dt>
+<dd><p>Solves the linearized version of the perfect foresight model. The model must be
+stationary. Only available with option <code>stack_solve_algo==0</code>.
+</p>
+</dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<p>The simulated endogenous variables are available in global matrix
+<code>oo_.endo_simul</code>.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-simul"></a>Command: <strong>simul</strong> <em>;</em></dt>
+<dt><a name="index-simul-1"></a>Command: <strong>simul</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>Short-form command for triggering the computation of a deterministic simulation
+of the model. It is strictly equivalent to a call to
+<code>perfect_foresight_setup</code> followed by a call to
+<code>perfect_foresight_solver</code>.
+</p>
+<p><em>Options</em>
+</p>
+<p>Accepts all the options of <code>perfect_foresight_setup</code> and
+<code>perfect_foresight_solver</code>.
+</p>
+</dd></dl>
+<a name="oo_005f_002eendo_005fsimul"></a><dl>
+<dt><a name="index-oo_005f_002eendo_005fsimul"></a>MATLAB/Octave variable: <strong>oo_.endo_simul</strong></dt>
+<dd><p>This variable stores the result of a deterministic simulation (computed by
+<code>perfect_foresight_solver</code> or <code>simul</code>) or of a stochastic simulation
+(computed by <code>stoch_simul</code> with the <code>periods</code> option or by
+<code>extended_path</code>).
+</p>
+<p>The variables are arranged row by row, in order of declaration (as in
+<code>M_.endo_names</code>). Note that this variable also contains initial
+and terminal conditions, so it has more columns than the value of
+<code>periods</code> option.
+</p></dd></dl>
+
+<a name="oo_005f_002eexo_005fsimul"></a><dl>
+<dt><a name="index-oo_005f_002eexo_005fsimul"></a>MATLAB/Octave variable: <strong>oo_.exo_simul</strong></dt>
+<dd><p>This variable stores the path of exogenous variables during a simulation
+(computed by <code>perfect_foresight_solver</code>, <code>simul</code>, <code>stoch_simul</code>
+or <code>extended_path</code>).
+</p>
+<p>The variables are arranged in columns, in order of declaration (as in
+<code>M_.exo_names</code>). Periods are in rows. Note that this convention
+regarding columns and rows is the opposite of the convention for
+<code>oo_.endo_simul</code>!
+</p>
+</dd></dl>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Stochastic-solution-and-simulation.html#Stochastic-solution-and-simulation" accesskey="n" rel="next">Stochastic solution and simulation</a>, Previous: <a href="Getting-information-about-the-model.html#Getting-information-about-the-model" accesskey="p" rel="prev">Getting information about the model</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

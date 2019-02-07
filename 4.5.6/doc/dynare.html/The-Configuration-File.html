@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: The Configuration File</title>
+
+<meta name="description" content="Dynare Reference Manual: The Configuration File">
+<meta name="keywords" content="Dynare Reference Manual: The Configuration File">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Dynare-Configuration.html#Dynare-Configuration" rel="next" title="Dynare Configuration">
+<link href="Misc-commands.html#Misc-commands" rel="prev" title="Misc commands">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="The-Configuration-File"></a>
+<div class="header">
+<p>
+Next: <a href="Time-Series.html#Time-Series" accesskey="n" rel="next">Time Series</a>, Previous: <a href="The-Model-file.html#The-Model-file" accesskey="p" rel="prev">The Model file</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="The-Configuration-File-1"></a>
+<h2 class="chapter">5 The Configuration File</h2>
+
+<p>The configuration file is used to provide Dynare with information not
+related to the model (and hence not placed in the model file). At the
+moment, it is only used when using Dynare to run parallel
+computations.
+</p>
+<p>On Linux and macOS, the default location of the configuration file
+is <samp>$HOME/.dynare</samp>, while on Windows it is
+<samp>%APPDATA%\dynare.ini</samp> (typically <samp>C:\Documents and
+Settings\<var>USERNAME</var>\Application Data\dynare.ini</samp> under Windows XP,
+or <samp>C:\Users\<var>USERNAME</var>\AppData\dynare.ini</samp> under Windows
+Vista/7/8). You can specify a non standard location using the
+<code>conffile</code> option of the <code>dynare</code> command (see <a href="Dynare-invocation.html#Dynare-invocation">Dynare invocation</a>).
+</p>
+<p>The parsing of the configuration file is case-sensitive and it should
+take the following form, with each option/choice pair placed on a
+newline:
+</p>
+<div class="example">
+<pre class="example">[command0]
+option0 = choice0
+option1 = choice1
+
+[command1]
+option0 = choice0
+option1 = choice1
+</pre></div>
+
+<p>The configuration file follows a few conventions (self-explanatory
+conventions such as <var>USER_NAME</var> have been excluded for concision):
+</p>
+<dl compact="compact">
+<dt><var>COMPUTER_NAME</var></dt>
+<dd><p>Indicates the valid name of a server (<i>e.g.</i> <code>localhost</code>,
+<code>server.cepremap.org</code>) or an IP address.
+</p>
+</dd>
+<dt><var>DRIVE_NAME</var></dt>
+<dd><p>Indicates a valid drive name in Windows, without the trailing colon (<i>e.g.</i> <code>C</code>).
+</p>
+</dd>
+<dt><var>PATH</var></dt>
+<dd><p>Indicates a valid path in the underlying operating system (<i>e.g.</i>
+<code>/home/user/dynare/matlab/</code>).
+</p>
+</dd>
+<dt><var>PATH_AND_FILE</var></dt>
+<dd><p>Indicates a valid path to a file in the underlying operating system
+(<i>e.g.</i> <code>/usr/local/MATLAB/R2010b/bin/matlab</code>).
+</p>
+</dd>
+<dt><var>BOOLEAN</var></dt>
+<dd><p>Is <code>true</code> or <code>false</code>.
+</p></dd>
+</dl>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Dynare-Configuration.html#Dynare-Configuration" accesskey="1">Dynare Configuration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Parallel-Configuration.html#Parallel-Configuration" accesskey="2">Parallel Configuration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Windows-Step_002dby_002dStep-Guide.html#Windows-Step_002dby_002dStep-Guide" accesskey="3">Windows Step-by-Step Guide</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Time-Series.html#Time-Series" accesskey="n" rel="next">Time Series</a>, Previous: <a href="The-Model-file.html#The-Model-file" accesskey="p" rel="prev">The Model file</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

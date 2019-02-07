@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Top</title>
+
+<meta name="description" content="Dynare Reference Manual: Top">
+<meta name="keywords" content="Dynare Reference Manual: Top">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="../dir/index.html" rel="up" title="(dir)">
+<link href="Introduction.html#Introduction" rel="next" title="Introduction">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<h1 class="settitle" align="center">Dynare Reference Manual</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="SEC_Contents"></a>
+<h2 class="contents-heading">Table of Contents</h2>
+
+<div class="contents">
+
+<ul class="no-bullet">
+  <li><a name="toc-Introduction-1" href="Introduction.html#Introduction">1 Introduction</a>
+  <ul class="no-bullet">
+    <li><a name="toc-What-is-Dynare-_003f-1" href="What-is-Dynare-_003f.html#What-is-Dynare-_003f">1.1 What is Dynare ?</a></li>
+    <li><a name="toc-Documentation-sources-1" href="Documentation-sources.html#Documentation-sources">1.2 Documentation sources</a></li>
+    <li><a name="toc-Citing-Dynare-in-your-research-1" href="Citing-Dynare-in-your-research.html#Citing-Dynare-in-your-research">1.3 Citing Dynare in your research</a></li>
+  </ul></li>
+  <li><a name="toc-Installation-and-configuration-1" href="Installation-and-configuration.html#Installation-and-configuration">2 Installation and configuration</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Software-requirements-1" href="Software-requirements.html#Software-requirements">2.1 Software requirements</a></li>
+    <li><a name="toc-Installation-of-Dynare-1" href="Installation-of-Dynare.html#Installation-of-Dynare">2.2 Installation of Dynare</a>
+    <ul class="no-bullet">
+      <li><a name="toc-On-Windows-1" href="Installation-of-Dynare.html#On-Windows">2.2.1 On Windows</a></li>
+      <li><a name="toc-On-Debian-GNU_002fLinux-and-Ubuntu-1" href="Installation-of-Dynare.html#On-Debian-GNU_002fLinux-and-Ubuntu">2.2.2 On Debian GNU/Linux and Ubuntu</a></li>
+      <li><a name="toc-On-macOS-1" href="Installation-of-Dynare.html#On-macOS">2.2.3 On macOS</a></li>
+      <li><a name="toc-For-other-systems-1" href="Installation-of-Dynare.html#For-other-systems">2.2.4 For other systems</a></li>
+    </ul></li>
+    <li><a name="toc-Compiler-installation-1" href="Compiler-installation.html#Compiler-installation">2.3 Compiler installation</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Prerequisites-on-Windows-1" href="Compiler-installation.html#Prerequisites-on-Windows">2.3.1 Prerequisites on Windows</a></li>
+      <li><a name="toc-Prerequisites-on-Debian-GNU_002fLinux-and-Ubuntu-1" href="Compiler-installation.html#Prerequisites-on-Debian-GNU_002fLinux-and-Ubuntu">2.3.2 Prerequisites on Debian GNU/Linux and Ubuntu</a></li>
+      <li><a name="toc-Prerequisites-on-macOS-1" href="Compiler-installation.html#Prerequisites-on-macOS">2.3.3 Prerequisites on macOS</a></li>
+    </ul></li>
+    <li><a name="toc-Configuration-1" href="Configuration.html#Configuration">2.4 Configuration</a>
+    <ul class="no-bullet">
+      <li><a name="toc-For-MATLAB-1" href="Configuration.html#For-MATLAB">2.4.1 For MATLAB</a></li>
+      <li><a name="toc-For-GNU-Octave-1" href="Configuration.html#For-GNU-Octave">2.4.2 For GNU Octave</a></li>
+      <li><a name="toc-Some-words-of-warning-1" href="Configuration.html#Some-words-of-warning">2.4.3 Some words of warning</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Running-Dynare-1" href="Running-Dynare.html#Running-Dynare">3 Running Dynare</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Dynare-invocation-1" href="Dynare-invocation.html#Dynare-invocation">3.1 Dynare invocation</a></li>
+    <li><a name="toc-Dynare-hooks-1" href="Dynare-hooks.html#Dynare-hooks">3.2 Dynare hooks</a></li>
+    <li><a name="toc-Understanding-Preprocessor-Error-Messages-1" href="Understanding-Preprocessor-Error-Messages.html#Understanding-Preprocessor-Error-Messages">3.3 Understanding Preprocessor Error Messages</a></li>
+  </ul></li>
+  <li><a name="toc-The-Model-file-1" href="The-Model-file.html#The-Model-file">4 The Model file</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Conventions-1" href="Conventions.html#Conventions">4.1 Conventions</a></li>
+    <li><a name="toc-Variable-declarations-1" href="Variable-declarations.html#Variable-declarations">4.2 Variable declarations</a></li>
+    <li><a name="toc-Expressions-1" href="Expressions.html#Expressions">4.3 Expressions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Parameters-and-variables-1" href="Expressions.html#Parameters-and-variables">4.3.1 Parameters and variables</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Inside-the-model-1" href="Expressions.html#Inside-the-model">4.3.1.1 Inside the model</a></li>
+        <li><a name="toc-Outside-the-model-1" href="Expressions.html#Outside-the-model">4.3.1.2 Outside the model</a></li>
+      </ul></li>
+      <li><a name="toc-Operators-1" href="Expressions.html#Operators">4.3.2 Operators</a></li>
+      <li><a name="toc-Functions-1" href="Expressions.html#Functions">4.3.3 Functions</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Built_002din-Functions-1" href="Expressions.html#Built_002din-Functions">4.3.3.1 Built-in Functions</a></li>
+        <li><a name="toc-External-Functions-1" href="Expressions.html#External-Functions">4.3.3.2 External Functions</a></li>
+      </ul></li>
+      <li><a name="toc-A-few-words-of-warning-in-stochastic-context-1" href="Expressions.html#A-few-words-of-warning-in-stochastic-context">4.3.4 A few words of warning in stochastic context</a></li>
+    </ul></li>
+    <li><a name="toc-Parameter-initialization-1" href="Parameter-initialization.html#Parameter-initialization">4.4 Parameter initialization</a></li>
+    <li><a name="toc-Model-declaration-1" href="Model-declaration.html#Model-declaration">4.5 Model declaration</a></li>
+    <li><a name="toc-Auxiliary-variables-1" href="Auxiliary-variables.html#Auxiliary-variables">4.6 Auxiliary variables</a></li>
+    <li><a name="toc-Initial-and-terminal-conditions-1" href="Initial-and-terminal-conditions.html#Initial-and-terminal-conditions">4.7 Initial and terminal conditions</a></li>
+    <li><a name="toc-Shocks-on-exogenous-variables-1" href="Shocks-on-exogenous-variables.html#Shocks-on-exogenous-variables">4.8 Shocks on exogenous variables</a></li>
+    <li><a name="toc-Other-general-declarations-1" href="Other-general-declarations.html#Other-general-declarations">4.9 Other general declarations</a></li>
+    <li><a name="toc-Steady-state-1" href="Steady-state.html#Steady-state">4.10 Steady state</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Finding-the-steady-state-with-Dynare-nonlinear-solver-1" href="Steady-state.html#Finding-the-steady-state-with-Dynare-nonlinear-solver">4.10.1 Finding the steady state with Dynare nonlinear solver</a></li>
+      <li><a name="toc-Using-a-steady-state-file-1" href="Steady-state.html#Using-a-steady-state-file">4.10.2 Using a steady state file</a></li>
+      <li><a name="toc-Replace-some-equations-during-steady-state-computations-1" href="Steady-state.html#Replace-some-equations-during-steady-state-computations">4.10.3 Replace some equations during steady state computations</a></li>
+    </ul></li>
+    <li><a name="toc-Getting-information-about-the-model-1" href="Getting-information-about-the-model.html#Getting-information-about-the-model">4.11 Getting information about the model</a></li>
+    <li><a name="toc-Deterministic-simulation-1" href="Deterministic-simulation.html#Deterministic-simulation">4.12 Deterministic simulation</a></li>
+    <li><a name="toc-Stochastic-solution-and-simulation-1" href="Stochastic-solution-and-simulation.html#Stochastic-solution-and-simulation">4.13 Stochastic solution and simulation</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Computing-the-stochastic-solution-1" href="Stochastic-solution-and-simulation.html#Computing-the-stochastic-solution">4.13.1 Computing the stochastic solution</a></li>
+      <li><a name="toc-Typology-and-ordering-of-variables-1" href="Stochastic-solution-and-simulation.html#Typology-and-ordering-of-variables">4.13.2 Typology and ordering of variables</a></li>
+      <li><a name="toc-First-order-approximation-1" href="Stochastic-solution-and-simulation.html#First-order-approximation">4.13.3 First order approximation</a></li>
+      <li><a name="toc-Second-order-approximation-1" href="Stochastic-solution-and-simulation.html#Second-order-approximation">4.13.4 Second order approximation</a></li>
+      <li><a name="toc-Third-order-approximation-1" href="Stochastic-solution-and-simulation.html#Third-order-approximation">4.13.5 Third order approximation</a></li>
+    </ul></li>
+    <li><a name="toc-Estimation-1" href="Estimation.html#Estimation">4.14 Estimation</a></li>
+    <li><a name="toc-Model-Comparison-1" href="Model-Comparison.html#Model-Comparison">4.15 Model Comparison</a></li>
+    <li><a name="toc-Shock-Decomposition-1" href="Shock-Decomposition.html#Shock-Decomposition">4.16 Shock Decomposition</a></li>
+    <li><a name="toc-Calibrated-Smoother-1" href="Calibrated-Smoother.html#Calibrated-Smoother">4.17 Calibrated Smoother</a></li>
+    <li><a name="toc-Forecasting-1" href="Forecasting.html#Forecasting">4.18 Forecasting</a></li>
+    <li><a name="toc-Optimal-policy-1" href="Optimal-policy.html#Optimal-policy">4.19 Optimal policy</a></li>
+    <li><a name="toc-Sensitivity-and-identification-analysis-1" href="Sensitivity-and-identification-analysis.html#Sensitivity-and-identification-analysis">4.20 Sensitivity and identification analysis</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Performing-sensitivity-analysis-1" href="Sensitivity-and-identification-analysis.html#Performing-sensitivity-analysis">4.20.1 Performing sensitivity analysis</a></li>
+      <li><a name="toc-IRF_002fMoment-calibration-1" href="Sensitivity-and-identification-analysis.html#IRF_002fMoment-calibration">4.20.2 IRF/Moment calibration</a></li>
+      <li><a name="toc-Performing-identification-analysis-1" href="Sensitivity-and-identification-analysis.html#Performing-identification-analysis">4.20.3 Performing identification analysis</a></li>
+      <li><a name="toc-Types-of-analysis-and-output-files-1" href="Sensitivity-and-identification-analysis.html#Types-of-analysis-and-output-files">4.20.4 Types of analysis and output files</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Sampling-1" href="Sensitivity-and-identification-analysis.html#Sampling">4.20.4.1 Sampling</a></li>
+        <li><a name="toc-Stability-Mapping-1" href="Sensitivity-and-identification-analysis.html#Stability-Mapping">4.20.4.2 Stability Mapping</a></li>
+        <li><a name="toc-IRF_002fMoment-restrictions-1" href="Sensitivity-and-identification-analysis.html#IRF_002fMoment-restrictions">4.20.4.3 IRF/Moment restrictions</a></li>
+        <li><a name="toc-Reduced-Form-Mapping-1" href="Sensitivity-and-identification-analysis.html#Reduced-Form-Mapping">4.20.4.4 Reduced Form Mapping</a></li>
+        <li><a name="toc-RMSE-1" href="Sensitivity-and-identification-analysis.html#RMSE">4.20.4.5 RMSE</a></li>
+        <li><a name="toc-Screening-Analysis-1" href="Sensitivity-and-identification-analysis.html#Screening-Analysis">4.20.4.6 Screening Analysis</a></li>
+        <li><a name="toc-Identification-Analysis-1" href="Sensitivity-and-identification-analysis.html#Identification-Analysis">4.20.4.7 Identification Analysis</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a name="toc-Markov_002dswitching-SBVAR-1" href="Markov_002dswitching-SBVAR.html#Markov_002dswitching-SBVAR">4.21 Markov-switching SBVAR</a></li>
+    <li><a name="toc-Displaying-and-saving-results-1" href="Displaying-and-saving-results.html#Displaying-and-saving-results">4.22 Displaying and saving results</a></li>
+    <li><a name="toc-Macro_002dprocessing-language-1" href="Macro_002dprocessing-language.html#Macro_002dprocessing-language">4.23 Macro-processing language</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Macro-expressions-1" href="Macro_002dprocessing-language.html#Macro-expressions">4.23.1 Macro expressions</a></li>
+      <li><a name="toc-Macro-directives-1" href="Macro_002dprocessing-language.html#Macro-directives">4.23.2 Macro directives</a></li>
+      <li><a name="toc-Typical-usages-1" href="Macro_002dprocessing-language.html#Typical-usages">4.23.3 Typical usages</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Modularization-1" href="Macro_002dprocessing-language.html#Modularization">4.23.3.1 Modularization</a></li>
+        <li><a name="toc-Indexed-sums-or-products-1" href="Macro_002dprocessing-language.html#Indexed-sums-or-products">4.23.3.2 Indexed sums or products</a></li>
+        <li><a name="toc-Multi_002dcountry-models-1" href="Macro_002dprocessing-language.html#Multi_002dcountry-models">4.23.3.3 Multi-country models</a></li>
+        <li><a name="toc-Endogeneizing-parameters-1" href="Macro_002dprocessing-language.html#Endogeneizing-parameters">4.23.3.4 Endogeneizing parameters</a></li>
+      </ul></li>
+      <li><a name="toc-MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops-1" href="Macro_002dprocessing-language.html#MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops">4.23.4 MATLAB/Octave loops versus macro-processor loops</a></li>
+    </ul></li>
+    <li><a name="toc-Verbatim-inclusion-1" href="Verbatim-inclusion.html#Verbatim-inclusion">4.24 Verbatim inclusion</a></li>
+    <li><a name="toc-Misc-commands-1" href="Misc-commands.html#Misc-commands">4.25 Misc commands</a></li>
+  </ul></li>
+  <li><a name="toc-The-Configuration-File-1" href="The-Configuration-File.html#The-Configuration-File">5 The Configuration File</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Dynare-Configuration-1" href="Dynare-Configuration.html#Dynare-Configuration">5.1 Dynare Configuration</a></li>
+    <li><a name="toc-Parallel-Configuration-1" href="Parallel-Configuration.html#Parallel-Configuration">5.2 Parallel Configuration</a></li>
+    <li><a name="toc-Windows-Step_002dby_002dStep-Guide-1" href="Windows-Step_002dby_002dStep-Guide.html#Windows-Step_002dby_002dStep-Guide">5.3 Windows Step-by-Step Guide</a></li>
+  </ul></li>
+  <li><a name="toc-Time-Series-1" href="Time-Series.html#Time-Series">6 Time Series</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Dates-1" href="Dates.html#Dates">6.1 Dates</a>
+    <ul class="no-bullet">
+      <li><a name="toc-dates-in-a-mod-file-1" href="Dates.html#dates-in-a-mod-file">6.1.1 dates in a mod file</a></li>
+      <li><a name="toc-dates-class-1" href="Dates.html#dates-class">6.1.2 dates class</a></li>
+    </ul></li>
+    <li><a name="toc-dseries-class-1" href="dseries-class.html#dseries-class">6.2 dseries class</a></li>
+  </ul></li>
+  <li><a name="toc-Reporting-1" href="Reporting.html#Reporting">7 Reporting</a></li>
+  <li><a name="toc-Examples-1" href="Examples.html#Examples">8 Examples</a></li>
+  <li><a name="toc-Dynare-misc-commands-1" href="Dynare-misc-commands.html#Dynare-misc-commands">9 Dynare misc commands</a></li>
+  <li><a name="toc-Bibliography-1" href="Bibliography.html#Bibliography">10 Bibliography</a></li>
+  <li><a name="toc-Command-and-Function-Index-1" href="Command-and-Function-Index.html#Command-and-Function-Index">Command and Function Index</a></li>
+  <li><a name="toc-Variable-Index-1" href="Variable-Index.html#Variable-Index">Variable Index</a></li>
+</ul>
+</div>
+
+
+<a name="Top"></a>
+<div class="header">
+<p>
+Next: <a href="Introduction.html#Introduction" accesskey="n" rel="next">Introduction</a>, Up: <a href="../dir/index.html" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Dynare"></a>
+<h1 class="top">Dynare</h1>
+<p>This is Dynare Reference Manual, version 4.5.6.
+</p>
+<p>Copyright &copy; 1996-2017, Dynare Team.
+</p>
+<blockquote>
+<p>Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+</p>
+<p>A copy of the license can be found at <a href="http://www.gnu.org/licenses/fdl.txt">http://www.gnu.org/licenses/fdl.txt</a>.
+</p></blockquote>
+
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Introduction.html#Introduction" accesskey="1">Introduction</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Installation-and-configuration.html#Installation-and-configuration" accesskey="2">Installation and configuration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Running-Dynare.html#Running-Dynare" accesskey="3">Running Dynare</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="The-Model-file.html#The-Model-file" accesskey="4">The Model file</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="The-Configuration-File.html#The-Configuration-File" accesskey="5">The Configuration File</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Time-Series.html#Time-Series" accesskey="6">Time Series</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Reporting.html#Reporting" accesskey="7">Reporting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Examples.html#Examples" accesskey="8">Examples</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Dynare-misc-commands.html#Dynare-misc-commands" accesskey="9">Dynare misc commands</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Bibliography.html#Bibliography">Bibliography</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Command-and-Function-Index.html#Command-and-Function-Index">Command and Function Index</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Variable-Index.html#Variable-Index">Variable Index</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+</pre></th></tr><tr><th colspan="3" align="left" valign="top"><pre class="menu-comment"> &mdash; The Detailed Node Listing &mdash;
+
+Introduction
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="What-is-Dynare-_003f.html#What-is-Dynare-_003f">What is Dynare ?</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Documentation-sources.html#Documentation-sources">Documentation sources</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Citing-Dynare-in-your-research.html#Citing-Dynare-in-your-research">Citing Dynare in your research</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Installation and configuration
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Software-requirements.html#Software-requirements">Software requirements</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Installation-of-Dynare.html#Installation-of-Dynare">Installation of Dynare</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Compiler-installation.html#Compiler-installation">Compiler installation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Configuration.html#Configuration">Configuration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Installation of Dynare
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Installation-of-Dynare.html#On-Windows">On Windows</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Installation-of-Dynare.html#On-Debian-GNU_002fLinux-and-Ubuntu">On Debian GNU/Linux and Ubuntu</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Installation-of-Dynare.html#On-macOS">On macOS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Installation-of-Dynare.html#For-other-systems">For other systems</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Compiler installation
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Compiler-installation.html#Prerequisites-on-Windows">Prerequisites on Windows</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Compiler-installation.html#Prerequisites-on-Debian-GNU_002fLinux-and-Ubuntu">Prerequisites on Debian GNU/Linux and Ubuntu</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Compiler-installation.html#Prerequisites-on-macOS">Prerequisites on macOS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Configuration
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Configuration.html#For-MATLAB">For MATLAB</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Configuration.html#For-GNU-Octave">For GNU Octave</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Configuration.html#Some-words-of-warning">Some words of warning</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Running Dynare
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Dynare-invocation.html#Dynare-invocation">Dynare invocation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Dynare-hooks.html#Dynare-hooks">Dynare hooks</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Understanding-Preprocessor-Error-Messages.html#Understanding-Preprocessor-Error-Messages">Understanding Preprocessor Error Messages</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+The Model file
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Conventions.html#Conventions">Conventions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Variable-declarations.html#Variable-declarations">Variable declarations</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expressions.html#Expressions">Expressions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Parameter-initialization.html#Parameter-initialization">Parameter initialization</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Model-declaration.html#Model-declaration">Model declaration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Auxiliary-variables.html#Auxiliary-variables">Auxiliary variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Initial-and-terminal-conditions.html#Initial-and-terminal-conditions">Initial and terminal conditions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Shocks-on-exogenous-variables.html#Shocks-on-exogenous-variables">Shocks on exogenous variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Other-general-declarations.html#Other-general-declarations">Other general declarations</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Steady-state.html#Steady-state">Steady state</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getting-information-about-the-model.html#Getting-information-about-the-model">Getting information about the model</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Deterministic-simulation.html#Deterministic-simulation">Deterministic simulation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Stochastic-solution-and-simulation.html#Stochastic-solution-and-simulation">Stochastic solution and simulation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Estimation.html#Estimation">Estimation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Model-Comparison.html#Model-Comparison">Model Comparison</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Shock-Decomposition.html#Shock-Decomposition">Shock Decomposition</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Calibrated-Smoother.html#Calibrated-Smoother">Calibrated Smoother</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Forecasting.html#Forecasting">Forecasting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Optimal-policy.html#Optimal-policy">Optimal policy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Sensitivity-and-identification-analysis">Sensitivity and identification analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Markov_002dswitching-SBVAR.html#Markov_002dswitching-SBVAR">Markov-switching SBVAR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Displaying-and-saving-results.html#Displaying-and-saving-results">Displaying and saving results</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#Macro_002dprocessing-language">Macro-processing language</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Verbatim-inclusion.html#Verbatim-inclusion">Verbatim inclusion</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Misc-commands.html#Misc-commands">Misc commands</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Expressions
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Expressions.html#Parameters-and-variables">Parameters and variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expressions.html#Operators">Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expressions.html#Functions">Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expressions.html#A-few-words-of-warning-in-stochastic-context">A few words of warning in stochastic context</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Parameters and variables
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Expressions.html#Inside-the-model">Inside the model</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expressions.html#Outside-the-model">Outside the model</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Functions
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Expressions.html#Built_002din-Functions">Built-in Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expressions.html#External-Functions">External Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Steady state
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Steady-state.html#Finding-the-steady-state-with-Dynare-nonlinear-solver">Finding the steady state with Dynare nonlinear solver</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Steady-state.html#Using-a-steady-state-file">Using a steady state file</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Steady-state.html#Replace-some-equations-during-steady-state-computations">Replace some equations during steady state computations</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Stochastic solution and simulation
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Stochastic-solution-and-simulation.html#Computing-the-stochastic-solution">Computing the stochastic solution</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Stochastic-solution-and-simulation.html#Typology-and-ordering-of-variables">Typology and ordering of variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Stochastic-solution-and-simulation.html#First-order-approximation">First order approximation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Stochastic-solution-and-simulation.html#Second-order-approximation">Second order approximation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Stochastic-solution-and-simulation.html#Third-order-approximation">Third order approximation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Sensitivity and identification analysis
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Performing-sensitivity-analysis">Performing sensitivity analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#IRF_002fMoment-calibration">IRF/Moment calibration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Performing-identification-analysis">Performing identification analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Types-of-analysis-and-output-files">Types of analysis and output files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Types of analysis and output files
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Sampling">Sampling</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Stability-Mapping">Stability Mapping</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#IRF_002fMoment-restrictions">IRF/Moment restrictions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Reduced-Form-Mapping">Reduced Form Mapping</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#RMSE">RMSE</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Screening-Analysis">Screening Analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sensitivity-and-identification-analysis.html#Identification-Analysis">Identification Analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Macro-processing language
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#Macro-expressions">Macro expressions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#Macro-directives">Macro directives</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#Typical-usages">Typical usages</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops">MATLAB/Octave loops versus macro-processor loops</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Typical usages
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#Modularization">Modularization</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#Indexed-sums-or-products">Indexed sums or products</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#Multi_002dcountry-models">Multi-country models</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Macro_002dprocessing-language.html#Endogeneizing-parameters">Endogeneizing parameters</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+The Configuration File
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Dynare-Configuration.html#Dynare-Configuration">Dynare Configuration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Parallel-Configuration.html#Parallel-Configuration">Parallel Configuration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Windows-Step_002dby_002dStep-Guide.html#Windows-Step_002dby_002dStep-Guide">Windows Step-by-Step Guide</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Time Series
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Dates.html#Dates">Dates</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="dseries-class.html#dseries-class">dseries class</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Dates
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Dates.html#dates-in-a-mod-file">dates in a mod file</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Dates.html#dates-class">dates class</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+</pre></th></tr></table>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Introduction.html#Introduction" accesskey="n" rel="next">Introduction</a>, Up: <a href="../dir/index.html" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

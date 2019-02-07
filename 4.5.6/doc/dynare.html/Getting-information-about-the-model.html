@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Getting information about the model</title>
+
+<meta name="description" content="Dynare Reference Manual: Getting information about the model">
+<meta name="keywords" content="Dynare Reference Manual: Getting information about the model">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Deterministic-simulation.html#Deterministic-simulation" rel="next" title="Deterministic simulation">
+<link href="Steady-state.html#Replace-some-equations-during-steady-state-computations" rel="prev" title="Replace some equations during steady state computations">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Getting-information-about-the-model"></a>
+<div class="header">
+<p>
+Next: <a href="Deterministic-simulation.html#Deterministic-simulation" accesskey="n" rel="next">Deterministic simulation</a>, Previous: <a href="Steady-state.html#Steady-state" accesskey="p" rel="prev">Steady state</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Getting-information-about-the-model-1"></a>
+<h3 class="section">4.11 Getting information about the model</h3>
+
+<dl>
+<dt><a name="index-check"></a>Command: <strong>check</strong> <em>;</em></dt>
+<dt><a name="index-check-1"></a>Command: <strong>check</strong> <em>(solve_algo = <var>INTEGER</var>) ;</em></dt>
+<dd><a name="check"></a>
+<p><em>Description</em>
+</p>
+<p>Computes the eigenvalues of the model linearized around the values
+specified by the last <code>initval</code>, <code>endval</code> or <code>steady</code>
+statement. Generally, the eigenvalues are only meaningful if the
+linearization is done around a steady state of the model. It is a
+device for local analysis in the neighborhood of this steady state.
+</p>
+<p>A necessary condition for the uniqueness of a stable equilibrium in
+the neighborhood of the steady state is that there are as many
+eigenvalues larger than one in modulus as there are forward looking
+variables in the system. An additional rank condition requires that
+the square submatrix of the right Schur vectors corresponding to the
+forward looking variables (jumpers) and to the explosive eigenvalues
+must have full rank.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>solve_algo = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Steady-state.html#solve_005falgo">solve_algo</a>, for the possible values and their meaning.
+</p>
+</dd>
+<dt><code>qz_zero_threshold = <var>DOUBLE</var></code></dt>
+<dd><a name="qz_005fzero_005fthreshold"></a><p>Value used to test if a generalized eigenvalue is 0/0 in the generalized
+Schur decomposition  (in which case  the model  does not admit  a unique
+solution). Default: <code>1e-6</code>.
+</p>
+</dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<p><code>check</code> returns the eigenvalues in the global variable
+<code>oo_.dr.eigval</code>.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002edr_002eeigval"></a>MATLAB/Octave variable: <strong>oo_.dr.eigval</strong></dt>
+<dd><p>Contains the eigenvalues of the model, as computed by the <code>check</code>
+command.
+</p></dd></dl>
+
+
+<dl>
+<dt><a name="index-model_005fdiagnostics"></a>Command: <strong>model_diagnostics</strong> <em>;</em></dt>
+<dd>
+<p>This command performs various sanity checks on the model, and prints a
+message if a problem is detected (missing variables at current period,
+invalid steady state, singular Jacobian of static model).
+</p>
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-model_005finfo"></a>Command: <strong>model_info</strong> <em>;</em></dt>
+<dt><a name="index-model_005finfo-1"></a>Command: <strong>model_info</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command provides information about:
+</p>
+<ul>
+<li> the normalization of the model: an endogenous variable is attributed
+to each equation of the model;
+
+</li><li> the block structure of the model: for each block model_info indicates
+its type, the equations number and endogenous variables belonging to
+this block.
+
+</li></ul>
+
+<p>This command can only be used in conjunction with the <code>block</code>
+option of the <code>model</code> block.
+</p>
+<p>There are five different types of blocks depending on the simulation
+method used:
+</p>
+<dl compact="compact">
+<dt>&lsquo;<samp>EVALUATE FORWARD</samp>&rsquo;</dt>
+<dd><p>In this case the block contains only equations where endogenous
+variable attributed to the equation appears currently on the left hand
+side and where no forward looking endogenous variables appear. The
+block has the form: <!-- MATH
+ $y_{j,t} = f_j(y_t, y_{t-1}, \ldots, y_{t-k})$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="191" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_21.png"
+ ALT="$y_{j,t} = f_j(y_t, y_{t-1}, \ldots, y_{t-k})$"></SPAN>.
+</p>
+</dd>
+<dt>&lsquo;<samp>EVALUATE BACKWARD</samp>&rsquo;</dt>
+<dd><p>The block contains only equations where endogenous variable attributed
+to the equation appears currently on the left hand side and where no
+backward looking endogenous variables appear. The block has the form:
+<!-- MATH
+ $y_{j,t} = f_j(y_t, y_{t+1}, \ldots, y_{t+k})$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="191" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_22.png"
+ ALT="$y_{j,t} = f_j(y_t, y_{t+1}, \ldots, y_{t+k})$"></SPAN>.
+</p>
+</dd>
+<dt>&lsquo;<samp>SOLVE BACKWARD <var>x</var></samp>&rsquo;</dt>
+<dd><p>The block contains only equations where endogenous variable attributed
+to the equation does not appear currently on the left hand side and
+where no forward looking endogenous variables appear. The block has
+the form: <!-- MATH
+ $g_j(y_{j,t}, y_t, y_{t-1}, \ldots, y_{t-k})=0$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="206" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_23.png"
+ ALT="$g_j(y_{j,t}, y_t, y_{t-1}, \ldots, y_{t-k})=0$"></SPAN>.
+<var>x</var> is equal to &lsquo;<samp>SIMPLE</samp>&rsquo; if the block has only one
+equation. If several equation appears in the block, <var>x</var> is equal
+to &lsquo;<samp>COMPLETE</samp>&rsquo;.
+</p>
+</dd>
+<dt>&lsquo;<samp>SOLVE FORWARD <var>x</var></samp>&rsquo;</dt>
+<dd><p>The block contains only equations where endogenous variable attributed
+to the equation does not appear currently on the left hand side and
+where no backward looking endogenous variables appear. The block has
+the form: <!-- MATH
+ $g_j(y_{j,t}, y_t, y_{t+1}, \ldots,
+y_{t+k})=0$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="205" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_24.png"
+ ALT="$g_j(y_{j,t}, y_t, y_{t+1}, \ldots,
+y_{t+k})=0$"></SPAN>. <var>x</var> is equal to &lsquo;<samp>SIMPLE</samp>&rsquo; if the block has only
+one equation. If several equation appears in the block, <var>x</var> is
+equal to &lsquo;<samp>COMPLETE</samp>&rsquo;.
+</p>
+</dd>
+<dt>&lsquo;<samp>SOLVE TWO BOUNDARIES <var>x</var></samp>&rsquo;</dt>
+<dd><p>The block contains equations depending on both forward and backward
+variables. The block looks like: <!-- MATH
+ $g_j(y_{j,t}, y_t, y_{t-1},
+\ldots, y_{t-k} ,y_t, y_{t+1}, \ldots, y_{t+k})=0$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="328" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_25.png"
+ ALT="$g_j(y_{j,t}, y_t, y_{t-1},
+\ldots, y_{t-k} ,y_t, y_{t+1}, \ldots, y_{t+k})=0$"></SPAN>. <var>x</var> is equal
+to &lsquo;<samp>SIMPLE</samp>&rsquo; if the block has only one equation. If several
+equation appears in the block, <var>x</var> is equal to &lsquo;<samp>COMPLETE</samp>&rsquo;.
+</p></dd>
+</dl>
+
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>'static'</code></dt>
+<dd><p>Prints out the block decomposition of the static model.
+Without &rsquo;static&rsquo; option model_info displays the block decomposition
+of the dynamic model.
+</p>
+</dd>
+<dt><code>'incidence'</code></dt>
+<dd><p>Displays the gross incidence matrix and the reordered incidence matrix
+of the block decomposed model.
+</p>
+</dd>
+</dl>
+
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-print_005fbytecode_005fdynamic_005fmodel"></a>Command: <strong>print_bytecode_dynamic_model</strong> <em>;</em></dt>
+<dd><p>Prints the equations and the Jacobian matrix of the dynamic model
+stored in the bytecode binary format file. Can only be used in
+conjunction with the <code>bytecode</code> option of the <code>model</code> block.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-print_005fbytecode_005fstatic_005fmodel"></a>Command: <strong>print_bytecode_static_model</strong> <em>;</em></dt>
+<dd><p>Prints the equations and the Jacobian matrix of the static model
+stored in the bytecode binary format file. Can only be used in
+conjunction with the <code>bytecode</code> option of the <code>model</code> block.
+</p></dd></dl>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Deterministic-simulation.html#Deterministic-simulation" accesskey="n" rel="next">Deterministic simulation</a>, Previous: <a href="Steady-state.html#Steady-state" accesskey="p" rel="prev">Steady state</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

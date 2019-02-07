@@ -1,0 +1,869 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Reporting</title>
+
+<meta name="description" content="Dynare Reference Manual: Reporting">
+<meta name="keywords" content="Dynare Reference Manual: Reporting">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Examples.html#Examples" rel="next" title="Examples">
+<link href="dseries-class.html#dseries-class" rel="prev" title="dseries class">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Reporting"></a>
+<div class="header">
+<p>
+Next: <a href="Examples.html#Examples" accesskey="n" rel="next">Examples</a>, Previous: <a href="Time-Series.html#Time-Series" accesskey="p" rel="prev">Time Series</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Reporting-1"></a>
+<h2 class="chapter">7 Reporting</h2>
+
+<p>Dynare provides a simple interface for creating LaTeX reports, comprised of
+LaTeX tables and <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code> graphs. You can use the
+report as created through Dynare or pick out the pieces (tables and graphs) you
+want for inclusion in your own paper. Though Dynare provides a subset of
+options available through <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>, you can easily
+modify the graphs created by Dynare using the options available in the
+<code>PGFPLOTS/Ti</code><i>k</i><code>Z</code> manual. You can either do this manually or by
+passing the options to <a href="#miscTikzAxisOptions">miscTikzAxisOptions</a>, <a href="#miscTikzAxisOptions">miscTikzAxisOptions</a>, or
+<a href="#graphMiscTikzAddPlotOptions">graphMiscTikzAddPlotOptions</a>.
+</p>
+<p>Reports are created and modified by calling methods on class
+objects. The objects are hierarchical, with the following order (from
+highest to lowest): <code>Report, Page, Section, Graph/Table/Vspace,
+Series</code>. For simplicity of syntax, we abstract away from these
+classes, allowing you to operate directly on a <code>Report</code> object,
+while maintaining the names of these classes in the <code>Report</code>
+Class methods you will use.
+</p>
+<p>The report is created sequentially, command by command, hence the
+order of the commands matters. When an object of a certain hierarchy
+is inserted, all methods will function on that object until an object
+of equal or greater hierarchy is added. Hence, once you add a
+<code>Page</code> to the report, every time you add a <code>Section</code> object,
+it will be added to this <code>Page</code> until another <code>Page</code> is
+added to the report (via <a href="#addPage">addPage</a>). This will become more clear
+with the example at the end of the section.
+</p>
+<p>Options to the methods are passed differently than those to Dynare
+commands. They take the form of named options to Matlab functions
+where the arguments come in pairs (<i>e.g.</i>
+<code>function_name(`option_1_name', `option_1_value',
+`option_2_name', `option_2_value', ...)</code>, where <code>option_X_name</code>
+is the name of the option while <code>option_X_value</code> is the value
+assigned to that option). The ordering of the option pairs matters
+only in the unusual case when an option is provided twice (probably
+erroneously). In this case, the last value passed is the one that is
+used.
+</p>
+<p>Below, you will see a list of methods available for the Report class and
+a clarifying example.
+</p>
+<dl>
+<dt><a name="index-report-on-Report"></a>Method on Report: <strong>report</strong> <em>compiler, showDate, fileName, header, margin, marginUnit, orientation, paper, showOutput, title</em></dt>
+<dd><p>Instantiates a <code>Report</code> object.
+<em>Options</em>
+</p><dl compact="compact">
+<dd><a name="compiler"></a></dd>
+<dt><code>compiler, <var>FILENAME</var></code></dt>
+<dd><p>The full path to the LaTeX compiler on your system. If this option
+is not provided, Dynare will try to find the appropriate program to
+compile LaTeX on your system. Default is system dependent: Windows:
+the result of <code>findtexmf --file-type=exe pdflatex</code>, macOS and
+Linux: the result of <code>which pdflatex</code>
+</p>
+</dd>
+<dt><code>showDate, <code>BOOLEAN</code></code></dt>
+<dd><p>Display the date and time when the report was compiled. Default:
+<code>true</code>
+</p>
+<a name="filename"></a></dd>
+<dt><code>fileName, <var>FILENAME</var></code></dt>
+<dd><p>The file name to use when saving this report. Default:
+<code>report.tex</code>
+</p>
+</dd>
+<dt><code>header, <var>STRING</var></code></dt>
+<dd><p>The valid LaTeX code to be included in the report before
+<code>\begin{document}</code>. Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>margin, <var>DOUBLE</var></code></dt>
+<dd><p>The margin size. Default: <code>2.5</code>
+</p>
+</dd>
+<dt><code>marginUnit, `cm' | `in'</code></dt>
+<dd><p>Units associated with the margin. Default: <code>`cm'</code>
+</p>
+<a name="orientation"></a></dd>
+<dt><code>orientation, `landscape' | `portrait'</code></dt>
+<dd><p>Paper orientation: Default: <code>`portrait'</code>
+</p>
+<a name="paper"></a></dd>
+<dt><code>paper, `a4' | `letter'</code></dt>
+<dd><p>Paper size. Default: <code>`a4'</code>
+</p>
+<a name="showOutput"></a></dd>
+<dt><code>showOutput, <code>BOOLEAN</code></code></dt>
+<dd><p>Print report creation progress to screen. Shows you the page number as it is
+created and as it is written. This is useful to see where a potential error
+occurs in report creation. Default: <code>true</code>
+</p>
+</dd>
+<dt><code>title, <code>STRING</code></code></dt>
+<dd><p>Report Title. Default: <code>none</code>
+</p></dd>
+</dl>
+</dd></dl>
+
+<a name="addPage"></a><dl>
+<dt><a name="index-addPage-on-Report"></a>Method on Report: <strong>addPage</strong> <em>footnote, latex, orientation, pageDirName, paper, title, titleFormat, titleTruncate</em></dt>
+<dd><p>Adds a <code>Page</code> to the <code>Report</code>.
+<em>Options</em>
+</p><dl compact="compact">
+<dt><code>footnote, <code>STRING</code></code></dt>
+<dd><p>A footnote to be included at the bottom of this page. Default: <code>none</code>
+</p>
+<a name="latex"></a></dd>
+<dt><code>latex, <code>STRING</code></code></dt>
+<dd><p>The valid LaTeX code to be used for this page. Alows the user to create a
+page to be included in the report by passing LaTeX code directly. If this
+option is passed, the page itself will be saved in the <a href="#pageDirName">pageDirName</a>
+directory in the form <code>page_X.tex</code> where <code>X</code> refers to the page
+number. Default <code>empty</code>
+</p>
+</dd>
+<dt><code>orientation, `landscape' | `portrait'</code></dt>
+<dd><p>See <a href="#orientation">orientation</a>.
+</p>
+<a name="pageDirName"></a></dd>
+<dt><code>pageDirName, <code>STRING</code></code></dt>
+<dd><p>The name of the folder in which to store this page. Only used when the
+<a href="#latex">latex</a> command is passed. Default: <code>tmpRepDir</code>
+</p>
+</dd>
+<dt><code>paper, `a4' | `letter'</code></dt>
+<dd><p>See <a href="#paper">paper</a>.
+</p>
+<a name="title"></a></dd>
+<dt><code>title, <code>STRING</code> | <code>CELL_ARRAY_STRINGS</code></code></dt>
+<dd><p>With one entry (a <code>STRING</code>), the title of the page. With more than one
+entry (a <code>CELL_ARRAY_STRINGS</code>), the title and subtitle(s) of the
+page. Values passed must be valid LaTeX code (<i>e.g.,</i> &lsquo;%&rsquo; must be
+&lsquo;\%&rsquo;). Default: <code>none</code>
+</p>
+<a name="titleFormat"></a></dd>
+<dt><code>titleFormat, <code>STRING</code> | <code>CELL_ARRAY_STRINGS</code></code></dt>
+<dd><p>A string representing the valid LaTeX markup to use on <a href="#title">title</a>. The
+number of cell array entries must be equal to that of the <a href="#title">title</a> option if
+you do not want to use the default value for the title (and
+subtitles). Default: <code>\large\bfseries</code>
+</p>
+</dd>
+<dt><code>titleTruncate, <code>INTEGER</code></code></dt>
+<dd><p>Useful when automatically generating page titles that may become too
+long, <code>titleTruncate</code> can be used to truncate a title (and
+subsequent subtitles) when they pass the specified number of
+characters. Default: <code>off</code>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt><a name="index-addSection-on-Report"></a>Method on Report: <strong>addSection</strong> <em>cols, height</em></dt>
+<dd><p>Adds a <code>Section</code> to a <code>Page</code>.
+<em>Options</em>
+</p><dl compact="compact">
+<dt><code>cols, <code>INTEGER</code></code></dt>
+<dd><p>The number of columns in the section. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>height, <code>STRING</code></code></dt>
+<dd><p>A string to be used with the <code>\sectionheight</code> LaTeX
+command. Default: <code>`!'</code>
+</p></dd>
+</dl>
+</dd></dl>
+
+<a name="addGraph"></a><dl>
+<dt><a name="index-addGraph-on-Report"></a>Method on Report: <strong>addGraph</strong> <em>axisShape, data, graphDirName, graphName, graphSize, height, showGrid, showLegend, legendAt, showLegendBox, legendLocation, legendOrientation, legendFontSize, miscTikzAxisOptions, miscTikzPictureOptions, seriesToUse, shade, shadeColor, shadeOpacity, tickFontSize, title, titleFontSize, titleFormat, width, writeCSV, xlabel, ylabel, xAxisTight, xrange, xTicks, xTickLabels, xTickLabelAnchor, xTickLabelRotation, yAxisTight, yTickLabelFixed, yTickLabelPrecision, yTickLabelScaled, yTickLabelZeroFill, yrange, showZeroLine, zeroLineColor</em></dt>
+<dd><p>Adds a <code>Graph</code> to a <code>Section</code>.
+<em>Options</em>
+</p><dl compact="compact">
+<dd><a name="data"></a></dd>
+<dt><code>data, <code>dseries</code></code></dt>
+<dd><p>The <code>dseries</code> that provides the data for the graph. Default:
+<code>none</code>
+</p>
+</dd>
+<dt><code>axisShape, <code>`box'</code> | <code>`L'</code></code></dt>
+<dd><p>The shape the axis should have. <code>`box'</code> means that there is an axis line
+to the left, right, bottom, and top of the graphed line(s). <code>`L'</code> means
+that there is an axis to the left and bottom of the graphed line(s). Default:
+<code>`box'</code>
+</p>
+<a name="graphDirName"></a></dd>
+<dt><code>graphDirName, <code>STRING</code></code></dt>
+<dd><p>The name of the folder in which to store this figure. Default:
+<code>tmpRepDir</code>
+</p>
+<a name="graphName"></a></dd>
+<dt><code>graphName, <code>STRING</code></code></dt>
+<dd><p>The name to use when saving this figure. Default: something of the
+form <code>graph_pg1_sec2_row1_col3.tex</code>
+</p>
+</dd>
+<dt><code>height, <code>DOUBLE</code></code></dt>
+<dd><p>The height of the graph, in inches. Default: <code>4.5</code>
+</p>
+</dd>
+<dt><code>showGrid, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to display the major grid on the graph. Default:
+<code>true</code>
+</p>
+<a name="showLegend"></a></dd>
+<dt><code>showLegend, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to display the legend. NB: Unless you use the
+<a href="#graphLegendName">graphLegendName</a> option, the name displayed in the legend is the
+<code>tex</code> name associated with the <code>dseries</code>. You can modify this
+<code>tex</code> name by using <a href="dseries-class.html#tex_005frename">tex_rename</a>. Default: <code>false</code>
+</p>
+</dd>
+<dt><code>legendAt, <code>NUMERICAL_VECTOR</code></code></dt>
+<dd><p>The coordinates for the legend location. If this option is passed, it
+overrides the <a href="#legendLocation">legendLocation</a> option. Must be of size 2. Default:
+<code>empty</code>.
+</p>
+</dd>
+<dt><code>showLegendBox, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to display a box around the legend. Default:
+<code>false</code>
+</p>
+<a name="legendLocation"></a></dd>
+<dt><code>legendLocation, <code>`south west'</code> | <code>`south east'</code> | <code>`north west'</code> | <code>`north east'</code> | <code>`outer north east'</code></code></dt>
+<dd><p>Where to place the legend in the graph. Default: <code>`south east'</code>
+</p>
+</dd>
+<dt><code>legendOrientation, `vertical' | `horizontal'</code></dt>
+<dd><p>Orientation of the legend. Default: <code>`horizontal'</code>
+</p>
+</dd>
+<dt><code>legendFontSize, <code>`tiny'</code> | <code>`scriptsize'</code> | <code>`footnotesize'</code> | <code>`small'</code> | <code>`normalsize'</code> | <code>`large'</code> | <code>`Large'</code> | <code>`LARGE'</code> | <code>`huge'</code> | <code>`Huge'</code></code></dt>
+<dd><p>The font size for legend entries. Default: <code>tiny</code>
+</p>
+<a name="miscTikzAxisOptions"></a></dd>
+<dt><code>miscTikzAxisOptions, <code>STRING</code></code></dt>
+<dd><p>If you are comfortable with <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>, you can use this
+option to pass arguments directly to the <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>
+<code>axis</code> environment command. Specifically to be used for desired
+<code>PGFPLOTS/Ti</code><i>k</i><code>Z</code> options that have not been incorporated into
+Dynare Reproting. Default: <code>empty</code>
+</p>
+<a name="miscTikzPictureOptions"></a></dd>
+<dt><code>miscTikzPictureOptions, <code>STRING</code></code></dt>
+<dd><p>If you are comfortable with <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>, you can use this
+option to pass arguments directly to the <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>
+<code>tikzpicture</code> environment command. (<i>e.g.,</i> to scale the graph in the x
+and y dimensions, you can pass following to this option: <code>`xscale=2.5,
+yscale=0.5'</code>). Specifically to be used for desired
+<code>PGFPLOTS/Ti</code><i>k</i><code>Z</code> options that have not been incorporated into
+Dynare Reproting. Default: <code>empty</code>
+</p>
+<a name="seriesToUse"></a></dd>
+<dt><code>seriesToUse, <code>CELL_ARRAY_STRINGS</code></code></dt>
+<dd><p>The names of the series contained in the <code>dseries</code> provided to
+the <a href="#data">data</a> option. If empty, use all series provided to
+<a href="#data">data</a> option. Default: <code>empty</code>
+</p>
+<a name="shade"></a></dd>
+<dt><code>shade, <code>dates</code></code></dt>
+<dd><p>The date range showing the portion of the graph that should be
+shaded. Default: <code>none</code>
+</p>
+<a name="shadeColor"></a></dd>
+<dt><code>shadeColor, <code>STRING</code></code></dt>
+<dd><p>The color to use in the shaded portion of the graph. All valid color strings defined for use by <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code> are valid. A list of defined colors is: <code>`red'</code>, <code>`green'</code>, <code>`blue'</code>, <code>`cyan'</code>, <code>`magenta'</code>, <code>`yellow'</code>, <code>`black'</code>, <code>`gray'</code>, <code>`white'</code>, <code>`darkgray'</code>, <code>`lightgray'</code>, <code>`brown'</code>, <code>`lime'</code>, <code>`olive'</code>, <code>`orange'</code>, <code>`pink'</code>, <code>`purple'</code>, <code>`teal'</code>, and <code>`violet'</code>. Furthermore, You can use combinations of these colors. For example, if you wanted a color that is <SPAN CLASS="MATH"><IMG
+ WIDTH="34" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_174.png"
+ ALT="$20\%$"></SPAN> green and <SPAN CLASS="MATH"><IMG
+ WIDTH="34" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_175.png"
+ ALT="$80\%$"></SPAN> purple, you could pass the string <code>`green!20!purple'</code>. You can also use RGB colors, following the syntax: <code>`rgb,255:red,231;green,84;blue,121'</code> which corresponds to the RGB color <code>(231;84;121)</code>. More examples are available in the section 4.7.5 of the <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code> manual, revision 1.10. Default: <code>`green'</code>
+</p>
+</dd>
+<dt><code>shadeOpacity, <code>DOUBLE</code></code></dt>
+<dd><p>The opacity of the shaded area, must be in <SPAN CLASS="MATH"><IMG
+ WIDTH="52" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_176.png"
+ ALT="$[0,100]$"></SPAN>. Default: <code>20</code>
+</p>
+</dd>
+<dt><code>tickFontSize, , <code>`tiny'</code> | <code>`scriptsize'</code> | <code>`footnotesize'</code> | <code>`small'</code> | <code>`normalsize'</code> | <code>`large'</code> | <code>`Large'</code> | <code>`LARGE'</code> | <code>`huge'</code> | <code>`Huge'</code></code></dt>
+<dd><p>The font size for x- and y-axis tick labels. Default: <code>normalsize</code>
+</p>
+<a name="graph_002etitle"></a></dd>
+<dt><code>title, <code>STRING</code> | <code>CELL_ARRAY_STRINGS</code></code></dt>
+<dd><p>Same as <a href="#title">title</a>, just for graphs.
+</p>
+</dd>
+<dt><code>titleFontSize, <code>`tiny'</code> | <code>`scriptsize'</code> | <code>`footnotesize'</code> | <code>`small'</code> | <code>`normalsize'</code> | <code>`large'</code> | <code>`Large'</code> | <code>`LARGE'</code> | <code>`huge'</code> | <code>`Huge'</code></code></dt>
+<dd><p>The font size for title. Default: <code>normalsize</code>
+</p>
+</dd>
+<dt><code>titleFormat, <code>STRING</code></code></dt>
+<dd><p>The format to use for <a href="#graph_002etitle">the graph title</a>. Unlike
+<a href="#titleFormat">titleFormat</a>, due to a constraint of TikZ, this format applies to
+the title and subtitles. Default: <code>TikZ default</code>
+</p>
+</dd>
+<dt><code>width, <code>DOUBLE</code></code></dt>
+<dd><p>The width of the graph, in inches. Default: <code>6.0</code>
+</p>
+</dd>
+<dt><code>writeCSV, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to write a CSV file with only the plotted data. The file will be
+saved in the directory specified by <a href="#graphDirName">graphDirName</a> with the same base name
+as specified by <a href="#graphName">graphName</a> with the ending <code>.csv</code>. Default:
+<code>false</code>
+</p>
+</dd>
+<dt><code>xlabel, <code>STRING</code></code></dt>
+<dd><p>The x-axis label. Default: <code>none</code>
+</p>
+</dd>
+<dt><code>ylabel, <code>STRING</code></code></dt>
+<dd><p>The y-axis label. Default: <code>none</code>
+</p>
+</dd>
+<dt><code>xAxisTight, <code>BOOLEAN</code></code></dt>
+<dd><p>Use a tight x axis. If false, uses <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>
+<code>enlarge x limits</code> to choose appropriate axis size. Default: <code>true</code>
+</p>
+</dd>
+<dt><code>xrange, <code>dates</code></code></dt>
+<dd><p>The boundary on the x-axis to display in the graph. Default: all
+</p>
+<a name="xTicks"></a></dd>
+<dt><code>xTicks, <code>NUMERICAL_VECTOR</code></code></dt>
+<dd><p>Used only in conjunction with <a href="#xTickLabels">xTickLabels</a>, this option denotes
+the numerical position of the label along the x-axis. The positions
+begin at <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>. Default: the indices associated with the first and
+last dates of the <code>dseries</code> and, if passed, the index associated
+with the first date of the <a href="#shade">shade</a> option.
+</p>
+<a name="xTickLabels"></a></dd>
+<dt><code>xTickLabels, <code>CELL_ARRAY_STRINGS</code> | `ALL'</code></dt>
+<dd><p>The labels to be mapped to the ticks provided by
+<a href="#xTicks">xTicks</a>. Default: the first and last dates of the <code>dseries</code>
+and, if passed, the date first date of the <a href="#shade">shade</a> option.
+</p>
+</dd>
+<dt><code>xTickLabelAnchor, <code>STRING</code></code></dt>
+<dd><p>Where to anchor the x tick label. Default: <code>`south'</code>
+</p>
+</dd>
+<dt><code>xTickLabelRotation, <code>DOUBLE</code></code></dt>
+<dd><p>The amount to rotate the x tick labels by. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>yAxisTight, <code>BOOLEAN</code></code></dt>
+<dd><p>Use a tight y axis. If false, uses <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>
+<code>enlarge y limits</code> to choose appropriate axis size. Default: <code>false</code>
+</p>
+</dd>
+<dt><code>yrange, <code>NUMERICAL_VECTOR</code></code></dt>
+<dd><p>The boundary on the y-axis to display in the graph, represented as a
+<code>NUMERICAL_VECTOR</code> of size <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_177.png"
+ ALT="$2$"></SPAN>, with the first entry less
+than the second entry. Default: all
+</p>
+</dd>
+<dt><code>yTickLabelFixed, <code>BOOLEAN</code></code></dt>
+<dd><p>Round the y tick labels to a fixed number of decimal places, given by
+<a href="#yTickLabelPrecision">yTickLabelPrecision</a>. Default: <code>true</code>
+</p>
+<a name="yTickLabelPrecision"></a></dd>
+<dt><code>yTickLabelPrecision, <code>INTEGER</code></code></dt>
+<dd><p>The precision with which to report the yTickLabel. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>yTickLabelScaled, <code>BOOLEAN</code></code></dt>
+<dd><p>Determines whether or not there is a common scaling factor for the y
+axis. Default: <code>true</code>
+</p>
+</dd>
+<dt><code>yTickLabelZeroFill, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to fill missing precision spots with zeros. Default: <code>true</code>
+</p>
+<a name="showZeroLine"></a></dd>
+<dt><code>showZeroline, <code>BOOLEAN</code></code></dt>
+<dd><p>Display a solid black line at <SPAN CLASS="MATH"><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_178.png"
+ ALT="$y = 0$"></SPAN>. Default: <code>false</code>
+</p>
+</dd>
+<dt><code>zeroLineColor, <code>STRING</code></code></dt>
+<dd><p>The color to use for the zero line. Only used if <a href="#showZeroLine">showZeroLine</a> is
+true. See the explanation in <a href="#shadeColor">shadeColor</a> for how to use colors with
+reports. Default: <code>`black'</code>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt><a name="index-addTable-on-Report"></a>Method on Report: <strong>addTable</strong> <em>data, highlightRows, showHlines, precision, range, seriesToUse, tableDirName, tableName, title, titleFormat, vlineAfter, vlineAfterEndOfPeriod, showVlines, writeCSV</em></dt>
+<dd><p>Adds a <code>Table</code> to a <code>Section</code>.
+<em>Options</em>
+</p><dl compact="compact">
+<dt><code>data, <code>dseries</code></code></dt>
+<dd><p>See <a href="#data">data</a>.
+</p>
+</dd>
+<dt><code>highlightRows, <code>CELL_ARRAY_STRINGS</code></code></dt>
+<dd><p>A cell array containing the colors to use for row highlighting. See
+<a href="#shadeColor">shadeColor</a> for how to use colors with reports. Highlighting for a
+specific row can be overridden by using the <a href="#tableRowColor">tableRowColor</a> option to
+<a href="#addSeries">addSeries</a>. Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>showHlines, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to show horizontal lines separating the rows. Default: <code>false</code>
+</p>
+<a name="precision"></a></dd>
+<dt><code>precision, <code>INTEGER</code></code></dt>
+<dd><p>The number of decimal places to report in the table data. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>range, <code>dates</code></code></dt>
+<dd><p>The date range of the data to be displayed. Default: <code>all</code>
+</p>
+</dd>
+<dt><code>seriesToUse, <code>CELL_ARRAY_STRINGS</code></code></dt>
+<dd><p>See <a href="#seriesToUse">seriesToUse</a>.
+</p>
+<a name="tableDirName"></a></dd>
+<dt><code>tableDirName, <code>STRING</code></code></dt>
+<dd><p>The name of the folder in which to store this table. Default:
+<code>tmpRepDir</code>
+</p>
+<a name="tableName"></a></dd>
+<dt><code>tableName, <code>STRING</code></code></dt>
+<dd><p>The name to use when saving this table. Default: something of the
+form <code>table_pg1_sec2_row1_col3.tex</code>
+</p>
+</dd>
+<dt><code>title, <code>STRING</code></code></dt>
+<dd><p>Same as <a href="#title">title</a>, just for tables.
+</p>
+</dd>
+<dt><code>titleFormat, <code>STRING</code></code></dt>
+<dd><p>Same as <a href="#titleFormat">titleFormat</a>, just for tables. Default: <code>\large</code>.
+</p>
+</dd>
+<dt><code>vlineAfter, <code>dates</code> | <code>CELL_ARRAY_DATES</code></code></dt>
+<dd><p>Show a vertical line after the specified date (or dates if a cell
+array of dates is passed). Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>vlineAfterEndOfPeriod, <code>BOOLEAN</code></code></dt>
+<dd><p>Show a vertical line after the end of every period (<i>i.e.</i> after
+every year, after the fourth quarter, etc.). Default: <code>false</code>
+</p>
+</dd>
+<dt><code>showVlines, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to show vertical lines separating the columns. Default: <code>false</code>
+</p>
+</dd>
+<dt><code>writeCSV, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to write a CSV file containing the data displayed in the
+table. The file will be saved in the directory specified by <a href="#tableDirName">tableDirName</a>
+with the same base name as specified by <a href="#tableName">tableName</a> with the ending
+<code>.csv</code>. Default: <code>false</code>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<a name="addSeries"></a><dl>
+<dt><a name="index-addSeries-on-Report"></a>Method on Report: <strong>addSeries</strong> <em>data, graphBar, graphBarColor, graphBarFillColor, graphBarWidth, graphFanShadeColor, graphFanShadeOpacity, graphHline, graphLegendName, graphLineColor, graphLineStyle, graphLineWidth, graphMarker, graphMarkerEdgeColor, graphMarkerFaceColor, graphMarkerSize, graphMiscTikzAddPlotOptions, graphShowInLegend, graphVline, tableDataRhs, tableRowColor, tableRowIndent, tableShowMarkers, tableAlignRight, tableNaNSymb, tableNegColor, tablePrecision, tablePosColor, tableSubSectionHeader, zeroTol</em></dt>
+<dd><p>Adds a <code>Series</code> to a <code>Graph</code> or a <code>Table</code>. NB: Options specific
+to graphs begin with &lsquo;<code>graph</code>&rsquo; while options specific to tables begin with
+&lsquo;<code>table</code>&rsquo;.
+<em>Options</em>
+</p><dl compact="compact">
+<dt><code>data, <code>dseries</code></code></dt>
+<dd><p>See <a href="#data">data</a>.
+</p>
+<a name="graphBar"></a></dd>
+<dt><code>graphBar, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to display this series as a bar graph as oppsed to the
+default of displaying it as a line graph. Default: <code>false</code>
+</p>
+<a name="graphFanShadeColor"></a></dd>
+<dt><code>graphFanShadeColor, <code>STRING</code></code></dt>
+<dd><p>The shading color to use between a series and the previously-added
+series in a graph. Useful for making fan charts. Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>graphFanShadeOpacity, <code>INTEGER</code></code></dt>
+<dd><p>The opacity of the color passed in <a href="#graphFanShadeColor">graphFanShadeColor</a>. Default:
+<code>50</code>
+</p>
+</dd>
+<dt><code>graphBarColor, <code>STRING</code></code></dt>
+<dd><p>The outline color of each bar in the bar graph. Only active if
+<a href="#graphBar">graphBar</a> is passed. Default: <code>`black'</code>
+</p>
+</dd>
+<dt><code>graphBarFillColor, <code>STRING</code></code></dt>
+<dd><p>The fill color of each bar in the bar graph. Only active if
+<a href="#graphBar">graphBar</a> is passed. Default: <code>`black'</code>
+</p>
+</dd>
+<dt><code>graphBarWidth, <code>DOUBLE</code></code></dt>
+<dd><p>The width of each bar in the bar graph. Only active if <a href="#graphBar">graphBar</a>
+is passed. Default: <code>2</code>
+</p>
+</dd>
+<dt><code>graphHline, <code>DOUBLE</code></code></dt>
+<dd><p>Use this option to draw a horizontal line at the given value. Default:
+<code>empty</code>
+</p>
+<a name="graphLegendName"></a></dd>
+<dt><code>graphLegendName, <code>STRING</code></code></dt>
+<dd><p>The name to display in the legend for this series, passed as valid LaTeX
+(<i>e.g.,</i> <code>GDP_{US}</code>, <code>$\alpha$</code>,
+<code>\color{red}GDP\color{black}</code>). Will be displayed only if the
+<a href="#data">data</a> and <a href="#showLegend">showLegend</a> options have been passed. Default: the
+<code>tex</code> name of the series
+</p>
+</dd>
+<dt><code>graphLineColor, <code>STRING</code></code></dt>
+<dd><p>Color to use for the series in a graph. See the explanation in <a href="#shadeColor">shadeColor</a>
+for how to use colors with reports. Default: <code>`black'</code>
+</p>
+</dd>
+<dt><code>graphLineStyle, <code>`none'</code> | <code>`solid'</code> | <code>`dotted'</code> | <code>`densely dotted'</code> | <code>`loosely dotted'</code> | <code>`dashed'</code> | <code>`densely dashed'</code> | <code>`loosely dashed'</code> | <code>`dashdotted'</code> | <code>`densely dashdotted'</code> | <code>`loosely dashdotted'</code> | <code>`dashdotdotted'</code> | <code>`densely dashdotdotted'</code> | <code>`loosely dashdotdotted'</code></code></dt>
+<dd><p>Line style for this series in a graph. Default: <code>`solid'</code>
+</p>
+</dd>
+<dt><code>graphLineWidth <code>DOUBLE</code></code></dt>
+<dd><p>Line width for this series in a graph. Default: <code>0.5</code>
+</p>
+</dd>
+<dt><code>graphMarker, <code>`x'</code> | <code>`+'</code> | <code>`-'</code> | <code>`|'</code> | <code>`o'</code> | <code>`asterisk'</code> | <code>`star'</code> | <code>`10-pointed star'</code> | <code>`oplus'</code> | <code>`oplus*'</code> | <code>`otimes'</code> | <code>`otimes*'</code> | <code>`square'</code> | <code>`square*'</code> | <code>`triangle'</code> | <code>`triangle*'</code> | <code>`diamond'</code> | <code>`diamond*'</code> | <code>`halfdiamond*'</code> | <code>`halfsquare*'</code> | <code>`halfsquare right*'</code> | <code>`halfsquare left*'</code> | <code>`Mercedes star'</code> | <code>`Mercedes star flipped'</code> | <code>`halfcircle'</code> | <code>`halfcircle*'</code> | <code>`pentagon'</code> | <code>`pentagon star'</code></code></dt>
+<dd><p>The Marker to use on this series in a graph. Default: <code>none</code>
+</p>
+</dd>
+<dt><code>graphMarkerEdgeColor, <code>STRING</code></code></dt>
+<dd><p>The edge color of the graph marker. See the explanation in <a href="#shadeColor">shadeColor</a> for
+how to use colors with reports. Default: <code>graphLineColor</code>
+</p>
+</dd>
+<dt><code>graphMarkerFaceColor, <code>STRING</code></code></dt>
+<dd><p>The face color of the graph marker. See the explanation in <a href="#shadeColor">shadeColor</a> for
+how to use colors with reports. Default: <code>graphLineColor</code>
+</p>
+</dd>
+<dt><code>graphMarkerSize, <code>DOUBLE</code></code></dt>
+<dd><p>The size of the graph marker. Default: <code>1</code>
+</p>
+<a name="graphMiscTikzAddPlotOptions"></a></dd>
+<dt><code>graphMiscTikzAddPlotOptions, <code>STRING</code></code></dt>
+<dd><p>If you are comfortable with <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>, you can use this
+option to pass arguments directly to the <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code>
+<code>addPlots</code> command. (<i>e.g.,</i> Instead of passing the marker options
+above, you can pass a string such as the following to this option:
+<code>`mark=halfcircle*,mark options={rotate=90,scale=3}'</code>). Specifically to be
+used for desired <code>PGFPLOTS/Ti</code><i>k</i><code>Z</code> options that have not been
+incorporated into Dynare Reproting. Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>graphShowInLegend, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to show this series in the legend, given that the
+<a href="#showLegend">showLegend</a> option was passed to <a href="#addGraph">addGraph</a>. Default: <code>true</code>
+</p>
+</dd>
+<dt><code>graphVline, <code>dates</code></code></dt>
+<dd><p>Use this option to draw a vertical line at a given date. Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>tableDataRhs, <code>dseries</code></code></dt>
+<dd><p>A series to be added to the right of the current series. Usefull for
+displaying aggregate data for a series. <i>e.g</i> if the series is
+quarterly <code>tableDataRhs</code> could point to the yearly averages of
+the quarterly series. This would cause quarterly data to be displayed
+followed by annual data. Default: <code>empty</code>
+</p>
+<a name="tableRowColor"></a></dd>
+<dt><code>tableRowColor, <code>STRING</code></code></dt>
+<dd><p>The color that you want the row to be. Predefined values include
+<code>LightCyan</code> and <code>Gray</code>. Default: <code>white</code>.
+</p>
+</dd>
+<dt><code>tableRowIndent, <code>INTEGER</code></code></dt>
+<dd><p>The number of times to indent the name of the series in the
+table. Used to create subgroups of series. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>tableShowMarkers, <code>BOOLEAN</code></code></dt>
+<dd><p>In a Table, if <code>true</code>, surround each cell with brackets and color
+it according to <a href="#tableNegColor">tableNegColor</a> and <a href="#tablePosColor">tablePosColor</a>. No effect
+for graphs. Default: <code>false</code>
+</p>
+</dd>
+<dt><code>tableAlignRight, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to align the series name to the right of the
+cell. Default: <code>false</code>
+</p>
+</dd>
+<dt><code>tableMarkerLimit, <code>DOUBLE</code></code></dt>
+<dd><p>For values less than <!-- MATH
+ $-1*@code{tableMarkerLimit}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="215" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_179.png"
+ ALT="$-1*@code{tableMarkerLimit}$"></SPAN>, mark the cell
+with the color denoted by <a href="#tableNegColor">tableNegColor</a>. For those greater than
+<code>tableMarkerLimit</code>, mark the cell with the color denoted by
+<a href="#tablePosColor">tablePosColor</a>. Default: <code>1e-4</code>
+</p>
+</dd>
+<dt><code>tableNaNSymb, <code>STRING</code></code></dt>
+<dd><p>Replace <code>NaN</code> values with the text in this option. Default: <code>NaN</code>
+</p>
+<a name="tableNegColor"></a></dd>
+<dt><code>tableNegColor, <code>LATEX_COLOR</code></code></dt>
+<dd><p>The color to use when marking Table data that is less than
+zero. Default: <code>`red'</code>
+</p>
+</dd>
+<dt><code>tablePrecision, <code>INTEGER</code></code></dt>
+<dd><p>The number of decimal places to report in the table data. Default: the value set by <a href="#precision">precision</a>
+</p>
+<a name="tablePosColor"></a></dd>
+<dt><code>tablePosColor, <code>LATEX_COLOR</code></code></dt>
+<dd><p>The color to use when marking Table data that is greater than
+zero. Default: <code>`blue'</code>
+</p>
+</dd>
+<dt><code>tableSubSectionHeader, <code>STRING</code></code></dt>
+<dd><p>A header for a subsection of the table. No data will be associated
+with it. It is equivalent to adding an empty series with a
+name. Default: <code>''</code>
+</p>
+</dd>
+<dt><code>zeroTol, <code>DOUBLE</code></code></dt>
+<dd><p>The zero tolerance. Anything smaller than <code>zeroTol</code> and larger than
+<code>-zeroTol</code> will be set to zero before being graphed or written to the
+table. Default: <SPAN CLASS="MATH"><IMG
+ WIDTH="47" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_180.png"
+ ALT="$1e-6$"></SPAN>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt><a name="index-addParagraph-on-Report"></a>Method on Report: <strong>addParagraph</strong> <em>balancedCols, cols, heading, indent, text</em></dt>
+<dd><p>Adds a <code>Paragraph</code> to a <code>Section</code>. NB: The <code>Section</code> can only be
+comprised of <code>Paragraphs</code> and must only have 1 column.
+<em>Options</em>
+</p><dl compact="compact">
+<dt><code>balancedCols, <code>BOOLEAN</code></code></dt>
+<dd><p>Determines whether the text is spread out evenly across the columns when the
+<code>Paragraph</code> has more than one column. Default: <code>true</code>
+</p>
+</dd>
+<dt><code>cols, <code>INTEGER</code></code></dt>
+<dd><p>The number of columns for the <code>Paragraph</code>. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>heading, <code>STRING</code></code></dt>
+<dd><p>The heading for the Paragraph (like a section heading). The string must be
+valid LaTeX code. Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>indent, <code>BOOLEAN</code></code></dt>
+<dd><p>Whether or not to indent the paragraph. Default: <code>true</code>
+</p>
+</dd>
+<dt><code>text, <code>STRING</code></code></dt>
+<dd><p>The paragraph itself. The string must be valid LaTeX code. Default:
+<code>empty</code>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt><a name="index-addVspace-on-Report"></a>Method on Report: <strong>addVspace</strong> <em>hline, number</em></dt>
+<dd><p>Adds a <code>Vspace</code> (vertical space) to a <code>Section</code>.
+<em>Options</em>
+</p><dl compact="compact">
+<dt><code>hline, <code>INTEGER</code></code></dt>
+<dd><p>The number of horizontal lines to be inserted. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>number, <code>INTEGER</code></code></dt>
+<dd><p>The number of new lines to be inserted. Default: <code>1</code>
+</p></dd>
+</dl>
+</dd></dl>
+
+<a name="write"></a><dl>
+<dt><a name="index-write-on-Report"></a>Method on Report: <strong>write</strong></dt>
+<dd><p>Writes the LaTeX representation of this <code>Report</code>, saving it to
+the file specified by <a href="#filename">filename</a>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-compile-on-Report"></a>Method on Report: <strong>compile</strong> <em>compiler, showOutput, showReport</em></dt>
+<dd><p>Compiles the report written by <a href="#write">write</a> into a <code>pdf</code> file. If
+the report has not already been written (determined by the existence
+of the file specified by <a href="#filename">filename</a>, <a href="#write">write</a> is called.
+optionshead
+</p><dl compact="compact">
+<dt><code>compiler, <code>FILENAME</code></code></dt>
+<dd><p>Like <a href="#compiler">compiler</a>, except will not overwrite the value of
+<code>compiler</code> contained in the report object. Hence, passing the
+value here is useful for using different LaTeX compilers or just
+for passing the value at the last minute.
+</p>
+</dd>
+<dt><code>showOutput, <code>BOOLEAN</code></code></dt>
+<dd><p>Print the compiler output to the screen. Useful for debugging your code as the
+LaTeX compiler hangs if there is a problem. Default: the value of
+<a href="#showOutput">showOutput</a>
+</p>
+</dd>
+<dt><code>showReport, <code>BOOLEAN</code></code></dt>
+<dd><p>Open the compiled report (works on Windows and macOS on Matlab). Default:
+<code>true</code>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><em>Example</em>
+</p>
+<p>The following code creates a one page report. The first part of the
+page contains two graphs displayed across two columns and one
+row. The bottom of the page displays a centered table.
+</p><div class="example">
+<pre class="example">%% Create dseries
+dsq = dseries(`quarterly.csv');
+dsa = dseries(`annual.csv');
+dsca = dseries(`annual_control.csv');
+
+%% Report
+rep = report();
+
+%% Page 1
+rep = rep.addPage(`title', {`My Page Title', `My Page Subtitle'}, ...
+                  `titleFormat', {`\large\bfseries', `\large'});
+
+% Section 1
+rep = rep.addSection(`cols', 2);
+rep = rep.addGraph(`title', `Graph (1,1)', `showLegend', true, ...
+                   `xrange', dates(`2007q1'):dates(`2013q4'), ...
+                   `shade', dates(`2012q2'):dates(`2013q4'));
+rep = rep.addSeries(`data', dsq{`SERIES1'}, `graphLineColor', `blue', ...
+                    `graphLineWidth', 1);
+rep = rep.addSeries(`data', dsq{`SERIES2'}, `graphLineColor', `green', ...
+                    `graphLineStyle', '--', `graphLineWidth', 1.5);
+rep = rep.addGraph(`title', `Graph (1,2)', `showLegend', true, ...
+                   `xrange', dates(`2007q1'):dates(`2013q4'), ...
+                   `shade', dates(`2012q2'):dates(`2013q4'));
+rep = rep.addSeries(`data', dsq{`SERIES3'}, `graphLineColor', `blue', ...
+                    `graphLineWidth', 1);
+rep = rep.addSeries(`data', dsq{`SERIES4'}, `graphLineColor', `green', ...
+                    `graphLineStyle', '--', `graphLineWidth', 1.5);
+
+% Section 2
+rep = rep.addSection();
+rep = rep.addTable(`title', `Table 1', ...
+                   `range', dates(`2012Y'):dates(`2014Y'));
+shortNames = {`US', `EU'};
+longNames  = {`United States', `Euro Area'};
+for i=1:length(shortNames)
+    rep = rep.addSeries(`data', dsa{[`GDP_' shortNames{i}]});
+    delta = dsa{[`GDP_' shortNames{i}]}-dsca{[`GDP_' shortNames{i}]};
+    delta = delta.tex_rename(`$\Delta$');
+    rep = rep.addSeries(`data', delta, ...
+                        `tableShowMarkers', true, ...
+                        `tableAlignRight', true);
+end
+
+%% Write &amp; Compile Report
+rep.write();
+rep.compile();
+</pre></div>
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Examples.html#Examples" accesskey="n" rel="next">Examples</a>, Previous: <a href="Time-Series.html#Time-Series" accesskey="p" rel="prev">Time Series</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1093 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Sensitivity and identification analysis</title>
+
+<meta name="description" content="Dynare Reference Manual: Sensitivity and identification analysis">
+<meta name="keywords" content="Dynare Reference Manual: Sensitivity and identification analysis">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Markov_002dswitching-SBVAR.html#Markov_002dswitching-SBVAR" rel="next" title="Markov-switching SBVAR">
+<link href="Optimal-policy.html#Optimal-policy" rel="prev" title="Optimal policy">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Sensitivity-and-identification-analysis"></a>
+<div class="header">
+<p>
+Next: <a href="Markov_002dswitching-SBVAR.html#Markov_002dswitching-SBVAR" accesskey="n" rel="next">Markov-switching SBVAR</a>, Previous: <a href="Optimal-policy.html#Optimal-policy" accesskey="p" rel="prev">Optimal policy</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Sensitivity-and-identification-analysis-1"></a>
+<h3 class="section">4.20 Sensitivity and identification analysis</h3>
+
+<p>Dynare provides an interface to the global sensitivity analysis (GSA)
+toolbox (developed by the Joint Research Center (JRC) of the European
+Commission), which is now part of the official Dynare distribution. The
+GSA toolbox can be used to answer the following questions:
+</p>
+<ol>
+<li> What is the domain of structural coefficients assuring the stability and determinacy
+of a DSGE model?
+
+</li><li> Which parameters mostly drive the fit of, <i>e.g.</i>, GDP and which the fit of inflation?
+Is there any conflict between the optimal fit of one observed series versus another?
+
+</li><li> How to represent in a direct, albeit approximated, form the relationship between
+structural parameters and the reduced form of a rational expectations model?
+</li></ol>
+
+<p>The discussion of the methodologies and their application is described in
+<cite>Ratto (2008)</cite>.
+</p>
+<p>With respect to the previous version of the toolbox, in order to work
+properly, the GSA toolbox no longer requires that the Dynare
+estimation environment is set up.
+</p>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#Performing-sensitivity-analysis" accesskey="1">Performing sensitivity analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#IRF_002fMoment-calibration" accesskey="2">IRF/Moment calibration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Performing-identification-analysis" accesskey="3">Performing identification analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Types-of-analysis-and-output-files" accesskey="4">Types of analysis and output files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+<hr>
+<a name="Performing-sensitivity-analysis"></a>
+<div class="header">
+<p>
+Next: <a href="#IRF_002fMoment-calibration" accesskey="n" rel="next">IRF/Moment calibration</a>, Up: <a href="#Sensitivity-and-identification-analysis" accesskey="u" rel="up">Sensitivity and identification analysis</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Performing-sensitivity-analysis-1"></a>
+<h4 class="subsection">4.20.1 Performing sensitivity analysis</h4>
+
+<a name="dynare_005fsensitivity"></a><dl>
+<dt><a name="index-dynare_005fsensitivity"></a>Command: <strong>dynare_sensitivity</strong> <em>;</em></dt>
+<dt><a name="index-dynare_005fsensitivity-1"></a>Command: <strong>dynare_sensitivity</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command triggers sensitivity analysis on a DSGE model.
+</p>
+<p><em>Options</em>
+<em>Sampling Options</em>
+<a name="Sampling-Options"></a></p><dl compact="compact">
+<dt><code>Nsam = <var>INTEGER</var></code></dt>
+<dd><p>Size of the Monte-Carlo sample. Default: <code>2048</code>
+</p>
+</dd>
+<dt><code>ilptau = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, use <SPAN CLASS="MATH"><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_125.png"
+ ALT="$LP_\tau$"></SPAN> quasi-Monte-Carlo.
+If equal to <code>0</code>, use LHS Monte-Carlo. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>pprior = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, sample from the prior distributions.
+If equal to <code>0</code>, sample from the multivariate normal <!-- MATH
+ $N(\bar{\theta},\Sigma)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="58" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_126.png"
+ ALT="$N(\bar{\theta},\Sigma)$"></SPAN>,
+where <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_127.png"
+ ALT="$\bar{\theta}$"></SPAN> is the posterior mode and <SPAN CLASS="MATH"><IMG
+ WIDTH="69" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_128.png"
+ ALT="$\Sigma=H^{-1}$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_129.png"
+ ALT="$H$"></SPAN>
+is the Hessian at the mode. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>prior_range = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, sample uniformly from prior ranges.
+If equal to <code>0</code>, sample from prior distributions. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>morris = <var>INTEGER</var></code></dt>
+<dd><a name="morris"></a><p>If equal to <code>0</code>, ANOVA mapping (Type I error)
+If equal to <code>1</code>, Screening analysis (Type II error)
+If equal to <code>2</code>, Analytic derivatives (similar to Type II error, only valid when
+<code>identification=1</code>).Default: <code>1</code> when <code>identification=1</code>, <code>0</code> otherwise
+</p>
+</dd>
+<dt><code>morris_nliv = <var>INTEGER</var></code></dt>
+<dd><a name="morris_005fnliv"></a><p>Number of levels in Morris design. Default: <code>6</code>
+</p>
+</dd>
+<dt><code>morris_ntra = <var>INTEGER</var></code></dt>
+<dd><a name="morris_005fntra"></a><p>Number trajectories in Morris design. Default: <code>20</code>
+</p>
+</dd>
+<dt><code>ppost = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, use Metropolis posterior sample.
+If equal to <code>0</code>, do not use Metropolis posterior sample. NB: This
+overrides any other sampling option. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>neighborhood_width = <var>DOUBLE</var></code></dt>
+<dd><p>When <code>pprior=0</code> and <code>ppost=0</code>, allows for the sampling of
+parameters around the value specified in the <code>mode_file</code>, in the range
+<code>xparam1</code><!-- MATH
+ $\pm\left|@code{xparam1}\times@code{neighborhood_width}\right|$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="330" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_130.png"
+ ALT="$\pm\left\vert@code{xparam1}\times@code{neighborhood_width}\right\vert$"></SPAN>. Default: <code>0</code>
+</p>
+</dd>
+</dl>
+<p><em>Stability Mapping Options</em>
+</p><dl compact="compact">
+<dt><code>stab = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, perform stability mapping.
+If equal to <code>0</code>, do not perform stability mapping. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>load_stab = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, load a previously created sample.
+If equal to <code>0</code>, generate a new sample. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>alpha2_stab = <var>DOUBLE</var></code></dt>
+<dd><p>Critical value for correlations <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_131.png"
+ ALT="$\rho$"></SPAN> in filtered samples:
+plot couples of parmaters with <!-- MATH
+ $\left|\rho\right|>$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_132.png"
+ ALT="$\left\vert\rho\right\vert&gt;$"></SPAN> <code>alpha2_stab</code>.
+Default: <code>0</code>
+</p>
+</dd>
+<dt><code>pvalue_ks = <var>DOUBLE</var></code></dt>
+<dd><p>The threshold <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_133.png"
+ ALT="$pvalue$"></SPAN> for significant Kolmogorov-Smirnov test (<i>i.e.</i> plot parameters with
+<SPAN CLASS="MATH"><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_134.png"
+ ALT="$pvalue&lt;$"></SPAN> <code>pvalue_ks</code>). Default: <code>0.001</code>
+</p>
+</dd>
+<dt><code>pvalue_corr = <var>DOUBLE</var></code></dt>
+<dd><p>The threshold <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_133.png"
+ ALT="$pvalue$"></SPAN> for significant correlation in filtered samples
+(<i>i.e.</i> plot bivariate samples when <SPAN CLASS="MATH"><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_134.png"
+ ALT="$pvalue&lt;$"></SPAN> <code>pvalue_corr</code>). Default: <code>1e-5</code>
+</p>
+</dd>
+</dl>
+<p><em>Reduced Form Mapping Options</em>
+</p><dl compact="compact">
+<dt><code>redform = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, prepare Monte-Carlo sample of reduced form matrices.
+If equal to <code>0</code>, do not prepare Monte-Carlo sample of reduced form matrices. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>load_redform = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, load previously estimated mapping.
+If equal to <code>0</code>, estimate the mapping of the reduced form model. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>logtrans_redform = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, use log-transformed entries.
+If equal to <code>0</code>, use raw entries. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>threshold_redform = [<var>DOUBLE</var> <var>DOUBLE</var>]</code></dt>
+<dd><p>The range over which the filtered Monte-Carlo entries of the reduced form coefficients
+should be analyzed. The first number is the lower bound and the second is the upper bound.
+An empty vector indicates that these entries will not be filtered. Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>ksstat_redform = <var>DOUBLE</var></code></dt>
+<dd><p>Critical value for Smirnov statistics <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_135.png"
+ ALT="$d$"></SPAN> when reduced form entries
+are filtered. Default: <code>0.001</code>
+</p>
+</dd>
+<dt><code>alpha2_redform = <var>DOUBLE</var></code></dt>
+<dd><p>Critical value for correlations <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_131.png"
+ ALT="$\rho$"></SPAN>  when reduced form entries
+are filtered. Default: <code>1e-5</code>
+</p>
+</dd>
+<dt><code>namendo = (<var>VARIABLE_NAME</var>&hellip;)</code></dt>
+<dd><p>List of endogenous variables. &lsquo;<code>:</code>&rsquo; indicates all endogenous variables.
+Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>namlagendo = (<var>VARIABLE_NAME</var>&hellip;)</code></dt>
+<dd><p>List of lagged endogenous variables. &lsquo;<code>:</code>&rsquo; indicates all lagged endogenous variables.
+Analyze entries <code>[namendo</code><SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_136.png"
+ ALT="$\times$"></SPAN><code>namlagendo]</code> Default: <code>empty</code>
+</p>
+</dd>
+<dt><code>namexo = (<var>VARIABLE_NAME</var>&hellip;)</code></dt>
+<dd><p>List of exogenous variables. &lsquo;<code>:</code>&rsquo; indicates all exogenous variables.
+Analyze entries <code>[namendo</code><SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_136.png"
+ ALT="$\times$"></SPAN><code>namexo]</code>. Default: <code>empty</code>
+</p>
+</dd>
+</dl>
+<p><em>RMSE Options</em>
+</p><dl compact="compact">
+<dt><code>rmse = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, perform RMSE analysis.
+If equal to <code>0</code>, do not perform RMSE analysis. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>load_rmse = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, load previous RMSE analysis.
+If equal to <code>0</code>, make a new RMSE analysis. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>lik_only = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, compute only likelihood and posterior.
+If equal to <code>0</code>, compute RMSE&rsquo;s for all observed series. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>var_rmse = (<var>VARIABLE_NAME</var>&hellip;)</code></dt>
+<dd><p>List of observed series to be considered. &lsquo;<code>:</code>&rsquo; indicates all observed
+variables. Default: <code>varobs</code>
+</p>
+</dd>
+<dt><code>pfilt_rmse = <var>DOUBLE</var></code></dt>
+<dd><p>Filtering threshold for RMSE&rsquo;s. Default: <code>0.1</code>
+</p>
+</dd>
+<dt><code>istart_rmse = <var>INTEGER</var></code></dt>
+<dd><p>Value at which to start computing RMSE&rsquo;s (use <code>2</code> to avoid big intitial
+error). Default: <code>presample+1</code>
+</p>
+</dd>
+<dt><code>alpha_rmse = <var>DOUBLE</var></code></dt>
+<dd><p>Critical value for Smirnov statistics <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_135.png"
+ ALT="$d$"></SPAN>: plot parameters with
+<SPAN CLASS="MATH"><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_137.png"
+ ALT="$d&gt;$"></SPAN> <code>alpha_rmse</code>. Default: <code>0.001</code>
+</p>
+</dd>
+<dt><code>alpha2_rmse = <var>DOUBLE</var></code></dt>
+<dd><p>Critical value for correlation <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_131.png"
+ ALT="$\rho$"></SPAN>: plot couples of parmaters with
+<!-- MATH
+ $\left|\rho\right|=$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_138.png"
+ ALT="$\left\vert\rho\right\vert=$"></SPAN> <code>alpha2_rmse</code>. Default: <code>1e-5</code>
+</p>
+</dd>
+<dt><code>datafile = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="Estimation.html#datafile">datafile</a>.
+</p>
+</dd>
+<dt><code>nobs = <var>INTEGER</var></code></dt>
+<dt><code>nobs = [<var>INTEGER1</var>:<var>INTEGER2</var>]</code></dt>
+<dd><p>See <a href="Estimation.html#nobs">nobs</a>.
+</p>
+</dd>
+<dt><code>first_obs = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#first_005fobs">first_obs</a>.
+</p>
+</dd>
+<dt><code>prefilter = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#prefilter">prefilter</a>.
+</p>
+</dd>
+<dt><code>presample = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#presample">presample</a>.
+</p>
+</dd>
+<dt><code>nograph</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nograph">nograph</a>.
+</p>
+</dd>
+<dt><code>nodisplay</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nodisplay">nodisplay</a>.
+</p>
+</dd>
+<dt><code>graph_format = <var>FORMAT</var></code></dt>
+<dt><code>graph_format = ( <var>FORMAT</var>, <var>FORMAT</var>&hellip; )</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#graph_005fformat">graph_format</a>.
+</p>
+</dd>
+<dt><code>conf_sig = <var>DOUBLE</var></code></dt>
+<dd><p>See <a href="Forecasting.html#conf_005fsig">conf_sig</a>.
+</p>
+</dd>
+<dt><code>loglinear</code></dt>
+<dd><p>See <a href="Estimation.html#loglinear">loglinear</a>.
+</p>
+</dd>
+<dt><code>mode_file = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="Estimation.html#mode_005ffile">mode_file</a>.
+</p>
+</dd>
+<dt><code>kalman_algo = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#kalman_005falgo">kalman_algo</a>.
+</p>
+</dd>
+</dl>
+<p><em>Identification Analysis Options</em>
+</p><dl compact="compact">
+<dt><code>identification = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, performs identification anlysis (forcing <code>redform=0</code> and <code>morris=1</code>)
+If equal to <code>0</code>, no identification analysis. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>morris = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#morris">morris</a>.
+</p>
+</dd>
+<dt><code>morris_nliv = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#morris_005fnliv">morris_nliv</a>.
+</p>
+</dd>
+<dt><code>morris_ntra = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#morris_005fntra">morris_ntra</a>.
+</p>
+</dd>
+<dt><code>load_ident_files = <var>INTEGER</var></code></dt>
+<dd><p>Loads previously performed identification analysis. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>useautocorr = <var>INTEGER</var></code></dt>
+<dd><p>Use autocorrelation matrices in place of autocovariance matrices in moments
+for identification analysis. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>ar = <var>INTEGER</var></code></dt>
+<dd><p>Maximum number of lags for moments in identification analysis. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>diffuse_filter = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#diffuse_005ffilter">diffuse_filter</a>.
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+<hr>
+<a name="IRF_002fMoment-calibration"></a>
+<div class="header">
+<p>
+Next: <a href="#Performing-identification-analysis" accesskey="n" rel="next">Performing identification analysis</a>, Previous: <a href="#Performing-sensitivity-analysis" accesskey="p" rel="prev">Performing sensitivity analysis</a>, Up: <a href="#Sensitivity-and-identification-analysis" accesskey="u" rel="up">Sensitivity and identification analysis</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="IRF_002fMoment-calibration-1"></a>
+<h4 class="subsection">4.20.2 IRF/Moment calibration</h4>
+
+<p>The <code>irf_calibration</code> and <code>moment_calibration</code> blocks allow imposing implicit &ldquo;endogenous&rdquo; priors 
+about IRFs and moments on the model. The way it works internally is that 
+any parameter draw that is inconsistent with the &ldquo;calibration&rdquo; provided in these blocks is discarded, <i>i.e.</i> assigned a prior density of <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>. 
+In the context of <code>dynare_sensitivity</code>, these restrictions allow tracing out which parameters are driving the model to
+satisfy or violate the given restrictions.
+</p>
+<p>IRF and moment calibration can be defined in <code>irf_calibration</code> and <code>moment_calibration</code> blocks:
+</p>
+<dl>
+<dt><a name="index-irf_005fcalibration"></a>Block: <strong>irf_calibration</strong> <em>;</em></dt>
+<dt><a name="index-irf_005fcalibration-1"></a>Block: <strong>irf_calibration</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This block allows defining IRF calibration criteria and is terminated by <code>end;</code>. 
+To set IRF sign restrictions, the following syntax is used
+</p><div class="example">
+<pre class="example"><var>VARIABLE_NAME</var>(<var>INTEGER</var>),<var>EXOGENOUS_NAME</var>, -;
+<var>VARIABLE_NAME</var>(<var>INTEGER</var>:<var>INTEGER</var>),<var>EXOGENOUS_NAME</var>, +;
+</pre></div>
+<p>To set IRF restrictions with specific intervals, the following syntax is used
+</p><div class="example">
+<pre class="example"><var>VARIABLE_NAME</var>(<var>INTEGER</var>),<var>EXOGENOUS_NAME</var>, [<var>DOUBLE</var> <var>DOUBLE</var>];
+<var>VARIABLE_NAME</var>(<var>INTEGER</var>:<var>INTEGER</var>),<var>EXOGENOUS_NAME</var>, [<var>DOUBLE</var> <var>DOUBLE</var>];
+</pre></div>
+
+<p>When <code>(<var>INTEGER</var>:<var>INTEGER</var>)</code> is used, the restriction is considered to be fulfilled by a logical OR.
+A list of restrictions must always be fulfilled with logical AND.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>relative_irf</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#relative_005firf">relative_irf</a>.
+</p>
+</dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">irf_calibration;
+y(1:4), e_ys, [ -50 50]; //[first year response with logical OR]
+@#for ilag in 21:40
+R_obs(@{ilag}), e_ys, [0 6]; //[response from 5th to 10th years with logical AND]
+@#endfor
+end;
+</pre></div>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-moment_005fcalibration"></a>Block: <strong>moment_calibration</strong> <em>;</em></dt>
+<dt><a name="index-moment_005fcalibration-1"></a>Block: <strong>moment_calibration</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This block allows defining moment calibration criteria. This block is terminated by <code>end;</code>, and contains lines of the
+form:
+</p><div class="example">
+<pre class="example"><var>VARIABLE_NAME1</var>,<var>VARIABLE_NAME2</var>(+/-<var>INTEGER</var>), [<var>DOUBLE</var> <var>DOUBLE</var>];
+<var>VARIABLE_NAME1</var>,<var>VARIABLE_NAME2</var>(+/-<var>INTEGER</var>), +/-;
+<var>VARIABLE_NAME1</var>,<var>VARIABLE_NAME2</var>(+/-(<var>INTEGER</var>:<var>INTEGER</var>)), [<var>DOUBLE</var> <var>DOUBLE</var>];
+<var>VARIABLE_NAME1</var>,<var>VARIABLE_NAME2</var>((-<var>INTEGER</var>:+<var>INTEGER</var>)), [<var>DOUBLE</var> <var>DOUBLE</var>];
+</pre></div>
+
+<p>When <code>(<var>INTEGER</var>:<var>INTEGER</var>)</code> is used, the restriction is considered to be fulfilled by a logical OR.
+A list of restrictions must always be fulfilled with logical AND.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">moment_calibration;
+y_obs,y_obs, [0.5 1.5]; //[unconditional variance]
+y_obs,y_obs(-(1:4)), +; //[sign restriction for first year acf with logical OR]
+@#for ilag in -2:2
+y_obs,R_obs(@{ilag}), -; //[-2:2 ccf with logical AND]
+@#endfor
+@#for ilag in -4:4
+y_obs,pie_obs(@{ilag}), -; //[-4_4 ccf with logical AND]
+@#endfor
+end;
+</pre></div>
+
+</dd></dl>
+<hr>
+<a name="Performing-identification-analysis"></a>
+<div class="header">
+<p>
+Next: <a href="#Types-of-analysis-and-output-files" accesskey="n" rel="next">Types of analysis and output files</a>, Previous: <a href="#IRF_002fMoment-calibration" accesskey="p" rel="prev">IRF/Moment calibration</a>, Up: <a href="#Sensitivity-and-identification-analysis" accesskey="u" rel="up">Sensitivity and identification analysis</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Performing-identification-analysis-1"></a>
+<h4 class="subsection">4.20.3 Performing identification analysis</h4>
+
+<a name="identification"></a><dl>
+<dt><a name="index-identification"></a>Command: <strong>identification</strong> <em>;</em></dt>
+<dt><a name="index-identification-1"></a>Command: <strong>identification</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command triggers identification analysis.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>ar = <var>INTEGER</var></code></dt>
+<dd><p>Number of lags of computed autocorrelations (theoretical moments). Default: <code>1</code>
+</p>
+</dd>
+<dt><code>useautocorr = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, compute derivatives of autocorrelation. If equal
+to <code>0</code>, compute derivatives of autocovariances. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>load_ident_files = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, allow Dynare to load previously
+computed analyzes. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>prior_mc = <var>INTEGER</var></code></dt>
+<dd><p>Size of Monte-Carlo sample. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>prior_range = <var>INTEGER</var></code></dt>
+<dd><p>Triggers uniform sample within the range implied by the prior specifications (when
+<code>prior_mc&gt;1</code>). Default: <code>0</code>
+</p>
+</dd>
+<dt><code>advanced = <var>INTEGER</var></code></dt>
+<dd><p>Shows a more detailed analysis, comprised of an analysis for the linearized rational
+expectation model as well as the associated reduced form solution. Further performs a brute
+force search of the groups of parameters best reproducing the behavior of each single parameter.
+The maximum dimension of the group searched is triggered by <code>max_dim_cova_group</code>. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>max_dim_cova_group = <var>INTEGER</var></code></dt>
+<dd><p>In the brute force search (performed when <code>advanced=1</code>) this option sets the maximum dimension of groups
+of parameters that best reproduce the behavior of each single model parameter. Default: <code>2</code>
+</p>
+</dd>
+<dt><code>periods = <var>INTEGER</var></code></dt>
+<dd><p>When the analytic Hessian is not available (<i>i.e.</i> with missing values or diffuse
+Kalman filter or univariate Kalman filter), this triggers the length of stochastic simulation
+to compute Simulated Moments Uncertainty. Default: <code>300</code>
+</p>
+</dd>
+<dt><code>replic = <var>INTEGER</var></code></dt>
+<dd><p>When the analytic Hessian is not available, this triggers the number of replicas
+to compute Simulated Moments Uncertainty. Default: <code>100</code>
+</p>
+</dd>
+<dt><code>gsa_sample_file = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>0</code>, do not use sample file.
+If equal to <code>1</code>, triggers gsa prior sample.
+If equal to <code>2</code>, triggers gsa Monte-Carlo sample (<i>i.e.</i> loads a sample corresponding to
+<code>pprior=0</code> and <code>ppost=0</code> in the <code>dynare_sensitivity</code> options). Default: <code>0</code>
+</p>
+</dd>
+<dt><code>gsa_sample_file = <var>FILENAME</var></code></dt>
+<dd><p>Uses the provided path to a specific user defined sample file. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>parameter_set = <code>calibration</code> | <code>prior_mode</code> | <code>prior_mean</code> | <code>posterior_mode</code> | <code>posterior_mean</code> | <code>posterior_median</code></code></dt>
+<dd><p>Specify the parameter set to use. Default: <code>prior_mean</code>
+</p>
+</dd>
+<dt><code>lik_init = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#lik_005finit">lik_init</a>.
+</p>
+</dd>
+<dt><code>kalman_algo = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#kalman_005falgo">kalman_algo</a>.
+</p>
+</dd>
+<dt><code>nograph</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nograph">nograph</a>.
+</p>
+</dd>
+<dt><code>nodisplay</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nodisplay">nodisplay</a>.
+</p>
+</dd>
+<dt><code>graph_format = <var>FORMAT</var></code></dt>
+<dt><code>graph_format = ( <var>FORMAT</var>, <var>FORMAT</var>&hellip; )</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#graph_005fformat">graph_format</a>.
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+<hr>
+<a name="Types-of-analysis-and-output-files"></a>
+<div class="header">
+<p>
+Previous: <a href="#Performing-identification-analysis" accesskey="p" rel="prev">Performing identification analysis</a>, Up: <a href="#Sensitivity-and-identification-analysis" accesskey="u" rel="up">Sensitivity and identification analysis</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Types-of-analysis-and-output-files-1"></a>
+<h4 class="subsection">4.20.4 Types of analysis and output files</h4>
+
+<p>The sensitivity analysis toolbox includes several types of analyses.
+Sensitivity analysis results are saved locally in <code>&lt;mod_file&gt;/gsa</code>,
+where <code>&lt;mod_file&gt;.mod</code> is the name of the DYNARE model file.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#Sampling" accesskey="1">Sampling</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Stability-Mapping" accesskey="2">Stability Mapping</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#IRF_002fMoment-restrictions" accesskey="3">IRF/Moment restrictions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Reduced-Form-Mapping" accesskey="4">Reduced Form Mapping</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#RMSE" accesskey="5">RMSE</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Screening-Analysis" accesskey="6">Screening Analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Identification-Analysis" accesskey="7">Identification Analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="Sampling"></a>
+<div class="header">
+<p>
+Next: <a href="#Stability-Mapping" accesskey="n" rel="next">Stability Mapping</a>, Up: <a href="#Types-of-analysis-and-output-files" accesskey="u" rel="up">Types of analysis and output files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Sampling-1"></a>
+<h4 class="subsubsection">4.20.4.1 Sampling</h4>
+
+<p>The following binary files are produced:
+</p><ul>
+<li> <code>&lt;mod_file&gt;_prior.mat</code>: this file stores information about the analyses
+performed sampling from the prior, <i>i.e.</i> <code>pprior=1</code> and <code>ppost=0</code>;
+
+</li><li> <code>&lt;mod_file&gt;_mc.mat</code>: this file stores information about the analyses performed
+sampling from multivariate normal, <i>i.e.</i> <code>pprior=0</code> and <code>ppost=0</code>;
+
+</li><li> <code>&lt;mod_file&gt;_post.mat</code>: this file stores information about analyses performed
+using the Metropolis posterior sample, <i>i.e.</i> <code>ppost=1</code>.
+</li></ul>
+
+<hr>
+<a name="Stability-Mapping"></a>
+<div class="header">
+<p>
+Next: <a href="#IRF_002fMoment-restrictions" accesskey="n" rel="next">IRF/Moment restrictions</a>, Previous: <a href="#Sampling" accesskey="p" rel="prev">Sampling</a>, Up: <a href="#Types-of-analysis-and-output-files" accesskey="u" rel="up">Types of analysis and output files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Stability-Mapping-1"></a>
+<h4 class="subsubsection">4.20.4.2 Stability Mapping</h4>
+
+<p>Figure files produced are of the form <code>&lt;mod_file&gt;_prior_*.fig</code> and store results
+for stability mapping from prior Monte-Carlo samples:
+</p><ul>
+<li> <code>&lt;mod_file&gt;_prior_stable.fig</code>: plots of the Smirnov test and the correlation analyses
+confronting the cdf of the sample fulfilling Blanchard-Kahn conditions (blue color)
+with the cdf of the rest of the sample (red color), <i>i.e.</i> either
+instability or indeterminacy or the solution could not be found (<i>e.g.</i>
+the steady state solution could not be found by the solver);
+
+</li><li> <code>&lt;mod_file&gt;_prior_indeterm.fig</code>: plots of the Smirnov test and the correlation
+analyses confronting the cdf of the sample producing indeterminacy (red color)
+with the cdf of the rest of the sample (blue color);
+
+</li><li> <code>&lt;mod_file&gt;_prior_unstable.fig</code>: plots of the Smirnov test and the correlation
+analyses confronting the cdf of the sample producing explosive roots (red color) 
+with the cdf of the rest of the sample (blue color);
+
+</li><li> <code>&lt;mod_file&gt;_prior_wrong.fig</code>: plots of the Smirnov test and the correlation
+analyses confronting the cdf of the sample where the solution could not be found (<i>e.g.</i>
+the steady state solution could not be found by the solver - red color) 
+with the cdf of the rest of the sample (blue color);
+
+</li><li> <code>&lt;mod_file&gt;_prior_calib.fig</code>: plots of the Smirnov test and the correlation
+analyses splitting the sample fulfilling Blanchard-Kahn conditions, 
+by confronting the cdf of the sample where IRF/moment restrictions are matched (blue color)
+with the cdf where IRF/moment restrictions are NOT matched (red color);
+
+</li></ul>
+
+<p>Similar conventions apply for <code>&lt;mod_file&gt;_mc_*.fig</code> files, obtained when
+samples from multivariate normal are used.
+</p>
+<hr>
+<a name="IRF_002fMoment-restrictions"></a>
+<div class="header">
+<p>
+Next: <a href="#Reduced-Form-Mapping" accesskey="n" rel="next">Reduced Form Mapping</a>, Previous: <a href="#Stability-Mapping" accesskey="p" rel="prev">Stability Mapping</a>, Up: <a href="#Types-of-analysis-and-output-files" accesskey="u" rel="up">Types of analysis and output files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="IRF_002fMoment-restrictions-1"></a>
+<h4 class="subsubsection">4.20.4.3 IRF/Moment restrictions</h4>
+
+<p>The following binary files are produced:
+</p><ul>
+<li> <code>&lt;mod_file&gt;_prior_restrictions.mat</code>: this file stores information about the IRF/moment restriction analysis
+performed sampling from the prior ranges, <i>i.e.</i> <code>pprior=1</code> and <code>ppost=0</code>;
+
+</li><li> <code>&lt;mod_file&gt;_mc_restrictions.mat</code>: this file stores information about the IRF/moment restriction analysis performed
+sampling from multivariate normal, <i>i.e.</i> <code>pprior=0</code> and <code>ppost=0</code>;
+
+</li><li> <code>&lt;mod_file&gt;_post_restrictions.mat</code>: this file stores information about IRF/moment restriction analysis performed
+using the Metropolis posterior sample, <i>i.e.</i> <code>ppost=1</code>.
+</li></ul>
+
+<p>Figure files produced are of the form <code>&lt;mod_file&gt;_prior_irf_calib_*.fig</code> and <code>&lt;mod_file&gt;_prior_moment_calib_*.fig</code> and store results
+for mapping restrictions from prior Monte-Carlo samples:
+</p><ul>
+<li> <code>&lt;mod_file&gt;_prior_irf_calib_&lt;ENDO_NAME&gt;_vs_&lt;EXO_NAME&gt;_&lt;PERIOD&gt;.fig</code>: plots of the Smirnov test and the correlation
+analyses splitting the sample fulfilling Blanchard-Kahn conditions,
+by confronting the cdf of the sample where the individual IRF restriction 
+<code>&lt;ENDO_NAME&gt;</code> vs. <code>&lt;EXO_NAME&gt;</code> at period(s) <code>&lt;PERIOD&gt;</code> is matched (blue color)
+with the cdf where the IRF restriction is NOT matched (red color)
+
+</li><li> <code>&lt;mod_file&gt;_prior_irf_calib_&lt;ENDO_NAME&gt;_vs_&lt;EXO_NAME&gt;_ALL.fig</code>: plots of the Smirnov test and the correlation
+analyses splitting the sample fulfilling Blanchard-Kahn conditions,
+by confronting the cdf of the sample where ALL the individual IRF restrictions for the same couple
+<code>&lt;ENDO_NAME&gt;</code> vs. <code>&lt;EXO_NAME&gt;</code> are matched (blue color)
+with the cdf where the IRF restriction is NOT matched (red color)
+
+</li><li> <code>&lt;mod_file&gt;_prior_irf_restrictions.fig</code>: plots visual information on the IRF restrictions 
+compared to the actual Monte Carlo realization from prior sample.
+
+</li><li> <code>&lt;mod_file&gt;_prior_moment_calib_&lt;ENDO_NAME1&gt;_vs_&lt;ENDO_NAME2&gt;_&lt;LAG&gt;.fig</code>: plots of the Smirnov test and the correlation
+analyses splitting the sample fulfilling Blanchard-Kahn conditions,
+by confronting the cdf of the sample where the individual acf/ccf moment restriction 
+<code>&lt;ENDO_NAME1&gt;</code> vs. <code>&lt;ENDO_NAME2&gt;</code> at lag(s) <code>&lt;LAG&gt;</code> is matched (blue color)
+with the cdf where the IRF restriction is NOT matched (red color)
+
+</li><li> <code>&lt;mod_file&gt;_prior_moment_calib_&lt;ENDO_NAME&gt;_vs_&lt;EXO_NAME&gt;_ALL.fig</code>: plots of the Smirnov test and the correlation
+analyses splitting the sample fulfilling Blanchard-Kahn conditions,
+by confronting the cdf of the sample where ALL the individual acf/ccf moment restrictions for the same couple
+<code>&lt;ENDO_NAME1&gt;</code> vs. <code>&lt;ENDO_NAME2&gt;</code> are matched (blue color)
+with the cdf where the IRF restriction is NOT matched (red color)
+
+</li><li> <code>&lt;mod_file&gt;_prior_moment_restrictions.fig</code>: plots visual information on the moment restrictions 
+compared to the actual Monte Carlo realization from prior sample.
+
+</li></ul>
+
+<p>Similar conventions apply for <code>&lt;mod_file&gt;_mc_*.fig</code> and <code>&lt;mod_file&gt;_post_*.fig</code> files, obtained when
+samples from multivariate normal or from posterior are used.
+</p>
+<hr>
+<a name="Reduced-Form-Mapping"></a>
+<div class="header">
+<p>
+Next: <a href="#RMSE" accesskey="n" rel="next">RMSE</a>, Previous: <a href="#IRF_002fMoment-restrictions" accesskey="p" rel="prev">IRF/Moment restrictions</a>, Up: <a href="#Types-of-analysis-and-output-files" accesskey="u" rel="up">Types of analysis and output files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Reduced-Form-Mapping-1"></a>
+<h4 class="subsubsection">4.20.4.4 Reduced Form Mapping</h4>
+
+<p>When the option <code>threshold_redform</code> is not set, or it is empty (the default), this analysis estimates a multivariate
+smoothing spline ANOVA model (the &rsquo;mapping&rsquo;) for the selected entries in the transition matrix of the shock matrix of the reduce form first order solution of the model.
+This mapping is done either with prior samples or with MC samples with <code>neighborhood_width</code>.
+Unless <code>neighborhood_width</code> is set with MC samples, the  mapping of the reduced form solution forces the use of samples from
+prior ranges or prior distributions, <i>i.e.</i>: <code>pprior=1</code> and <code>ppost=0</code>. It
+uses 250 samples to optimize smoothing parameters and 1000 samples to compute the
+fit. The rest of the sample is used for out-of-sample validation. One can also
+load a previously estimated mapping with a new Monte-Carlo sample, to look at the
+forecast for the new Monte-Carlo sample.
+</p>
+<p>The following synthetic figures are produced:
+</p><ul>
+<li> <code>&lt;mod_file&gt;_redform_&lt;endo name&gt;_vs_lags_*.fig</code>: shows bar charts
+of the sensitivity indices for the ten most important parameters driving
+the reduced form coefficients of the selected endogenous variables
+(<code>namendo</code>) versus lagged endogenous variables (<code>namlagendo</code>); suffix
+<code>log</code> indicates the results for log-transformed entries;
+
+</li><li> <code>&lt;mod_file&gt;_redform_&lt;endo name&gt;_vs_shocks_*.fig</code>: shows bar charts
+of the sensitivity indices for the ten most important parameters driving
+the reduced form coefficients of the selected endogenous variables
+(<code>namendo</code>) versus exogenous variables (<code>namexo</code>); suffix <code>log</code>
+indicates the results for log-transformed entries;
+
+</li><li> <code>&lt;mod_file&gt;_redform_gsa(_log).fig</code>: shows bar chart of all sensitivity
+indices for each parameter: this allows one to notice parameters that
+have a minor effect for any of the reduced form coefficients.
+</li></ul>
+
+<p>Detailed results of the analyses are shown in the subfolder <code>&lt;mod_file&gt;/gsa/redform_prior</code> for prior samples and in <code>&lt;mod_file&gt;/gsa/redform_mc</code> for MC samples with option <code>neighborhood_width</code>,
+where the detailed results of the estimation of the single functional relationships
+between parameters <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_139.png"
+ ALT="$\theta$"></SPAN> and reduced form coefficient (denoted as <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_42.png"
+ ALT="$y$"></SPAN> hereafter) are stored in separate directories
+named as:
+</p>
+<ul>
+<li> <code>&lt;namendo&gt;_vs_&lt;namlagendo&gt;</code>: for the entries of the transition matrix;
+
+</li><li> <code>&lt;namendo&gt;_vs_&lt;namexo&gt;</code>: for entries of the matrix of the shocks.
+</li></ul>
+
+<p>The following files are stored in each directory (we stick with prior sample but similar conventions are used for MC samples):
+</p><ul>
+<li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namexo&gt;.fig</code>: histogram and CDF plot of the MC sample of the individual entry
+of the shock matrix, in sample and out of sample fit of the ANOVA model;
+
+</li><li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namexo&gt;_map_SE.fig</code>: for entries of the shock matrix it shows graphs of the estimated first order ANOVA terms <!-- MATH
+ $y = f(\theta_i)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="69" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_140.png"
+ ALT="$y = f(\theta_i)$"></SPAN> for each deep parameter <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_141.png"
+ ALT="$\theta_i$"></SPAN>; 
+
+</li><li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namlagendo&gt;.fig</code>: histogram and CDF plot of the MC sample of the individual entry
+of the transition matrix, in sample and out of sample fit of the ANOVA model;
+
+</li><li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namlagendo&gt;_map_SE.fig</code>: for entries of the transition matrix it shows graphs of the estimated first order ANOVA terms <!-- MATH
+ $y = f(\theta_i)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="69" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_140.png"
+ ALT="$y = f(\theta_i)$"></SPAN> for each deep parameter <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_141.png"
+ ALT="$\theta_i$"></SPAN>; 
+
+</li><li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namexo&gt;_map.mat</code>, <code>&lt;mod_file&gt;_&lt;namendo&gt;_vs_&lt;namlagendo&gt;_map.mat</code>: these files store info in the estimation; 
+
+</li></ul>
+
+<p>When option <code>logtrans_redform</code> is set, the ANOVA estimation is performed using a log-transformation of each <code>y</code>.
+The ANOVA mapping is then transformed back onto the original scale, to allow comparability with the baseline estimation.
+Graphs for this log-transformed case, are stored in the same folder in files denoted with the <code>_log</code> suffix.
+</p>
+<p>When the option <code>threshold_redform</code> is set, the analysis is performed via Monte Carlo filtering, by displaying parameters that drive the individual entry <code>y</code> inside the range specified in <code>threshold_redform</code>. If no entry is found (or all entries are in the range), the MCF algorithm ignores the range specified in <code>threshold_redform</code> and performs the analysis splitting the MC sample of <code>y</code> into deciles. Setting <code>threshold_redform=[-inf inf]</code> triggers this approach for all <code>y</code>&rsquo;s.
+</p>
+<p>Results are stored in subdirectories of <code>&lt;mod_file&gt;/gsa/redform_prior</code> named 
+</p><ul>
+<li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namlagendo&gt;_threshold</code>: for the entries of the transition matrix;
+
+</li><li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namexo&gt;_threshold</code>: for entries of the matrix of the shocks.
+</li></ul>
+
+<p>The files saved are named
+</p><ul>
+<li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namexo&gt;_threshold.fig</code>,<code>&lt;mod_file&gt;_&lt;namendo&gt;_vs_&lt;namlagendo&gt;_threshold.fig</code>: graphical outputs; 
+</li><li> <code>&lt;mod_file&gt;_prior_&lt;namendo&gt;_vs_&lt;namexo&gt;_threshold.mat</code>,<code>&lt;mod_file&gt;_&lt;namendo&gt;_vs_&lt;namlagendo&gt;_threshold.mat</code>: info on the analysis; 
+
+</li></ul>
+
+<hr>
+<a name="RMSE"></a>
+<div class="header">
+<p>
+Next: <a href="#Screening-Analysis" accesskey="n" rel="next">Screening Analysis</a>, Previous: <a href="#Reduced-Form-Mapping" accesskey="p" rel="prev">Reduced Form Mapping</a>, Up: <a href="#Types-of-analysis-and-output-files" accesskey="u" rel="up">Types of analysis and output files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="RMSE-1"></a>
+<h4 class="subsubsection">4.20.4.5 RMSE</h4>
+
+<p>The RMSE analysis can be performed with different types of sampling options:
+</p><ol>
+<li> When <code>pprior=1</code> and <code>ppost=0</code>, the toolbox analyzes the RMSEs for
+the Monte-Carlo sample obtained by sampling parameters from their prior distributions
+(or prior ranges): this analysis provides some hints about
+what parameter drives the fit of which observed series, prior to the full
+estimation;
+
+</li><li> When <code>pprior=0</code> and <code>ppost=0</code>, the toolbox analyzes the RMSEs for
+a multivariate normal Monte-Carlo sample, with covariance matrix based on
+the inverse Hessian at the optimum: this analysis is useful when maximum likelihood
+estimation is done (<i>i.e.</i> no Bayesian estimation);
+
+</li><li> When <code>ppost=1</code> the toolbox analyzes the RMSEs for the posterior sample
+obtained by Dynare&rsquo;s Metropolis procedure.
+</li></ol>
+
+<p>The use of cases 2 and 3 requires an estimation step beforehand. To
+facilitate the sensitivity analysis after estimation, the <code>dynare_sensitivity</code>
+command also allows you to indicate some options of the <code>estimation</code>
+command. These are:
+</p><ul>
+<li> <code>datafile</code>
+</li><li> <code>nobs</code>
+</li><li> <code>first_obs</code>
+</li><li> <code>prefilter</code>
+</li><li> <code>presample</code>
+</li><li> <code>nograph</code>
+</li><li> <code>nodisplay</code>
+</li><li> <code>graph_format</code>
+</li><li> <code>conf_sig</code>
+</li><li> <code>loglinear</code>
+</li><li> <code>mode_file</code>
+</li></ul>
+
+<p>Binary files produced my RMSE analysis are:
+</p><ul>
+<li> <code>&lt;mod_file&gt;_prior_*.mat</code>: these files store the filtered and smoothed
+    variables for the prior Monte-Carlo sample, generated when doing RMSE analysis
+    (<code>pprior=1</code> and <code>ppost=0</code>);
+</li><li> <code>&lt;mode_file&gt;_mc_*.mat</code>: these files store the filtered and smoothed variables
+    for the multivariate normal Monte-Carlo sample, generated when doing
+    RMSE analysis (<code>pprior=0</code> and <code>ppost=0</code>).
+</li></ul>
+
+<p>Figure files <code>&lt;mod_file&gt;_rmse_*.fig</code> store results for the RMSE analysis.
+</p>
+<ul>
+<li> <code>&lt;mod_file&gt;_rmse_prior*.fig</code>: save results for the analysis using prior
+Monte-Carlo samples;
+
+</li><li> <code>&lt;mod_file&gt;_rmse_mc*.fig</code>: save results for the analysis using multivariate
+normal Monte-Carlo samples;
+
+</li><li> <code>&lt;mod_file&gt;_rmse_post*.fig</code>: save results for the analysis using Metropolis
+posterior samples.
+</li></ul>
+
+<p>The following types of figures are saved (we show prior sample to fix ideas,
+but the same conventions are used for multivariate normal and posterior):
+</p>
+<ul>
+<li> <code>&lt;mod_file&gt;_rmse_prior_params_*.fig</code>: for each parameter, plots the cdfs 
+corresponding to the best 10% RMSEs of each observed series (only those cdfs below the significance threshold <code>alpha_rmse</code>);
+
+</li><li> <code>&lt;mod_file&gt;_rmse_prior_&lt;var_obs&gt;_*.fig</code>: if a parameter significantly affects the fit of <code>var_obs</code>, all possible trade-off&rsquo;s with other observables for same parameter are plotted;
+
+</li><li> <code>&lt;mod_file&gt;_rmse_prior_&lt;var_obs&gt;_map.fig</code>: plots the MCF analysis of parameters significantly driving the fit the observed series <code>var_obs</code>;
+
+</li><li> <code>&lt;mod_file&gt;_rmse_prior_lnlik*.fig</code>: for each observed series, plots
+in BLUE the cdf of the log-likelihood corresponding to the best 10%
+RMSEs, in RED the cdf of the rest of the sample and in BLACK the
+cdf of the full sample; this allows one to see the presence of some
+idiosyncratic behavior;
+
+</li><li> <code>&lt;mod_file&gt;_rmse_prior_lnpost*.fig</code>: for each observed series, plots
+in BLUE the cdf of the log-posterior corresponding to the best 10% RMSEs,
+in RED the cdf of the rest of the sample and in BLACK the cdf of the full
+sample; this allows one to see idiosyncratic behavior;
+
+</li><li> <code>&lt;mod_file&gt;_rmse_prior_lnprior*.fig</code>: for each observed series, plots
+in BLUE the cdf of the log-prior corresponding to the best 10% RMSEs,
+in RED the cdf of the rest of the sample and in BLACK the cdf of the full
+sample; this allows one to see idiosyncratic behavior;
+
+</li><li> <code>&lt;mod_file&gt;_rmse_prior_lik.fig</code>: when <code>lik_only=1</code>, this shows
+the MCF tests for the filtering of the best 10% log-likelihood values;
+
+</li><li> <code>&lt;mod_file&gt;_rmse_prior_post.fig</code>: when <code>lik_only=1</code>, this shows
+the MCF tests for the filtering of the best 10% log-posterior values.
+</li></ul>
+
+<hr>
+<a name="Screening-Analysis"></a>
+<div class="header">
+<p>
+Next: <a href="#Identification-Analysis" accesskey="n" rel="next">Identification Analysis</a>, Previous: <a href="#RMSE" accesskey="p" rel="prev">RMSE</a>, Up: <a href="#Types-of-analysis-and-output-files" accesskey="u" rel="up">Types of analysis and output files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Screening-Analysis-1"></a>
+<h4 class="subsubsection">4.20.4.6 Screening Analysis</h4>
+
+<p>Screening analysis does not require any additional options with respect to
+those listed in <a href="#Sampling-Options">Sampling Options</a>. The toolbox performs all the
+analyses required and displays results.
+</p>
+<p>The results of the screening analysis with Morris sampling design are stored
+in the subfolder <code>&lt;mod_file&gt;/gsa/screen</code>. The data file <code>&lt;mod_file&gt;_prior</code> stores
+all the information of the analysis (Morris sample, reduced form coefficients,
+etc.).
+</p>
+<p>Screening analysis merely concerns reduced form coefficients. Similar
+synthetic bar charts as for the reduced form analysis with Monte-Carlo samples are
+saved:
+</p><ul>
+<li> <code>&lt;mod_file&gt;_redform_&lt;endo name&gt;_vs_lags_*.fig</code>: shows bar charts
+of the elementary effect tests for the ten most important parameters
+driving the reduced form coefficients of the selected endogenous variables
+(<code>namendo</code>) versus lagged endogenous variables (<code>namlagendo</code>);
+
+</li><li> <code>&lt;mod_file&gt;_redform_&lt;endo name&gt;_vs_shocks_*.fig</code>: shows bar charts
+of the elementary effect tests for the ten most important parameters
+driving the reduced form coefficients of the selected endogenous variables
+(<code>namendo</code>) versus exogenous variables (<code>namexo</code>);
+
+</li><li> <code>&lt;mod_file&gt;_redform_screen.fig</code>: shows bar chart of all elementary
+effect tests for each parameter: this allows one to identify parameters that
+have a minor effect for any of the reduced form coefficients.
+</li></ul>
+
+<hr>
+<a name="Identification-Analysis"></a>
+<div class="header">
+<p>
+Previous: <a href="#Screening-Analysis" accesskey="p" rel="prev">Screening Analysis</a>, Up: <a href="#Types-of-analysis-and-output-files" accesskey="u" rel="up">Types of analysis and output files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Identification-Analysis-1"></a>
+<h4 class="subsubsection">4.20.4.7 Identification Analysis</h4>
+
+<p>Setting the option <code>identification=1</code>, an identification analysis based on
+theoretical moments is performed. Sensitivity plots are provided that allow
+to infer which parameters are most likely to be less identifiable.
+</p>
+<p>Prerequisite for properly running all the identification routines, is the keyword
+<code>identification</code>; in the Dynare model file. This keyword triggers
+the computation of analytic derivatives of the model with respect to estimated
+parameters and shocks. This is required for option <code>morris=2</code>,
+which implements <cite>Iskrev (2010)</cite> identification analysis.
+</p>
+<p>For example, the placing <code>identification; dynare_sensitivity(identification=1, morris=2);</code>
+in the Dynare model file trigger identification analysis using analytic derivatives
+<cite>Iskrev (2010)</cite>, jointly with the mapping of the acceptable region.
+</p>
+<p>The identification analysis with derivatives can also be triggered by the
+commands <code>identification;</code> This does not do the mapping of
+acceptable regions for the model and uses the standard random sampler of Dynare.
+It completely offsets any use of the sensitivity analysis toolbox.
+</p>
+
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#Screening-Analysis" accesskey="p" rel="prev">Screening Analysis</a>, Up: <a href="#Types-of-analysis-and-output-files" accesskey="u" rel="up">Types of analysis and output files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

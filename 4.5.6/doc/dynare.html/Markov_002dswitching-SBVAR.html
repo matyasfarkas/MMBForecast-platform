@@ -1,0 +1,1048 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Markov-switching SBVAR</title>
+
+<meta name="description" content="Dynare Reference Manual: Markov-switching SBVAR">
+<meta name="keywords" content="Dynare Reference Manual: Markov-switching SBVAR">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Displaying-and-saving-results.html#Displaying-and-saving-results" rel="next" title="Displaying and saving results">
+<link href="Sensitivity-and-identification-analysis.html#Identification-Analysis" rel="prev" title="Identification Analysis">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Markov_002dswitching-SBVAR"></a>
+<div class="header">
+<p>
+Next: <a href="Displaying-and-saving-results.html#Displaying-and-saving-results" accesskey="n" rel="next">Displaying and saving results</a>, Previous: <a href="Sensitivity-and-identification-analysis.html#Sensitivity-and-identification-analysis" accesskey="p" rel="prev">Sensitivity and identification analysis</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Markov_002dswitching-SBVAR-1"></a>
+<h3 class="section">4.21 Markov-switching SBVAR</h3>
+
+<p>Given a list of variables, observed variables and a data file, Dynare
+can be used to solve a Markov-switching SBVAR model according to
+<cite>Sims, Waggoner and Zha (2008)</cite>.<a name="DOCF10" href="#FOOT10"><sup>10</sup></a> Having done this, you can
+create forecasts and compute the marginal data density, regime
+probabilities, IRFs, and variance decomposition of the model.
+</p>
+<p>The commands have been modularized, allowing for multiple calls to the
+same command within a <code>&lt;mod_file&gt;.mod</code> file. The default is to use
+<code>&lt;mod_file&gt;</code> to tag the input (output) files used (produced) by the
+program. Thus, to call any command more than once within a
+<code>&lt;mod_file&gt;.mod</code> file, you must use the <code>*_tag</code> options
+described below.
+</p>
+<a name="markov_005fswitching"></a><dl>
+<dt><a name="index-markov_005fswitching"></a>Command: <strong>markov_switching</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Declares the Markov state variable information of a Markov-switching
+SBVAR model.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>chain = <var>INTEGER</var></code></dt>
+<dd><a name="ms_005fchain"></a><p>The Markov chain considered. Default: <code>none</code> 
+</p>
+</dd>
+<dt><code>number_of_regimes = <var>INTEGER</var></code></dt>
+<dd><p>Specifies the total number of regimes in the Markov Chain. This is a required option.
+</p>
+</dd>
+<dt><code>duration = <var>DOUBLE</var> | <var>[ROW VECTOR OF DOUBLES]</var></code></dt>
+<dd><p>The duration of the regimes or regimes. This is a required option. 
+When passed a scalar real number, it specifies the average duration for all regimes in 
+this chain. When passed a vector of size equal <code>number_of_regimes</code>, it specifies 
+the average duration of the associated regimes <code>(1:number_of_regimes)</code> in this chain.
+An absorbing state can be specified through the <a href="#restrictions">restrictions</a>-option.
+</p>
+</dd>
+<dt><code>restrictions = <var>[[ROW VECTOR OF 3 DOUBLES],[ROW VECTOR OF 3 DOUBLES],...]</var></code></dt>
+<dd><a name="restrictions"></a><p>Provides restrictions on this chain&rsquo;s regime transition matrix. 
+Its vector argument takes three inputs of the form: 
+<code>[current_period_regime, next_period_regime, transition_probability]</code> 
+</p>
+<p>The first two entries are positive integers, and the third is a non-negative real in the set [0,1]. 
+If restrictions are specified for every transition for a regime, the sum of the probabilities 
+must be 1. Otherwise, if restrictions are not provided for every transition for a given 
+regime the sum of the provided transition probabilities msut be &lt;1. 
+Regardless of the number of lags, the restrictions are specified for parameters 
+at time <code>t</code> since the transition probability for a parameter at <code>t</code> is equal to 
+that of the parameter at <code>t-1</code>. 
+</p>
+</dd>
+</dl>
+
+<p>In case of estimating a MS-DSGE model,<a name="DOCF11" href="#FOOT11"><sup>11</sup></a> in addition the following options are allowed:
+</p>
+<dl compact="compact">
+<dt><code>parameters = <var>[LIST OF PARAMETERS]</var></code></dt>
+<dd><p>This option specifies which parameters are controlled by this Markov Chain.
+</p>
+</dd>
+<dt><code>number_of_lags = <var>DOUBLE</var></code></dt>
+<dd><p>Provides the number of lags that each parameter can take within each regime in this chain. 
+</p>
+</dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">markov_switching(chain=1, duration=2.5, restrictions=[[1,3,0],[3,1,0]]);
+</pre></div>
+<p>Specifies a Markov-switching BVAR with a first chain with 3 regimes that all have a 
+duration of 2.5 periods. The probability of directly going from regime 1 to regime 3 and vice versa is 0.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">markov_switching(chain=2, number_of_regimes=3, duration=[0.5, 2.5, 2.5],
+parameter=[alpha, rho], number_of_lags=2, restrictions=[[1,3,0],[3,3,1]]);
+</pre></div>
+
+<p>Specifies a Markov-switching DSGE model with a second chain with 3 regimes 
+that have durations of 0.5, 2.5, and 2.5 periods, respectively. The switching parameters
+are <code>alpha</code> and <code>rho</code>. The probability of directly going from 
+regime 1 to regime 3 is 0, while regime 3 is an absorbing state.
+</p>
+</dd></dl>
+
+
+<a name="svar"></a><dl>
+<dt><a name="index-svar"></a>Command: <strong>svar</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Each Markov chain can control the switching of a set of parameters. We
+allow the parameters to be divided equation by equation and by variance
+or slope and intercept.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>coefficients</code></dt>
+<dd><p>Specifies that only the slope and intercept in the given equations are
+controlled by the given chain.  One, but not both, of
+<code>coefficients</code> or <code>variances</code> must appear. Default:
+<code>none</code>
+</p>
+</dd>
+<dt><code>variances</code></dt>
+<dd><p>Specifies that only variances in the given equations are controlled by
+the given chain. One, but not both, of <code>coefficients</code> or
+<code>variances</code> must appear. Default: <code>none</code>
+</p>
+</dd>
+<dt><code>equations</code></dt>
+<dd><p>Defines the equation controlled by the given chain. If not specified,
+then all equations are controlled by <code>chain</code>. Default: <code>none</code>
+</p>
+</dd>
+<dt><code>chain = <var>INTEGER</var></code></dt>
+<dd><p>Specifies a Markov chain defined by <a href="#markov_005fswitching">markov_switching</a>. Default:
+<code>none</code>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-sbvar"></a>Command: <strong>sbvar</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>To be documented. For now, see the wiki: <a href="http://www.dynare.org/DynareWiki/SbvarOptions">http://www.dynare.org/DynareWiki/SbvarOptions</a>
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>datafile</code></dt>
+<dt><code>freq</code></dt>
+<dt><code>initial_year</code></dt>
+<dt><code>initial_subperiod</code></dt>
+<dt><code>final_year</code></dt>
+<dt><code>final_subperiod</code></dt>
+<dt><code>data</code></dt>
+<dt><code>vlist</code></dt>
+<dt><code>vlistlog</code></dt>
+<dt><code>vlistper</code></dt>
+<dt><code>restriction_fname</code></dt>
+<dt><code>nlags</code></dt>
+<dt><code>cross_restrictions</code></dt>
+<dt><code>contemp_reduced_form</code></dt>
+<dt><code>real_pseudo_forecast</code></dt>
+<dt><code>no_bayesian_prior</code></dt>
+<dt><code>dummy_obs</code></dt>
+<dt><code>nstates</code></dt>
+<dt><code>indxscalesstates</code></dt>
+<dt><code>alpha</code></dt>
+<dt><code>beta</code></dt>
+<dt><code>gsig2_lmdm</code></dt>
+<dt><code>q_diag</code></dt>
+<dt><code>flat_prior</code></dt>
+<dt><code>ncsk</code></dt>
+<dt><code>nstd</code></dt>
+<dt><code>ninv</code></dt>
+<dt><code>indxparr</code></dt>
+<dt><code>indxovr</code></dt>
+<dt><code>aband</code></dt>
+<dt><code>indxap</code></dt>
+<dt><code>apband</code></dt>
+<dt><code>indximf</code></dt>
+<dt><code>indxfore</code></dt>
+<dt><code>foreband</code></dt>
+<dt><code>indxgforhat</code></dt>
+<dt><code>indxgimfhat</code></dt>
+<dt><code>indxestima</code></dt>
+<dt><code>indxgdls</code></dt>
+<dt><code>eq_ms</code></dt>
+<dt><code>cms</code></dt>
+<dt><code>ncms</code></dt>
+<dt><code>eq_cms</code></dt>
+<dt><code>tlindx</code></dt>
+<dt><code>tlnumber</code></dt>
+<dt><code>cnum</code></dt>
+<dt><code>forecast</code></dt>
+<dt><code>coefficients_prior_hyperparameters</code></dt>
+</dl>
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-svar_005fidentification"></a>Block: <strong>svar_identification</strong> <em>;</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This block is terminated by <code>end;</code>, and contains lines of the
+form:
+</p><div class="example">
+<pre class="example">UPPER_CHOLESKY;
+LOWER_CHOLESKY;
+EXCLUSION CONSTANTS;
+EXCLUSION LAG <var>INTEGER</var>; <var>VARIABLE_NAME</var> [,<var>VARIABLE_NAME</var>&hellip;]
+EXCLUSION LAG <var>INTEGER</var>; EQUATION <var>INTEGER</var>, <var>VARIABLE_NAME</var> [,<var>VARIABLE_NAME</var>&hellip;]
+RESTRICTION EQUATION <var>INTEGER</var>, <var>EXPRESSION</var> = <var>EXPRESSION</var>;
+</pre></div>
+
+<p>To be documented. For now, see the wiki: <a href="http://www.dynare.org/DynareWiki/MarkovSwitchingInterface">http://www.dynare.org/DynareWiki/MarkovSwitchingInterface</a>
+</p>
+</dd></dl>
+
+<a name="ms_005festimation"></a><dl>
+<dt><a name="index-ms_005festimation"></a>Command: <strong>ms_estimation</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Triggers the creation of an initialization file for, and the estimation
+of, a Markov-switching SBVAR model. At the end of the run, the
+<SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_143.png"
+ ALT="$A^0$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_145.png"
+ ALT="$A^+$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_146.png"
+ ALT="$Q$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_147.png"
+ ALT="$\zeta$"></SPAN> matrices are contained
+in the <code>oo_.ms</code> structure.
+</p>
+<p><em>Options</em>
+</p>
+<p><em>General Options</em>
+</p><dl compact="compact">
+<dt><code>file_tag = <var>FILENAME</var></code></dt>
+<dd><p>The portion of the filename associated with this run. This will create
+the model initialization file, <code>init_&lt;file_tag&gt;.dat</code>. Default:
+<code>&lt;mod_file&gt;</code>
+</p>
+</dd>
+<dt><code>output_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>The portion of the output filename that will be assigned to this run.
+This will create, among other files,
+<code>est_final_&lt;output_file_tag&gt;.out</code>,
+<code>est_intermediate_&lt;output_file_tag&gt;.out</code>. Default:
+<code>&lt;file_tag&gt;</code>
+</p>
+</dd>
+<dt><code>no_create_init</code></dt>
+<dd><p>Do not create an initialization file for the model. Passing this option
+will cause the <i>Initialization Options</i> to be ignored. Further, the
+model will be generated from the output files associated with the
+previous estimation run (<i>i.e.</i> <code>est_final_&lt;file_tag&gt;.out</code>,
+<code>est_intermediate_&lt;file_tag&gt;.out</code> or <code>init_&lt;file_tag&gt;.dat</code>,
+searched for in sequential order). This functionality can be useful for
+continuing a previous estimation run to ensure convergence was reached
+or for reusing an initialization file. NB: If this option is not passed,
+the files from the previous estimation run will be overwritten. Default:
+<code>off</code> (<i>i.e.</i> create initialization file)
+</p>
+</dd>
+</dl>
+<p><em>Initialization Options</em>
+</p><dl compact="compact">
+<dt><code>coefficients_prior_hyperparameters = [<var>DOUBLE1</var> <var>DOUBLE2</var> <var>DOUBLE3</var> <var>DOUBLE4</var> <var>DOUBLE5</var> <var>DOUBLE6</var>]</code></dt>
+<dd><p>Sets the hyper parameters for the model. The six elements of the
+argument vector have the following interpretations:
+</p>
+<dl compact="compact">
+<dt><code>Position</code></dt>
+<dd><p><code>Interpretation</code>
+</p>
+</dd>
+<dt><code>1</code></dt>
+<dd><p>Overall tightness for <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_143.png"
+ ALT="$A^0$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_145.png"
+ ALT="$A^+$"></SPAN>
+</p>
+</dd>
+<dt><code>2</code></dt>
+<dd><p>Relative tightness for <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_145.png"
+ ALT="$A^+$"></SPAN>
+</p>
+</dd>
+<dt><code>3</code></dt>
+<dd><p>Relative tightness for the constant term
+</p>
+</dd>
+<dt><code>4</code></dt>
+<dd><p>Tightness on lag decay (range: 1.2 - 1.5); a faster decay produces
+better inflation process
+</p>
+</dd>
+<dt><code>5</code></dt>
+<dd><p>Weight on nvar sums of coeffs dummy observations (unit roots)
+</p>
+</dd>
+<dt><code>6</code></dt>
+<dd><p>Weight on single dummy initial observation including constant
+</p>
+</dd>
+</dl>
+
+<p>Default: <code>[1.0 1.0 0.1 1.2 1.0 1.0]</code>
+</p>
+</dd>
+<dt><code>freq = <var>INTEGER</var> | <code>monthly</code> | <code>quarterly</code> | <code>yearly</code></code></dt>
+<dd><p>Frequency of the data (<i>e.g.</i> <code>monthly</code>, <code>12</code>). Default:
+<code>4</code>
+</p>
+</dd>
+<dt><code>initial_year = <var>INTEGER</var></code></dt>
+<dd><p>The first year of data. Default: <code>none</code>
+</p>
+</dd>
+<dt><code>initial_subperiod = <var>INTEGER</var></code></dt>
+<dd><p>The first period of data (<i>i.e.</i> for quarterly data, an integer in
+[<code>1,4</code>]). Default: <code>1</code>
+</p>
+</dd>
+<dt><code>final_year = <var>INTEGER</var></code></dt>
+<dd><p>The last year of data. Default: Set to encompass entire dataset.
+</p>
+</dd>
+<dt><code>final_subperiod = <var>INTEGER</var></code></dt>
+<dd><p>The final period of data (<i>i.e.</i> for monthly data, an integer in
+[<code>1,12</code>]. Default: When final_year is also missing, set to
+encompass entire dataset; when final_year is indicated, set to the
+maximum number of subperiods given the frequency (<i>i.e</i>. 4 for
+quarterly data, 12 for monthly,...).
+</p>
+</dd>
+<dt><code>datafile = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="Estimation.html#datafile">datafile</a>.
+</p>
+</dd>
+<dt><code>xls_sheet = <var>NAME</var></code></dt>
+<dd><p>See <a href="Estimation.html#xls_005fsheet">xls_sheet</a>.
+</p>
+</dd>
+<dt><code>xls_range = <var>RANGE</var></code></dt>
+<dd><p>See <a href="Estimation.html#xls_005frange">xls_range</a>.
+</p>
+</dd>
+<dt><code>nlags = <var>INTEGER</var></code></dt>
+<dd><p>The number of lags in the model. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>cross_restrictions</code></dt>
+<dd><p>Use cross <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_143.png"
+ ALT="$A^0$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_145.png"
+ ALT="$A^+$"></SPAN> restrictions. Default: <code>off</code>
+</p>
+</dd>
+<dt><code>contemp_reduced_form</code></dt>
+<dd><p>Use contemporaneous recursive reduced form. Default: <code>off</code>
+</p>
+</dd>
+<dt><code>no_bayesian_prior</code></dt>
+<dd><p>Do not use Bayesian prior. Default: <code>off</code> (<i>i.e.</i> use Bayesian
+prior)
+</p>
+</dd>
+<dt><code>alpha = <var>INTEGER</var></code></dt>
+<dd><p>Alpha value for squared time-varying structural shock lambda. Default:
+<code>1</code>
+</p>
+</dd>
+<dt><code>beta = <var>INTEGER</var></code></dt>
+<dd><p>Beta value for squared time-varying structural shock lambda. Default:
+<code>1</code>
+</p>
+</dd>
+<dt><code>gsig2_lmdm = <var>INTEGER</var></code></dt>
+<dd><p>The variance for each independent <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_27.png"
+ ALT="$\lambda$"></SPAN> parameter under
+<code>SimsZha</code> restrictions. Default: <code>50^2</code>
+</p>
+</dd>
+<dt><code>specification = <code>sims_zha</code> | <code>none</code></code></dt>
+<dd><p>This controls how restrictions are imposed to reduce the number of
+parameters. Default: <code>Random Walk</code>
+</p>
+</dd>
+</dl>
+<p><em>Estimation Options</em>
+</p><dl compact="compact">
+<dt><code>convergence_starting_value = <var>DOUBLE</var></code></dt>
+<dd><p>This is the tolerance criterion for convergence and refers to changes in
+the objective function value. It should be rather loose since it will
+gradually be tightened during estimation. Default: <code>1e-3</code>
+</p>
+</dd>
+<dt><code>convergence_ending_value = <var>DOUBLE</var></code></dt>
+<dd><p>The convergence criterion ending value. Values much smaller than square
+root machine epsilon are probably overkill. Default: <code>1e-6</code>
+</p>
+</dd>
+<dt><code>convergence_increment_value = <var>DOUBLE</var></code></dt>
+<dd><p>Determines how quickly the convergence criterion moves from the starting
+value to the ending value. Default: <code>0.1</code>
+</p>
+</dd>
+<dt><code>max_iterations_starting_value = <var>INTEGER</var></code></dt>
+<dd><p>This is the maximum number of iterations allowed in the hill-climbing
+optimization routine and should be rather small since it will gradually
+be increased during estimation. Default: <code>50</code>
+</p>
+</dd>
+<dt><code>max_iterations_increment_value = <var>DOUBLE</var></code></dt>
+<dd><p>Determines how quickly the maximum number of iterations is
+increased. Default: <code>2</code>
+</p>
+</dd>
+<dt><code>max_block_iterations = <var>INTEGER</var></code></dt>
+<dd><a name="max_005fblock_005fiterations"></a><p>The parameters are divided into blocks and
+optimization proceeds over each block. After a set of blockwise
+optimizations are performed, the convergence criterion is checked and
+the blockwise optimizations are repeated if the criterion is
+violated. This controls the maximum number of times the blockwise
+optimization can be performed. Note that after the blockwise
+optimizations have converged, a single optimization over all the
+parameters is performed before updating the convergence value and
+maximum number of iterations. Default: <code>100</code>
+</p>
+</dd>
+<dt><code>max_repeated_optimization_runs = <var>INTEGER</var></code></dt>
+<dd><p>The entire process described by <a href="#max_005fblock_005fiterations">max_block_iterations</a> is repeated
+until improvement has stopped. This is the maximum number of times the
+process is allowed to repeat. Set this to <code>0</code> to not allow
+repetitions. Default: <code>10</code>
+</p>
+</dd>
+<dt><code>function_convergence_criterion = <var>DOUBLE</var></code></dt>
+<dd><p>The convergence criterion for the objective function when
+<code>max_repeated_optimizations_runs</code> is positive. Default: <code>0.1</code>
+</p>
+</dd>
+<dt><code>parameter_convergence_criterion = <var>DOUBLE</var></code></dt>
+<dd><p>The convergence criterion for parameter values when
+<code>max_repeated_optimizations_runs</code> is positive. Default: <code>0.1</code>
+</p>
+</dd>
+<dt><code>number_of_large_perturbations = <var>INTEGER</var></code></dt>
+<dd><p>The entire process described by <a href="#max_005fblock_005fiterations">max_block_iterations</a> is repeated
+with random starting values drawn from the posterior. This specifies the
+number of random starting values used. Set this to <code>0</code> to not use
+random starting values. A larger number should be specified to ensure
+that the entire parameter space has been covered. Default: <code>5</code>
+</p>
+</dd>
+<dt><code>number_of_small_perturbations = <var>INTEGER</var></code></dt>
+<dd><p>The number of small perturbations to make after the large perturbations
+have stopped improving. Setting this number much above <code>10</code> is
+probably overkill. Default: <code>5</code>
+</p>
+</dd>
+<dt><code>number_of_posterior_draws_after_perturbation = <var>INTEGER</var></code></dt>
+<dd><p>The number of consecutive posterior draws to make when producing a small
+perturbation. Because the posterior draws are serially correlated, a
+small number will result in a small perturbation. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>max_number_of_stages = <var>INTEGER</var></code></dt>
+<dd><p>The small and large perturbation are repeated until improvement has
+stopped. This specifics the maximum number of stages allowed. Default:
+<code>20</code>
+</p>
+</dd>
+<dt><code>random_function_convergence_criterion = <var>DOUBLE</var></code></dt>
+<dd><p>The convergence criterion for the objective function when
+<code>number_of_large_perturbations</code> is positive. Default: <code>0.1</code>
+</p>
+</dd>
+<dt><code>random_parameter_convergence_criterion = <var>DOUBLE</var></code></dt>
+<dd><p>The convergence criterion for parameter values when
+<code>number_of_large_perturbations</code> is positive. Default: <code>0.1</code>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">ms_estimation(datafile=data, initial_year=1959, final_year=2005,
+nlags=4, max_repeated_optimization_runs=1, max_number_of_stages=0);
+
+ms_estimation(file_tag=second_run, datafile=data, initial_year=1959,
+final_year=2005, nlags=4, max_repeated_optimization_runs=1,
+max_number_of_stages=0);
+
+ms_estimation(file_tag=second_run, output_file_tag=third_run,
+no_create_init, max_repeated_optimization_runs=5,
+number_of_large_perturbations=10);
+</pre></div>
+
+
+<a name="ms_005fsimulation"></a><dl>
+<dt><a name="index-ms_005fsimulation"></a>Command: <strong>ms_simulation</strong> <em>;</em></dt>
+<dt><a name="index-ms_005fsimulation-1"></a>Command: <strong>ms_simulation</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Simulates a Markov-switching SBVAR model.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>file_tag = <var>FILENAME</var></code></dt>
+<dd><a name="file_005ftag"></a><p>The portion of the filename associated with the
+<code>ms_estimation</code> run. Default: <code>&lt;mod_file&gt;</code>
+</p>
+</dd>
+<dt><code>output_file_tag = <var>FILENAME</var></code></dt>
+<dd><a name="output_005ffile_005ftag"></a><p>The portion of the output filename that will be
+assigned to this run. Default: <code>&lt;file_tag&gt;</code>
+</p>
+</dd>
+<dt><code>mh_replic = <var>INTEGER</var></code></dt>
+<dd><p>The number of draws to save. Default: <code>10,000</code>
+</p>
+</dd>
+<dt><code>drop = <var>INTEGER</var></code></dt>
+<dd><p>The number of burn-in draws. Default:
+<code>0.1*mh_replic*thinning_factor</code>
+</p>
+</dd>
+<dt><code>thinning_factor = <var>INTEGER</var></code></dt>
+<dd><p>The total number of draws is equal to
+<code>thinning_factor*mh_replic+drop</code>.  Default: <code>1</code>
+</p>
+</dd>
+<dt><code>adaptive_mh_draws = <var>INTEGER</var></code></dt>
+<dd><p>Tuning period for Metropolis-Hastings draws. Default: <code>30,000</code>
+</p>
+</dd>
+<dt><code>save_draws</code></dt>
+<dd><p>Save all elements of <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_143.png"
+ ALT="$A^0$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_145.png"
+ ALT="$A^+$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_146.png"
+ ALT="$Q$"></SPAN>, and
+<SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_147.png"
+ ALT="$\zeta$"></SPAN>, to a file named <code>draws_&lt;&lt;file_tag&gt;&gt;.out</code> with each
+draw on a separate line. A file that describes how these matrices are
+laid out is contained in <code>draws_header_&lt;&lt;file_tag&gt;&gt;.out</code>. A file
+called <code>load_flat_file.m</code> is provided to simplify loading the
+saved files into the corresponding variables <code>A0</code>, <code>Aplus</code>,
+<code>Q</code>, and <code>Zeta</code> in your MATLAB/Octave workspace. Default:
+<code>off</code>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">ms_simulation(file_tag=second_run);
+
+ms_simulation(file_tag=third_run, mh_replic=5000, thinning_factor=3);
+</pre></div>
+
+
+<a name="ms_005fcompute_005fmdd"></a><dl>
+<dt><a name="index-ms_005fcompute_005fmdd"></a>Command: <strong>ms_compute_mdd</strong> <em>;</em></dt>
+<dt><a name="index-ms_005fcompute_005fmdd-1"></a>Command: <strong>ms_compute_mdd</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Computes the marginal data density of a Markov-switching SBVAR model
+from the posterior draws. At the end of the run, the Muller and Bridged
+log marginal densities are contained in the <code>oo_.ms</code> structure.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#file_005ftag">file_tag</a>.
+</p>
+</dd>
+<dt><code>output_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#output_005ffile_005ftag">output_file_tag</a>.
+</p>
+</dd>
+<dt><code>simulation_file_tag = <var>FILENAME</var></code></dt>
+<dd><a name="simulation_005ffile_005ftag"></a><p>The portion of the filename associated with
+the simulation run.  Default: <code>&lt;file_tag&gt;</code>
+</p>
+</dd>
+<dt><code>proposal_type = <var>INTEGER</var></code></dt>
+<dd><p>The proposal type:
+</p><dl compact="compact">
+<dt><code>1</code></dt>
+<dd><p>Gaussian
+</p>
+</dd>
+<dt><code>2</code></dt>
+<dd><p>Power
+</p>
+</dd>
+<dt><code>3</code></dt>
+<dd><p>Truncated Power
+</p>
+</dd>
+<dt><code>4</code></dt>
+<dd><p>Step
+</p>
+</dd>
+<dt><code>5</code></dt>
+<dd><p>Truncated Gaussian
+</p>
+</dd>
+</dl>
+
+<p>Default: <code>3</code>
+</p>
+</dd>
+<dt><code>proposal_lower_bound = <var>DOUBLE</var></code></dt>
+<dd><p>The lower cutoff in terms of probability. Not used for
+<code>proposal_type</code> in [<code>1,2</code>]. Required for all other proposal
+types. Default: <code>0.1</code>
+</p>
+</dd>
+<dt><code>proposal_upper_bound = <var>DOUBLE</var></code></dt>
+<dd><p>The upper cutoff in terms of probability. Not used for
+<code>proposal_type</code> equal to <code>1</code>. Required for all other proposal
+types. Default: <code>0.9</code>
+</p>
+</dd>
+<dt><code>mdd_proposal_draws = <var>INTEGER</var></code></dt>
+<dd><p>The number of proposal draws. Default: <code>100,000</code>
+</p>
+</dd>
+<dt><code>mdd_use_mean_center</code></dt>
+<dd><p>Use the posterior mean as center. Default: <code>off</code>
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+
+<a name="ms_005fcompute_005fprobabilities"></a><dl>
+<dt><a name="index-ms_005fcompute_005fprobabilities"></a>Command: <strong>ms_compute_probabilities</strong> <em>;</em></dt>
+<dt><a name="index-ms_005fcompute_005fprobabilities-1"></a>Command: <strong>ms_compute_probabilities</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Computes smoothed regime probabilities of a Markov-switching SBVAR
+model. Output <code>.eps</code> files are contained in
+<code>&lt;output_file_tag/Output/Probabilities&gt;</code>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#file_005ftag">file_tag</a>.
+</p>
+</dd>
+<dt><code>output_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#output_005ffile_005ftag">output_file_tag</a>.
+</p>
+</dd>
+<dt><code>filtered_probabilities</code></dt>
+<dd><p>Filtered probabilities are computed instead of smoothed. Default:
+<code>off</code>
+</p>
+</dd>
+<dt><code>real_time_smoothed</code></dt>
+<dd><p>Smoothed probabilities are computed based on time <code>t</code> information
+for <!-- MATH
+ $0\le t\le nobs$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="92" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_148.png"
+ ALT="$0\le t\le nobs$"></SPAN>. Default: <code>off</code>
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+
+<a name="ms_005firf"></a><dl>
+<dt><a name="index-ms_005firf"></a>Command: <strong>ms_irf</strong> <em>;</em></dt>
+<dt><a name="index-ms_005firf-1"></a>Command: <strong>ms_irf</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Computes impulse response functions for a Markov-switching SBVAR
+model. Output <code>.eps</code> files are contained in
+<code>&lt;output_file_tag/Output/IRF&gt;</code>, while data files are contained in
+<code>&lt;output_file_tag/IRF&gt;</code>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#file_005ftag">file_tag</a>.
+</p>
+</dd>
+<dt><code>output_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#output_005ffile_005ftag">output_file_tag</a>.
+</p>
+</dd>
+<dt><code>simulation_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#simulation_005ffile_005ftag">simulation_file_tag</a>.
+</p>
+</dd>
+<dt><code>horizon = <var>INTEGER</var></code></dt>
+<dd><a name="horizon"></a><p>The forecast horizon. Default: <code>12</code>
+</p>
+</dd>
+<dt><code>filtered_probabilities</code></dt>
+<dd><a name="filtered_005fprobabilities"></a><p>Uses filtered probabilities at the end
+of the sample as initial conditions for regime probabilities. Only one
+of <code>filtered_probabilities</code>, <code>regime</code> and <code>regimes</code> may
+be passed. Default: <code>off</code>
+</p>
+</dd>
+<dt><code>error_band_percentiles = [<var>DOUBLE1</var> &hellip;]</code></dt>
+<dd><a name="error_005fband_005fpercentiles"></a><p>The percentiles to compute. Default:
+<code>[0.16 0.50 0.84]</code>. If <code>median</code> is passed, the default
+is <code>[0.5]</code>
+</p>
+</dd>
+<dt><code>shock_draws = <var>INTEGER</var></code></dt>
+<dd><a name="shock_005fdraws"></a><p>The number of regime paths to draw. Default:
+<code>10,000</code>
+</p>
+</dd>
+<dt><code>shocks_per_parameter = <var>INTEGER</var></code></dt>
+<dd><a name="shocks_005fper_005fparameter"></a><p>The number of regime paths to draw under
+parameter uncertainty. Default: <code>10</code>
+</p>
+</dd>
+<dt><code>thinning_factor = <var>INTEGER</var></code></dt>
+<dd><a name="thinning_005ffactor"></a><p>Only <!-- MATH
+ $1/@code{thinning_factor}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="170" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_149.png"
+ ALT="$1/@code{thinning_factor}$"></SPAN> of the
+draws in posterior draws file are used. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>free_parameters = <var>NUMERICAL_VECTOR</var></code></dt>
+<dd><a name="free_005fparameters"></a><p>A vector of free parameters to initialize theta
+of the model. Default: use estimated parameters
+</p>
+</dd>
+<dt><code>parameter_uncertainty</code></dt>
+<dd><a name="parameter_005funcertainty"></a><p>Calculate IRFs under parameter
+uncertainty. Requires that <code>ms_simulation</code> has been
+run. Default: <code>off</code>
+</p>
+</dd>
+<dt><code>regime = <var>INTEGER</var></code></dt>
+<dd><a name="regime"></a><p>Given the data and model parameters, what is the ergodic
+probability of being in the specified regime. Only one of
+<code>filtered_probabilities</code>, <code>regime</code> and <code>regimes</code> may be
+passed. Default: <code>off</code>
+</p>
+</dd>
+<dt><code>regimes</code></dt>
+<dd><a name="regimes"></a><p>Describes the evolution of regimes. Only one of
+<code>filtered_probabilities</code>, <code>regime</code> and <code>regimes</code> may be
+passed. Default: <code>off</code>
+</p>
+</dd>
+<dt><code>median</code></dt>
+<dd><a name="median"></a><p>A shortcut to setting
+<code>error_band_percentiles=[0.5]</code>. Default: <code>off</code>
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+
+<a name="ms_005fforecast"></a><dl>
+<dt><a name="index-ms_005fforecast"></a>Command: <strong>ms_forecast</strong> <em>;</em></dt>
+<dt><a name="index-ms_005fforecast-1"></a>Command: <strong>ms_forecast</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Generates forecasts for a Markov-switching SBVAR model. Output
+<code>.eps</code> files are contained in <code>&lt;output_file_tag/Output/Forecast&gt;</code>,
+while data files are contained in <code>&lt;output_file_tag/Forecast&gt;</code>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#file_005ftag">file_tag</a>.
+</p>
+</dd>
+<dt><code>output_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#output_005ffile_005ftag">output_file_tag</a>.
+</p>
+</dd>
+<dt><code>simulation_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#simulation_005ffile_005ftag">simulation_file_tag</a>.
+</p>
+</dd>
+<dt><code>data_obs_nbr = <var>INTEGER</var></code></dt>
+<dd><p>The number of data points included in the output. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>error_band_percentiles = [<var>DOUBLE1</var> &hellip;]</code></dt>
+<dd><p>See <a href="#error_005fband_005fpercentiles">error_band_percentiles</a>.
+</p>
+</dd>
+<dt><code>shock_draws = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#shock_005fdraws">shock_draws</a>.
+</p>
+</dd>
+<dt><code>shocks_per_parameter = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#shocks_005fper_005fparameter">shocks_per_parameter</a>.
+</p>
+</dd>
+<dt><code>thinning_factor = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#thinning_005ffactor">thinning_factor</a>.
+</p>
+</dd>
+<dt><code>free_parameters = <var>NUMERICAL_VECTOR</var></code></dt>
+<dd><p>See <a href="#free_005fparameters">free_parameters</a>.
+</p>
+</dd>
+<dt><code>parameter_uncertainty</code></dt>
+<dd><p>See <a href="#parameter_005funcertainty">parameter_uncertainty</a>.
+</p>
+</dd>
+<dt><code>regime = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#regime">regime</a>.
+</p>
+</dd>
+<dt><code>regimes</code></dt>
+<dd><p>See <a href="#regimes">regimes</a>.
+</p>
+</dd>
+<dt><code>median</code></dt>
+<dd><p>See <a href="#median">median</a>.
+</p>
+</dd>
+<dt><code>horizon = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#horizon">horizon</a>.
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+
+<a name="ms_005fvariance_005fdecomposition"></a><dl>
+<dt><a name="index-ms_005fvariance_005fdecomposition"></a>Command: <strong>ms_variance_decomposition</strong> <em>;</em></dt>
+<dt><a name="index-ms_005fvariance_005fdecomposition-1"></a>Command: <strong>ms_variance_decomposition</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><p><em>Description</em>
+</p>
+<p>Computes the variance decomposition for a Markov-switching SBVAR
+model. Output <code>.eps</code> files are contained in
+<code>&lt;output_file_tag/Output/Variance_Decomposition&gt;</code>, while data files
+are contained in <code>&lt;output_file_tag/Variance_Decomposition&gt;</code>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#file_005ftag">file_tag</a>.
+</p>
+</dd>
+<dt><code>output_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#output_005ffile_005ftag">output_file_tag</a>.
+</p>
+</dd>
+<dt><code>simulation_file_tag = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#simulation_005ffile_005ftag">simulation_file_tag</a>.
+</p>
+</dd>
+<dt><code>horizon = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#horizon">horizon</a>.
+</p>
+</dd>
+<dt><code>filtered_probabilities</code></dt>
+<dd><p>See <a href="#filtered_005fprobabilities">filtered_probabilities</a>.
+</p>
+</dd>
+<dt><code>no_error_bands</code></dt>
+<dd><p>Do not output percentile error bands (<i>i.e.</i> compute mean). Default:
+<code>off</code> (<i>i.e.</i> output error bands)
+</p>
+</dd>
+<dt><code>error_band_percentiles = [<var>DOUBLE1</var> &hellip;]</code></dt>
+<dd><p>See <a href="#error_005fband_005fpercentiles">error_band_percentiles</a>.
+</p>
+</dd>
+<dt><code>shock_draws = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#shock_005fdraws">shock_draws</a>.
+</p>
+</dd>
+<dt><code>shocks_per_parameter = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#shocks_005fper_005fparameter">shocks_per_parameter</a>.
+</p>
+</dd>
+<dt><code>thinning_factor = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#thinning_005ffactor">thinning_factor</a>.
+</p>
+</dd>
+<dt><code>free_parameters = <var>NUMERICAL_VECTOR</var></code></dt>
+<dd><p>See <a href="#free_005fparameters">free_parameters</a>.
+</p>
+</dd>
+<dt><code>parameter_uncertainty</code></dt>
+<dd><p>See <a href="#parameter_005funcertainty">parameter_uncertainty</a>.
+</p>
+</dd>
+<dt><code>regime = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="#regime">regime</a>.
+</p>
+</dd>
+<dt><code>regimes</code></dt>
+<dd>
+<p>See <a href="#regimes">regimes</a>.
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h3><a name="FOOT10" href="#DOCF10">(10)</a></h3>
+<p>If you want to align
+the paper with the description herein, please note that <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_142.png"
+ ALT="$A$"></SPAN> is
+<SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_143.png"
+ ALT="$A^0$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_144.png"
+ ALT="$F$"></SPAN> is <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_145.png"
+ ALT="$A^+$"></SPAN>.</p>
+<h3><a name="FOOT11" href="#DOCF11">(11)</a></h3>
+<p>An example can be found at <a href="https://github.com/DynareTeam/dynare/blob/master/tests/ms-dsge/test_ms_dsge.mod">https://github.com/DynareTeam/dynare/blob/master/tests/ms-dsge/test_ms_dsge.mod</a>.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Displaying-and-saving-results.html#Displaying-and-saving-results" accesskey="n" rel="next">Displaying and saving results</a>, Previous: <a href="Sensitivity-and-identification-analysis.html#Sensitivity-and-identification-analysis" accesskey="p" rel="prev">Sensitivity and identification analysis</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Optimal policy</title>
+
+<meta name="description" content="Dynare Reference Manual: Optimal policy">
+<meta name="keywords" content="Dynare Reference Manual: Optimal policy">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Sensitivity-and-identification-analysis.html#Sensitivity-and-identification-analysis" rel="next" title="Sensitivity and identification analysis">
+<link href="Forecasting.html#Forecasting" rel="prev" title="Forecasting">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Optimal-policy"></a>
+<div class="header">
+<p>
+Next: <a href="Sensitivity-and-identification-analysis.html#Sensitivity-and-identification-analysis" accesskey="n" rel="next">Sensitivity and identification analysis</a>, Previous: <a href="Forecasting.html#Forecasting" accesskey="p" rel="prev">Forecasting</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Optimal-policy-1"></a>
+<h3 class="section">4.19 Optimal policy</h3>
+
+<p>Dynare has tools to compute optimal policies for various types of
+objectives. <code>ramsey_model</code> computes automatically the First Order
+Conditions (FOC) of a model, given the <code>planner_objective</code>. You can
+then use other standard commands to solve, estimate or simulate this
+new, expanded model.
+</p>
+<p>Alternatively, you can either solve for optimal policy under commitment
+with <code>ramsey_policy</code>, for optimal policy under discretion with
+<code>discretionary_policy</code> or for optimal simple rule with
+<code>osr</code> (also implying commitment).
+</p>
+
+<a name="osr"></a>
+<dl>
+<dt><a name="index-osr"></a>Command: <strong>osr</strong> <em>[<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dt><a name="index-osr-1"></a>Command: <strong>osr</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command computes optimal simple policy rules for
+linear-quadratic problems of the form:
+</p>
+<blockquote>
+<p><!-- MATH
+ $\min_\gamma E(y'_tWy_t)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="111" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_117.png"
+ ALT="$\min_\gamma E(y'_tWy_t)$"></SPAN>
+</p></blockquote>
+
+<p>such that:
+</p><blockquote>
+<p><!-- MATH
+ $A_1 E_ty_{t+1}+A_2 y_t+ A_3 y_{t-1}+C e_t=0$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="265" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_118.png"
+ ALT="$A_1 E_ty_{t+1}+A_2 y_t+ A_3 y_{t-1}+C e_t=0$"></SPAN>
+</p></blockquote>
+
+<p>where:
+</p>
+<ul>
+<li> <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_52.png"
+ ALT="$E$"></SPAN> denotes the unconditional expectations operator;
+
+</li><li> <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_119.png"
+ ALT="$\gamma$"></SPAN> are parameters to be optimized. They must be elements
+of the matrices <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_120.png"
+ ALT="$A_1$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_121.png"
+ ALT="$A_2$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_122.png"
+ ALT="$A_3$"></SPAN>, <i>i.e.</i> be specified as
+parameters in the <code>params</code>-command and be entered in the
+<code>model</code>-block;
+
+</li><li> <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_42.png"
+ ALT="$y$"></SPAN> are the endogenous variables, specified in the
+<code>var</code>-command, whose (co)-variance enters the loss function;
+
+</li><li> <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_123.png"
+ ALT="$e$"></SPAN> are the exogenous stochastic shocks, specified in the
+<code>varexo</code>-command;
+
+</li><li> <SPAN CLASS="MATH"><IMG
+ WIDTH="22" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_124.png"
+ ALT="$W$"></SPAN> is the weighting matrix;
+
+</li></ul>
+
+<p>The linear quadratic problem consists of choosing a subset of model
+parameters to minimize the weighted (co)-variance of a specified subset
+of endogenous variables, subject to a linear law of motion implied by the
+first order conditions of the model. A few things are worth mentioning.
+First, <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_42.png"
+ ALT="$y$"></SPAN> denotes the selected endogenous variables&rsquo; deviations
+from their steady state, <i>i.e.</i> in case they are not already mean 0 the
+variables entering the loss function are automatically demeaned so that
+the centered second moments are minimized. Second, <code>osr</code> only solves
+linear quadratic problems of the type resulting from combining the
+specified quadratic loss function with a first order approximation to the
+model&rsquo;s equilibrium conditions. The reason is that the first order
+state-space representation is used to compute the unconditional
+(co)-variances. Hence, <code>osr</code> will automatically select
+<code>order=1</code>. Third, because the objective involves minimizing a
+weighted sum of unconditional second moments, those second moments must
+be finite. In particular, unit roots in <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_42.png"
+ ALT="$y$"></SPAN> are not allowed.
+</p>
+<p>The subset of the model parameters over which the optimal simple rule is
+to be optimized, <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_119.png"
+ ALT="$\gamma$"></SPAN>, must be listed with <code>osr_params</code>.
+</p>
+<p>The weighting matrix <SPAN CLASS="MATH"><IMG
+ WIDTH="22" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_124.png"
+ ALT="$W$"></SPAN> used for the quadratic objective function
+is specified in the <code>optim_weights</code>-block. By attaching weights to
+endogenous variables, the subset of endogenous variables entering the
+objective function, <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_42.png"
+ ALT="$y$"></SPAN>, is implicitly specified.
+</p>
+
+<p>The linear quadratic problem is solved using the numerical optimizer specified with <a href="#opt_005falgo">opt_algo</a>.
+</p>
+<p><em>Options</em>
+</p>
+<p>The <code>osr</code> command will subsequently run <code>stoch_simul</code> and
+accepts the same options, including restricting the endogenous variables
+by listing them after the command, as <code>stoch_simul</code>
+(see <a href="Stochastic-solution-and-simulation.html#Computing-the-stochastic-solution">Computing the stochastic solution</a>) plus
+</p>
+<dl compact="compact">
+<dt><code>opt_algo = <var>INTEGER</var></code></dt>
+<dd><a name="opt_005falgo"></a><p>Specifies the optimizer for minimizing the objective function. The same solvers as for <code>mode_compute</code> (see <a href="Estimation.html#mode_005fcompute">mode_compute</a>) are available, except for 5,6, and 10. 
+</p>
+</dd>
+<dt><code>optim = (<var>NAME</var>, <var>VALUE</var>, ...)</code></dt>
+<dd><p>A list of <var>NAME</var> and <var>VALUE</var> pairs. Can be used to set options for the optimization routines. The set of available options depends on the selected optimization routine (<i>i.e.</i> on the value of option <a href="#opt_005falgo">opt_algo</a>). See <a href="Estimation.html#optim">optim</a>.
+</p>
+</dd>
+<dt><code>maxit = <var>INTEGER</var></code></dt>
+<dd><p>Determines the maximum number of iterations used in <code>opt_algo=4</code>.  This option is now deprecated and will be 
+removed in a future release of Dynare. Use <code>optim</code> instead to set optimizer-specific values. Default: <code>1000</code>
+</p>
+</dd>
+<dt><code>tolf = <var>DOUBLE</var></code></dt>
+<dd><p>Convergence criterion for termination based on the function value used in <code>opt_algo=4</code>. Iteration will cease when it proves impossible to
+improve the function value by more than tolf.  This option is now deprecated and will be 
+removed in a future release of Dynare. Use <code>optim</code> instead to set optimizer-specific values. Default: <code>e-7</code>
+</p>
+</dd>
+<dt><code>silent_optimizer</code></dt>
+<dd><p>see <a href="Estimation.html#silent_005foptimizer">silent_optimizer</a>
+</p>
+</dd>
+<dt><code>huge_number = <var>DOUBLE</var></code></dt>
+<dd><p>Value for replacing the infinite bounds on parameters by finite numbers. Used by some optimizers for numerical reasons (see <a href="Estimation.html#huge_005fnumber">huge_number</a>).
+Users need to make sure that the optimal parameters are not larger than this value. Default: <code>1e7</code>
+</p>
+</dd>
+</dl>
+
+<p>The value of the objective is stored in the variable
+<code>oo_.osr.objective_function</code> and the value of parameters at the
+optimum is stored in <code>oo_.osr.optim_params</code>. See below for more
+details.
+</p>
+<p>After running <code>osr</code> the parameters entering the simple rule will be
+set to their optimal value so that subsequent runs of <code>stoch_simul</code>
+will be conducted at these values.
+</p>
+</dd></dl>
+
+<a name="osr_005fparams"></a><dl>
+<dt><a name="index-osr_005fparams"></a>Command: <strong>osr_params</strong> <em><var>PARAMETER_NAME</var>&hellip;;</em></dt>
+<dd><p>This command declares parameters to be optimized by <code>osr</code>.
+</p></dd></dl>
+
+<a name="optim_005fweights"></a><dl>
+<dt><a name="index-optim_005fweights"></a>Block: <strong>optim_weights</strong> <em>;</em></dt>
+<dd>
+<p>This block specifies quadratic objectives for optimal policy problems
+</p>
+<p>More precisely, this block specifies the nonzero elements of the weight
+matrix <SPAN CLASS="MATH"><IMG
+ WIDTH="22" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_124.png"
+ ALT="$W$"></SPAN> used in the quadratic form of the objective function in
+<code>osr</code>.
+</p>
+<p>An element of the diagonal of the weight matrix is given by a line of the
+form:
+</p><div class="example">
+<pre class="example"><var>VARIABLE_NAME</var> <var>EXPRESSION</var>;
+</pre></div>
+
+<p>An off-the-diagonal element of the weight matrix is given by a line of
+the form:
+</p><div class="example">
+<pre class="example"><var>VARIABLE_NAME</var>,  <var>VARIABLE_NAME</var> <var>EXPRESSION</var>;
+</pre></div>
+
+</dd></dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">var y inflation r; 
+varexo y_ inf_;
+
+parameters delta sigma alpha kappa gammarr gammax0 gammac0 gamma_y_ gamma_inf_;
+
+delta =  0.44;
+kappa =  0.18;
+alpha =  0.48;
+sigma = -0.06;
+
+gammarr = 0;
+gammax0 = 0.2;
+gammac0 = 1.5;
+gamma_y_ = 8;
+gamma_inf_ = 3;
+
+model(linear); 
+y  = delta * y(-1)  + (1-delta)*y(+1)+sigma *(r - inflation(+1)) + y_;
+inflation  =   alpha * inflation(-1) + (1-alpha) * inflation(+1) + kappa*y + inf_;
+r = gammax0*y(-1)+gammac0*inflation(-1)+gamma_y_*y_+gamma_inf_*inf_; 
+end;
+
+shocks; 
+var y_; stderr 0.63; 
+var inf_; stderr 0.4; 
+end;
+
+optim_weights; 
+inflation 1; 
+y 1; 
+y, inflation 0.5; 
+end;
+
+osr_params gammax0 gammac0 gamma_y_ gamma_inf_; 
+osr y; 
+</pre></div>
+
+
+<a name="osr_005fparams_005fbounds"></a><dl>
+<dt><a name="index-osr_005fparams_005fbounds"></a>Block: <strong>osr_params_bounds</strong> <em>;</em></dt>
+<dd>
+<p>This block declares lower and upper bounds for parameters in the optimal simple rule. If not specified
+the optimization is unconstrained.
+</p>
+<p>Each line has the following syntax:
+</p>
+<div class="example">
+<pre class="example">PARAMETER_NAME, LOWER_BOUND, UPPER_BOUND;
+</pre></div>
+
+<p>Note that the use of this block requires the use of a constrained optimizer, <i>i.e.</i> setting <a href="#opt_005falgo">opt_algo</a> to 
+1,2,5, or 9.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">
+
+osr_param_bounds;
+gamma_inf_, 0, 2.5;
+end;
+
+osr(solve_algo=9) y; 
+</pre></div>
+
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-oo_005f_002eosr_002eobjective_005ffunction"></a>MATLAB/Octave variable: <strong>oo_.osr.objective_function</strong></dt>
+<dd><p>After an execution of the <code>osr</code> command, this variable contains the value of
+the objective under optimal policy.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eosr_002eoptim_005fparams"></a>MATLAB/Octave variable: <strong>oo_.osr.optim_params</strong></dt>
+<dd><p>After an execution of the <code>osr</code> command, this variable contains the value of parameters
+at the optimum, stored in fields of the form
+<code>oo_.osr.optim_params.<var>PARAMETER_NAME</var></code>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-M_005f_002eosr_002eparam_005fnames"></a>MATLAB/Octave variable: <strong>M_.osr.param_names</strong></dt>
+<dd><p>After an execution of the <code>osr</code> command, this cell contains the names of the parameters
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-M_005f_002eosr_002eparam_005findices"></a>MATLAB/Octave variable: <strong>M_.osr.param_indices</strong></dt>
+<dd><p>After an execution of the <code>osr</code> command, this vector contains the indices of the OSR parameters
+in <var>M_.params</var>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-M_005f_002eosr_002eparam_005fbounds"></a>MATLAB/Octave variable: <strong>M_.osr.param_bounds</strong></dt>
+<dd><p>After an execution of the <code>osr</code> command, this two by number of OSR parameters
+matrix contains the lower and upper bounds of the parameters in the first and second
+column, respectively.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-M_005f_002eosr_002evariable_005fweights"></a>MATLAB/Octave variable: <strong>M_.osr.variable_weights</strong></dt>
+<dd><p>After an execution of the <code>osr</code> command, this sparse matrix
+contains the weighting matrix associated with the variables in the
+objective function.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-M_005f_002eosr_002evariable_005findices"></a>MATLAB/Octave variable: <strong>M_.osr.variable_indices</strong></dt>
+<dd><p>After an execution of the <code>osr</code> command, this vector contains the 
+indices of the variables entering the objective function in <code>M_.endo_names</code>.
+</p></dd></dl>
+
+<a name="Ramsey"></a>
+<dl>
+<dt><a name="index-ramsey_005fmodel"></a>Command: <strong>ramsey_model</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command computes the First Order Conditions for maximizing the policy maker objective function subject to the
+constraints provided by the equilibrium path of the private economy.
+</p>
+<p>The planner objective must be declared with the <code>planner_objective</code> command.
+</p>
+<p>This command only creates the expanded model, it doesn&rsquo;t perform any
+computations. It needs to be followed by other instructions to actually
+perform desired computations. Note that it is the only way to perform
+perfect foresight simulation of the Ramsey policy problem.
+</p>
+<p>See <a href="Auxiliary-variables.html#Auxiliary-variables">Auxiliary variables</a>, for an explanation of how Lagrange multipliers are
+automatically created.
+</p>
+<p><em>Options</em>
+</p>
+<p>This command accepts the following options:
+</p>
+<dl compact="compact">
+<dd>
+<a name="planner_005fdiscount"></a></dd>
+<dt><code>planner_discount = <var>EXPRESSION</var></code></dt>
+<dd><p>Declares or reassigns the discount factor of the central planner
+<code>optimal_policy_discount_factor</code>. Default: <code>1.0</code>
+</p>
+</dd>
+<dt><code>instruments = (<var>VARIABLE_NAME</var>,&hellip;)</code></dt>
+<dd><p>Declares instrument variables for the computation of the steady state
+under optimal policy. Requires a <code>steady_state_model</code> block or a
+<code>&hellip;_steadystate.m</code> file. See below.
+</p>
+</dd>
+</dl>
+
+<p><em>Steady state</em>
+<a name="Ramsey-steady-state"></a></p>
+<p>Dynare takes advantage of the fact that the Lagrange multipliers appear
+linearly in the equations of the steady state of the model under optimal
+policy. Nevertheless, it is in general very difficult to compute the
+steady state with simply a numerical guess in <code>initval</code> for the
+endogenous variables.
+</p>
+<p>It greatly facilitates the computation, if the user provides an
+analytical solution for the steady state (in <code>steady_state_model</code>
+block or in a <code>&hellip;_steadystate.m</code> file). In this case, it is
+necessary to provide a steady state solution CONDITIONAL on the value
+of the instruments in the optimal policy problem and declared with
+option <code>instruments</code>. Note that choosing the instruments is
+partly a matter of interpretation and you can choose instruments that
+are handy from a mathematical point of view but different from the
+instruments you would refer to in the analysis of the paper. A typical
+example is choosing inflation or nominal interest rate as an
+instrument.
+</p>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-ramsey_005fconstraints"></a>Block: <strong>ramsey_constraints</strong></dt>
+<dd><a name="ramsey_005fconstraints"></a>
+<p><em>Description</em>
+</p>
+<p>This block lets you define constraints on the variables in the Ramsey
+problem. The constraints take the form of a variable, an inequality
+operator (<code>&gt;</code> or <code>&lt;</code>) and a constant.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">ramsey_constraints;
+i &gt; 0;
+end;
+</pre></div>
+</dd></dl>
+ 
+<dl>
+<dt><a name="index-ramsey_005fpolicy"></a>Command: <strong>ramsey_policy</strong> <em>[<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dt><a name="index-ramsey_005fpolicy-1"></a>Command: <strong>ramsey_policy</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dd><a name="ramsey_005fpolicy"></a>
+<p><em>Description</em>
+</p>
+<p>This command computes the first order approximation of the policy that
+maximizes the policy maker&rsquo;s objective function subject to the
+constraints provided by the equilibrium path of the private economy and under 
+commitment to this optimal policy. The Ramsey policy is computed
+by approximating the equilibrium system around the perturbation point where the 
+Lagrange multipliers are at their steady state, <i>i.e.</i> where the Ramsey planner acts 
+as if the initial multipliers had 
+been set to 0 in the distant past, giving them time to converge to their steady 
+state value. Consequently, the optimal decision rules are computed around this steady state 
+of the endogenous variables and the Lagrange multipliers.
+</p>
+<p>This first order approximation to the optimal policy conducted by Dynare is not to be 
+confused with a naive linear quadratic approach to optimal policy that can lead to 
+spurious welfare rankings (see <cite>Kim and Kim (2003)</cite>). In the latter, the optimal policy 
+would be computed subject to the first order approximated FOCs of the 
+private economy. In contrast, Dynare first computes the FOCs of the Ramsey planner&rsquo;s problem
+subject to the nonlinear constraints that are the FOCs of the private economy 
+and only then approximates these FOCs of planner&rsquo;s problem to first order. Thereby, the second
+order terms that are required for a second-order correct welfare evaluation are 
+preserved.
+</p>
+<p>Note that the variables in the list after the <code>ramsey_policy</code>-command can also contain multiplier 
+names. In that case, Dynare will for example display the IRFs of the respective multipliers when <code>irf&gt;0</code>.
+</p>
+<p>The planner objective must be declared with the <code>planner_objective</code> command.
+</p>
+<p>See <a href="Auxiliary-variables.html#Auxiliary-variables">Auxiliary variables</a>, for an explanation of how this operator is handled
+internally and how this affects the output.
+</p>
+<p><em>Options</em>
+</p>
+<p>This command accepts all options of <code>stoch_simul</code>, plus:
+</p>
+<dl compact="compact">
+<dt><code>planner_discount = <var>EXPRESSION</var></code></dt>
+<dd><p>See <a href="#planner_005fdiscount">planner_discount</a>.
+</p>
+</dd>
+<dt><code>instruments = (<var>VARIABLE_NAME</var>,&hellip;)</code></dt>
+<dd><p>Declares instrument variables for the computation of the steady state
+under optimal policy. Requires a <code>steady_state_model</code> block or a
+<code>&hellip;_steadystate.m</code> file. See below.
+</p>
+</dd>
+</dl>
+
+<p>Note that only a first order approximation of the optimal Ramsey policy is 
+available, leading to a second-order accurate welfare ranking 
+(<i>i.e.</i> <code>order=1</code> must be specified).
+</p>
+<p><em>Output</em>
+</p>
+<p>This command generates all the output variables of <code>stoch_simul</code>. For specifying
+the initial values for the endogenous state variables (except for the Lagrange
+multipliers), see <a href="Initial-and-terminal-conditions.html#histval">histval</a>.
+</p>
+<a name="index-oo_005f_002eplanner_005fobjective_005fvalue"></a>
+<a name="planner_005fobjective_005fvalue"></a>
+<p>In addition, it stores the value of planner objective function under
+Ramsey policy in <code>oo_.planner_objective_value</code>, given the initial values 
+of the endogenous state variables. If not specified with <code>histval</code>, they are 
+taken to be at their steady state values. The result is a 1 by 2 
+vector, where the first entry stores the value of the planner objective when the initial Lagrange
+multipliers associated with the planner&rsquo;s problem are set to their steady state
+values (see <a href="#ramsey_005fpolicy">ramsey_policy</a>).
+</p>
+<p>In contrast, the second entry stores the value of the planner objective with 
+initial Lagrange multipliers of the planner&rsquo;s problem set to 0, <i>i.e.</i> it is assumed 
+that the planner exploits its ability to surprise private agents in the first
+period of implementing Ramsey policy. This is the value of implementating
+optimal policy for the first time and committing not to re-optimize in the future.
+</p>
+<p>Because it entails computing at least a second order approximation, this
+computation is skipped with a message when the model is too large (more than 180 state
+variables, including lagged Lagrange multipliers).
+<em>Steady state</em>
+See <a href="#Ramsey-steady-state">Ramsey steady state</a>.
+</p>
+
+</dd></dl>
+
+<a name="discretionary_005fpolicy"></a><dl>
+<dt><a name="index-discretionary_005fpolicy"></a>Command: <strong>discretionary_policy</strong> <em>[<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dt><a name="index-discretionary_005fpolicy-1"></a>Command: <strong>discretionary_policy</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command computes an approximation of the optimal policy under
+discretion. The algorithm implemented is essentially an LQ solver, and
+is described by <cite>Dennis (2007)</cite>.
+</p>
+<p>You should ensure that your model is linear and your objective is
+quadratic. Also, you should set the <code>linear</code> option of the
+<code>model</code> block.
+</p>
+<p><em>Options</em>
+</p>
+<p>This command accepts the same options than <code>ramsey_policy</code>, plus:
+</p>
+<dl compact="compact">
+<dt><code>discretionary_tol = <var>NON-NEGATIVE DOUBLE</var></code></dt>
+<dd><p>Sets the tolerance level used to assess convergence of the solution
+algorithm. Default: <code>1e-7</code>.
+</p>
+</dd>
+<dt><code>maxit = <var>INTEGER</var></code></dt>
+<dd><p>Maximum number of iterations. Default: <code>3000</code>.
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+
+<a name="planner_005fobjective"></a><dl>
+<dt><a name="index-planner_005fobjective"></a>Command: <strong>planner_objective</strong> <em><var>MODEL_EXPRESSION</var>;</em></dt>
+<dd>
+<p>This command declares the policy maker objective, for use with
+<code>ramsey_policy</code> or <code>discretionary_policy</code>.
+</p>
+<p>You need to give the one-period objective, not the discounted lifetime
+objective. The discount factor is given by the <code>planner_discount</code>
+option of <code>ramsey_policy</code> and <code>discretionary_policy</code>. The
+objective function can only contain current endogenous variables and no
+exogenous ones. This limitation is easily circumvented by defining an
+appropriate auxiliary variable in the model.
+</p>
+<p>With <code>ramsey_policy</code>, you are not limited to quadratic
+objectives: you can give any arbitrary nonlinear expression.
+</p>
+<p>With <code>discretionary_policy</code>, the objective function must be quadratic.
+</p></dd></dl>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Sensitivity-and-identification-analysis.html#Sensitivity-and-identification-analysis" accesskey="n" rel="next">Sensitivity and identification analysis</a>, Previous: <a href="Forecasting.html#Forecasting" accesskey="p" rel="prev">Forecasting</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

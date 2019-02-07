@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Windows Step-by-Step Guide</title>
+
+<meta name="description" content="Dynare Reference Manual: Windows Step-by-Step Guide">
+<meta name="keywords" content="Dynare Reference Manual: Windows Step-by-Step Guide">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Configuration-File.html#The-Configuration-File" rel="up" title="The Configuration File">
+<link href="Time-Series.html#Time-Series" rel="next" title="Time Series">
+<link href="Parallel-Configuration.html#Parallel-Configuration" rel="prev" title="Parallel Configuration">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Windows-Step_002dby_002dStep-Guide"></a>
+<div class="header">
+<p>
+Previous: <a href="Parallel-Configuration.html#Parallel-Configuration" accesskey="p" rel="prev">Parallel Configuration</a>, Up: <a href="The-Configuration-File.html#The-Configuration-File" accesskey="u" rel="up">The Configuration File</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Windows-Step_002dby_002dStep-Guide-1"></a>
+<h3 class="section">5.3 Windows Step-by-Step Guide</h3>
+
+<p>This section outlines the steps necessary on most Windows systems to set up Dynare for parallel execution. 
+</p>
+<ol>
+<li> Write a configuration file containing the options you want. A mimimum working 
+    example setting up a cluster consisting of two local CPU cores that allows for <i>e.g.</i> running
+    two Monte Carlo Markov Chains in parallel is shown below.
+</li><li> Save the configuration file somwhere. The name and file ending do not matter 
+    if you are providing it with the <code>conffile</code> command line option. The only restrictions are that the 
+    path must be a valid filename, not contain non-alpha-numeric characters, and not contain any whitespaces.
+    For the configuration file to be accessible without providing an explicit path at the command line, you must save it 
+    under the name <samp>dynare.ini</samp> into your user account&rsquo;s <code>Application Data</code> folder.
+</li><li> Install the <samp>PSTools</samp> from <a href="https://technet.microsoft.com/sysinternals/pstools.aspx">https://technet.microsoft.com/sysinternals/pstools.aspx</a> 
+    to your system, <i>e.g.</i> into <samp>C:\PSTools</samp>.
+</li><li> Set the Windows System Path to the <samp>PSTools</samp>-folder (<i>e.g.</i> using something along the line of pressing Windows Key+Pause to 
+    open the System Configuration, then go to Advanced -&gt; Environment Variables -&gt; Path, see also <a href="https://technet.microsoft.com/sysinternals/pstools.aspx">https://technet.microsoft.com/sysinternals/pstools.aspx</a>).
+</li><li> Restart your computer to make the path change effective.
+</li><li> Open Matlab and type into the command window 
+    
+<p><code>!psexec</code>
+</p>
+<p>This executes the 
+    <samp>psexec.exe</samp> of the <samp>PSTools</samp> on your system and 
+    shows whether Dynare will be able to locate it. If Matlab complains at this stage, 
+    you did not correctly set your Windows system path for the <samp>PSTools</samp>-folder.
+</p></li><li> If <samp>psexec.exe</samp> was located in the previous step, a popup will show up, asking 
+    for confirmation of the license agreement. 
+    Confirm this copyright notice of <samp>psexec</samp> (this needs to be done only once). 
+    After this, Dynare should be ready for parallel execution.
+</li><li> Call Dynare on your mod-file invoking the <code>parallel</code> option and providing the path to your configuration file 
+    with the <code>conffile</code>-option (if you did not save it as <samp>%APPDATA%\dynare.ini</samp> in step 2 
+    where it should be detected automatically)
+    
+<div class="example">
+<pre class="example">    dynare ls2003 parallel conffile='C:\Users\Dynare~1\parallel\conf_file.ini'
+    </pre></div>
+
+<p>Please keep in mind that no whitespaces or names longer than 8 characters are allowed in the <code>conffile</code>-path. 
+    The 8 character restriction can be circumvented
+    by using the tilde Windows path notation as in the above example.
+</p></li></ol>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">#cluster needs to always be defined first
+[cluster] 
+#Provide a name for the cluster
+Name=Local
+#declare the nodes being member of the cluster
+Members=n1 
+
+#declare nodes (they need not all be part of a cluster)
+[node] 
+#name of the node
+Name=n1 
+#name of the computer (localhost for the current machine)
+ComputerName=localhost 
+#cores to be included from this node
+CPUnbr=[1:2]
+#path to matlab.exe; on Windows, Matlab's bin folder is in the system path 
+#so we only need to provide the name of the exe file
+MatlabOctavePath=matlab 
+#Dynare path you are using
+DynarePath=C:\dynare\2016-05-10\matlab 
+
+</pre></div>
+
+
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Parallel-Configuration.html#Parallel-Configuration" accesskey="p" rel="prev">Parallel Configuration</a>, Up: <a href="The-Configuration-File.html#The-Configuration-File" accesskey="u" rel="up">The Configuration File</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

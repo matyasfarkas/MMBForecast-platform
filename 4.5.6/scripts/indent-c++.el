@@ -1,0 +1,6 @@
+(c++-mode)
+(setq indent-tabs-mode nil)
+(indent-region (point-min) (point-max))
+(set-buffer-file-coding-system 'utf-8-unix)
+(delete-trailing-whitespace)
+(save-buffer)

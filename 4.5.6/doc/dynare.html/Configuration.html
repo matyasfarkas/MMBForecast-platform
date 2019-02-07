@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Configuration</title>
+
+<meta name="description" content="Dynare Reference Manual: Configuration">
+<meta name="keywords" content="Dynare Reference Manual: Configuration">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Installation-and-configuration.html#Installation-and-configuration" rel="up" title="Installation and configuration">
+<link href="Running-Dynare.html#Running-Dynare" rel="next" title="Running Dynare">
+<link href="Compiler-installation.html#Prerequisites-on-macOS" rel="prev" title="Prerequisites on macOS">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Configuration"></a>
+<div class="header">
+<p>
+Previous: <a href="Compiler-installation.html#Compiler-installation" accesskey="p" rel="prev">Compiler installation</a>, Up: <a href="Installation-and-configuration.html#Installation-and-configuration" accesskey="u" rel="up">Installation and configuration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Configuration-1"></a>
+<h3 class="section">2.4 Configuration</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#For-MATLAB" accesskey="1">For MATLAB</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#For-GNU-Octave" accesskey="2">For GNU Octave</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Some-words-of-warning" accesskey="3">Some words of warning</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="For-MATLAB"></a>
+<div class="header">
+<p>
+Next: <a href="#For-GNU-Octave" accesskey="n" rel="next">For GNU Octave</a>, Up: <a href="#Configuration" accesskey="u" rel="up">Configuration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="For-MATLAB-1"></a>
+<h4 class="subsection">2.4.1 For MATLAB</h4>
+
+<p>You need to add the <samp>matlab</samp> subdirectory of your Dynare
+installation to MATLAB path. You have two options for doing that:
+</p>
+<ul>
+<li> Using the <code>addpath</code> command in the MATLAB command window:
+
+<p>Under Windows, assuming that you have installed Dynare in the standard
+location, and replacing <code>4.<var>x</var>.<var>y</var></code> with the correct
+version number, type:
+</p>
+<div class="example">
+<pre class="example">addpath c:\dynare\4.<var>x</var>.<var>y</var>\matlab
+</pre></div>
+
+<p>Under Debian GNU/Linux or Ubuntu, type:
+</p>
+<div class="example">
+<pre class="example">addpath /usr/lib/dynare/matlab
+</pre></div>
+
+<p>Under macOS, assuming that you have installed Dynare in the standard
+location, and replacing <code>4.<var>x</var>.<var>y</var></code> with the correct version
+number, type:
+</p>
+<div class="example">
+<pre class="example">addpath /Applications/Dynare/4.<var>x</var>.<var>y</var>/matlab
+</pre></div>
+
+<p>MATLAB will not remember this setting next time you run it, and you
+will have to do it again.
+</p>
+</li><li> Via the menu entries:
+
+<p>Select the &ldquo;Set Path&rdquo; entry in the &ldquo;File&rdquo; menu, then click on
+&ldquo;Add Folder&hellip;&rdquo;, and select the <samp>matlab</samp> subdirectory of &lsquo;your
+Dynare installation. Note that you <em>should not</em> use &ldquo;Add with
+Subfolders&hellip;&rdquo;. Apply the settings by clicking on &ldquo;Save&rdquo;. Note that
+MATLAB will remember this setting next time you run it.
+</p></li></ul>
+
+<hr>
+<a name="For-GNU-Octave"></a>
+<div class="header">
+<p>
+Next: <a href="#Some-words-of-warning" accesskey="n" rel="next">Some words of warning</a>, Previous: <a href="#For-MATLAB" accesskey="p" rel="prev">For MATLAB</a>, Up: <a href="#Configuration" accesskey="u" rel="up">Configuration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="For-GNU-Octave-1"></a>
+<h4 class="subsection">2.4.2 For GNU Octave</h4>
+
+<p>You need to add the <samp>matlab</samp> subdirectory of your Dynare
+installation to Octave path, using the <code>addpath</code> at the Octave
+command prompt.
+</p>
+<p>Under Windows, assuming that you have installed Dynare in the standard
+location, and replacing &ldquo;4.<var>x</var>.<var>y</var>&rdquo; with the correct version
+number, type:
+</p>
+<div class="example">
+<pre class="example">addpath c:\dynare\4.<var>x</var>.<var>y</var>\matlab
+</pre></div>
+
+<p>Under Debian GNU/Linux or Ubuntu, there is no need to use the
+<code>addpath</code> command; the packaging does it for you.
+</p>
+<p>Under macOS, assuming that you have installed Dynare and Octave via Homebrew, type:
+</p>
+<div class="example">
+<pre class="example">addpath /usr/local/opt/dynare/lib/dynare/matlab
+</pre></div>
+
+<p>If you don&rsquo;t want to type this command every time you run Octave, you
+can put it in a file called <samp>.octaverc</samp> in your home directory
+(under Windows this will generally be <samp>c:\Documents and
+Settings\USERNAME\</samp> while under macOS it is <samp>/Users/USERNAME/</samp>).
+This file is run by Octave at every startup.
+</p>
+<hr>
+<a name="Some-words-of-warning"></a>
+<div class="header">
+<p>
+Previous: <a href="#For-GNU-Octave" accesskey="p" rel="prev">For GNU Octave</a>, Up: <a href="#Configuration" accesskey="u" rel="up">Configuration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Some-words-of-warning-1"></a>
+<h4 class="subsection">2.4.3 Some words of warning</h4>
+
+<p>You should be very careful about the content of your MATLAB or Octave
+path. You can display its content by simply typing <code>path</code> in the
+command window.
+</p>
+<p>The path should normally contain system directories of MATLAB or Octave,
+and some subdirectories of your Dynare installation. You have to
+manually add the <samp>matlab</samp> subdirectory, and Dynare will
+automatically add a few other subdirectories at runtime (depending on
+your configuration). You must verify that there is no directory coming
+from another version of Dynare than the one you are planning to use.
+</p>
+<p>You have to be aware that adding other directories to your path can
+potentially create problems if any of your M-files have the same name
+as a Dynare file. Your file would then override the Dynare file, making
+Dynare unusable.
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#For-GNU-Octave" accesskey="p" rel="prev">For GNU Octave</a>, Up: <a href="#Configuration" accesskey="u" rel="up">Configuration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Shock Decomposition</title>
+
+<meta name="description" content="Dynare Reference Manual: Shock Decomposition">
+<meta name="keywords" content="Dynare Reference Manual: Shock Decomposition">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Calibrated-Smoother.html#Calibrated-Smoother" rel="next" title="Calibrated Smoother">
+<link href="Model-Comparison.html#Model-Comparison" rel="prev" title="Model Comparison">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Shock-Decomposition"></a>
+<div class="header">
+<p>
+Next: <a href="Calibrated-Smoother.html#Calibrated-Smoother" accesskey="n" rel="next">Calibrated Smoother</a>, Previous: <a href="Model-Comparison.html#Model-Comparison" accesskey="p" rel="prev">Model Comparison</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Shock-Decomposition-1"></a>
+<h3 class="section">4.16 Shock Decomposition</h3>
+
+<dl>
+<dt><a name="index-shock_005fdecomposition"></a>Command: <strong>shock_decomposition</strong> <em>[<var>VARIABLE_NAME</var>]&hellip;;</em></dt>
+<dt><a name="index-shock_005fdecomposition-1"></a>Command: <strong>shock_decomposition</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>]&hellip;;</em></dt>
+<dd><a name="shock_005fdecomposition"></a>
+<p><em>Description</em>
+</p>
+<p>This command computes the historical shock decomposition for a given sample based on 
+the Kalman smoother, <i>i.e.</i> it decomposes the historical deviations of the endogenous 
+variables from their respective steady state values into the contribution coming 
+from the various shocks. The <code>variable_names</code> provided govern for which 
+variables the decomposition is plotted.
+</p>
+<p>Note that this command must come after either <code>estimation</code> (in case
+of an estimated model) or <code>stoch_simul</code> (in case of a calibrated
+model).
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>parameter_set = <code>calibration</code> | <code>prior_mode</code> | <code>prior_mean</code> | <code>posterior_mode</code> | <code>posterior_mean</code> | <code>posterior_median</code> | <code>mle_mode</code></code></dt>
+<dd><a name="parameter_005fset"></a><p>Specify the parameter set to use for running the smoother. Note that the
+parameter set used in subsequent commands like <code>stoch_simul</code> will be set
+to the specified <code>parameter_set</code>. Default value: <code>posterior_mean</code> if
+Metropolis has been run, <code>mle_mode</code> if MLE has been run.
+</p>
+</dd>
+<dt><code>datafile = <var>FILENAME</var></code></dt>
+<dd><a name="datafile_005fshock_005fdecomp"></a><p>See <a href="Estimation.html#datafile">datafile</a>. Useful when computing the shock decomposition on a
+calibrated model.
+</p>
+</dd>
+<dt><code>first_obs = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#first_005fobs">first_obs</a>.
+</p>
+</dd>
+<dt><code>nobs = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#nobs">nobs</a>.
+</p>
+</dd>
+<dt><code>use_shock_groups [= <var>STRING</var>]</code></dt>
+<dd><a name="use_005fshock_005fgroups"></a><p>Uses shock grouping defined by the string instead of individual shocks in
+the decomposition. The groups of shocks are defined in the <a href="#shock_005fgroups">shock_groups</a> block.
+</p>
+</dd>
+<dt><code>colormap = <var>STRING</var></code></dt>
+<dd><a name="colormap"></a><p>Controls the colormap used for the shocks decomposition
+graphs. See <code>colormap</code> in Matlab/Octave manual for valid arguments.
+</p>
+</dd>
+<dt><code>nograph</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nograph">nograph</a>. Suppresses the display and creation only within the
+<code>shock_decomposition</code>-command, but does not affect other commands.
+See <a href="#plot_005fshock_005fdecomposition">plot_shock_decomposition</a> for plotting graphs.
+</p>
+</dd>
+<dt><code>init_state = <var>BOOLEAN</var></code></dt>
+<dd><a name="init_005fstate"></a><p>If equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>, the shock decomposition is computed conditional on the smoothed state
+variables in period <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>, <i>i.e.</i> the smoothed shocks starting in period
+<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> are used.  If equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>, the shock decomposition is computed
+conditional on the smoothed state variables in period <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>. Default:
+<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>
+</p></dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<dl>
+<dt><a name="index-oo_005f_002eshock_005fdecomposition"></a>MATLAB/Octave variable: <strong>oo_.shock_decomposition</strong></dt>
+<dd><a name="index-oo_005f_002eshock_005fdecomposition-1"></a>
+<a name="oo_005f_002eshock_005fdecomposition"></a><p>The results are stored in the field <code>oo_.shock_decomposition</code>, which is a three
+dimensional array. The first dimension contains the <code>M_.endo_nbr</code> endogenous variables. 
+The second dimension stores 
+in the first <code>M_.exo_nbr</code> columns the contribution of the respective shocks.
+Column <code>M_.exo_nbr+1</code> stores the contribution of the initial conditions,
+while column <code>M_.exo_nbr+2</code> stores the smoothed value of the respective
+endogenous variable in deviations from their steady state, <i>i.e.</i> the mean and trends are
+subtracted. The third dimension stores the time periods. Both the variables 
+and shocks are stored in the order of declaration, <i>i.e.</i> <code>M_.endo_names</code> and 
+<code>M_.exo_names</code>, respectively.
+</p></dd></dl>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-shock_005fgroups_003b"></a>Block: <strong>shock_groups;</strong></dt>
+<dt><a name="index-shock_005fgroups_0028OPTIONS_2026_0029_003b"></a>Block: <strong>shock_groups(<var>OPTIONS</var>&hellip;);</strong></dt>
+<dd>
+<a name="shock_005fgroups"></a><p>Shocks can be regrouped for the purpose of shock decomposition. The composition
+of the shock groups is written in a block delimited by <code>shock_groups</code> and
+<code>end</code>.
+</p>
+<p>Each line defines a group of shocks as a list of exogenous variables:
+</p>
+<div class="example">
+<pre class="example">SHOCK_GROUP_NAME   = VARIABLE_1 [[,] VARIABLE_2 [,]&hellip;];
+'SHOCK GROUP NAME' = VARIABLE_1 [[,] VARIABLE_2 [,]&hellip;];
+</pre></div>
+
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>name = <var>NAME</var></code></dt>
+<dd><p>Specifies a name for the following definition of shock groups. It is possible
+to use several <code>shock_groups</code> blocks in a model file, each grouping being
+identified by a different name. This name must in turn be used in the
+<code>shock_decomposition</code> command.
+</p>
+</dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">varexo e_a, e_b, e_c, e_d;
+
+&hellip;
+
+shock_groups(name=group1);
+supply = e_a, e_b;
+'aggregate demand' = e_c, e_d;
+end;
+
+shock_decomposition(use_shock_groups=group1);
+</pre></div>
+<p>This example defines a shock grouping with the name <code>group1</code>, containing a set of supply and demand shocks 
+and conducts the shock decomposition for these two groups.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-realtime_005fshock_005fdecomposition"></a>Command: <strong>realtime_shock_decomposition</strong> <em>[<var>VARIABLE_NAME</var>]&hellip;;</em></dt>
+<dt><a name="index-realtime_005fshock_005fdecomposition-1"></a>Command: <strong>realtime_shock_decomposition</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>]&hellip;;</em></dt>
+<dd><a name="realtime_005fshock_005fdecomposition"></a>
+<p><em>Description</em>
+</p>
+<p>This command computes the realtime historical shock decomposition for a given
+sample based on the Kalman smoother. For each period
+<!-- MATH
+ $T=[@code{presample},@dots{},@code{nobs}]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="292" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_89.png"
+ ALT="$T=[@code{presample},@dots{},@code{nobs}]$"></SPAN>, it recursively computes three objects:
+</p><ul>
+<li> realtime historical shock decomposition <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_90.png"
+ ALT="$Y(t\vert T)$"></SPAN> for <!-- MATH
+ $t=[1,@dots{},T]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="116" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_91.png"
+ ALT="$t=[1,@dots{},T]$"></SPAN>,
+<i>i.e.</i> without observing data in <!-- MATH
+ $[T+1,@dots{},@code{nobs}]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="182" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_92.png"
+ ALT="$[T+1,@dots{},@code{nobs}]$"></SPAN>. This results in a standard 
+shock decomposition being computed for each additional datapoint becoming available after <code>presample</code>.
+</li><li> forecast shock decomposition <SPAN CLASS="MATH"><IMG
+ WIDTH="85" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_93.png"
+ ALT="$Y(T+k\vert T)$"></SPAN> for <!-- MATH
+ $k=[1,@dots{},forecast]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="168" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_94.png"
+ ALT="$k=[1,@dots{},forecast]$"></SPAN>, <i>i.e.</i> the <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_35.png"
+ ALT="$k$"></SPAN>-step 
+ahead forecast made for every <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN> is decomposed in its shock contributions.
+</li><li> realtime conditional shock decomposition of the difference between the realtime historical shock decomposition and the 
+forecast shock decomposition. If <a href="#vintage">vintage</a> is equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>, it computes the effect of shocks realizing in period 
+<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN>, <i>i.e.</i> decomposes <!-- MATH
+ $Y(T|T)-Y(T|T-1)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="157" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_95.png"
+ ALT="$Y(T\vert T)-Y(T\vert T-1)$"></SPAN>. Put differently it conducts a <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>-period ahead shock decomposition from 
+<SPAN CLASS="MATH"><IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_96.png"
+ ALT="$T-1$"></SPAN> to <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN>, by decomposing the update step of the Kalman filter. If <code>vintage&gt;0</code> and smaller than <code>nobs</code>,
+the decomposition is conducted of the forecast revision <!-- MATH
+ $Y(T+k|T+k)-Y(T+k|T)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="214" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_97.png"
+ ALT="$Y(T+k\vert T+k)-Y(T+k\vert T)$"></SPAN>.
+
+</li></ul>
+
+<p>Like <a href="#shock_005fdecomposition">shock_decomposition</a> it decomposes the historical deviations of the endogenous 
+variables from their respective steady state values into the contribution coming 
+from the various shocks. The <code>variable_names</code> provided govern for which 
+variables the decomposition is plotted.
+</p>
+<p>Note that this command must come after either <code>estimation</code> (in case
+of an estimated model) or <code>stoch_simul</code> (in case of a calibrated
+model).
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>parameter_set = <code>calibration</code> | <code>prior_mode</code> | <code>prior_mean</code> | <code>posterior_mode</code> | <code>posterior_mean</code> | <code>posterior_median</code> | <code>mle_mode</code></code></dt>
+<dd><p>See <a href="#parameter_005fset">parameter_set</a>.
+</p>
+</dd>
+<dt><code>datafile = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="#datafile_005fshock_005fdecomp">datafile_shock_decomp</a>.
+</p>
+</dd>
+<dt><code>first_obs = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#first_005fobs">first_obs</a>.
+</p>
+</dd>
+<dt><code>nobs = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#nobs">nobs</a>.
+</p>
+</dd>
+<dt><code>use_shock_groups [= <var>STRING</var>]</code></dt>
+<dd><p>See <a href="#use_005fshock_005fgroups">use_shock_groups</a>.
+</p>
+</dd>
+<dt><code>colormap = <var>STRING</var></code></dt>
+<dd><p>See <a href="#colormap">colormap</a>.
+</p>
+</dd>
+<dt><code>nograph</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nograph">nograph</a>. Only shock decompositions are computed and stored in <code>oo_.realtime_shock_decomposition</code>,
+<code>oo_.conditional_shock_decomposition</code> and <code>oo_.realtime_forecast_shock_decomposition</code> but no plot is made 
+(See <a href="#plot_005fshock_005fdecomposition">plot_shock_decomposition</a>).
+</p>
+</dd>
+<dt><code>presample = <var>INTEGER</var></code></dt>
+<dd><a name="presample_005fshock_005fdecomposition"></a><p>Data point above which recursive
+realtime shock decompositions are computed, <i>i.e.</i> for
+<!-- MATH
+ $T=[@code{presample+1}@dots{}@code{nobs}]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="305" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_98.png"
+ ALT="$T=[@code{presample+1}@dots{}@code{nobs}]$"></SPAN>.
+</p>
+</dd>
+<dt><code>forecast = <var>INTEGER</var></code></dt>
+<dd><a name="forecast_005fshock_005fdecomposition"></a><p>Compute shock decompositions up to
+<SPAN CLASS="MATH"><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_99.png"
+ ALT="$T+k$"></SPAN> periods, <i>i.e.</i> get shock contributions to k-step ahead forecasts.
+</p>
+</dd>
+<dt><code>save_realtime = <var>INTEGER_VECTOR</var></code></dt>
+<dd><a name="save_005frealtime"></a><p>Choose for which vintages to save the full realtime
+shock decomposition. Default: <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>.
+</p></dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<dl>
+<dt><a name="index-oo_005f_002erealtime_005fshock_005fdecomposition"></a>MATLAB/Octave variable: <strong>oo_.realtime_shock_decomposition</strong></dt>
+<dd><a name="index-oo_005f_002erealtime_005fshock_005fdecomposition-1"></a>
+<p>Structure storing the results of realtime historical decompositions. Fields are three-dimensional arrays with 
+the first two dimension equal to the ones of <a href="#oo_005f_002eshock_005fdecomposition">oo_.shock_decomposition</a>. The third dimension stores the time 
+periods and is therefore of size <code>T+forecast</code>. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.realtime_shock_decomposition.<var>OBJECT</var></code>
+</pre></div>
+<p>where <var>OBJECT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>pool</code></dt>
+<dd><p>Stores the pooled decomposition, <i>i.e.</i> for every realtime shock decomposition terminal period
+<!-- MATH
+ $T=[@code{presample},@dots{},@code{nobs}]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="292" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_89.png"
+ ALT="$T=[@code{presample},@dots{},@code{nobs}]$"></SPAN> it collects the last period&rsquo;s decomposition <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_100.png"
+ ALT="$Y(T\vert T)$"></SPAN>
+(see also <a href="#plot_005fshock_005fdecomposition">plot_shock_decomposition</a>). The third dimension of the array will have size 
+<code>nobs+forecast</code>.
+</p>
+</dd>
+<dt><code>time_*</code></dt>
+<dd><p>Stores the vintages of realtime historical shock decompositions if <code>save_realtime</code> is used. For example, if
+<code>save_realtime=[5]</code> and <code>forecast=8</code>, the third dimension will be of size 13.
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002erealtime_005fconditional_005fshock_005fdecomposition"></a>MATLAB/Octave variable: <strong>oo_.realtime_conditional_shock_decomposition</strong></dt>
+<dd><a name="index-oo_005f_002erealtime_005fconditional_005fshock_005fdecomposition-1"></a>
+<p>Structure storing the results of realtime conditional decompositions. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.realtime_conditional_shock_decomposition.<var>OBJECT</var></code>
+</pre></div>
+<p>where <var>OBJECT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>pool</code></dt>
+<dd><p>Stores the pooled realtime conditional shock decomposition, <i>i.e.</i> collects the decompositions of 
+<!-- MATH
+ $Y(T|T)-Y(T|T-1)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="157" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_95.png"
+ ALT="$Y(T\vert T)-Y(T\vert T-1)$"></SPAN> for the terminal periods <!-- MATH
+ $T=[@code{presample},@dots{},@code{nobs}]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="292" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_89.png"
+ ALT="$T=[@code{presample},@dots{},@code{nobs}]$"></SPAN>. 
+The third dimension is of size <code>nobs</code>.
+</p>
+</dd>
+<dt><code>time_*</code></dt>
+<dd><p>Store the vintages of <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_35.png"
+ ALT="$k$"></SPAN>-step conditional forecast shock decompositions <SPAN CLASS="MATH"><IMG
+ WIDTH="80" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_101.png"
+ ALT="$Y(t\vert T+k)$"></SPAN>, for
+<!-- MATH
+ $t=[T@dots{}T+k]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="133" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_102.png"
+ ALT="$t=[T@dots{}T+k]$"></SPAN>. See <a href="#vintage">vintage</a>. The third dimension is of size <code>1+forecast</code>.
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002erealtime_005fforecast_005fshock_005fdecomposition"></a>MATLAB/Octave variable: <strong>oo_.realtime_forecast_shock_decomposition</strong></dt>
+<dd><a name="index-oo_005f_002erealtime_005fforecast_005fshock_005fdecomposition-1"></a>
+<p>Structure storing the results of realtime forecast decompositions. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.realtime_forecast_shock_decomposition.<var>OBJECT</var></code>
+</pre></div>
+<p>where <var>OBJECT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>pool</code></dt>
+<dd><p>Stores the pooled realtime forecast decomposition of the <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>-step ahead effect of shocks
+on the <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>-step ahead prediction, <i>i.e.</i> <SPAN CLASS="MATH"><IMG
+ WIDTH="85" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_103.png"
+ ALT="$Y(T\vert T-1)$"></SPAN>. 
+</p>
+</dd>
+<dt><code>time_*</code></dt>
+<dd><p>Stores the vintages of <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_35.png"
+ ALT="$k$"></SPAN>-step out-of-sample forecast shock
+decompositions, <i>i.e.</i> <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_90.png"
+ ALT="$Y(t\vert T)$"></SPAN>, for <!-- MATH
+ $t=[T@dots{}T+k]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="133" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_102.png"
+ ALT="$t=[T@dots{}T+k]$"></SPAN>. See <a href="#vintage">vintage</a>.
+</p></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-plot_005fshock_005fdecomposition"></a>Command: <strong>plot_shock_decomposition</strong> <em>[<var>VARIABLE_NAME</var>]&hellip;;</em></dt>
+<dt><a name="index-plot_005fshock_005fdecomposition-1"></a>Command: <strong>plot_shock_decomposition</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>]&hellip;;</em></dt>
+<dd><a name="plot_005fshock_005fdecomposition"></a>
+<p><em>Description</em>
+</p>
+<p>This command plots the historical shock decomposition already computed by
+<code>shock_decomposition</code> or <code>realtime_shock_decomposition</code>. For that reason,
+it must come after one of these commands. The <code>variable_names</code> provided govern which
+variables the decomposition is plotted for.
+</p>
+<p>Further note that, unlike the majority of Dynare commands, the options
+specified below are overwritten with their defaults before every call to
+<code>plot_shock_decomposition</code>. Hence, if you want to reuse an option in a
+subsequent call to <code>plot_shock_decomposition</code>, you must pass it to the
+command again.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>use_shock_groups [= <var>STRING</var>]</code></dt>
+<dd><p>See <a href="#use_005fshock_005fgroups">use_shock_groups</a>.
+</p>
+</dd>
+<dt><code>colormap = <var>STRING</var></code></dt>
+<dd><p>See <a href="#colormap">colormap</a>.
+</p>
+</dd>
+<dt><code>nodisplay</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nodisplay">nodisplay</a>.
+</p>
+</dd>
+<dt><code>graph_format = <var>FORMAT</var></code></dt>
+<dt><code>graph_format = ( <var>FORMAT</var>, <var>FORMAT</var>&hellip; )</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#graph_005fformat">graph_format</a>.
+</p>
+</dd>
+<dt><code>detail_plot</code></dt>
+<dd><p>Plots shock contributions using subplots, one per shock (or group of
+shocks). Default: not activated
+</p>
+</dd>
+<dt><code>interactive</code></dt>
+<dd><p>Under MATLAB, add uimenus for detailed group plots. Default: not activated
+</p>
+</dd>
+<dt><code>screen_shocks</code></dt>
+<dd><a name="screen_005fshcoks"></a><p>For large models (<i>i.e.</i> for models with more than <SPAN CLASS="MATH"><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_104.png"
+ ALT="$16$"></SPAN>
+shocks), plots only the shocks that have the largest historical contribution
+for chosen selected <code>variable_names</code>.  Historical contribution is ranked
+by the mean absolute value of all historical contributions.
+</p>
+</dd>
+<dt><code>steadystate</code></dt>
+<dd><a name="steadystate"></a><p>If passed, the the <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_42.png"
+ ALT="$y$"></SPAN>-axis value of the zero line in
+the shock decomposition plot is translated to the steady state level. Default:
+not activated
+</p>
+</dd>
+<dt><code>type = <code>qoq</code> | <code>yoy</code> | <code>aoa</code></code></dt>
+<dd><a name="type"></a><p>For quarterly data, valid arguments are: <code>qoq</code> for
+quarter-on-quarter plots, <code>yoy</code> for year-on-year plots of growth rates,
+<code>aoa</code> for annualized variables, <i>i.e.</i> the value in the last quarter for
+each year is plotted.  Default value: <code>empty</code>, <i>i.e.</i> standard
+period-on-period plots (<code>qoq</code> for quarterly data).
+</p>
+</dd>
+<dt><code>fig_name = <var>STRING</var></code></dt>
+<dd><a name="fig_005fname"></a><p>Specifies a user-defined keyword to be appended to the
+default figure name set by <code>plot_shock_decomposition</code>.  This can avoid to
+overwrite plots in case of sequential calls to <code>plot_shock_decomposition</code>.
+</p>
+</dd>
+<dt><code>write_xls</code></dt>
+<dd><a name="write_005fxls"></a><p>Saves shock decompositions to Excel-file in the main directory, named 
+<code>FILENAME_shock_decomposition_TYPE_FIG_NAME.xls</code>. This option requires your system to be
+configured to be able to write Excel files.<a name="DOCF7" href="#FOOT7"><sup>7</sup></a>
+</p>
+</dd>
+<dt><code>realtime = <var>INTEGER</var></code></dt>
+<dd><a name="realtime"></a><p>Which kind of shock decomposition to plot. <var>INTEGER</var> can take following values:
+</p><ul>
+<li> <code>0</code>: standard historical shock decomposition. See <a href="#shock_005fdecomposition">shock_decomposition</a>.
+</li><li> <code>1</code>: realtime historical shock decomposition. See <a href="#realtime_005fshock_005fdecomposition">realtime_shock_decomposition</a>.
+</li><li> <code>2</code>: conditional realtime shock decomposition. See <a href="#realtime_005fshock_005fdecomposition">realtime_shock_decomposition</a>.
+</li><li> <code>3</code>: realtime forecast shock decomposition. See <a href="#realtime_005fshock_005fdecomposition">realtime_shock_decomposition</a>.
+</li></ul>
+<p>If no <a href="#vintage">vintage</a> is requested, <i>i.e.</i> <code>vintage=0</code> then the pooled objects from <a href="#realtime_005fshock_005fdecomposition">realtime_shock_decomposition</a>
+will be plotted and the respective vintage otherwise.
+Default: <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>
+</p>
+</dd>
+<dt><code>vintage = <var>INTEGER</var></code></dt>
+<dd><a name="vintage"></a><p>Selects a particular data vintage in <!-- MATH
+ $[presample,@dots{},nobs]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="174" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_105.png"
+ ALT="$[presample,@dots{},nobs]$"></SPAN> for which to plot the results from
+<a href="#realtime_005fshock_005fdecomposition">realtime_shock_decomposition</a> selected via the <a href="#realtime">realtime</a> option. If the standard 
+historical shock decomposition is selected (<code>realtime=0</code>), <code>vintage</code> will have no effect. If <code>vintage=0</code>
+the pooled objects from <a href="#realtime_005fshock_005fdecomposition">realtime_shock_decomposition</a> will be plotted. If <code>vintage&gt;0</code>, it plots the shock
+decompositions for vintage <!-- MATH
+ $T=@code{vintage}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="133" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_106.png"
+ ALT="$T=@code{vintage}$"></SPAN> under the following scenarios:
+</p><ul>
+<li> <code>realtime=1</code>: the full vintage shock decomposition <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_90.png"
+ ALT="$Y(t\vert T)$"></SPAN> for
+<!-- MATH
+ $t=[1,@dots{},T]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="116" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_91.png"
+ ALT="$t=[1,@dots{},T]$"></SPAN>
+</li><li> <code>realtime=2</code>: the conditional forecast shock decomposition from <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN>,
+<i>i.e.</i> plots <SPAN CLASS="MATH"><IMG
+ WIDTH="111" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_107.png"
+ ALT="$Y(T+j\vert T+j)$"></SPAN> and the shock contributions needed to get to
+the data <SPAN CLASS="MATH"><IMG
+ WIDTH="68" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_108.png"
+ ALT="$Y(T+j)$"></SPAN> conditional on <SPAN CLASS="MATH"><IMG
+ WIDTH="33" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_109.png"
+ ALT="$T=$"></SPAN><code>vintage</code>, with
+<!-- MATH
+ $j=[0,@dots{},@code{forecast}]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="209" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_110.png"
+ ALT="$j=[0,@dots{},@code{forecast}]$"></SPAN>.
+</li><li> <code>realtime=3</code>: plots unconditional forecast shock decomposition from
+<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN>, <i>i.e.</i> <SPAN CLASS="MATH"><IMG
+ WIDTH="84" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_111.png"
+ ALT="$Y(T+j\vert T)$"></SPAN>, where <!-- MATH
+ $T=@code{vintage}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="133" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_106.png"
+ ALT="$T=@code{vintage}$"></SPAN> and
+<!-- MATH
+ $j=[0,@dots{},@code{forecast}]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="209" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_110.png"
+ ALT="$j=[0,@dots{},@code{forecast}]$"></SPAN>.
+</li></ul>
+<p>Default: <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>
+</p></dd>
+</dl>
+
+</dd></dl>
+
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h3><a name="FOOT7" href="#DOCF7">(7)</a></h3>
+<p>In case of Excel not being installed, 
+<a href="https://mathworks.com/matlabcentral/fileexchange/38591-xlwrite--generate-xls-x--files-without-excel-on-mac-linux-win">https://mathworks.com/matlabcentral/fileexchange/38591-xlwrite--generate-xls-x--files-without-excel-on-mac-linux-win</a> may be helpful.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Calibrated-Smoother.html#Calibrated-Smoother" accesskey="n" rel="next">Calibrated Smoother</a>, Previous: <a href="Model-Comparison.html#Model-Comparison" accesskey="p" rel="prev">Model Comparison</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

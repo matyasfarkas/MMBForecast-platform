@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Dynare invocation</title>
+
+<meta name="description" content="Dynare Reference Manual: Dynare invocation">
+<meta name="keywords" content="Dynare Reference Manual: Dynare invocation">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Running-Dynare.html#Running-Dynare" rel="up" title="Running Dynare">
+<link href="Dynare-hooks.html#Dynare-hooks" rel="next" title="Dynare hooks">
+<link href="Running-Dynare.html#Running-Dynare" rel="prev" title="Running Dynare">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Dynare-invocation"></a>
+<div class="header">
+<p>
+Next: <a href="Dynare-hooks.html#Dynare-hooks" accesskey="n" rel="next">Dynare hooks</a>, Up: <a href="Running-Dynare.html#Running-Dynare" accesskey="u" rel="up">Running Dynare</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Dynare-invocation-1"></a>
+<h3 class="section">3.1 Dynare invocation</h3>
+
+<p>Once the model file is written, Dynare is invoked using the
+<code>dynare</code> command at the MATLAB or Octave prompt (with the filename
+of the <samp>.mod</samp> given as argument).
+</p>
+<p>In practice, the handling of the model file is done in two steps: in the
+first one, the model and the processing instructions written by the user
+in a <em>model file</em> are interpreted and the proper MATLAB or GNU
+Octave instructions are generated; in the second step, the program
+actually runs the computations. Both steps are triggered automatically
+by the <code>dynare</code> command.
+</p>
+<dl>
+<dt><a name="index-dynare"></a>MATLAB/Octave command: <strong>dynare</strong> <em><var>FILENAME</var>[.mod] [<var>OPTIONS</var>&hellip;]</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command launches Dynare and executes the instructions included in
+<samp><var>FILENAME</var>.mod</samp>.  This user-supplied file contains the model
+and the processing instructions, as described in <a href="The-Model-file.html#The-Model-file">The Model file</a>.
+</p>
+<p><code>dynare</code> begins by launching the preprocessor on the <samp>.mod</samp>
+file.  By default (unless <code>use_dll</code> option has been given to
+<code>model</code>), the preprocessor creates three intermediary files:
+</p>
+<dl compact="compact">
+<dt><samp><var>FILENAME</var>.m</samp></dt>
+<dd><p>Contains variable declarations, and computing tasks
+</p>
+</dd>
+<dt><samp><var>FILENAME</var>_dynamic.m</samp></dt>
+<dd><a name="index-M_005f_002elead_005flag_005fincidence"></a>
+<p>Contains the dynamic model equations. Note that Dynare might introduce auxiliary equations and variables (see <a href="Auxiliary-variables.html#Auxiliary-variables">Auxiliary variables</a>). Outputs are the residuals of the dynamic model equations in the order the equations were declared and the Jacobian of the dynamic model equations. For higher order approximations also the Hessian and the third-order derivatives are provided. When computing the Jacobian of the dynamic model, the order of the endogenous variables in the columns is stored in <code>M_.lead_lag_incidence</code>. The rows of this matrix represent time periods: the first row denotes a lagged (time t-1) variable, the second row a contemporaneous (time t) variable, and the third row a leaded (time t+1) variable. The columns of the matrix represent the endogenous variables in their order of declaration. A zero in the matrix means that this endogenous does not appear in the model in this time period. The value in the <code>M_.lead_lag_incidence</code> matrix corresponds to the column of that variable in the Jacobian of the dynamic model. Example: Let the second declared variable be <code>c</code> and the <code>(3,2)</code> entry of <code>M_.lead_lag_incidence</code> be <code>15</code>. Then the <code>15</code>th column of the Jacobian is the derivative with respect to <code>c(+1)</code>.
+</p>
+</dd>
+<dt><samp><var>FILENAME</var>_static.m</samp></dt>
+<dd><p>Contains the long run static model equations. Note that Dynare might introduce auxiliary equations and variables (see <a href="Auxiliary-variables.html#Auxiliary-variables">Auxiliary variables</a>). Outputs are the residuals of the static model equations in the order the equations were declared and the Jacobian of the static equations. Entry <code>(i,j)</code> of the Jacobian represents the derivative of the <code>i</code>th static model equation with respect to the <code>j</code>th model variable in declaration order.
+</p></dd>
+</dl>
+
+<p>These files may be looked at to understand errors reported at the simulation stage.
+</p>
+<p><code>dynare</code> will then run the computing tasks by executing <samp><var>FILENAME</var>.m</samp>.
+</p>
+<p>A few words of warning is warranted here: the filename of the
+<samp>.mod</samp> file should be chosen in such a way that the generated
+<samp>.m</samp> files described above do not conflict with <samp>.m</samp> files
+provided by MATLAB/Octave or by Dynare. Not respecting this rule could
+cause crashes or unexpected behaviour. In particular, it means that
+the <samp>.mod</samp> file cannot be given the name of a MATLAB/Octave or
+Dynare command. Under Octave, it also means that the <samp>.mod</samp> file
+cannot be named <samp>test.mod</samp>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>noclearall</code></dt>
+<dd><p>By default, <code>dynare</code> will issue a <code>clear all</code> command to
+MATLAB (&lt;R2015b) or Octave, thereby deleting all workspace variables and
+functions; this option instructs <code>dynare</code> not to clear the
+workspace. Note that starting with Matlab 2015b <code>dynare</code> only
+deletes the global variables and the functions using persistent
+variables, in order to benefit from the JIT (Just In Time)
+compilation. In this case the option instructs <code>dynare</code> not to
+clear the globals and functions.
+</p>
+</dd>
+<dt><code>onlyclearglobals</code></dt>
+<dd><p>By default, <code>dynare</code> will issue a <code>clear all</code> command to
+MATLAB versions before 2015b and to Octave, thereby deleting all workspace variables; this
+option instructs <code>dynare</code> to clear only the global variables
+(<i>i.e.</i> <code>M_</code>, <code>options_</code>, <code>oo_</code>,
+<code>estim_params_</code>, <code>bayestopt_</code>, and <code>dataset_</code>), leaving
+the other variables in the workspace.
+</p>
+</dd>
+<dt><code>debug</code></dt>
+<dd><p>Instructs the preprocessor to write some debugging information about the
+scanning and parsing of the <samp>.mod</samp> file
+</p>
+</dd>
+<dt><code>notmpterms</code></dt>
+<dd><p>Instructs the preprocessor to omit temporary terms in the static and
+dynamic files; this generally decreases performance, but is used for
+debugging purposes since it makes the static and dynamic files more
+readable
+</p>
+</dd>
+<dt><code>savemacro[=<var>FILENAME</var>]</code></dt>
+<dd><p>Instructs <code>dynare</code> to save the intermediary file which is obtained
+after macro-processing (see <a href="Macro_002dprocessing-language.html#Macro_002dprocessing-language">Macro-processing language</a>); the saved
+output will go in the file specified, or if no file is specified in
+<samp><var>FILENAME</var>-macroexp.mod</samp>
+</p>
+</dd>
+<dt><code>onlymacro</code></dt>
+<dd><p>Instructs the preprocessor to only perform the macro-processing step,
+and stop just after. Mainly useful for debugging purposes or for using
+the macro-processor independently of the rest of Dynare toolbox.
+</p>
+</dd>
+<dt><code>nolinemacro</code></dt>
+<dd><p>Instructs the macro-preprocessor to omit line numbering information in
+the intermediary <samp>.mod</samp> file created after the macro-processing
+step. Useful in conjunction with <code>savemacro</code> when one wants that to
+reuse the intermediary <samp>.mod</samp> file, without having it cluttered by
+line numbering directives.
+</p>
+</dd>
+<dt><code>nolog</code></dt>
+<dd><p>Instructs Dynare to no create a logfile of this run in
+<samp><var>FILENAME</var>.log</samp>. The default is to create the logfile.
+</p>
+</dd>
+<dt><code>params_derivs_order=0|1|2</code></dt>
+<dd><p>When <a href="Sensitivity-and-identification-analysis.html#identification">identification</a>, <a href="Sensitivity-and-identification-analysis.html#dynare_005fsensitivity">dynare_sensitivity</a> (with identification), or
+<a href="Estimation.html#estimation_005fcmd">estimation_cmd</a> are present, this option is used to limit the order of the
+derivatives with respect to the parameters that are calculated by the
+preprocessor. <code>0</code> means no derivatives, <code>1</code> means first derivatives,
+and <code>2</code> means second derivatives. Default: <code>2</code>
+</p>
+</dd>
+<dt><code>nowarn</code></dt>
+<dd><p>Suppresses all warnings.
+</p>
+</dd>
+<dt><code>warn_uninit</code></dt>
+<dd><p>Display a warning for each variable or parameter which is not
+initialized. See <a href="Parameter-initialization.html#Parameter-initialization">Parameter initialization</a>, or
+<a href="Misc-commands.html#load_005fparams_005fand_005fsteady_005fstate">load_params_and_steady_state</a> for initialization of parameters.
+See <a href="Initial-and-terminal-conditions.html#Initial-and-terminal-conditions">Initial and terminal conditions</a>, or
+<a href="Misc-commands.html#load_005fparams_005fand_005fsteady_005fstate">load_params_and_steady_state</a> for initialization of endogenous
+and exogenous variables.
+</p>
+</dd>
+<dt><code>console</code></dt>
+<dd><p>Activate console mode. In addition to the behavior of
+<code>nodisplay</code>, Dynare will not use graphical waitbars for long
+computations.
+</p>
+</dd>
+<dt><code>nograph</code></dt>
+<dd><p>Activate the <code>nograph</code> option (see <a href="Stochastic-solution-and-simulation.html#nograph">nograph</a>), so that Dynare will not produce any
+graph
+</p>
+</dd>
+<dt><code>nointeractive</code></dt>
+<dd><a name="nointeractive"></a><p>Instructs Dynare to not request user input.
+</p>
+</dd>
+<dt><code>nopathchange</code></dt>
+<dd><p>By default Dynare will change Matlab/Octave&rsquo;s path if
+<samp>dynare/matlab</samp> directory is not on top and if Dynare&rsquo;s routines
+are overriden by routines provided in other toolboxes. If one wishes to
+override Dynare&rsquo;s routines, the <code>nopathchange</code> options can be
+used. Alternatively, the path can be temporarly modified by the user at
+the top of the <samp>*.mod</samp> file (using Matlab/Octave&rsquo;s <code>addpath</code>
+command).
+</p>
+</dd>
+<dt><code>mingw</code></dt>
+<dd><p>Tells Dynare that your MATLAB is configured for compiling MEX files with the
+MinGW-compiler from TDM-GCC (see <a href="Compiler-installation.html#Compiler-installation">Compiler installation</a>). This option is
+only available under Windows, and is used in conjunction with
+<code>use_dll</code>.
+</p>
+</dd>
+<dt><code>msvc</code></dt>
+<dd><p>Tells Dynare that your MATLAB is configured for compiling MEX files with
+Microsoft Visual C++ (see <a href="Compiler-installation.html#Compiler-installation">Compiler installation</a>). This option is
+only available under Windows, and is used in conjunction with
+<code>use_dll</code>.
+</p>
+</dd>
+<dt><code>cygwin</code></dt>
+<dd><p>Tells Dynare that your MATLAB is configured for compiling MEX files with
+Cygwin (see <a href="Compiler-installation.html#Compiler-installation">Compiler installation</a>). This option is only available
+under Windows, and is used in conjunction with <code>use_dll</code>.
+</p>
+</dd>
+<dt><code>parallel[=<var>CLUSTER_NAME</var>]</code></dt>
+<dd><p>Tells Dynare to perform computations in parallel. If <var>CLUSTER_NAME</var>
+is passed, Dynare will use the specified cluster to perform parallel
+computations. Otherwise, Dynare will use the first cluster specified in
+the configuration file. See <a href="The-Configuration-File.html#The-Configuration-File">The Configuration File</a>, for more
+information about the configuration file.
+</p>
+</dd>
+<dt><code>conffile=<var>FILENAME</var></code></dt>
+<dd><p>Specifies the location of the configuration file if it differs from the
+default. See <a href="The-Configuration-File.html#The-Configuration-File">The Configuration File</a>, for more information about the
+configuration file and its default location.
+</p>
+</dd>
+<dt><code>parallel_slave_open_mode</code></dt>
+<dd><p>Instructs Dynare to leave the connection to the slave node open after
+computation is complete, closing this connection only when Dynare
+finishes processing.
+</p>
+</dd>
+<dt><code>parallel_test</code></dt>
+<dd><p>Tests the parallel setup specified in the configuration file without
+executing the <samp>.mod</samp> file. See <a href="The-Configuration-File.html#The-Configuration-File">The Configuration File</a>, for more
+information about the configuration file.
+</p>
+</dd>
+<dt><code>-D<var>MACRO_VARIABLE</var>=<var>MACRO_EXPRESSION</var></code></dt>
+<dd><p>Defines a macro-variable from the command line (the same effect as using
+the Macro directive <code>@#define</code> in a model file, see <a href="Macro_002dprocessing-language.html#Macro_002dprocessing-language">Macro-processing language</a>).
+</p>
+<a name="g_t_002dI"></a></dd>
+<dt><code>-I<var>&lt;&lt;path&gt;&gt;</var></code></dt>
+<dd><p>Defines a path to search for files to be included by the
+macroprocessor (using the <a href="Macro_002dprocessing-language.html#g_t_0040_0023include">@#include</a> command). Multiple
+<code>-I</code> flags can be passed on the command line. The paths will be
+searched in the order that the <code>-I</code> flags are passed and the
+first matching file will be used. The flags passed here take priority
+over those passed to <a href="Macro_002dprocessing-language.html#g_t_0040_0023includepath">@#includepath</a>.
+</p>
+</dd>
+<dt><code>nostrict</code></dt>
+<dd><p>Allows Dynare to issue a warning and continue processing when
+</p><ol>
+<li> there are more endogenous variables than equations
+</li><li> an undeclared symbol is assigned in <code>initval</code> or <code>endval</code>
+</li><li> exogenous variables were declared but not used in the <code>model</code> block
+</li></ol>
+
+</dd>
+<dt><code>fast</code></dt>
+<dd><p>Only useful with model option <code>use_dll</code>. Don&rsquo;t recompile the MEX
+files when running again the same model file and the lists of variables
+and the equations haven&rsquo;t changed. We use a 32 bit checksum, stored in
+<code>&lt;model filename&gt;/checksum</code>. There is a very small probability that
+the preprocessor misses a change in the model. In case of doubt, re-run
+without the <code>fast</code> option.
+</p>
+</dd>
+<dt><code>minimal_workspace</code></dt>
+<dd><p>Instructs Dynare not to write parameter assignments to parameter names
+in the <samp>.m</samp> file produced by the preprocessor. This is
+potentially useful when running <code>dynare</code> on a large <samp>.mod</samp>
+file that runs into workspace size limitations imposed by MATLAB.
+</p>
+</dd>
+<dt><code>compute_xrefs</code></dt>
+<dd><p>Tells Dynare to compute the equation cross references, writing them to the
+output <samp>.m</samp> file.
+</p></dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<p>Depending on the computing tasks requested in the <samp>.mod</samp> file,
+executing the <code>dynare</code> command will leave variables containing
+results in the workspace available for further processing. More
+details are given under the relevant computing tasks.
+</p>
+<p>The <code>M_</code>, <code>oo_</code>, and <code>options_</code> structures are saved in
+a file called <samp><var>FILENAME</var>_results.mat</samp>. If they exist,
+<code>estim_params_</code>, <code>bayestopt_</code>, <code>dataset_</code>, <code>oo_recursive_</code> and
+<code>estimation_info</code> are saved in the same file.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">dynare ramst
+dynare ramst.mod savemacro
+</pre></div>
+
+</dd></dl>
+
+<p>The output of Dynare is left into three main variables in the
+MATLAB/Octave workspace:
+</p>
+<dl>
+<dt><a name="index-M_005f"></a>MATLAB/Octave variable: <strong>M_</strong></dt>
+<dd><p>Structure containing various information about the model.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-options_005f"></a>MATLAB/Octave variable: <strong>options_</strong></dt>
+<dd><p>Structure contains the values of the various options used by Dynare
+during the computation.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f"></a>MATLAB/Octave variable: <strong>oo_</strong></dt>
+<dd><p>Structure containing the various results of the computations.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005frecursive_005f"></a>MATLAB/Octave variable: <strong>oo_recursive_</strong></dt>
+<dd><a name="oo_005frecursive_005f"></a><p>Cell array containing the <code>oo_</code> structures obtained when estimating the model 
+for the different samples when performing recursive estimation and forecasting. 
+The <code>oo_</code> structure obtained for the sample ranging to the <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_1.png"
+ ALT="$i$"></SPAN>th observation 
+is saved in the <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_1.png"
+ ALT="$i$"></SPAN>th field. The fields for non-estimated endpoints are empty.
+</p></dd></dl>
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Dynare-hooks.html#Dynare-hooks" accesskey="n" rel="next">Dynare hooks</a>, Up: <a href="Running-Dynare.html#Running-Dynare" accesskey="u" rel="up">Running Dynare</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# This scripts updates all the "Copyright" lines in source files with the
+# correct most recent modification years.
+#
+# It must be given a file in argument. A typical usage can be to run it on all
+# code source files:
+#
+# find \( -name '*.m' -or -name '*.cc' -or -name '*.hh' -or -name '*.c' -or -name '*.h' -or -name '*.f' \) -exec fix-copyright-years '{}' ';'
+#
+# The LAST_UPDATE_COMMIT variable must be updated to contain the number of the
+# last commit in which such a copyright update has been done.
+#
+# Note that the script does not understand some unusual copyright notices: it
+# will display a message in that case.
+
+LAST_UPDATE_COMMIT=1bf81c9f5a79757c23356f16fe015ae4f10bebde
+
+if [ -z "$1" ]; then
+    echo "Give a filename in argument"
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "$1: Unknown file"
+    exit 1
+fi
+
+GITYEAR=$(git log $LAST_UPDATE_COMMIT.. --date=short --pretty=format:%cd -n 1 $1 | sed "s/\([0-9]\{4\}\)-[0-9]\{2\}-[0-9]\{2\}/\1/")
+
+if [ -z "$GITYEAR" ]; then
+    # Not in git
+    exit 0
+fi
+
+COPYLINES=$(grep -c Copyright $1)
+
+if [ $COPYLINES -eq 0 ]; then
+    echo "$1: File has no copyright line"
+    exit 1
+fi
+
+if [ $COPYLINES -ge 2 ]; then
+    COPYLINES=$(grep Copyright $1)
+    echo "$1: File has too many copyright lines (Git year: $GITYEAR): $COPYLINES"
+    exit 1
+fi
+
+COPYLINE=$(grep -o -E "Copyright \(C\) ([[:digit:]]{4}-)?[[:digit:]]{4} Dynare Team" $1)
+
+if [ -z "$COPYLINE" ]; then
+    COPYLINE=$(grep Copyright $1)
+    echo "$1: Unsupported copyright notice (Git year: $GITYEAR): $COPYLINE"
+    exit 1
+fi
+
+ACTUALYEAR=$(echo $COPYLINE | sed "s/Copyright (C) \([0-9]\{4\}-\)\?\([0-9]\{4\}\) Dynare Team/\2/")
+
+if [ $GITYEAR -gt $ACTUALYEAR ]; then
+    sed -i "s/Copyright (C) \([0-9]\{4\}\)\(-[0-9]\{4\}\)\? Dynare Team/Copyright (C) \1-$GITYEAR Dynare Team/" $1
+    echo "$1: Updating to $GITYEAR"
+fi

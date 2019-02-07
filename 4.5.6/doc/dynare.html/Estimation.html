@@ -1,0 +1,2710 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Estimation</title>
+
+<meta name="description" content="Dynare Reference Manual: Estimation">
+<meta name="keywords" content="Dynare Reference Manual: Estimation">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Model-Comparison.html#Model-Comparison" rel="next" title="Model Comparison">
+<link href="Stochastic-solution-and-simulation.html#Third-order-approximation" rel="prev" title="Third order approximation">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Estimation"></a>
+<div class="header">
+<p>
+Next: <a href="Model-Comparison.html#Model-Comparison" accesskey="n" rel="next">Model Comparison</a>, Previous: <a href="Stochastic-solution-and-simulation.html#Stochastic-solution-and-simulation" accesskey="p" rel="prev">Stochastic solution and simulation</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Estimation-1"></a>
+<h3 class="section">4.14 Estimation</h3>
+
+<p>Provided that you have observations on some endogenous variables, it
+is possible to use Dynare to estimate some or all parameters. Both
+maximum likelihood (as in <cite>Ireland (2004)</cite>) and Bayesian
+techniques (as in <cite>Rabanal and Rubio-Ramirez (2003)</cite>,
+<cite>Schorfheide (2000)</cite> or <cite>Smets and Wouters (2003)</cite>) are
+available. Using Bayesian methods, it is possible to estimate DSGE
+models, VAR models, or a combination of the two techniques called
+DSGE-VAR.
+</p>
+<p>Note that in order to avoid stochastic singularity, you must have at
+least as many shocks or measurement errors in your model as you have
+observed variables.
+</p>
+<p>The estimation using a first order approximation can benefit from the block
+decomposition of the model (see <a href="Model-declaration.html#block">block</a>).
+</p>
+
+<dl>
+<dt><a name="index-varobs"></a>Command: <strong>varobs</strong> <em><var>VARIABLE_NAME</var>&hellip;;</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command lists the name of observed endogenous variables for the
+estimation procedure. These variables must be available in the data
+file (see <a href="#estimation_005fcmd">estimation_cmd</a>).
+</p>
+<p>Alternatively, this command is also used in conjunction with the
+<code>partial_information</code> option of <code>stoch_simul</code>, for declaring
+the set of observed variables when solving the model under partial
+information.
+</p>
+<p>Only one instance of <code>varobs</code> is allowed in a model file. If one
+needs to declare observed variables in a loop, the macro-processor can
+be used as shown in the second example below.
+</p>
+<p><em>Simple example</em>
+</p>
+<div class="example">
+<pre class="example">varobs C y rr;
+</pre></div>
+
+<p><em>Example with a loop</em>
+</p>
+<div class="example">
+<pre class="example">varobs
+@#for co in countries
+  GDP_@{co}
+@#endfor
+;
+</pre></div>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-observation_005ftrends"></a>Block: <strong>observation_trends</strong> <em>;</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This block specifies <em>linear</em> trends for observed variables as
+functions of model parameters. In case the <code>loglinear</code>-option is used,
+this corresponds to a linear trend in the logged observables, <i>i.e.</i> an exponential
+trend in the level of the observables.
+</p>
+<p>Each line inside of the block should be of the form:
+</p>
+<div class="example">
+<pre class="example"><var>VARIABLE_NAME</var>(<var>EXPRESSION</var>);
+</pre></div>
+
+<p>In most cases, variables shouldn&rsquo;t be centered when
+<code>observation_trends</code> is used. 
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">observation_trends;
+Y (eta);
+P (mu/eta);
+end;
+</pre></div>
+
+</dd></dl>
+
+
+<a name="estimated_005fparams"></a><dl>
+<dt><a name="index-estimated_005fparams"></a>Block: <strong>estimated_params</strong> <em>;</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This block lists all parameters to be estimated and specifies bounds
+and priors as necessary.
+</p>
+<p>Each line corresponds to an estimated parameter.
+</p>
+<p>In a maximum likelihood estimation, each line follows this syntax:
+</p>
+<div class="example">
+<pre class="example">stderr VARIABLE_NAME | corr VARIABLE_NAME_1, VARIABLE_NAME_2 | PARAMETER_NAME
+, INITIAL_VALUE [, LOWER_BOUND, UPPER_BOUND ];
+</pre></div>
+
+<p>In a Bayesian estimation, each line follows this syntax:
+</p>
+<div class="example">
+<pre class="example">stderr VARIABLE_NAME | corr VARIABLE_NAME_1, VARIABLE_NAME_2 |
+PARAMETER_NAME | DSGE_PRIOR_WEIGHT
+[, INITIAL_VALUE [, LOWER_BOUND, UPPER_BOUND]], PRIOR_SHAPE,
+PRIOR_MEAN, PRIOR_STANDARD_ERROR [, PRIOR_3RD_PARAMETER [,
+PRIOR_4TH_PARAMETER [, SCALE_PARAMETER ] ] ];
+</pre></div>
+
+<p>The first part of the line consists of one of the three following
+alternatives:
+</p>
+<dl compact="compact">
+<dt><code>stderr <var>VARIABLE_NAME</var></code></dt>
+<dd><p>Indicates that the standard error of the exogenous variable
+<var>VARIABLE_NAME</var>, or of the observation error/measurement errors associated with
+endogenous observed variable <var>VARIABLE_NAME</var>, is to be estimated
+</p>
+</dd>
+<dt><code>corr <var>VARIABLE_NAME1</var>, <var>VARIABLE_NAME2</var></code></dt>
+<dd><p>Indicates that the correlation between the exogenous variables
+<var>VARIABLE_NAME1</var> and <var>VARIABLE_NAME2</var>, or the correlation of
+the observation errors/measurement errors associated with endogenous observed variables
+<var>VARIABLE_NAME1</var> and <var>VARIABLE_NAME2</var>, is to be estimated. Note that correlations set by previous <code>shocks</code>-blocks or <code>estimation</code>-commands are kept at their value set prior to estimation if they are not estimated again subsequently. Thus, the treatment is the same as in the case of deep parameters set during model calibration and not estimated.
+</p>
+</dd>
+<dt><code><var>PARAMETER_NAME</var></code></dt>
+<dd><p>The name of a model parameter to be estimated
+</p>
+</dd>
+<dt><code>DSGE_PRIOR_WEIGHT</code></dt>
+<dd><p>&hellip;
+</p>
+</dd>
+</dl>
+
+<p>The rest of the line consists of the following fields, some of them
+being optional:
+</p>
+<dl compact="compact">
+<dt><code><var>INITIAL_VALUE</var></code></dt>
+<dd><p>Specifies a starting value for the posterior mode optimizer or the
+maximum likelihood estimation. If unset, defaults to the prior mean.
+</p>
+</dd>
+<dt><code><var>LOWER_BOUND</var></code></dt>
+<dd><a name="lower_005fbound"></a><p>Specifies a lower bound for the parameter value in maximum
+likelihood estimation. In a Bayesian estimation context, sets a lower bound
+only effective while maximizing the posterior kernel. This lower bound does not
+modify the shape of the prior density, and is only aimed at helping the
+optimizer in identifying the posterior mode (no consequences for the MCMC). For
+some prior densities (namely inverse gamma, gamma, uniform, beta or Weibull) it is
+possible to shift the support of the prior distributions to the left or the right using
+<a href="#prior_005f3rd_005fparameter">prior_3rd_parameter</a>. In this case the prior density is effectively
+modified (note that the truncated Gaussian density is not implemented in
+Dynare). If unset, defaults to minus infinity (ML) or the natural lower bound
+of the prior (Bayesian estimation).
+</p>
+</dd>
+<dt><code><var>UPPER_BOUND</var></code></dt>
+<dd><p>Same as <a href="#lower_005fbound">lower_bound</a>, but specifying an upper bound instead.
+</p>
+</dd>
+<dt><code><var>PRIOR_SHAPE</var></code></dt>
+<dd><p>A keyword specifying the shape of the prior density.
+The possible values are: <code>beta_pdf</code>,
+<code>gamma_pdf</code>, <code>normal_pdf</code>,
+<code>uniform_pdf</code>, <code>inv_gamma_pdf</code>,
+<code>inv_gamma1_pdf</code>, <code>inv_gamma2_pdf</code> and <code>weibull_pdf</code>. Note
+that <code>inv_gamma_pdf</code> is equivalent to
+<code>inv_gamma1_pdf</code>
+</p>
+</dd>
+<dt><code><var>PRIOR_MEAN</var></code></dt>
+<dd><a name="prior_005fmean"></a><p>The mean of the prior distribution
+</p>
+</dd>
+<dt><code><var>PRIOR_STANDARD_ERROR</var></code></dt>
+<dd><a name="prior_005fstandard_005ferror"></a><p>The standard error of the prior distribution
+</p>
+</dd>
+<dt><code><var>PRIOR_3RD_PARAMETER</var></code></dt>
+<dd><a name="prior_005f3rd_005fparameter"></a><p>A third parameter of the prior used for generalized beta distribution,
+generalized gamma, generalized Weibull and for the uniform distribution. Default: <code>0</code>
+</p>
+</dd>
+<dt><code><var>PRIOR_4TH_PARAMETER</var></code></dt>
+<dd><a name="prior_005f4th_005fparameter"></a><p>A fourth parameter of the prior used for generalized beta distribution
+and for the uniform distribution. Default: <code>1</code>
+</p>
+</dd>
+<dt><code><var>SCALE_PARAMETER</var></code></dt>
+<dd><p>A parameter specific scale parameter for the jumping distribution&rsquo;s covariance matrix of the
+Metropolis-Hasting algorithm
+</p></dd>
+</dl>
+
+<p>Note that <var>INITIAL_VALUE</var>, <var>LOWER_BOUND</var>, <var>UPPER_BOUND</var>,
+<var>PRIOR_MEAN</var>, <var>PRIOR_STANDARD_ERROR</var>,
+<var>PRIOR_3RD_PARAMETER</var>, <var>PRIOR_4TH_PARAMETER</var> and
+<var>SCALE_PARAMETER</var> can be any valid <var>EXPRESSION</var>. Some of them
+can be empty, in which Dynare will select a default value depending on
+the context and the prior shape.
+</p>
+<p>As one uses options more towards the end of the list, all previous
+options must be filled: for example, if you want to specify
+<var>SCALE_PARAMETER</var>, you must specify <var>PRIOR_3RD_PARAMETER</var> and
+<var>PRIOR_4TH_PARAMETER</var>. Use empty values, if these parameters don&rsquo;t
+apply.
+</p>
+<p><em>Example</em>
+</p>
+<p>The following line:
+</p><div class="example">
+<pre class="example">corr eps_1, eps_2, 0.5,  ,  , beta_pdf, 0, 0.3, -1, 1;
+</pre></div>
+<p>sets a generalized beta prior for the correlation between <code>eps_1</code> and
+<code>eps_2</code> with mean 0 and variance 0.3. By setting
+<var>PRIOR_3RD_PARAMETER</var> to -1 and <var>PRIOR_4TH_PARAMETER</var> to 1 the
+standard beta distribution with support [0,1] is changed to a
+generalized beta with support [-1,1]. Note that <var>LOWER_BOUND</var> and
+<var>UPPER_BOUND</var> are left empty and thus default to -1 and 1,
+respectively. The initial value is set to 0.5.
+</p>
+<p>Similarly, the following line:
+</p><div class="example">
+<pre class="example">corr eps_1, eps_2, 0.5,  -0.5,  1, beta_pdf, 0, 0.3, -1, 1;
+</pre></div>
+<p>sets the same generalized beta distribution as before, but now truncates
+this distribution to [-0.5,1] through the use of <var>LOWER_BOUND</var> and
+<var>UPPER_BOUND</var>. Hence, the prior does not integrate to 1 anymore.
+</p>
+<p><em>Parameter transformation</em>
+</p>
+<p>Sometimes, it is desirable to estimate a transformation of a parameter
+appearing in the model, rather than the parameter itself. It is of
+course possible to replace the original parameter by a function of the
+estimated parameter everywhere is the model, but it is often
+unpractical.
+</p>
+<p>In such a case, it is possible to declare the parameter to be estimated
+in the <code>parameters</code> statement and to define the transformation,
+using a pound sign (#) expression (see <a href="Model-declaration.html#Model-declaration">Model declaration</a>).
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">parameters bet;
+
+model;
+# sig = 1/bet;
+c = sig*c(+1)*mpk;
+end;
+
+estimated_params;
+bet, normal_pdf, 1, 0.05;
+end;
+</pre></div>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-estimated_005fparams_005finit"></a>Block: <strong>estimated_params_init</strong> <em>;</em></dt>
+<dt><a name="index-estimated_005fparams_005finit-1"></a>Block: <strong>estimated_params_init</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p>This block declares numerical initial values for the optimizer when
+these ones are different from the prior mean. It should be specified after the <code>estimated_params</code>-block as otherwise the specified starting values are overwritten by the latter.
+</p>
+<p>Each line has the following syntax:
+</p>
+<div class="example">
+<pre class="example">stderr VARIABLE_NAME | corr VARIABLE_NAME_1, VARIABLE_NAME_2 | PARAMETER_NAME
+, INITIAL_VALUE;
+</pre></div>
+
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>use_calibration</code></dt>
+<dd><p>For not specifically initialized parameters, use the deep parameters and the elements of the covariance matrix specified in the <code>shocks</code> block from calibration as starting values for estimation. For components of the <code>shocks</code> block that were not explicitly specified during calibration or which violate the prior, the prior mean is used.
+</p></dd>
+</dl>
+
+<p>See <a href="#estimated_005fparams">estimated_params</a>, for the meaning and syntax of the various components.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-estimated_005fparams_005fbounds"></a>Block: <strong>estimated_params_bounds</strong> <em>;</em></dt>
+<dd>
+<p>This block declares lower and upper bounds for parameters in maximum
+likelihood estimation.
+</p>
+<p>Each line has the following syntax:
+</p>
+<div class="example">
+<pre class="example">stderr VARIABLE_NAME | corr VARIABLE_NAME_1, VARIABLE_NAME_2 | PARAMETER_NAME
+, LOWER_BOUND, UPPER_BOUND;
+</pre></div>
+
+<p>See <a href="#estimated_005fparams">estimated_params</a>, for the meaning and syntax of the various components.
+</p>
+</dd></dl>
+
+<a name="estimation_005fcmd"></a><dl>
+<dt><a name="index-estimation"></a>Command: <strong>estimation</strong> <em>[<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dt><a name="index-estimation-1"></a>Command: <strong>estimation</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command runs Bayesian or maximum likelihood estimation.
+</p>
+<p>The following information will be displayed by the command:
+</p><ul>
+<li> results from posterior optimization (also for maximum likelihood)
+
+</li><li> marginal log data density
+
+</li><li> posterior mean and highest posterior density interval (shortest credible set) from posterior simulation
+
+</li><li> convergence diagnostic table when only one MCM chain is used or Metropolis-Hastings convergence graphs documented in <cite>Pfeifer (2014)</cite> 
+in case of multiple MCM chains
+
+</li><li> table with numerical inefficiency factors of the MCMC
+
+</li><li> graphs with prior, posterior, and mode
+
+</li><li> graphs of smoothed shocks, smoothed observation errors, smoothed and historical variables
+</li></ul>
+
+<p>Note that the posterior moments, smoothed variables, k-step ahead
+filtered variables and forecasts (when requested) will only be
+computed on the variables listed after the <code>estimation</code> command.
+Alternatively, one can choose to compute these quantities on all
+endogenous or on all observed variables (see
+<code>consider_all_endogenous</code> and <code>consider_only_observed</code>
+options below). If no variable is listed after the <code>estimation</code>
+command, then Dynare will interactively ask which variable set to use.
+</p>
+<p>Also, during  the MCMC  (Bayesian estimation with  <code>mh_replic</code>&gt;0) a
+(graphical or text) waiting bar is displayed showing the progress of the
+Monte-Carlo and the <i>current</i> value of the acceptance ratio. Note that
+if  the <code>load_mh_file</code>  option  is used  (see  below) the  reported
+acceptance ratio does not take into  account the draws from the previous
+MCMC. In the literature there is a general agreement for saying that the
+acceptance ratio  should be close to  one third or one  quarter. If this
+not the case, you can stop the MCMC (<code>Ctrl-C</code>) and change the value
+of option <code>mh_jscale</code> (see below).
+</p>
+<p>Note that by default Dynare generates random numbers using the algorithm
+<code>mt199937ar</code> (<i>ie</i> Mersenne Twister method) with a seed set equal
+to <code>0</code>.   Consequently the MCMCs  in Dynare are  deterministic: one
+will  get  exactly  the  same   results  across  different  Dynare  runs
+(<i>ceteris paribus</i>).  For instance, the posterior moments or posterior
+densities  will be  exactly the  same. This  behaviour allows  to easily
+identify the  consequences of a change  on the model, the  priors or the
+estimation options. But one may also  want to check that across multiple
+runs, with  different sequences of  proposals, the returned  results are
+almost  identical. This  should  be  true if  the  number of  iterations
+(<i>ie</i> the value of <code>mh_replic</code>) is important enough to ensure the
+convergence of  the MCMC to its  ergodic distribution. In this  case the
+default behaviour of the random number generators in not wanted, and the
+user  should set  the  seed according  to the  system  clock before  the
+estimation command using the following command:
+</p>
+<div class="example">
+<pre class="example">set_dynare_seed('clock');
+</pre></div>
+
+<p>so that the sequence of proposals will be different across different runs.
+</p>
+<p><em>Algorithms</em>
+</p>
+<p>The Monte  Carlo Markov  Chain (MCMC) diagnostics are generated  by the
+estimation command if <a href="#mh_005freplic">mh_replic</a> is  larger than 2000 and if option
+<a href="#nodiagnostic">nodiagnostic</a> is not used. If <a href="#mh_005fnblocks">mh_nblocks</a> is equal to one, the
+convergence diagnostics  of <cite>Geweke  (1992,1999)</cite> is  computed.  It
+uses a chi square test to compare  the means of the first and last draws
+specified  by  <a href="#geweke_005finterval">geweke_interval</a>  after  discarding  the  burnin  of
+<a href="#mh_005fdrop">mh_drop</a>. The test  is computed using variance  estimates under the
+assumption of  no serial correlation  as well as using  tapering windows
+specified in  <a href="#taper_005fsteps">taper_steps</a>.  If <a href="#mh_005fnblocks">mh_nblocks</a> is  larger than 1,
+the convergence diagnostics of <cite>Brooks  and Gelman (1998)</cite> are used
+instead.  As described  in section 3 of <cite>Brooks  and Gelman (1998)</cite>
+the univariate convergence diagnostics are based on comparing pooled and
+within MCMC moments (Dynare displays the second and third order moments,
+and the length of the  Highest Probability Density interval covering 80%
+of  the  posterior distribution).   Due  to  computational reasons,  the
+multivariate  convergence diagnostic  does not  follow <cite>Brooks  and
+Gelman (1998)</cite>  strictly, but rather  applies their idea  for univariate
+convergence  diagnostics  to  the  range  of  the  posterior  likelihood
+function instead of the individual  parameters.  The posterior kernel is
+used  to  aggregate  the  parameters   into  a  scalar  statistic  whose
+convergence is  then checked using  the <cite>Brooks and  Gelman (1998)</cite>
+univariate convergence diagnostic.
+</p>
+<p>The inefficiency factors are computed as in <cite>Giordano et al. (2011)</cite> based on 
+Parzen windows as in <i>e.g.</i> <cite>Andrews (1991)</cite>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>datafile = <var>FILENAME</var></code></dt>
+<dd><a name="datafile"></a><p>The datafile: a <samp>.m</samp> file, a <samp>.mat</samp> file, a
+<samp>.csv</samp> file, or a <samp>.xls</samp>/<samp>.xlsx</samp> file (under Octave, the
+<a href="http://octave.sourceforge.net/io/">io</a> package from Octave-Forge is
+required for the <samp>.csv</samp> and <samp>.xlsx</samp> formats and the <samp>.xls</samp> file
+extension is not supported). Note that the base name (<i>i.e.</i> without
+extension) of the datafile has to be different from the base name of the model
+file.
+If there are several files named <code>FILENAME</code>, but with different file endings,
+the file name must be included in quoted strings and provide the file ending like
+</p><div class="example">
+<pre class="example"><code>estimation(datafile='../fsdat_simul.mat',...)</code>
+</pre></div>
+
+</dd>
+<dt><code>dirname = <var>FILENAME</var></code></dt>
+<dd><p>Directory in which to store <code>estimation</code> output. To pass a
+subdirectory of a directory, you must quote the argument. Default:
+<code>&lt;mod_file&gt;</code>
+</p>
+</dd>
+<dt><code>xls_sheet = <var>NAME</var></code></dt>
+<dd><a name="xls_005fsheet"></a><p>The name of the sheet with the data in an Excel file
+</p>
+</dd>
+<dt><code>xls_range = <var>RANGE</var></code></dt>
+<dd><a name="xls_005frange"></a><p>The range with the data in an Excel file. For example, <code>xls_range=B2:D200</code>
+</p>
+</dd>
+<dt><code>nobs = <var>INTEGER</var></code></dt>
+<dd><a name="nobs"></a><p>The number of observations following <a href="#first_005fobs">first_obs</a> to be used. Default: all observations in
+the file after <code>first_obs</code>
+</p>
+</dd>
+<dt><code>nobs = [<var>INTEGER1</var>:<var>INTEGER2</var>]</code></dt>
+<dd><a name="nobs1"></a><p>Runs a recursive estimation and forecast for samples of size ranging
+of <var>INTEGER1</var> to <var>INTEGER2</var>. Option <code>forecast</code> must
+also be specified. The forecasts are stored in the
+<code>RecursiveForecast</code> field of the results structure (see <a href="#RecursiveForecast">RecursiveForecast</a>). 
+The respective results structures <code>oo_</code> are saved in <code>oo_recursive_</code> (see <a href="Dynare-invocation.html#oo_005frecursive_005f">oo_recursive_</a>)
+and are indexed with the respective sample length.
+</p>
+</dd>
+<dt><code>first_obs = <var>INTEGER</var></code></dt>
+<dd><a name="first_005fobs"></a><p>The number of the first observation to be used. In case of estimating a DSGE-VAR, 
+<code>first_obs</code> needs to be larger than the number of lags.  Default: <code>1</code>
+</p>
+</dd>
+<dt><code>first_obs = [<var>INTEGER1</var>:<var>INTEGER2</var>]</code></dt>
+<dd><a name="first_005fobs1"></a><p>Runs a rolling window estimation and forecast for samples of fixed size <code>nobs</code> starting with the 
+first observation ranging from <var>INTEGER1</var> to <var>INTEGER2</var>. Option <code>forecast</code> 
+must also be specified. This option is incompatible with requesting recursive forecasts using an 
+expanding window (see <a href="#nobs1">nobs</a>). The respective results structures <code>oo_</code> 
+are saved in <code>oo_recursive_</code> (see <a href="Dynare-invocation.html#oo_005frecursive_005f">oo_recursive_</a>) and are indexed with the respective
+first observation of the rolling window.
+</p>
+
+</dd>
+<dt><code>prefilter = <var>INTEGER</var></code></dt>
+<dd><a name="prefilter"></a><p>A value of <code>1</code> means that the estimation procedure will
+demean each data series by its empirical mean. If the <a href="#loglinear">loglinear</a> option
+without the <a href="#logdata">logdata</a> option is requested, the data will first be logged
+and then demeaned. Default: <code>0</code>, <i>i.e.</i> no prefiltering
+</p>
+</dd>
+<dt><code>presample = <var>INTEGER</var></code></dt>
+<dd><a name="presample"></a><p>The number of observations after <a href="#first_005fobs">first_obs</a> to be skipped before evaluating the
+likelihood. These presample observations do not enter the likelihood, but are used as a 
+training sample for starting the Kalman filter iterations. This option is incompatible with 
+estimating a DSGE-VAR. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>loglinear</code></dt>
+<dd><a name="loglinear"></a><p>Computes a log-linear approximation of the model instead of a linear
+approximation. As always in the context of estimation, the data must correspond to the definition of the
+variables used in the model (see <cite>Pfeifer (2013)</cite> for more details on how to correctly specify observation equations linking model variables and the data). If you specify the loglinear option, Dynare will take the logarithm of both your model variables and of your data as it assumes the data to correspond to the original non-logged model variables. The displayed posterior results like impulse responses, smoothed variables, and moments will be for the logged variables, not the original un-logged ones. Default: computes a linear approximation
+</p>
+</dd>
+<dt><code>logdata</code></dt>
+<dd><a name="logdata"></a><p>Dynare applies the <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_72.png"
+ ALT="$log$"></SPAN> transformation to the provided data if a log-linearization of the model is requested (<a href="#loglinear">loglinear</a>) unless <code>logdata</code> option is used. This option is necessary if the user provides data already in logs, otherwise the <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_72.png"
+ ALT="$log$"></SPAN> transformation will be applied twice (this may result in complex data).
+</p>
+</dd>
+<dt><code>plot_priors = <var>INTEGER</var></code></dt>
+<dd><p>Control the plotting of priors:
+1
+</p><dl compact="compact">
+<dt><code>0</code></dt>
+<dd><p>No prior plot
+</p>
+</dd>
+<dt><code>1</code></dt>
+<dd><p>Prior density for each estimated parameter is plotted. It is important
+to check that the actual shape of prior densities matches what you
+have in mind. Ill-chosen values for the prior standard density can
+result in absurd prior densities.
+</p></dd>
+</dl>
+
+<p>Default value is <code>1</code>.
+</p>
+</dd>
+<dt><code>nograph</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nograph">nograph</a>.
+</p>
+</dd>
+<dt><code>posterior_nograph</code></dt>
+<dd><a name="posterior_005fnograph"></a><p>Suppresses the generation of graphs associated with Bayesian IRFs (<a href="#bayesian_005firf">bayesian_irf</a>), 
+posterior smoothed objects (<a href="#smoother">smoother</a>), and posterior forecasts (<a href="#forecast">forecast</a>).
+</p>
+</dd>
+<dt><code>posterior_graph</code></dt>
+<dd><a name="posterior_005fgraph"></a><p>Re-enables the generation of graphs previously shut off with <a href="#posterior_005fnograph">posterior_nograph</a>.
+</p>
+</dd>
+<dt><code>nodisplay</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nodisplay">nodisplay</a>.
+</p>
+</dd>
+<dt><code>graph_format = <var>FORMAT</var></code></dt>
+<dt><code>graph_format = ( <var>FORMAT</var>, <var>FORMAT</var>&hellip; )</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#graph_005fformat">graph_format</a>.
+</p>
+</dd>
+<dt><code>lik_init = <var>INTEGER</var></code></dt>
+<dd><a name="lik_005finit"></a><p>Type of initialization of Kalman filter:
+</p>
+<dl compact="compact">
+<dt><code>1</code></dt>
+<dd><p>For stationary models, the initial matrix of variance of the error of
+forecast is set equal to the unconditional variance of the state
+variables
+</p>
+</dd>
+<dt><code>2</code></dt>
+<dd><p>For nonstationary models: a wide prior is used with an initial matrix
+of variance of the error of forecast diagonal with 10 on the diagonal 
+(follows the suggestion of <cite>Harvey and Phillips(1979)</cite>)
+</p>
+</dd>
+<dt><code>3</code></dt>
+<dd><p>For nonstationary models: use a diffuse filter (use rather the <code>diffuse_filter</code> option)
+</p>
+</dd>
+<dt><code>4</code></dt>
+<dd><p>The filter is initialized with the fixed point of the Riccati equation
+</p>
+</dd>
+<dt><code>5</code></dt>
+<dd><p>Use i) option 2 for the non-stationary elements by setting their initial variance in the 
+forecast error matrix to 10 on the diagonal and all covariances to 0 and ii) option 1 for the stationary elements.
+</p>
+</dd>
+</dl>
+
+<p>Default value is <code>1</code>. For advanced use only.
+</p>
+</dd>
+<dt><code>lik_algo = <var>INTEGER</var></code></dt>
+<dd><p>For internal use and testing only.
+</p>
+</dd>
+<dt><code>conf_sig = <var>DOUBLE</var></code></dt>
+<dd><p>Confidence interval used for classical forecasting after estimation. See <a href="Forecasting.html#conf_005fsig">conf_sig</a>.
+</p>
+</dd>
+<dt><code>mh_conf_sig = <var>DOUBLE</var></code></dt>
+<dd><a name="mh_005fconf_005fsig"></a><p>Confidence/HPD interval used for the computation of prior and  posterior statistics like: parameter distributions, prior/posterior moments, conditional variance decomposition, impulse response functions, Bayesian forecasting. Default: <code>0.9</code> 
+</p>
+</dd>
+<dt><code>mh_replic = <var>INTEGER</var></code></dt>
+<dd><a name="mh_005freplic"></a><p>Number of replications for Metropolis-Hastings
+algorithm. For the time being, <code>mh_replic</code> should be larger than
+<code>1200</code>. Default: <code>20000</code>
+</p>
+</dd>
+<dt><code>sub_draws = <var>INTEGER</var></code></dt>
+<dd><a name="sub_005fdraws"></a><p>number of  draws  from  the MCMC  that  are used  to
+compute posterior  distribution of  various objects  (smoothed variable,
+smoothed shocks,  forecast, moments,  IRF).  The  draws used  to compute
+these posterior moments are sampled uniformly in the estimated empirical
+posterior  distribution (<i>ie</i>  draws of  the MCMC).   <code>sub_draws</code>
+should  be  smaller than  the  total  number  of MCMC  draws  available.
+Default:  <code>min(posterior_max_subsample_draws,(Total  number  of
+draws)*(number of chains))</code>
+</p>
+</dd>
+<dt><code>posterior_max_subsample_draws = <var>INTEGER</var></code></dt>
+<dd><a name="posterior_005fmax_005fsubsample_005fdraws"></a><p>maximum number  of draws from the
+MCMC used to compute posterior distribution of various objects (smoothed
+variable, smoothed shocks, forecast, moments,  IRF), if not overriden by
+option <a href="#sub_005fdraws">sub_draws</a>. Default: <code>1200</code>
+</p>
+</dd>
+<dt><code>mh_nblocks = <var>INTEGER</var></code></dt>
+<dd><a name="mh_005fnblocks"></a><p>Number of parallel chains for Metropolis-Hastings algorithm. Default:
+<code>2</code>
+</p>
+</dd>
+<dt><code>mh_drop = <var>DOUBLE</var></code></dt>
+<dd><a name="mh_005fdrop"></a><p>The fraction of initially generated parameter vectors to be dropped as a burnin before using posterior simulations. Default: <code>0.5</code>
+</p>
+</dd>
+<dt><code>mh_jscale = <var>DOUBLE</var></code></dt>
+<dd><a name="mh_005fjscale"></a><p>The scale  parameter of  the jumping  distribution&rsquo;s
+covariance matrix (Metropolis-Hastings or TaRB-algorithm).  The default value is
+rarely satisfactory. This option must be tuned to obtain, ideally, an
+acceptance ratio of 25%-33%.
+Basically,  the  idea  is  to  increase  the  variance  of  the  jumping
+distribution if the acceptance ratio is too high, and decrease the same
+variance if the acceptance ratio is too low. In some situations it may
+help to consider parameter-specific values for this scale parameter. 
+This  can  be  done  in  the  <a href="#estimated_005fparams">estimated_params</a>- block.  
+</p>
+<p>Note that <code>mode_compute=6</code> will tune the scale parameter to achieve an acceptance rate of 
+<a href="#AcceptanceRateTarget">AcceptanceRateTarget</a>. The resulting scale parameter will be saved into a file
+named <samp><var>MODEL_FILENAME</var>_mh_scale.mat</samp>. This file can be loaded in subsequent runs
+via the <code>posterior_sampler_options</code>-option <a href="#scale_005ffile">scale_file</a>. Both <code>mode_compute=6</code>
+and <code>scale_file</code> will overwrite any value specified in <code>estimated_params</code> with the tuned value.  
+Default: <code>0.2</code>
+</p>
+</dd>
+<dt><code>mh_init_scale = <var>DOUBLE</var></code></dt>
+<dd><p>The scale to be used for drawing the initial value of the
+Metropolis-Hastings chain. Generally, the starting points should be overdispersed
+for the <cite>Brooks and Gelman (1998)</cite>-convergence diagnostics to be meaningful. Default: 2*<code>mh_jscale</code>. 
+It is important to keep in mind that <code>mh_init_scale</code> is set at the beginning of 
+Dynare execution, <i>i.e.</i> the default will not take into account potential changes in
+<a href="#mh_005fjscale">mh_jscale</a> introduced by either <code>mode_compute=6</code> or the 
+<code>posterior_sampler_options</code>-option <a href="#scale_005ffile">scale_file</a>. 
+If <code>mh_init_scale</code> is too wide during initalization of the posterior sampler so that 100 tested draws 
+are inadmissible (<i>e.g.</i> Blanchard-Kahn conditions are always violated), Dynare will request user input 
+of a new <code>mh_init_scale</code> value with which the next 100 draws will be drawn and tested. 
+If the <a href="Dynare-invocation.html#nointeractive">nointeractive</a>-option has been invoked, the program will instead automatically decrease 
+<code>mh_init_scale</code> by 10 percent after 100 futile draws and try another 100 draws. This iterative 
+procedure will take place at most 10 times, at which point Dynare will abort with an error message.
+</p>
+</dd>
+<dt><code>mh_recover</code></dt>
+<dd><a name="mh_005frecover"></a><p>Attempts to recover a Metropolis-Hastings
+simulation that crashed prematurely, starting with the last available saved 
+<code>mh</code>-file. Shouldn&rsquo;t be used together with
+<code>load_mh_file</code> or a different <code>mh_replic</code> than in the crashed run. Since Dynare 4.5
+the proposal density from the previous run will automatically be loaded. In older versions,
+to assure a neat continuation of the chain with the same proposal density, you should 
+provide the <code>mode_file</code> used in the previous 
+run or the same user-defined <code>mcmc_jumping_covariance</code> when using this option. Note that 
+under Octave, a neat continuation of the crashed chain with the respective last random number 
+generator state is currently not supported.
+</p>
+</dd>
+<dt><code>mh_mode = <var>INTEGER</var></code></dt>
+<dd><p>&hellip;
+</p>
+</dd>
+<dt><code>mode_file = <var>FILENAME</var></code></dt>
+<dd><a name="mode_005ffile"></a><p>Name of the file containing previous value for the mode. When
+computing the mode, Dynare stores the mode (<code>xparam1</code>) and the
+hessian (<code>hh</code>, only if <code>cova_compute=1</code>) in a file called
+<samp><var>MODEL_FILENAME</var>_mode.mat</samp>. After a successful run of the estimation
+command, the <code>mode_file</code> will be disabled to prevent other function calls
+from implicitly using an updated mode-file. Thus, if the mod-file contains subsequent
+<code>estimation</code> commands, the <code>mode_file</code> option, if desired, needs to be 
+specified again.
+</p>
+</dd>
+<dt><code>mode_compute = <var>INTEGER</var> | <var>FUNCTION_NAME</var></code></dt>
+<dd><a name="mode_005fcompute"></a><p>Specifies the optimizer for the mode computation:
+</p>
+<dl compact="compact">
+<dt><code>0</code></dt>
+<dd><p>The mode isn&rsquo;t computed. When <code>mode_file</code> option is specified, the
+mode is simply read from that file.
+</p>
+<p>When <code>mode_file</code> option is not
+specified, Dynare reports the value of the log posterior (log likelihood)
+evaluated at the initial value of the parameters.
+</p>
+<p>When <code>mode_file</code>
+option is not specified and there is no <code>estimated_params</code> block,
+but the <code>smoother</code> option is used, it is a roundabout way to
+compute the smoothed value of the variables of a model with calibrated parameters.
+</p>
+</dd>
+<dt><code>1</code></dt>
+<dd><p>Uses <code>fmincon</code> optimization routine (available under MATLAB if
+the Optimization Toolbox is installed; not available under Octave)
+</p>
+</dd>
+<dt><code>2</code></dt>
+<dd><p>Uses the continuous simulated annealing global optimization algorithm 
+described in <cite>Corana et al. (1987)</cite> and <cite>Goffe et al. (1994)</cite>.
+</p>
+</dd>
+<dt><code>3</code></dt>
+<dd><p>Uses <code>fminunc</code> optimization routine (available under MATLAB if
+the optimization toolbox is installed; available under Octave if the
+<a href="http://octave.sourceforge.net/optim/">optim</a> package from
+Octave-Forge is installed)
+</p>
+</dd>
+<dt><code>4</code></dt>
+<dd><p>Uses Chris Sims&rsquo;s <code>csminwel</code>
+</p>
+</dd>
+<dt><code>5</code></dt>
+<dd><p>Uses Marco Ratto&rsquo;s <code>newrat</code>. This value is not compatible with non
+linear filters or DSGE-VAR models.
+This is a slice optimizer: most iterations are a sequence of univariate optimization step, one for each estimated parameter or shock.
+Uses <code>csminwel</code> for line search in each step.
+</p>
+</dd>
+<dt><code>6</code></dt>
+<dd><p>Uses a Monte-Carlo based optimization routine (see
+<a href="http://www.dynare.org/DynareWiki/MonteCarloOptimization">Dynare
+wiki</a> for more details)
+</p>
+</dd>
+<dt><code>7</code></dt>
+<dd><p>Uses <code>fminsearch</code>, a simplex based optimization routine (available
+under MATLAB if the optimization toolbox is installed; available under
+Octave if the <a href="http://octave.sourceforge.net/optim/">optim</a>
+package from Octave-Forge is installed)
+</p>
+</dd>
+<dt><code>8</code></dt>
+<dd><p>Uses Dynare implementation of the Nelder-Mead simplex based optimization
+routine (generally more efficient than the MATLAB or Octave implementation
+available with <code>mode_compute=7</code>)
+</p>
+</dd>
+<dt><code>9</code></dt>
+<dd><p>Uses the CMA-ES (Covariance Matrix Adaptation Evolution Strategy) algorithm of 
+<cite>Hansen and Kern (2004)</cite>, an evolutionary algorithm for difficult non-linear non-convex optimization
+</p>
+</dd>
+<dt><code>10</code></dt>
+<dd><p>Uses the simpsa algorithm, based on the combination of the non-linear simplex and simulated annealing algorithms and proposed by
+<cite>Cardoso, Salcedo and Feyo de Azevedo (1996)</cite>.
+</p>
+</dd>
+<dt><code>11</code></dt>
+<dd><p>This is not strictly speaking an optimization algorithm. The (estimated) parameters are treated as state variables and estimated jointly with the original state variables of the model using a nonlinear filter. The algorithm implemented in Dynare is described in <cite>Liu and West (2001)</cite>.
+</p>
+</dd>
+<dt><code>12</code></dt>
+<dd><p>Uses <code>particleswarm</code> optimization routine (available under MATLAB if
+the Global Optimization Toolbox is installed; not available under Octave).
+</p>
+</dd>
+<dt><code>101</code></dt>
+<dd><p>Uses the SolveOpt algorithm for local nonlinear optimization problems proposed by
+<cite>Kuntsevich and Kappel (1997)</cite>.
+</p>
+</dd>
+<dt><code>102</code></dt>
+<dd><p>Uses <code>simulannealbnd</code> optimization routine (available under MATLAB if
+the Global Optimization Toolbox is installed; not available under Octave)
+</p>
+</dd>
+<dt><code><var>FUNCTION_NAME</var></code></dt>
+<dd><p>It is also possible to give a <var>FUNCTION_NAME</var> to this option,
+instead of an <var>INTEGER</var>. In that case, Dynare takes the return
+value of that function as the posterior mode.
+</p></dd>
+</dl>
+
+<p>Default value is <code>4</code>.
+</p>
+</dd>
+<dt><code>silent_optimizer</code></dt>
+<dd><a name="silent_005foptimizer"></a><p>Instructs Dynare to run mode computing/optimization silently without displaying results or 
+saving files in between. Useful when running loops.
+</p>
+</dd>
+<dt><code>mcmc_jumping_covariance = hessian|prior_variance|identity_matrix|<var>FILENAME</var></code></dt>
+<dd><a name="MCMC_005fjumping_005fcovariance"></a><p>Tells Dynare which covariance to use for the proposal density of the MCMC sampler. <code>mcmc_jumping_covariance</code> can be one of the following:
+</p>
+<dl compact="compact">
+<dt><code>hessian</code></dt>
+<dd><p>Uses the Hessian matrix computed at the mode.
+</p>
+</dd>
+<dt><code>prior_variance</code></dt>
+<dd><p>Uses the prior variances. No infinite prior variances are allowed in this case.
+</p>
+</dd>
+<dt><code>identity_matrix</code></dt>
+<dd><p>Uses an identity matrix.
+</p>
+</dd>
+<dt><code><var>FILENAME</var></code></dt>
+<dd><p>Loads an arbitrary user-specified covariance matrix from <code><var>FILENAME</var>.mat</code>. The covariance matrix must be saved in a variable named <code>jumping_covariance</code>, must be square, positive definite, and have the same dimension as the number of estimated parameters.
+</p>
+</dd>
+</dl>
+<p>Note that the covariance matrices are still scaled with <a href="#mh_005fjscale">mh_jscale</a>. Default value is <code>hessian</code>.
+</p>
+</dd>
+<dt><code>mode_check</code></dt>
+<dd><p>Tells Dynare to plot the posterior density for values around the
+computed mode for each estimated parameter in turn. This is helpful to
+diagnose problems with the optimizer. Note that for <code>order</code>&gt;1, the 
+likelihood function resulting from the particle filter is not differentiable
+anymore due to random chatter introduced by selecting different particles for 
+different parameter values. For this reason, the <code>mode_check</code>-plot may look wiggly.
+</p>
+</dd>
+<dt><code>mode_check_neighbourhood_size = <var>DOUBLE</var></code></dt>
+<dd><p>Used in conjunction with option <code>mode_check</code>, gives the width of
+the window around the posterior mode to be displayed on the diagnostic
+plots. This width is expressed in percentage deviation. The <code>Inf</code>
+value is allowed, and will trigger a plot over the entire domain
+(see also <code>mode_check_symmetric_plots</code>).
+Default: <code>0.5</code>.
+</p>
+</dd>
+<dt><code>mode_check_symmetric_plots = <var>INTEGER</var></code></dt>
+<dd><p>Used in conjunction with option <code>mode_check</code>, if set to <code>1</code>,
+tells Dynare to ensure that the check plots are symmetric around the
+posterior mode. A value of <code>0</code> allows to have asymmetric plots,
+which can be useful if the posterior mode is close to a domain
+boundary, or in conjunction with <code>mode_check_neighbourhood_size =
+Inf</code> when the domain in not the entire real line. Default: <code>1</code>.
+</p>
+</dd>
+<dt><code>mode_check_number_of_points = <var>INTEGER</var></code></dt>
+<dd><p>Number of points around the posterior mode where the posterior kernel is evaluated (for each parameter). Default is <code>20</code>
+</p>
+</dd>
+<dt><code>prior_trunc = <var>DOUBLE</var></code></dt>
+<dd><a name="prior_005ftrunc"></a><p>Probability of extreme values of the prior
+density that is ignored when computing bounds for the
+parameters. Default: <code>1e-32</code>
+</p>
+</dd>
+<dt><code>huge_number  = <var>DOUBLE</var></code></dt>
+<dd><a name="huge_005fnumber"></a><p>Value for replacing infinite values in the definition of (prior) bounds 
+when finite values are required for computational reasons. Default: <code>1e7</code>
+</p>
+</dd>
+<dt><code>load_mh_file</code></dt>
+<dd><a name="load_005fmh_005ffile"></a><p>Tells Dynare to add to previous
+Metropolis-Hastings simulations instead of starting from
+scratch. Since Dynare 4.5
+the proposal density from the previous run will automatically be loaded. In older versions,
+to assure a neat continuation of the chain with the same proposal density, you should 
+provide the <code>mode_file</code> used in the previous 
+run or the same user-defined <code>mcmc_jumping_covariance</code> when using this option.
+Shouldn&rsquo;t be used together with <code>mh_recover</code>. Note that under Octave, a neat 
+continuation of the chain with the last random number 
+generator state of the already present draws is currently not supported.
+</p>
+</dd>
+<dt><code>load_results_after_load_mh</code></dt>
+<dd><a name="load_005fresults_005fafter_005fload_005fmh"></a><p>This option is available when loading a previous MCMC run without
+adding additional draws, <i>i.e.</i> when <code>load_mh_file</code> is specified with <code>mh_replic=0</code>. It tells Dynare 
+to load the previously computed convergence diagnostics, marginal data density, and posterior statistics from an
+existing <code>_results</code>-file instead of recomputing them.
+</p>
+</dd>
+<dt><code>optim = (<var>NAME</var>, <var>VALUE</var>, ...)</code></dt>
+<dd><a name="optim"></a><p>A list of <var>NAME</var> and <var>VALUE</var> pairs. Can be used to set options for the optimization routines. The set of available options depends on the selected optimization routine (ie on the value of option <a href="#mode_005fcompute">mode_compute</a>):
+</p>
+<dl compact="compact">
+<dt><code>1, 3, 7, 12</code></dt>
+<dd><p>Available options are given in the documentation of the MATLAB Optimization Toolbox or in Octave&rsquo;s documentation.
+</p>
+</dd>
+<dt><code>2</code></dt>
+<dd><p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'initial_step_length'</code></dt>
+<dd><p>Initial step length. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>'initial_temperature'</code></dt>
+<dd><p>Initial temperature. Default: <code>15</code>
+</p>
+</dd>
+<dt><code>'MaxIter'</code></dt>
+<dd><p>Maximum number of function evaluations. Default: <code>100000</code>
+</p>
+</dd>
+<dt><code>'neps'</code></dt>
+<dd><p>Number of final function values used to decide upon termination. Default: <code>10</code>
+</p>
+</dd>
+<dt><code>'ns'</code></dt>
+<dd><p>Number of cycles. Default: <code>10</code>
+</p>
+</dd>
+<dt><code>'nt'</code></dt>
+<dd><p>Number of iterations before temperature reduction. Default: <code>10</code>
+</p>
+</dd>
+<dt><code>'step_length_c'</code></dt>
+<dd><p>Step length adjustment. Default: <code>0.1</code>
+</p>
+</dd>
+<dt><code>'TolFun'</code></dt>
+<dd><p>Stopping criteria. Default: <code>1e-8</code>
+</p>
+</dd>
+<dt><code>'rt'</code></dt>
+<dd><p>Temperature reduction factor. Default: <code>0.1</code>
+</p>
+</dd>
+<dt><code>'verbosity'</code></dt>
+<dd><p>Controls verbosity of display during optimization, ranging from 0 (silent) to 3 
+(each function evaluation). Default: <code>1</code>
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>4</code></dt>
+<dd><p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'InitialInverseHessian'</code></dt>
+<dd><p>Initial approximation for the inverse of the Hessian matrix of the posterior kernel (or likelihood). Obviously this approximation has to be a square, positive definite and symmetric matrix. Default: <code>'1e-4*eye(nx)'</code>, where <code>nx</code> is the number of parameters to be estimated.
+</p>
+</dd>
+<dt><code>'MaxIter'</code></dt>
+<dd><p>Maximum number of iterations. Default: <code>1000</code>
+</p>
+</dd>
+<dt><code>'NumgradAlgorithm'</code></dt>
+<dd><p>Possible values are <code>2</code>, <code>3</code> and <code>5</code> respectively corresponding to the two, three and five points formula used to compute the gradient of the objective function (see <cite>Abramowitz and Stegun (1964)</cite>). Values <code>13</code> and <code>15</code> are more experimental. If perturbations on the right and the left increase the value of the objective function (we minimize this function) then we force the corresponding element of the gradient to be zero. The idea is to temporarily reduce the size of the optimization problem. Default: <code>2</code>.
+</p>
+</dd>
+<dt><code>'NumgradEpsilon'</code></dt>
+<dd><p>Size of the perturbation used to compute numerically the gradient of the objective function. Default: <code>1e-6</code>
+</p>
+</dd>
+<dt><code>'TolFun'</code></dt>
+<dd><p>Stopping criteria. Default: <code>1e-7</code>
+</p>
+</dd>
+<dt><code>'verbosity'</code></dt>
+<dd><p>Controls verbosity of display during optimization. Set to 0 to set to silent. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>'SaveFiles'</code></dt>
+<dd><p>Controls saving of intermediate results during optimization. Set to 0 to shut off saving. Default: <code>1</code>
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>5</code></dt>
+<dd><p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'Hessian'</code></dt>
+<dd><p>Triggers three types of Hessian computations. <code>0</code>: outer product gradient; <code>1</code> default DYNARE Hessian routine; <code>2</code> &rsquo;mixed&rsquo; outer product gradient, where diagonal elements are obtained using second order derivation formula and outer product is used for correlation structure. 
+Both {0} and {2} options require univariate filters, to ensure using maximum number of individual densities and a positive definite Hessian.
+Both {0} and {2} are quicker than default DYNARE numeric Hessian, but provide decent starting values for Metropolis for large models (option {2} being more accurate than {0}).
+Default: <code>1</code>.
+</p>
+</dd>
+<dt><code>'MaxIter'</code></dt>
+<dd><p>Maximum number of iterations. Default: <code>1000</code>
+</p>
+</dd>
+<dt><code>'TolFun'</code></dt>
+<dd><p>Stopping criteria. Default: <code>1e-5</code> for numerical derivatives <code>1e-7</code> for analytic derivatives.
+</p>
+</dd>
+<dt><code>'verbosity'</code></dt>
+<dd><p>Controls verbosity of display during optimization. Set to 0 to set to silent. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>'SaveFiles'</code></dt>
+<dd><p>Controls saving of intermediate results during optimization. Set to 0 to shut off saving. Default: <code>1</code>
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>6</code></dt>
+<dd><p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'AcceptanceRateTarget'</code></dt>
+<dd><a name="AcceptanceRateTarget"></a><p>A real number between zero and one. The scale parameter of the jumping distribution is adjusted so that the effective acceptance rate matches the value of option <code>'AcceptanceRateTarget'</code>. Default: <code>1.0/3.0</code>
+</p>
+</dd>
+<dt><code>'InitialCovarianceMatrix'</code></dt>
+<dd><p>Initial covariance matrix of the jumping distribution. Default is <code>'previous'</code> if option <code>mode_file</code> is used, <code>'prior'</code> otherwise.
+</p>
+</dd>
+<dt><code>'nclimb-mh'</code></dt>
+<dd><p>Number of iterations in the last MCMC (climbing mode). Default: <code>200000</code>
+</p>
+</dd>
+<dt><code>'ncov-mh'</code></dt>
+<dd><p>Number of iterations used for updating the covariance matrix of the jumping distribution. Default: <code>20000</code>
+</p>
+</dd>
+<dt><code>'nscale-mh'</code></dt>
+<dd><p>Maximum number of iterations used for adjusting the scale parameter of the jumping distribution. Default: <code>200000</code>
+</p>
+</dd>
+<dt><code>'NumberOfMh'</code></dt>
+<dd><p>Number of MCMC run sequentially. Default: <code>3</code>
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>8</code></dt>
+<dd><p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'InitialSimplexSize'</code></dt>
+<dd><p>Initial size of the simplex, expressed as percentage deviation from the provided initial guess in each direction. Default: <code>.05</code>
+</p>
+</dd>
+<dt><code>'MaxIter'</code></dt>
+<dd><p>Maximum number of iterations. Default: <code>5000</code>
+</p>
+</dd>
+<dt><code>'MaxFunEvals'</code></dt>
+<dd><p>Maximum number of objective function evaluations. No default.
+</p>
+</dd>
+<dt><code>'MaxFunvEvalFactor'</code></dt>
+<dd><p>Set <code>MaxFunvEvals</code> equal to <code>MaxFunvEvalFactor</code> times the number of estimated parameters. Default: <code>500</code>.
+</p>
+</dd>
+<dt><code>'TolFun'</code></dt>
+<dd><p>Tolerance parameter (w.r.t the objective function). Default: <code>1e-4</code>
+</p>
+</dd>
+<dt><code>'TolX'</code></dt>
+<dd><p>Tolerance parameter (w.r.t the instruments). Default: <code>1e-4</code>
+</p>
+</dd>
+<dt><code>'verbosity'</code></dt>
+<dd><p>Controls verbosity of display during optimization. Set to 0 to set to silent. Default: <code>1</code>
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>9</code></dt>
+<dd><p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'CMAESResume'</code></dt>
+<dd><p>Resume previous run. Requires the <code>variablescmaes.mat</code> from the last run. 
+Set to 1 to enable. Default: <code>0</code>
+</p>
+</dd>
+<dt><code>'MaxIter'</code></dt>
+<dd><p>Maximum number of iterations.
+</p>
+</dd>
+<dt><code>'MaxFunEvals'</code></dt>
+<dd><p>Maximum number of objective function evaluations. Default: <code>Inf</code>.
+</p>
+</dd>
+<dt><code>'TolFun'</code></dt>
+<dd><p>Tolerance parameter (w.r.t the objective function). Default: <code>1e-7</code>
+</p>
+</dd>
+<dt><code>'TolX'</code></dt>
+<dd><p>Tolerance parameter (w.r.t the instruments). Default: <code>1e-7</code>
+</p>
+</dd>
+<dt><code>'verbosity'</code></dt>
+<dd><p>Controls verbosity of display during optimization. Set to 0 to set to silent. Default: <code>1</code>
+</p>
+</dd>
+<dt><code>'SaveFiles'</code></dt>
+<dd><p>Controls saving of intermediate results during optimization. Set to 0 to shut off saving. Default: <code>1</code>
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>10</code></dt>
+<dd><p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'EndTemperature'</code></dt>
+<dd><p>Terminal condition w.r.t the temperature. When the temperature reaches <code>EndTemperature</code>, the temperature is set to zero and the algorithm falls back into a standard simplex algorithm. Default: <code>.1</code>
+</p>
+</dd>
+<dt><code>'MaxIter'</code></dt>
+<dd><p>Maximum number of iterations. Default: <code>5000</code>
+</p>
+</dd>
+<dt><code>'MaxFunvEvals'</code></dt>
+<dd><p>Maximum number of objective function evaluations. No default.
+</p>
+</dd>
+<dt><code>'TolFun'</code></dt>
+<dd><p>Tolerance parameter (w.r.t the objective function). Default: <code>1e-4</code>
+</p>
+</dd>
+<dt><code>'TolX'</code></dt>
+<dd><p>Tolerance parameter (w.r.t the instruments). Default: <code>1e-4</code>
+</p>
+</dd>
+<dt><code>'verbosity'</code></dt>
+<dd><p>Controls verbosity of display during optimization. Set to 0 to set to silent. Default: <code>1</code>
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>101</code></dt>
+<dd><p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'LBGradientStep'</code></dt>
+<dd><p>Lower bound for the stepsize used for the difference approximation of gradients. Default: <code>1e-11</code>
+</p>
+</dd>
+<dt><code>'MaxIter'</code></dt>
+<dd><p>Maximum number of iterations. Default: <code>15000</code>
+</p>
+</dd>
+<dt><code>'SpaceDilation'</code></dt>
+<dd><p>Coefficient of space dilation. Default: <code>2.5</code>
+</p>
+</dd>
+<dt><code>'TolFun'</code></dt>
+<dd><p>Tolerance parameter (w.r.t the objective function). Default: <code>1e-6</code>
+</p>
+</dd>
+<dt><code>'TolX'</code></dt>
+<dd><p>Tolerance parameter (w.r.t the instruments). Default: <code>1e-6</code>
+</p>
+</dd>
+<dt><code>'verbosity'</code></dt>
+<dd><p>Controls verbosity of display during optimization. Set to 0 to set to silent. Default: <code>1</code>
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>102</code></dt>
+<dd><p>Available options are given in the documentation of the MATLAB Global Optimization Toolbox.
+</p>
+</dd>
+</dl>
+
+<p><em>Example 1</em>
+To change the defaults of csminwel (<code>mode_compute=4</code>):
+</p>
+<p><code>estimation(..., mode_compute=4, optim=('NumgradAlgorithm',3,'TolFun',1e-5), ...);</code>
+</p>
+
+</dd>
+<dt><code>nodiagnostic</code></dt>
+<dd><a name="nodiagnostic"></a><p>Does not compute the convergence diagnostics for
+Metropolis-Hastings. Default: diagnostics are computed and displayed
+</p>
+</dd>
+<dt><code>bayesian_irf</code></dt>
+<dd><a name="bayesian_005firf"></a><p>Triggers the computation of the posterior
+distribution of IRFs. The length of the IRFs are controlled by the
+<code>irf</code> option. Results are stored in <code>oo_.PosteriorIRF.dsge</code>
+(see below for a description of this variable)
+</p>
+</dd>
+<dt><code>relative_irf</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#relative_005firf">relative_irf</a>.
+</p>
+</dd>
+<dt><code>dsge_var = <var>DOUBLE</var></code></dt>
+<dd><a name="dsge_005fvar"></a><p>Triggers the estimation of a DSGE-VAR model, where the
+weight of  the DSGE prior  of the VAR model  is calibrated to  the value
+passed (see <cite>Del  Negro and Schorfheide (2004)</cite>). It represents ratio of dummy over actual observations. 
+To assure that the prior is proper, the value must be bigger than <SPAN CLASS="MATH"><IMG
+ WIDTH="74" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_73.png"
+ ALT="$(k+n)/T$"></SPAN>, 
+where <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_35.png"
+ ALT="$k$"></SPAN> is the number of estimated parameters, <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_74.png"
+ ALT="$n$"></SPAN> is the number of observables,
+and <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN> is the number of observations. NB:  The previous method
+of   declaring  <code>dsge_prior_weight</code> as a parameter and then
+calibrating it is now deprecated and will be removed in a future release
+of Dynare.
+Some of objects arising during estimation are stored with their values at the mode in
+<a href="#oo_005f_002edsge_005fvar_002eposterior_005fmode">oo_.dsge_var.posterior_mode</a>.
+</p>
+</dd>
+<dt><code>dsge_var</code></dt>
+<dd><p>Triggers the  estimation of a  DSGE-VAR model,  where the weight  of the
+DSGE prior of  the VAR model will  be estimated (as in  <cite>Adjemian et alii
+(2008)</cite>).    The   prior    on   the   weight   of    the   DSGE   prior,
+<code>dsge_prior_weight</code>, must be defined in the <code>estimated_params</code>
+section.  NB: The previous  method of declaring <code>dsge_prior_weight</code>
+as a  parameter and  then placing it  in <code>estimated_params</code>  is now
+deprecated and will be removed in a future release of Dynare.
+</p>
+</dd>
+<dt><code>dsge_varlag = <var>INTEGER</var></code></dt>
+<dd><a name="dsge_005fvarlag"></a><p>The number of lags used to estimate a DSGE-VAR
+model. Default: <code>4</code>.
+</p>
+
+
+</dd>
+<dt><code>posterior_sampling_method=<var>NAME</var></code></dt>
+<dd><a name="posterior_005fsampling_005fmethod"></a><p>Selects the sampler used to sample from the posterior distribution during Bayesian 
+estimation. Default: &rsquo;random_walk_metropolis_hastings&rsquo;
+</p>
+<dl compact="compact">
+<dt><code>'random_walk_metropolis_hastings'</code></dt>
+<dd><p>Instructs Dynare to use the Random-Walk Metropolis-Hastings. In this algorithm, the proposal density is
+recentered to the previous draw in every step.
+</p>
+</dd>
+<dt><code>'tailored_random_block_metropolis_hastings'</code></dt>
+<dd><p>Instructs Dynare to use the Tailored randomized block (TaRB) Metropolis-Hastings algorithm 
+proposed by <cite>Chib and Ramamurthy (2010)</cite> instead of the standard Random-Walk Metropolis-Hastings. 
+In this algorithm, at each iteration the estimated parameters are randomly assigned to different 
+blocks. For each of these blocks a mode-finding step is conducted. The inverse Hessian at this mode 
+is then used as the covariance of the proposal density for a Random-Walk Metropolis-Hastings step. 
+If the numerical Hessian is not positive definite, the generalized Cholesky decomposition of 
+<cite>Schnabel and Eskow (1990)</cite> is used, but without pivoting. The TaRB-MH algorithm massively reduces 
+the autocorrelation in the MH draws and thus reduces the number of draws required to 
+representatively sample from the posterior. However, this comes at a computational costs as the 
+algorithm takes more time to run.
+</p>
+</dd>
+<dt><code>'independent_metropolis_hastings'</code></dt>
+<dd><p>Use the Independent Metropolis-Hastings algorithm where the proposal distribution - in contrast to the
+Random Walk Metropolis-Hastings algorithm - does not depend on the state of the chain.
+</p>
+</dd>
+<dt><code>'slice'</code></dt>
+<dd><p>Instructs Dynare to use the Slice sampler of <cite>Planas, Ratto, and Rossi (2015)</cite>.
+Note that <code>'slice'</code> is incompatible with
+<code>prior_trunc=0</code>.
+</p>
+</dd>
+</dl>
+
+
+</dd>
+<dt><code>posterior_sampler_options = (<var>NAME</var>, <var>VALUE</var>, ...)</code></dt>
+<dd><a name="posterior_005fsampler_005foptions"></a><p>A list of <var>NAME</var> and <var>VALUE</var> pairs. Can be used to set options for the posterior sampling methods.
+The set of available options depends on the selected posterior sampling routine 
+(<i>i.e.</i> on the value of option <a href="#posterior_005fsampling_005fmethod">posterior_sampling_method</a>):
+</p>
+<dl compact="compact">
+<dt><code>'random_walk_metropolis_hastings'</code></dt>
+<dd>
+<p>Available options are:
+</p>
+<dl compact="compact">
+<dt><code>'proposal_distribution'</code></dt>
+<dd><a name="proposal_005fdistribution"></a><p>Specifies the statistical distribution used for the proposal density.
+</p>
+<dl compact="compact">
+<dt><code>'rand_multivariate_normal'</code></dt>
+<dd><p>Use a multivariate normal distribution. This is the default.
+</p>
+</dd>
+<dt><code>'rand_multivariate_student'</code></dt>
+<dd><p>Use a multivariate student distribution
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>'student_degrees_of_freedom'</code></dt>
+<dd><a name="student_005fdegrees_005fof_005ffreedom"></a><p>Specifies the degrees of freedom to be used with the multivariate student distribution. Default: 3
+</p>
+</dd>
+<dt><code>'use_mh_covariance_matrix'</code></dt>
+<dd><a name="use_005fmh_005fcovariance_005fmatrix"></a><p>Indicates to use the covariance matrix of the draws from a previous MCMC run to define the 
+covariance of the proposal distribution. Requires the <a href="#load_005fmh_005ffile">load_mh_file</a>-option to be specified. Default: 0
+</p>
+</dd>
+<dt><code>'scale_file'</code></dt>
+<dd><a name="scale_005ffile"></a><p>Provides the name of a <samp>_mh_scale.mat</samp>-file storing the tuned scale factor from a 
+previous run of <code>mode_compute=6</code>
+</p>
+</dd>
+<dt><code>'save_tmp_file'</code></dt>
+<dd><a name="save_005ftmp_005ffile"></a><p>Save the MCMC draws into a <code>_mh_tmp_blck</code>-file at the refresh rate of the status bar instead of just saving the draws
+when the current <code>_mh*_blck</code>-file is full. Default: 0
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>'independent_metropolis_hastings'</code></dt>
+<dd>
+<p>Takes the same options as in the case of <code>random_walk_metropolis_hastings</code>
+</p>
+</dd>
+<dt><code>'slice'</code></dt>
+<dd>
+<dl compact="compact">
+<dt><code>'rotated'</code></dt>
+<dd><p>Triggers rotated slice iterations using a covariance matrix from initial burn-in iterations. 
+Requires either  <code>use_mh_covariance_matrix</code> or <code>slice_initialize_with_mode</code>. Default: 0
+</p>
+</dd>
+<dt><code>'mode_files'</code></dt>
+<dd><p>For multimodal posteriors, provide the name of a file containing a <code>nparam by nmodes</code> variable called 
+<code>xparams</code> storing the different modes. This array must have one column vector per mode and the estimated 
+parameters along the row dimension. With this info, 
+the code will automatically trigger the <code>rotated</code> and <code>mode</code> options. Default: <code>[]</code>.
+</p>
+</dd>
+<dt><code>'slice_initialize_with_mode'</code></dt>
+<dd><p>The default for slice is to set <code>mode_compute = 0</code> and start the chain(s) from a random 
+location in the prior space. This option first runs the mode-finder and then starts the
+chain from the mode. Together with <code>rotated</code>, it will use the inverse Hessian from the 
+mode to perform rotated slice iterations. Default: 0
+</p>
+</dd>
+<dt><code>'initial_step_size'</code></dt>
+<dd><p>Sets the initial size of the interval in the stepping-out procedure as fraction of the prior support
+<i>i.e.</i> the size will be initial_step_size*(UB-LB). <code>initial_step_size</code> must be a real number in the interval [0, 1]. 
+Default: 0.8
+</p>
+</dd>
+<dt><code>'use_mh_covariance_matrix'</code></dt>
+<dd><p>See <a href="#use_005fmh_005fcovariance_005fmatrix">use_mh_covariance_matrix</a>. Must be used with <code>'rotated'</code>. Default: 0
+</p>
+</dd>
+<dt><code>'save_tmp_file'</code></dt>
+<dd><p>See <a href="#save_005ftmp_005ffile">save_tmp_file</a>. Default: 1.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>'tailored_random_block_metropolis_hastings'</code></dt>
+<dd>
+<dl compact="compact">
+<dt><code>new_block_probability = <var>DOUBLE</var></code></dt>
+<dd><p>Specifies the probability of the next parameter belonging to a new block when the random blocking in the TaRB 
+Metropolis-Hastings algorithm is conducted. The higher this number, the smaller is the average block size and the 
+more random blocks are formed during each parameter sweep. Default: <code>0.25</code>. 
+</p>
+</dd>
+<dt><code>mode_compute = <var>INTEGER</var></code></dt>
+<dd><p>Specifies the mode-finder run in every iteration for every block of the 
+TaRB Metropolis-Hastings algorithm. See <a href="#mode_005fcompute">mode_compute</a>. Default: <code>4</code>. 
+</p>
+</dd>
+<dt><code>optim = (<var>NAME</var>, <var>VALUE</var>, ...)</code></dt>
+<dd><p>Specifies the options for the mode-finder used in the TaRB 
+Metropolis-Hastings algorithm. See <a href="#optim">optim</a>. 
+</p>
+</dd>
+<dt><code>'scale_file'</code></dt>
+<dd><p>See <a href="#scale_005ffile">scale_file</a>.
+</p>
+</dd>
+<dt><code>'save_tmp_file'</code></dt>
+<dd><p>See <a href="#save_005ftmp_005ffile">save_tmp_file</a>. Default: 1.
+</p>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+
+</dd>
+<dt><code>moments_varendo</code></dt>
+<dd><a name="moments_005fvarendo"></a><p>Triggers the computation of the posterior
+distribution of the theoretical moments of the endogenous
+variables. Results are stored in
+<code>oo_.PosteriorTheoreticalMoments</code> (see <a href="#oo_005f_002ePosteriorTheoreticalMoments">oo_.PosteriorTheoreticalMoments</a>). The number of lags in the autocorrelation function is
+controlled by the <code>ar</code> option.
+</p>
+</dd>
+<dt><code>contemporaneous_correlation</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#contemporaneous_005fcorrelation">contemporaneous_correlation</a>. Results are stored in <code>oo_.PosteriorTheoreticalMoments</code>. 
+Note that the <code>nocorr</code>-option has no effect.
+</p>
+</dd>
+<dt><code>no_posterior_kernel_density</code></dt>
+<dd><p>Shuts off the computation of the kernel density estimator for the posterior objects (see <a href="#density_002dfield">density-field</a>). 
+</p>
+</dd>
+<dt><code>conditional_variance_decomposition = <var>INTEGER</var></code></dt>
+<dd><p>See below.
+</p>
+</dd>
+<dt><code>conditional_variance_decomposition = [<var>INTEGER1</var>:<var>INTEGER2</var>]</code></dt>
+<dd><p>See below.
+</p>
+</dd>
+<dt><code>conditional_variance_decomposition = [<var>INTEGER1</var> <var>INTEGER2</var> &hellip;]</code></dt>
+<dd><p>Computes the posterior distribution of the conditional variance
+decomposition for the specified period(s). The periods must be strictly
+positive. Conditional variances are given by <!-- MATH
+ $var(y_{t+k}|t)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="82" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_30.png"
+ ALT="$var(y_{t+k}\vert t)$"></SPAN>. For
+period 1, the conditional variance decomposition provides the
+decomposition of the effects of shocks upon impact. The results are
+stored in
+<code>oo_.PosteriorTheoreticalMoments.dsge.ConditionalVarianceDecomposition</code>,
+but currently there is no displayed output. Note that this option requires the
+option <code>moments_varendo</code> to be specified.
+</p>
+</dd>
+<dt><code>filtered_vars</code></dt>
+<dd><a name="filtered_005fvars"></a><p>Triggers the computation of the posterior
+distribution of filtered endogenous variables/one-step ahead forecasts, <i>i.e.</i> <!-- MATH
+ $E_{t}{y_{t+1}}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_76.png"
+ ALT="$E_{t}{y_{t+1}}$"></SPAN>. Results are
+stored in <code>oo_.FilteredVariables</code> (see below for a description of
+this variable)
+</p>
+</dd>
+<dt><code>smoother</code></dt>
+<dd><a name="smoother"></a><p>Triggers the computation of the posterior distribution
+of smoothed endogenous variables and shocks, <i>i.e.</i> the expected value of variables and shocks given the information available in all observations up to the <em>final</em> date (<SPAN CLASS="MATH"><IMG
+ WIDTH="40" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_77.png"
+ ALT="$E_{T}{y_t}$"></SPAN>). Results are stored in
+<code>oo_.SmoothedVariables</code>, <code>oo_.SmoothedShocks</code> and
+<code>oo_.SmoothedMeasurementErrors</code>.  Also triggers the computation of
+<code>oo_.UpdatedVariables</code>, which contains the estimation of the expected value of variables given the information available at the <em>current</em> date (<SPAN CLASS="MATH"><IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_78.png"
+ ALT="$E_{t}{y_t}$"></SPAN>).  See below for a description of all these
+variables.
+</p>
+</dd>
+<dt><code>forecast = <var>INTEGER</var></code></dt>
+<dd><a name="forecast"></a><p>Computes the posterior distribution of a forecast on
+<var>INTEGER</var> periods after the end of the sample used in
+estimation. If no Metropolis-Hastings is computed, the result is
+stored in variable <code>oo_.forecast</code> and corresponds to the forecast
+at the posterior mode. If a Metropolis-Hastings is computed, the
+distribution of forecasts is stored in variables
+<code>oo_.PointForecast</code> and
+<code>oo_.MeanForecast</code>. See <a href="Forecasting.html#Forecasting">Forecasting</a>, for a description of
+these variables.
+</p>
+</dd>
+<dt><code>tex</code></dt>
+<dd><p>see <a href="Stochastic-solution-and-simulation.html#tex">tex</a>.
+</p>
+</dd>
+<dt><code>kalman_algo = <var>INTEGER</var></code></dt>
+<dd><a name="kalman_005falgo"></a>
+<dl compact="compact">
+<dt><code>0</code></dt>
+<dd><p>Automatically use the Multivariate Kalman Filter for stationary models and the Multivariate Diffuse Kalman Filter for non-stationary models
+</p>
+</dd>
+<dt><code>1</code></dt>
+<dd><p>Use the Multivariate Kalman Filter
+</p>
+</dd>
+<dt><code>2</code></dt>
+<dd><p>Use the Univariate Kalman Filter
+</p>
+</dd>
+<dt><code>3</code></dt>
+<dd><p>Use the Multivariate Diffuse Kalman Filter
+</p>
+</dd>
+<dt><code>4</code></dt>
+<dd><p>Use the Univariate Diffuse Kalman Filter
+</p>
+</dd>
+</dl>
+<p>Default value is <code>0</code>. In case of missing observations of single or all series, Dynare treats those missing values as unobserved states and uses the Kalman filter to infer their value (see <i>e.g.</i> <cite>Durbin and Koopman (2012), Ch. 4.10</cite>)
+This procedure has the advantage of being capable of dealing with observations where the forecast error variance matrix becomes singular for some variable(s).
+If this happens, the respective observation enters with a weight of zero in the log-likelihood, <i>i.e.</i> this observation for the respective variable(s) is dropped
+from the likelihood computations (for details see <cite>Durbin and Koopman (2012), Ch. 6.4 and 7.2.5</cite> and <cite>Koopman and Durbin (2000)</cite>). If the use of a multivariate Kalman filter is specified and a
+singularity is encountered, Dynare by default automatically switches to the univariate Kalman filter for this parameter draw. This behavior can be changed via the
+<a href="#use_005funivariate_005ffilters_005fif_005fsingularity_005fis_005fdetected">use_univariate_filters_if_singularity_is_detected</a> option.
+</p>
+</dd>
+<dt><code>fast_kalman_filter</code></dt>
+<dd><a name="fast_005fkalman_005ffilter"></a><p>Select the fast Kalman filter using Chandrasekhar
+recursions as described by <cite>Herbst, 2015</cite>. This setting is only used with
+<code>kalman_algo=1</code> or <code>kalman_algo=3</code>. In case of using the diffuse Kalman 
+filter (<code>kalman_algo=3/lik_init=3</code>), the observables must be stationary. This option 
+is not yet compatible with <a href="#analytic_005fderivation">analytic_derivation</a>.
+</p>
+</dd>
+<dt><code>kalman_tol = <var>DOUBLE</var></code></dt>
+<dd><a name="kalman_005ftol"></a><p>Numerical tolerance for determining the singularity of the covariance matrix of the prediction errors during the Kalman filter (minimum allowed reciprocal of the matrix condition number). Default value is <code>1e-10</code>
+</p>
+</dd>
+<dt><code>diffuse_kalman_tol = <var>DOUBLE</var></code></dt>
+<dd><a name="diffuse_005fkalman_005ftol"></a><p>Numerical tolerance for determining the singularity of the covariance matrix of the prediction errors (<SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_79.png"
+ ALT="$F_{\infty}$"></SPAN>) and the rank of the covariance matrix of the non-stationary state variables (<SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_80.png"
+ ALT="$P_{\infty}$"></SPAN>) during the Diffuse Kalman filter. Default value is <code>1e-6</code>
+</p>
+</dd>
+<dt><code>filter_covariance</code></dt>
+<dd><a name="filter_005fcovariance"></a><p>Saves the series of one step ahead error of
+forecast covariance matrices. With Metropolis, they are saved in <a href="#oo_005f_002eFilterCovariance">oo_.FilterCovariance</a>,
+otherwise in <a href="#oo_005f_002eSmoother_002eVariance">oo_.Smoother.Variance</a>. Saves also k-step ahead error of
+forecast covariance matrices if <code>filter_step_ahead</code> is set.
+</p>
+</dd>
+<dt><code>filter_step_ahead = [<var>INTEGER1</var>:<var>INTEGER2</var>]</code></dt>
+<dd><p>See below.
+</p>
+</dd>
+<dt><code>filter_step_ahead = [<var>INTEGER1</var> <var>INTEGER2</var>  &hellip;]</code></dt>
+<dd><a name="filter_005fstep_005fahead"></a><p>Triggers the computation k-step ahead filtered values, <i>i.e.</i> <!-- MATH
+ $E_{t}{y_{t+k}}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="52" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_81.png"
+ ALT="$E_{t}{y_{t+k}}$"></SPAN>. Stores results in
+<code>oo_.FilteredVariablesKStepAhead</code>. Also stores 1-step ahead values in <code>oo_.FilteredVariables</code>. 
+<code>oo_.FilteredVariablesKStepAheadVariances</code> is stored if <code>filter_covariance</code>.
+</p> 
+
+</dd>
+<dt><code>filter_decomposition</code></dt>
+<dd><a name="filter_005fdecomposition"></a><p>Triggers the computation of the shock
+decomposition of the above k-step ahead filtered values. Stores results in <code>oo_.FilteredVariablesShockDecomposition</code>.
+</p>
+</dd>
+<dt><code>smoothed_state_uncertainty</code></dt>
+<dd><a name="smoothed_005fstate_005funcertainty"></a><p>Triggers the computation of the variance of smoothed estimates, <i>i.e.</i>
+<code>Var_T(y_t)</code>. Stores results in <code>oo_.Smoother.State_uncertainty</code>.
+</p>
+</dd>
+<dt><code>diffuse_filter</code></dt>
+<dd><a name="diffuse_005ffilter"></a><p>Uses the diffuse Kalman filter (as described in
+<cite>Durbin and Koopman (2012)</cite> and <cite>Koopman and Durbin
+(2003)</cite> for the multivariate and <cite>Koopman and Durbin
+(2000)</cite> for the univariate filter) to estimate models with non-stationary observed variables.
+</p>
+<p>When <code>diffuse_filter</code> is used the <code>lik_init</code> option of
+<code>estimation</code> has no effect.
+</p>
+<p>When there  are nonstationary exogenous variables in  a model, there is  no unique deterministic  steady state.  For instance,  if productivity  is a  pure random walk:
+</p>
+<p><!-- MATH
+ $a_t = a_{t-1} + e_t$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="103" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_82.png"
+ ALT="$a_t = a_{t-1} + e_t$"></SPAN>
+</p>
+<p>any value of  <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_83.png"
+ ALT="$\bar a$"></SPAN> of <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_84.png"
+ ALT="$a$"></SPAN> is a  deterministic steady state for productivity.  Consequently, the  model admits  an infinity  of steady states. In this situation, the user must help Dynare in selecting one steady state, except if zero is a trivial model&rsquo;s steady state, which happens when the <code>linear</code> option is used in the model declaration. The user can either provide the steady state to Dynare using a <code>steady_state_model</code> block (or writing a steady state file) if a closed form solution is available, see <a href="Steady-state.html#steady_005fstate_005fmodel">steady_state_model</a>, or specify some constraints on the steady state, see <a href="Steady-state.html#equation_005ftag_005ffor_005fconditional_005fsteady_005fstate">equation_tag_for_conditional_steady_state</a>, so that Dynare computes the steady state conditionally on some predefined levels for the non stationary variables. In both cases, the idea is to use dummy values for the steady state level of the exogenous non stationary variables.
+</p>
+<p>Note that the nonstationary variables in the model must be integrated processes (their first difference or k-difference must be stationary).
+</p>
+</dd>
+<dt><code>selected_variables_only</code></dt>
+<dd><a name="selected_005fvariables_005fonly"></a><p>Only run the classical smoother on the variables listed just after the
+<code>estimation</code> command. This option is incompatible with requesting classical 
+frequentist forecasts and will be overridden in this case. When using Bayesian estimation,
+the smoother is by default only run on the declared endogenous variables.
+Default: run the smoother on all the
+declared endogenous variables.
+</p>
+</dd>
+<dt><code>cova_compute = <var>INTEGER</var></code></dt>
+<dd><p>When <code>0</code>, the covariance matrix of estimated parameters is not
+computed after the computation of posterior mode (or maximum
+likelihood). This increases speed of computation in large models
+during development, when this information is not always necessary. Of
+course, it will break all successive computations that would require
+this covariance matrix. Otherwise, if this option is equal to
+<code>1</code>, the covariance matrix is computed and stored in variable
+<code>hh</code> of <samp><var>MODEL_FILENAME</var>_mode.mat</samp>. Default is <code>1</code>.
+</p>
+</dd>
+<dt><code>solve_algo = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Steady-state.html#solve_005falgo">solve_algo</a>.
+</p>
+</dd>
+<dt><code>order = <var>INTEGER</var></code></dt>
+<dd><p>Order of approximation, either <code>1</code> or <code>2</code>. When equal to
+<code>2</code>, the likelihood is evaluated with a particle filter based on
+a second order approximation of the model (see
+<cite>Fernandez-Villaverde and Rubio-Ramirez (2005)</cite>).  Default is
+<code>1</code>, ie the likelihood of the linearized model is evaluated
+using a standard Kalman filter.
+</p>
+</dd>
+<dt><code>irf = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#irf">irf</a>. Only used if <a href="#bayesian_005firf">bayesian_irf</a> is passed.
+</p>
+</dd>
+<dt><code>irf_shocks = ( <var>VARIABLE_NAME</var> [[,] <var>VARIABLE_NAME</var> &hellip;] )</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#irf_005fshocks">irf_shocks</a>. Only used if <a href="#bayesian_005firf">bayesian_irf</a> is passed.
+</p>
+</dd>
+<dt><code>irf_plot_threshold = <var>DOUBLE</var></code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#irf_005fplot_005fthreshold">irf_plot_threshold</a>. Only used if <a href="#bayesian_005firf">bayesian_irf</a> is passed.
+</p>
+</dd>
+<dt><code>aim_solver</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#aim_005fsolver">aim_solver</a>.
+</p>
+</dd>
+<dt><code>sylvester = OPTION</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#sylvester">sylvester</a>.
+</p>
+</dd>
+<dt><code>sylvester_fixed_point_tol = <var>DOUBLE</var></code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#sylvester_005ffixed_005fpoint_005ftol">sylvester_fixed_point_tol</a>.
+</p>
+</dd>
+<dt><code>lyapunov = <var>OPTION</var></code></dt>
+<dd><a name="lyapunov"></a><p>Determines the algorithm used to solve the Lyapunov equation to initialized the variance-covariance matrix of the Kalman filter using the steady-state value of state variables. Possible values for <code><var>OPTION</var></code> are:
+</p>
+<dl compact="compact">
+<dt><code>default</code></dt>
+<dd><p>Uses the default solver for Lyapunov equations based on Bartels-Stewart algorithm.
+</p>
+</dd>
+<dt><code>fixed_point</code></dt>
+<dd><p>Uses a fixed point algorithm to solve the Lyapunov equation. This method is faster than the <code>default</code> one for large scale models, but it could require a large amount of iterations.
+</p>
+</dd>
+<dt><code>doubling</code></dt>
+<dd><p>Uses a doubling algorithm to solve the Lyapunov equation (<code>disclyap_fast</code>). This method is faster than the two previous one for large scale models.
+</p>
+
+</dd>
+<dt><code>square_root_solver</code></dt>
+<dd><p>Uses a square-root solver for Lyapunov equations
+(<code>dlyapchol</code>). This method is fast for large scale models
+(available under MATLAB if the control system toolbox is installed;
+available under Octave if the
+<a href="http://octave.sourceforge.net/control/">control</a> package from
+Octave-Forge is installed)
+</p>
+</dd>
+</dl>
+
+<p>Default value is <code>default</code>
+</p>
+</dd>
+<dt><code>lyapunov_fixed_point_tol = <var>DOUBLE</var></code></dt>
+<dd><a name="lyapunov_005ffixed_005fpoint_005ftol"></a><p>This is the convergence criterion used in the fixed point Lyapunov solver. Its default value is 1e-10.
+</p>
+</dd>
+<dt><code>lyapunov_doubling_tol = <var>DOUBLE</var></code></dt>
+<dd><a name="lyapunov_005fdoubling_005ftol"></a><p>This is the convergence criterion used in the doubling algorithm to solve the Lyapunov equation. Its default value is 1e-16.
+</p>
+</dd>
+<dt><code>use_penalized_objective_for_hessian</code></dt>
+<dd><p>Use the penalized objective instead of the objective function to compute
+numerically the hessian matrix at the mode. The penalties decrease the value of
+the posterior density (or likelihood) when, for some perturbations, Dynare is
+not able to solve the model (issues with steady state existence, Blanchard and
+Kahn conditions, ...). In pratice, the penalized and original
+objectives will only differ if the posterior mode is found to be near a region
+where the model is ill-behaved. By default the original objective function is
+used.
+</p>
+</dd>
+<dt><code>analytic_derivation</code></dt>
+<dd><a name="analytic_005fderivation"></a><p>Triggers estimation with analytic gradient. The final hessian is also
+computed analytically. Only works for stationary models without
+missing observations, i.e. for <code>kalman_algo&lt;3</code>.
+</p>
+</dd>
+<dt><code>ar = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#ar">ar</a>. Only useful in conjunction with option <code>moments_varendo</code>.
+</p>
+</dd>
+<dt><code>endogenous_prior</code></dt>
+<dd><p>Use endogenous priors as in <cite>Christiano, Trabandt and Walentin
+(2011)</cite>. 
+The procedure is motivated by sequential Bayesian learning.  Starting from independent initial priors on the parameters, 
+specified in the <code>estimated_params</code>-block, the standard deviations observed in a &quot;pre-sample&quot;, 
+taken to be the actual sample, are used to update the initial priors. Thus, the product of the initial 
+priors and the pre-sample likelihood of the standard deviations of the observables is used as the new prior 
+(for more information, see the technical appendix of <cite>Christiano, Trabandt and Walentin (2011)</cite>). 
+This procedure helps in cases where the regular posterior estimates, which minimize in-sample forecast 
+errors, result in a large overprediction 
+of model variable variances (a statistic that is not explicitly targeted, but often of particular interest to researchers).
+</p>
+</dd>
+<dt><code>use_univariate_filters_if_singularity_is_detected = <var>INTEGER</var></code></dt>
+<dd><a name="use_005funivariate_005ffilters_005fif_005fsingularity_005fis_005fdetected"></a><p>Decide whether Dynare should automatically switch to univariate filter
+if a singularity is encountered in the likelihood computation (this is
+the behaviour if the option is equal to <code>1</code>). Alternatively, if
+the option is equal to <code>0</code>, Dynare will not automatically change
+the filter, but rather use a penalty value for the likelihood when
+such a singularity is encountered. Default: <code>1</code>.
+</p>
+</dd>
+<dt><code>keep_kalman_algo_if_singularity_is_detected</code></dt>
+<dd><a name="keep_005fkalman_005falgo_005fif_005fsingularity_005fis_005fdetected"></a><p>With the default <a href="#use_005funivariate_005ffilters_005fif_005fsingularity_005fis_005fdetected">use_univariate_filters_if_singularity_is_detected</a>=1, Dynare will switch 
+to the univariate Kalman filter when it encounters a singular forecast error variance
+matrix during Kalman filtering. Upon encountering such a singularity for the first time, all subsequent
+parameter draws and computations will automatically rely on univariate filter, <i>i.e.</i> Dynare will never try 
+the multivariate filter again. Use the <code>keep_kalman_algo_if_singularity_is_detected</code> option to have the 
+<code>use_univariate_filters_if_singularity_is_detected</code> only affect the behavior for the current draw/computation.
+</p>
+</dd>
+<dt><code>rescale_prediction_error_covariance</code></dt>
+<dd><a name="rescale_005fprediction_005ferror_005fcovariance"></a><p>Rescales the prediction error covariance in the Kalman filter to avoid badly scaled matrix and reduce the probability of a switch to univariate Kalman filters (which are slower). By default no rescaling is done.
+</p>
+</dd>
+<dt><code>qz_zero_threshold = <var>DOUBLE</var></code></dt>
+<dd><p>See <a href="Getting-information-about-the-model.html#qz_005fzero_005fthreshold">qz_zero_threshold</a>.
+</p>
+</dd>
+<dt><code>taper_steps = [<var>INTEGER1</var> <var>INTEGER2</var> &hellip;]</code></dt>
+<dd><a name="taper_005fsteps"></a><p>Percent tapering used for the spectral window in the <cite>Geweke (1992,1999)</cite>
+convergence diagnostics (requires <a href="#mh_005fnblocks">mh_nblocks</a>=1). The tapering is used to
+take the serial correlation of the posterior draws into account. Default: <code>[4 8 15]</code>.
+</p>
+</dd>
+<dt><code>geweke_interval = [<var>DOUBLE</var> <var>DOUBLE</var>]</code></dt>
+<dd><a name="geweke_005finterval"></a><p>Percentage of MCMC draws at the beginning and end of the MCMC chain taken
+to compute the <cite>Geweke (1992,1999)</cite> convergence diagnostics (requires <a href="#mh_005fnblocks">mh_nblocks</a>=1)
+after discarding the first <a href="#mh_005fdrop">mh_drop</a> percent of draws as a burnin. Default: <code>[0.2 0.5]</code>.
+</p>
+</dd>
+<dt><code>raftery_lewis_diagnostics</code></dt>
+<dd><a name="raftery_005flewis_005fdiagnostics"></a><p>Triggers the computation of the <cite>Raftery and Lewis (1992)</cite> convergence diagnostics. The goal is deliver the number of draws 
+required to estimate a particular quantile of the CDF <code>q</code> with precision <code>r</code> with a probability <code>s</code>. Typically, one wants to estimate
+the <code>q=0.025</code> percentile (corresponding to a 95 percent HPDI) with a precision of 0.5 percent (<code>r=0.005</code>) with 95 percent 
+certainty (<code>s=0.95</code>). The defaults can be changed via <a href="#raftery_005flewis_005fqrs">raftery_lewis_qrs</a>. Based on the 
+theory of first order Markov Chains, the diagnostics will provide a required burn-in (<code>M</code>), the number of draws after the burnin (<code>N</code>) 
+as well as a thinning factor that would deliver a first order chain (<code>k</code>). The last line of the table will also deliver the maximum over 
+all parameters for the respective values.
+</p>
+</dd>
+<dt><code>raftery_lewis_qrs = [<var>DOUBLE</var> <var>DOUBLE</var> <var>DOUBLE</var>]</code></dt>
+<dd><a name="raftery_005flewis_005fqrs"></a><p>Sets the quantile of the CDF <code>q</code> that is estimated with precision <code>r</code> with a probability <code>s</code> in the 
+<cite>Raftery and Lewis (1992)</cite> convergence diagnostics. Default: <code>[0.025 0.005 0.95]</code>.
+</p>
+</dd>
+<dt><code>consider_all_endogenous</code></dt>
+<dd><p>Compute the posterior moments, smoothed variables, k-step ahead
+filtered variables and forecasts (when requested) on all the
+endogenous variables. This is equivalent to manually listing all the
+endogenous variables after the <code>estimation</code> command.
+</p>
+</dd>
+<dt><code>consider_only_observed</code></dt>
+<dd><p>Compute the posterior moments, smoothed variables, k-step ahead
+filtered variables and forecasts (when requested) on all the observed
+variables. This is equivalent to manually listing all the observed
+variables after the <code>estimation</code> command.
+</p>
+</dd>
+<dt><code>number_of_particles = <var>INTEGER</var></code></dt>
+<dd><a name="number_005fof_005fparticles"></a><p>Number of particles used when evaluating the likelihood of a non linear state space model. Default: <code>1000</code>.
+</p>
+</dd>
+<dt><code>resampling = <var>OPTION</var></code></dt>
+<dd><a name="resampling"></a><p>Determines if resampling of the particles is done. Possible values for <var>OPTION</var> are:
+</p>
+<dl compact="compact">
+<dt><code>none</code></dt>
+<dd><p>No resampling.
+</p>
+</dd>
+<dt><code>systematic</code></dt>
+<dd><p>Resampling at each iteration, this is the default value.
+</p>
+</dd>
+<dt><code>generic</code></dt>
+<dd><p>Resampling if and only if the effective sample size is below a certain level defined by <a href="#resampling_005fthreshold">resampling_threshold</a>*<a href="#number_005fof_005fparticles">number_of_particles</a>.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>resampling_threshold = <var>DOUBLE</var></code></dt>
+<dd><a name="resampling_005fthreshold"></a><p>A real number between zero and one. The resampling step is triggered as soon as the effective number of particles is less than this number times the total number of particles (as set by <a href="#number_005fof_005fparticles">number_of_particles</a>). This option is effective if and only if option <a href="#resampling">resampling</a> has value <code>generic</code>.
+</p>
+</dd>
+<dt><code>resampling_method = <var>OPTION</var></code></dt>
+<dd><a name="resampling_005fmethod"></a><p>Sets the resampling method. Possible values for <var>OPTION</var> are: <code>kitagawa</code>, <code>stratified</code> and <code>smooth</code>.
+</p>
+</dd>
+<dt><code>filter_algorithm = <var>OPTION</var></code></dt>
+<dd><a name="filter_005falgorithm"></a><p>Sets the particle filter algorithm. Possible values for <var>OPTION</var> are:
+</p>
+<dl compact="compact">
+<dt><code>sis</code></dt>
+<dd><p>Sequential importance sampling algorithm, this is the default value.
+</p>
+</dd>
+<dt><code>apf</code></dt>
+<dd><p>Auxiliary particle filter.
+</p>
+</dd>
+<dt><code>gf</code></dt>
+<dd><p>Gaussian filter.
+</p>
+</dd>
+<dt><code>gmf</code></dt>
+<dd><p>Gaussian mixture filter.
+</p>
+</dd>
+<dt><code>cpf</code></dt>
+<dd><p>Conditional particle filter.
+</p>
+</dd>
+<dt><code>nlkf</code></dt>
+<dd><p>Use a standard (linear) Kalman filter algorithm with the nonlinear measurement and state equations.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>proposal_approximation = <var>OPTION</var></code></dt>
+<dd><a name="proposal_005fapproximation"></a><p>Sets the method for approximating the proposal distribution. Possible values for <var>OPTION</var> are: <code>cubature</code>, <code>montecarlo</code> and <code>unscented</code>. Default value is <code>unscented</code>.
+</p>
+</dd>
+<dt><code>distribution_approximation = <var>OPTION</var></code></dt>
+<dd><a name="distribution_005fapproximation"></a><p>Sets the method for approximating the particle distribution. Possible values for <var>OPTION</var> are: <code>cubature</code>, <code>montecarlo</code> and <code>unscented</code>. Default value is <code>unscented</code>.
+</p>
+</dd>
+<dt><code>cpf_weights = <var>OPTION</var></code></dt>
+<dd><a name="cpf_005fweights"></a><p>Controls the method used to update the weights in conditional particle filter, possible values are <code>amisanotristani</code> (<cite>Amisano et al (2010)</cite>) or <code>murrayjonesparslow</code> (<cite>Murray et al. (2013)</cite>). Default value is <code>amisanotristani</code>.
+</p>
+</dd>
+<dt><code>nonlinear_filter_initialization = <var>INTEGER</var></code></dt>
+<dd><a name="nonlinear_005ffilter_005finitialization"></a><p>Sets the initial condition of the
+nonlinear filters. By default the nonlinear filters are initialized with the
+unconditional covariance matrix of the state variables, computed with the
+reduced form solution of the first order approximation of the model. If
+<code>nonlinear_filter_initialization=2</code>, the nonlinear filter is instead
+initialized with a covariance matrix estimated with a stochastic simulation of
+the reduced form solution of the second order approximation of the model. Both
+these initializations assume that the model is stationary, and cannot be used
+if the model has unit roots (which can be seen with the <a href="Getting-information-about-the-model.html#check">check</a> command
+prior to estimation). If the model has stochastic trends, user must use
+<code>nonlinear_filter_initialization=3</code>, the filters are then initialized with
+an identity matrix for the covariance matrix of the state variables. Default
+value is <code>nonlinear_filter_initialization=1</code> (initialization based on the
+first order approximation of the model).
+</p>
+</dd>
+</dl>
+
+
+<p><em>Note</em>
+</p>
+<p>If no <code>mh_jscale</code> parameter is used for a parameter in <code>estimated_params</code>, 
+the procedure uses <code>mh_jscale</code> for all parameters. If
+<code>mh_jscale</code> option isn&rsquo;t set, the procedure uses <code>0.2</code> for
+all parameters. Note that if <code>mode_compute=6</code> is used or the <code>posterior_sampler_option</code> 
+called <code>scale_file</code> is specified, the values set in <code>estimated_params</code>
+will be overwritten.
+</p>
+<p><em>&ldquo;Endogenous&rdquo; prior restrictions</em>
+</p>
+<p>It is also possible to impose implicit &ldquo;endogenous&rdquo; priors about IRFs and moments on the model during 
+estimation. For example, one can specify that all valid parameter draws for the model must generate fiscal multipliers that are
+bigger than 1 by specifying how the IRF to a government spending shock must look like. The prior restrictions can be imposed
+via <code>irf_calibration</code> and <code>moment_calibration</code> blocks (see <a href="Sensitivity-and-identification-analysis.html#IRF_002fMoment-calibration">IRF/Moment calibration</a>). The way it works internally is that 
+any parameter draw that is inconsistent with the &ldquo;calibration&rdquo; provided in these blocks is discarded, <i>i.e.</i> assigned a prior density of 0. 
+When specifying these blocks, it is important to keep in mind that one won&rsquo;t be able to easily do <code>model_comparison</code> in this case, 
+because the prior density will not integrate to 1.
+</p>
+<p><em>Output</em>
+</p>
+<a name="index-M_005f_002eparams-1"></a>
+<a name="index-M_005f_002eSigma_005fe"></a>
+<p>After running <code>estimation</code>, the parameters <code>M_.params</code> and
+the variance matrix <code>M_.Sigma_e</code> of the shocks are set to the
+mode for maximum likelihood estimation or posterior mode computation
+without Metropolis iterations.
+</p>
+<p>After <code>estimation</code> with Metropolis iterations (option
+<code>mh_replic</code> &gt; 0 or option <code>load_mh_file</code> set) the parameters
+<code>M_.params</code> and the variance matrix <code>M_.Sigma_e</code> of the
+shocks are set to the posterior mean.
+</p>
+<p>Depending on the options, <code>estimation</code> stores results in various
+fields of the <code>oo_</code> structure, described below.
+</p>
+</dd></dl>
+
+<p>In the following variables, we will adopt the following shortcuts for
+specific field names:
+</p>
+<dl compact="compact">
+<dt><var>MOMENT_NAME</var></dt>
+<dd>
+<p>This field can take the following values:
+</p>
+<dl compact="compact">
+<dt><code>HPDinf</code></dt>
+<dd><p>Lower bound of a 90% HPD interval<a name="DOCF3" href="#FOOT3"><sup>3</sup></a>
+</p>
+</dd>
+<dt><code>HPDsup</code></dt>
+<dd><p>Upper bound of a 90% HPD interval
+</p>
+</dd>
+<dt><code>HPDinf_ME</code></dt>
+<dd><p>Lower bound of a 90% HPD interval<a name="DOCF4" href="#FOOT4"><sup>4</sup></a> for observables when taking 
+measurement error into account (see <i>e.g.</i> <cite>Christoffel et al. (2010), p.17</cite>).
+</p>
+</dd>
+<dt><code>HPDsup_ME</code></dt>
+<dd><p>Upper bound of a 90% HPD interval for observables when taking 
+measurement error into account
+</p>
+</dd>
+<dt><code>Mean</code></dt>
+<dd><p>Mean of the posterior distribution
+</p>
+</dd>
+<dt><code>Median</code></dt>
+<dd><p>Median of the posterior distribution
+</p>
+</dd>
+<dt><code>Std</code></dt>
+<dd><p>Standard deviation of the posterior distribution
+</p>
+</dd>
+<dt><code>Variance</code></dt>
+<dd><p>Variance of the posterior distribution
+</p>
+</dd>
+<dt><code>deciles</code></dt>
+<dd><p>Deciles of the distribution.
+</p>
+</dd>
+<dt><code>density</code></dt>
+<dd><a name="density_002dfield"></a><p>Non parametric estimate of the posterior density following the approach outlined in <cite>Skoeld and Roberts (2003)</cite>. First and second
+columns are respectively abscissa and ordinate coordinates. 
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><var>ESTIMATED_OBJECT</var></dt>
+<dd>
+<p>This field can take the following values:
+</p>
+<dl compact="compact">
+<dt><code>measurement_errors_corr</code></dt>
+<dd><p>Correlation between two measurement errors
+</p>
+</dd>
+<dt><code>measurement_errors_std</code></dt>
+<dd><p>Standard deviation of measurement errors
+</p>
+</dd>
+<dt><code>parameters</code></dt>
+<dd><p>Parameters
+</p>
+</dd>
+<dt><code>shocks_corr</code></dt>
+<dd><p>Correlation between two structural shocks
+</p>
+</dd>
+<dt><code>shocks_std</code></dt>
+<dd><p>Standard deviation of structural shocks
+</p>
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+<dl>
+<dt><a name="index-oo_005f_002eMarginalDensity_002eLaplaceApproximation"></a>MATLAB/Octave variable: <strong>oo_.MarginalDensity.LaplaceApproximation</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command. Stores the marginal data density 
+based on the Laplace Approximation.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eMarginalDensity_002eModifiedHarmonicMean"></a>MATLAB/Octave variable: <strong>oo_.MarginalDensity.ModifiedHarmonicMean</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with
+<code>mh_replic &gt; 0</code> or <code>load_mh_file</code> option. Stores the marginal data density 
+based on <cite>Geweke (1999)</cite> Modified Harmonic Mean estimator.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_002eoptimization"></a>MATLAB/Octave variable: <strong>oo_.posterior.optimization</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command if mode-finding is used. Stores the results at the mode. 
+Fields are of the form 
+</p><div class="example">
+<pre class="example"><code>oo_.posterior.optimization.<var>OBJECT</var></code>
+</pre></div>
+
+<p>where <var>OBJECT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>mode</code></dt>
+<dd><p>Parameter vector at the mode
+</p>
+</dd>
+<dt><code>Variance</code></dt>
+<dd><p>Inverse Hessian matrix at the mode or MCMC jumping covariance matrix when used with the 
+<a href="#MCMC_005fjumping_005fcovariance">MCMC_jumping_covariance</a> option
+</p>
+</dd>
+<dt><code>log_density</code></dt>
+<dd><p>Log likelihood (ML)/log posterior density (Bayesian) at the mode when used with <code>mode_compute&gt;0</code>
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_002emetropolis"></a>MATLAB/Octave variable: <strong>oo_.posterior.metropolis</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command if <code>mh_replic&gt;0</code> is used. 
+Fields are of the form 
+</p><div class="example">
+<pre class="example"><code>oo_.posterior.metropolis.<var>OBJECT</var></code>
+</pre></div>
+
+<p>where <var>OBJECT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>mean</code></dt>
+<dd><p>Mean parameter vector from the MCMC
+</p>
+</dd>
+<dt><code>Variance</code></dt>
+<dd><p>Covariance matrix of the parameter draws in the MCMC 
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eFilteredVariables"></a>MATLAB/Octave variable: <strong>oo_.FilteredVariables</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with the
+<code>filtered_vars</code> option.
+</p>
+<p>After an estimation without Metropolis, fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.FilteredVariables.<var>VARIABLE_NAME</var></code>
+</pre></div>
+
+
+<p>After an estimation with Metropolis, fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.FilteredVariables.<var>MOMENT_NAME</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eFilteredVariablesKStepAhead"></a>MATLAB/Octave variable: <strong>oo_.FilteredVariablesKStepAhead</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with the
+<code>filter_step_ahead</code> option. The k-steps are stored along the rows while the columns 
+indicate the respective variables. The third dimension of the array provides the
+observation for which the forecast has been made. For example, if <code>filter_step_ahead=[1 2 4]</code> 
+and <code>nobs=200</code>, the element (3,5,204) stores the four period ahead filtered 
+value of variable 5 computed at time t=200 for time t=204. The periods at the beginning 
+and end of the sample for which no forecasts can be made, <i>e.g.</i> entries (1,5,1) and 
+(1,5,204) in the example, are set to zero. Note that in case of Bayesian estimation 
+the variables will be ordered in the order of declaration after the estimation 
+command (or in general declaration order if no variables are specified here). In case 
+of running the classical smoother, the variables will always be ordered in general 
+declaration order. If the <a href="#selected_005fvariables_005fonly">selected_variables_only</a> option is specified with the classical smoother, 
+non-requested variables will be simply left out in this order.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eFilteredVariablesKStepAheadVariances"></a>MATLAB/Octave variable: <strong>oo_.FilteredVariablesKStepAheadVariances</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with the
+<code>filter_step_ahead</code> option. It is a 4 dimensional array where the k-steps 
+are stored along the first dimension, while the fourth dimension of the array 
+provides the observation for which the forecast has been made. The second and third 
+dimension provide the respective variables. 
+For example, if <code>filter_step_ahead=[1 2 4]</code> and <code>nobs=200</code>, the element (3,4,5,204) 
+stores the four period ahead forecast error covariance between variable 4 and variable 5, 
+computed at time t=200 for time t=204. Padding with zeros and variable ordering is analogous to <code>oo_.FilteredVariablesKStepAhead</code>. 
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eFiltered_005fVariables_005fX_005fstep_005fahead"></a>MATLAB/Octave variable: <strong>oo_.Filtered_Variables_X_step_ahead</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with the <code>filter_step_ahead</code> option in the context of Bayesian estimation. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.Filtered_Variables_X_step_ahead.<var>VARIABLE_NAME</var></code>
+</pre></div>
+<p>The nth entry stores the k-step ahead filtered variable computed at time n for time n+k.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eFilteredVariablesShockDecomposition"></a>MATLAB/Octave variable: <strong>oo_.FilteredVariablesShockDecomposition</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with the
+<code>filter_step_ahead</code> option. The k-steps are stored along the rows while the columns 
+indicate the respective variables.  The third dimension corresponds to the shocks in declaration order. 
+The fourth dimension of the array provides the
+observation for which the forecast has been made. For example, if <code>filter_step_ahead=[1 2 4]</code> 
+and <code>nobs=200</code>, the element (3,5,2,204) stores the contribution of the second shock to the 
+four period ahead filtered value of variable 5 (in deviations from the mean) computed at time t=200 for time t=204. The periods at the beginning 
+and end of the sample for which no forecasts can be made, <i>e.g.</i> entries (1,5,1) and 
+(1,5,204) in the example, are set to zero. Padding with zeros and variable ordering is analogous to 
+<code>oo_.FilteredVariablesKStepAhead</code>. 
+</p></dd></dl>
+
+
+<dl>
+<dt><a name="index-oo_005f_002ePosteriorIRF_002edsge"></a>MATLAB/Octave variable: <strong>oo_.PosteriorIRF.dsge</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with the
+<code>bayesian_irf</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.PosteriorIRF.dsge.<var>MOMENT_NAME</var>.<var>VARIABLE_NAME</var>_<var>SHOCK_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoothedMeasurementErrors"></a>MATLAB/Octave variable: <strong>oo_.SmoothedMeasurementErrors</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with the
+<code>smoother</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.SmoothedMeasurementErrors.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoothedShocks"></a>MATLAB/Octave variable: <strong>oo_.SmoothedShocks</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command (if used with the
+<code>smoother</code> option), or by the <code>calib_smoother</code> command.
+</p>
+<p>After an estimation without Metropolis, or if computed by
+<code>calib_smoother</code>, fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.SmoothedShocks.<var>VARIABLE_NAME</var></code>
+</pre></div>
+
+<p>After an estimation with Metropolis, fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.SmoothedShocks.<var>MOMENT_NAME</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoothedVariables"></a>MATLAB/Octave variable: <strong>oo_.SmoothedVariables</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command (if used with the
+<code>smoother</code> option), or by the <code>calib_smoother</code> command.
+</p>
+<p>After an estimation without Metropolis, or if computed by
+<code>calib_smoother</code>, fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.SmoothedVariables.<var>VARIABLE_NAME</var></code>
+</pre></div>
+
+<p>After an estimation with Metropolis, fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.SmoothedVariables.<var>MOMENT_NAME</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eUpdatedVariables"></a>MATLAB/Octave variable: <strong>oo_.UpdatedVariables</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command (if used with the
+<code>smoother</code> option), or by the <code>calib_smoother</code> command.
+Contains the estimation of the expected value of variables given the
+information available at the <em>current</em> date.
+</p>
+<p>After an estimation without Metropolis, or if computed by
+<code>calib_smoother</code>, fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.UpdatedVariables.<var>VARIABLE_NAME</var></code>
+</pre></div>
+
+<p>After an estimation with Metropolis, fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.UpdatedVariables.<var>MOMENT_NAME</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eFilterCovariance"></a>MATLAB/Octave variable: <strong>oo_.FilterCovariance</strong></dt>
+<dd><a name="oo_005f_002eFilterCovariance"></a><p>Three-dimensional array set by the <code>estimation</code> command if used with the
+<code>smoother</code> and Metropolis, if the <code>filter_covariance</code> option
+has been requested.
+Contains the series of one-step ahead forecast error covariance matrices
+from the Kalman smoother. The <code>M_.endo_nbr</code> times <code>M_.endo_nbr</code> times
+<code>T+1</code> array contains the variables in declaration order along the first 
+two dimensions. The third dimension of the array provides the
+observation for which the forecast has been made.
+Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.FilterCovariance.<var>MOMENT_NAME</var></code>
+</pre></div>
+<p>Note that density estimation is not supported.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoother_002eVariance"></a>MATLAB/Octave variable: <strong>oo_.Smoother.Variance</strong></dt>
+<dd><a name="oo_005f_002eSmoother_002eVariance"></a><p>Three-dimensional array set by the <code>estimation</code> command (if used with the
+<code>smoother</code>) without Metropolis, 
+or by the <code>calib_smoother</code> command, if the <code>filter_covariance</code> option
+has been requested.
+Contains the series of one-step ahead forecast error covariance matrices
+from the Kalman smoother. The <code>M_.endo_nbr</code> times <code>M_.endo_nbr</code> times
+<code>T+1</code> array contains the variables in declaration order along the first 
+two dimensions. The third dimension of the array provides the
+observation for which the forecast has been made.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoother_002eState_005funcertainty"></a>MATLAB/Octave variable: <strong>oo_.Smoother.State_uncertainty</strong></dt>
+<dd><a name="oo_005f_002eSmoother_002eState_005funcertainty"></a><p>Three-dimensional array set by the <code>estimation</code> command (if used with the
+<code>smoother</code> option) without Metropolis, 
+or by the <code>calib_smoother</code> command, if the <code>smoothed_state_uncertainty</code> option
+has been requested.
+Contains the series of covariance matrices for the state estimate given the full data
+from the Kalman smoother. The <code>M_.endo_nbr</code> times <code>M_.endo_nbr</code> times
+<code>T</code> array contains the variables in declaration order along the first 
+two dimensions. The third dimension of the array provides the
+observation for which the smoothed estimate has been made.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoother_002eSteadyState"></a>MATLAB/Octave variable: <strong>oo_.Smoother.SteadyState</strong></dt>
+<dd><a name="oo_005f_002eSmoother_002eSteadyState"></a><p>Variable set by the <code>estimation</code> command (if used with the
+<code>smoother</code>) without Metropolis, 
+or by the <code>calib_smoother</code> command.
+Contains the steady state component of the endogenous variables used in the
+smoother in order of variable declaration.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoother_002eTrendCoeffs"></a>MATLAB/Octave variable: <strong>oo_.Smoother.TrendCoeffs</strong></dt>
+<dd><a name="oo_005f_002eSmoother_002eTrendCoeffs"></a><p>Variable set by the <code>estimation</code> command (if used with the
+<code>smoother</code>) without Metropolis, 
+or by the <code>calib_smoother</code> command.
+Contains the trend coefficients of the observed variables used in the
+smoother in order of declaration of the observed variables.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoother_002eTrend"></a>MATLAB/Octave variable: <strong>oo_.Smoother.Trend</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command (if used with the
+<code>smoother</code> option), or by the <code>calib_smoother</code> command.
+Contains the trend component of the variables used in the
+smoother.
+</p>
+<p>Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.Smoother.Trend.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoother_002eConstant"></a>MATLAB/Octave variable: <strong>oo_.Smoother.Constant</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command (if used with the
+<code>smoother</code> option), or by the <code>calib_smoother</code> command.
+Contains the constant part of the endogenous variables used in the
+smoother, accounting <i>e.g.</i> for the data mean when using the <code>prefilter</code>
+option.
+</p>
+<p>Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.Smoother.Constant.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eSmoother_002eloglinear"></a>MATLAB/Octave variable: <strong>oo_.Smoother.loglinear</strong></dt>
+<dd><p>Indicator keeping track of whether the smoother was run with the <a href="#loglinear">loglinear</a> option 
+and thus whether stored smoothed objects are in logs.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002ePosteriorTheoreticalMoments"></a>MATLAB/Octave variable: <strong>oo_.PosteriorTheoreticalMoments</strong></dt>
+<dd><a name="oo_005f_002ePosteriorTheoreticalMoments"></a><p>Variable set by the <code>estimation</code> command, if it is used with the
+<code>moments_varendo</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.PosteriorTheoreticalMoments.dsge.<var>THEORETICAL_MOMENT</var>.<var>ESTIMATED_OBJECT</var>.<var>MOMENT_NAME</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+<p>where <var>THEORETICAL_MOMENT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>covariance</code></dt>
+<dd><p>Variance-covariance of endogenous variables
+</p>
+</dd>
+<dt><code>contemporaneous_correlation</code></dt>
+<dd><p>Contemporaneous correlation of endogenous variables when the <a href="Stochastic-solution-and-simulation.html#contemporaneous_005fcorrelation">contemporaneous_correlation</a> option is specified.
+</p>
+</dd>
+<dt><code>correlation</code></dt>
+<dd><p>Auto- and cross-correlation of endogenous variables. Fields are vectors with correlations from 1 up to order <code>options_.ar</code>
+</p>
+
+</dd>
+<dt><code>VarianceDecomposition</code></dt>
+<dd><p>Decomposition of variance (unconditional variance, <i>i.e.</i> at horizon infinity)<a name="DOCF5" href="#FOOT5"><sup>5</sup></a>
+</p>
+</dd>
+<dt><code>ConditionalVarianceDecomposition</code></dt>
+<dd><p>Only if the <code>conditional_variance_decomposition</code> option has been
+specified
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fdensity"></a>MATLAB/Octave variable: <strong>oo_.posterior_density</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with
+<code>mh_replic &gt; 0</code> or <code>load_mh_file</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_density.<var>PARAMETER_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fhpdinf"></a>MATLAB/Octave variable: <strong>oo_.posterior_hpdinf</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with
+<code>mh_replic &gt; 0</code> or <code>load_mh_file</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_hpdinf.<var>ESTIMATED_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fhpdsup"></a>MATLAB/Octave variable: <strong>oo_.posterior_hpdsup</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with
+<code>mh_replic &gt; 0</code> or <code>load_mh_file</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_hpdsup.<var>ESTIMATED_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fmean"></a>MATLAB/Octave variable: <strong>oo_.posterior_mean</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with
+<code>mh_replic &gt; 0</code> or <code>load_mh_file</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_mean.<var>ESTIMATED_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fmode"></a>MATLAB/Octave variable: <strong>oo_.posterior_mode</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command during mode-finding. Fields are 
+of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_mode.<var>ESTIMATED_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fstd_005fat_005fmode"></a>MATLAB/Octave variable: <strong>oo_.posterior_std_at_mode</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command during mode-finding. It is based on the
+inverse Hessian at <code>oo_.posterior_mode</code>. Fields are 
+of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_std_at_mode.<var>ESTIMATED_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fstd"></a>MATLAB/Octave variable: <strong>oo_.posterior_std</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with
+<code>mh_replic &gt; 0</code> or <code>load_mh_file</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_std.<var>ESTIMATED_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fvar"></a>MATLAB/Octave variable: <strong>oo_.posterior_var</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with
+<code>mh_replic &gt; 0</code> or <code>load_mh_file</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_var.<var>ESTIMATED_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eposterior_005fmedian"></a>MATLAB/Octave variable: <strong>oo_.posterior_median</strong></dt>
+<dd><p>Variable set by the <code>estimation</code> command, if it is used with
+<code>mh_replic &gt; 0</code> or <code>load_mh_file</code> option. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.posterior_median.<var>ESTIMATED_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<p>Here are some examples of generated variables:
+</p>
+<div class="example">
+<pre class="example">oo_.posterior_mode.parameters.alp
+oo_.posterior_mean.shocks_std.ex
+oo_.posterior_hpdsup.measurement_errors_corr.gdp_conso
+</pre></div>
+
+<dl>
+<dt><a name="index-oo_005f_002edsge_005fvar_002eposterior_005fmode"></a>MATLAB/Octave variable: <strong>oo_.dsge_var.posterior_mode</strong></dt>
+<dd><a name="oo_005f_002edsge_005fvar_002eposterior_005fmode"></a><p>Structure set by the <code>dsge_var</code> option of the <code>estimation</code> command after <code>mode_compute</code>.
+</p>
+<p>The following fields are saved:
+</p>
+<dl compact="compact">
+<dt><code>PHI_tilde</code></dt>
+<dd><p>Stacked posterior DSGE-BVAR autoregressive matrices at the mode (equation (28) of 
+<cite>Del Negro and Schorfheide (2004)</cite>).
+</p>
+</dd>
+<dt><code>SIGMA_u_tilde</code></dt>
+<dd><p>Posterior covariance matrix of the DSGE-BVAR at the mode (equation (29) of 
+<cite>Del Negro and Schorfheide (2004)</cite>).
+</p>
+</dd>
+<dt><code>iXX</code></dt>
+<dd><p>Posterior population moments in the DSGE-BVAR at the mode (<!-- MATH
+ $inv(\lambda T \Gamma_{XX}^*+ X'X)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="147" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_85.png"
+ ALT="$inv(\lambda T \Gamma_{XX}^*+ X'X)$"></SPAN>).
+</p>
+</dd>
+<dt><code>prior</code></dt>
+<dd><p>Structure storing the DSGE-BVAR prior.
+</p>
+<dl compact="compact">
+<dt><code>PHI_star</code></dt>
+<dd><p>Stacked prior DSGE-BVAR autoregressive matrices at the mode (equation (22) of 
+<cite>Del Negro and Schorfheide (2004)</cite>).
+</p>
+</dd>
+<dt><code>SIGMA_star</code></dt>
+<dd><p>Prior covariance matrix of the DSGE-BVAR at the mode (equation (23) of 
+<cite>Del Negro and Schorfheide (2004)</cite>).
+</p>
+</dd>
+<dt><code>ArtificialSampleSize</code></dt>
+<dd><p>Size of the artifical prior sample (<!-- MATH
+ $inv(\lambda T)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_86.png"
+ ALT="$inv(\lambda T)$"></SPAN>).
+</p>
+</dd>
+<dt><code>DF</code></dt>
+<dd><p>Prior degrees of freedom (<!-- MATH
+ $inv(\lambda T-k-n)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="118" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_87.png"
+ ALT="$inv(\lambda T-k-n)$"></SPAN>).
+</p>
+</dd>
+<dt><code>iGXX_star</code></dt>
+<dd><p>Inverse of the theoretical prior &ldquo;covariance&rdquo; between X and X (<SPAN CLASS="MATH"><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_88.png"
+ ALT="$\Gamma_{xx}^*$"></SPAN> in <cite>Del Negro and Schorfheide (2004)</cite>).
+</p>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-oo_005f_002eRecursiveForecast"></a>MATLAB/Octave variable: <strong>oo_.RecursiveForecast</strong></dt>
+<dd><a name="RecursiveForecast"></a><p>Variable set by the <code>forecast</code> option of the <code>estimation</code> command when used with the nobs = [<var>INTEGER1</var>:<var>INTEGER2</var>] option (see <a href="#nobs1">nobs</a>).
+</p>
+<p>Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.RecursiveForecast.<var>FORECAST_OBJECT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+<p>where <var>FORECAST_OBJECT</var> is one of the following<a name="DOCF6" href="#FOOT6"><sup>6</sup></a>:
+</p>
+<dl compact="compact">
+<dt><code>Mean</code></dt>
+<dd><p>Mean of the posterior forecast distribution
+</p>
+</dd>
+<dt><code>HPDinf/HPDsup</code></dt>
+<dd><p>Upper/lower bound of the 90% HPD interval taking into account only parameter uncertainty (corresponding to <a href="Forecasting.html#oo_005f_002eMeanForecast">oo_.MeanForecast</a>)
+</p>
+</dd>
+<dt><code>HPDTotalinf/HPDTotalsup</code></dt>
+<dd><p>Upper/lower bound of the 90% HPD interval taking into account both parameter and future shock uncertainty (corresponding to <a href="Forecasting.html#oo_005f_002ePointForecast">oo_.PointForecast</a>)
+</p>
+</dd>
+</dl>
+
+<p><var>VARIABLE_NAME</var> contains a matrix of the following size: number of time periods for which forecasts are requested using the nobs = [<var>INTEGER1</var>:<var>INTEGER2</var>] option times the number of forecast horizons requested by the <code>forecast</code> option. <i>i.e.</i>, the row indicates the period at which the forecast is performed and the column the respective k-step ahead forecast. The starting periods are sorted in ascending order, not in declaration order.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002econvergence_002egeweke"></a>MATLAB/Octave variable: <strong>oo_.convergence.geweke</strong></dt>
+<dd><a name="convergence_002egeweke"></a><p>Variable set by the convergence diagnostics of the <code>estimation</code> command when used with <a href="#mh_005fnblocks">mh_nblocks</a>=1 option (see <a href="#mh_005fnblocks">mh_nblocks</a>).
+</p>
+<p>Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.convergence.geweke.<var>VARIABLE_NAME</var>.<var>DIAGNOSTIC_OBJECT</var></code>
+</pre></div>
+<p>where <var>DIAGNOSTIC_OBJECT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>posteriormean</code></dt>
+<dd><p>Mean of the posterior parameter distribution
+</p>
+</dd>
+<dt><code>posteriorstd</code></dt>
+<dd><p>Standard deviation of the posterior parameter distribution
+</p>
+</dd>
+<dt><code>nse_iid</code></dt>
+<dd><p>Numerical standard error (NSE) under the assumption of iid draws
+</p>
+</dd>
+<dt><code>rne_iid</code></dt>
+<dd><p>Relative numerical efficiency (RNE) under the assumption of iid draws
+</p>
+</dd>
+<dt><code>nse_x</code></dt>
+<dd><p>Numerical standard error (NSE) when using an x% taper
+</p>
+</dd>
+<dt><code>rne_x</code></dt>
+<dd><p>Relative numerical efficiency (RNE) when using an x% taper
+</p>
+</dd>
+<dt><code>pooled_mean</code></dt>
+<dd><p>Mean of the parameter when pooling the beginning and end parts of the chain
+specified in <a href="#geweke_005finterval">geweke_interval</a> and weighting them with their relative precision.
+It is a vector containing the results under the iid assumption followed by the ones
+using the <a href="#taper_005fsteps">taper_steps</a> (see <a href="#taper_005fsteps">taper_steps</a>).
+</p>
+</dd>
+<dt><code>pooled_nse</code></dt>
+<dd><p>NSE of the parameter when pooling the beginning and end parts of the chain and weighting them with their relative precision. See <code>pooled_mean</code>
+</p>
+</dd>
+<dt><code>prob_chi2_test</code></dt>
+<dd><p>p-value of a chi squared test for equality of means in the beginning and the end
+of the MCMC chain. See <code>pooled_mean</code>. A value above 0.05 indicates that
+the null hypothesis of equal means and thus convergence cannot be rejected
+at the 5 percent level. Differing values along the <a href="#taper_005fsteps">taper_steps</a> signal
+the presence of significant autocorrelation in draws. In this case, the
+estimates using a higher tapering are usually more reliable.
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt><a name="index-unit_005froot_005fvars"></a>Command: <strong>unit_root_vars</strong> <em><var>VARIABLE_NAME</var>&hellip;;</em></dt>
+<dd>
+<p>This command is deprecated. Use <code>estimation</code> option <code>diffuse_filter</code> instead for estimating a model with non-stationary observed variables or <code>steady</code> option <code>nocheck</code> to prevent <code>steady</code> to check the steady state returned by your steady state file.
+</p></dd></dl>
+
+<p>Dynare also has the ability to estimate Bayesian VARs:
+</p>
+<dl>
+<dt><a name="index-bvar_005fdensity"></a>Command: <strong>bvar_density</strong> <em>;</em></dt>
+<dd><p>Computes the marginal density of an estimated BVAR model, using
+Minnesota priors.
+</p>
+<p>See <samp>bvar-a-la-sims.pdf</samp>, which comes with Dynare distribution,
+for more information on this command.
+</p></dd></dl>
+
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h3><a name="FOOT3" href="#DOCF3">(3)</a></h3>
+<p>See option <a href="Forecasting.html#conf_005fsig">conf_sig</a>
+to change the size of the HPD interval</p>
+<h3><a name="FOOT4" href="#DOCF4">(4)</a></h3>
+<p>See option <a href="Forecasting.html#conf_005fsig">conf_sig</a>
+to change the size of the HPD interval</p>
+<h3><a name="FOOT5" href="#DOCF5">(5)</a></h3>
+<p>When the shocks are correlated, it
+is the decomposition of orthogonalized shocks via Cholesky
+decomposition according to the order of declaration of shocks
+(see <a href="Variable-declarations.html#Variable-declarations">Variable declarations</a>)</p>
+<h3><a name="FOOT6" href="#DOCF6">(6)</a></h3>
+<p>See <a href="#forecast">forecast</a> for more information</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Model-Comparison.html#Model-Comparison" accesskey="n" rel="next">Model Comparison</a>, Previous: <a href="Stochastic-solution-and-simulation.html#Stochastic-solution-and-simulation" accesskey="p" rel="prev">Stochastic solution and simulation</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

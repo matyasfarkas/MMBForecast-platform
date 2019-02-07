@@ -1,0 +1,509 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Expressions</title>
+
+<meta name="description" content="Dynare Reference Manual: Expressions">
+<meta name="keywords" content="Dynare Reference Manual: Expressions">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Parameter-initialization.html#Parameter-initialization" rel="next" title="Parameter initialization">
+<link href="Variable-declarations.html#Variable-declarations" rel="prev" title="Variable declarations">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Expressions"></a>
+<div class="header">
+<p>
+Next: <a href="Parameter-initialization.html#Parameter-initialization" accesskey="n" rel="next">Parameter initialization</a>, Previous: <a href="Variable-declarations.html#Variable-declarations" accesskey="p" rel="prev">Variable declarations</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Expressions-1"></a>
+<h3 class="section">4.3 Expressions</h3>
+
+<p>Dynare distinguishes between two types of mathematical expressions:
+those that are used to describe the model, and those that are used
+outside the model block (<i>e.g.</i> for initializing parameters or
+variables, or as command options). In this manual, those two types of
+expressions are respectively denoted by <var>MODEL_EXPRESSION</var> and
+<var>EXPRESSION</var>.
+</p>
+<p>Unlike MATLAB or Octave expressions, Dynare expressions are necessarily
+scalar ones: they cannot contain matrices or evaluate to
+matrices<a name="DOCF1" href="#FOOT1"><sup>1</sup></a>.
+</p>
+<p>Expressions can be constructed using integers (<var>INTEGER</var>), floating
+point numbers (<var>DOUBLE</var>), parameter names (<var>PARAMETER_NAME</var>),
+variable names (<var>VARIABLE_NAME</var>), operators and functions.
+</p>
+<p>The following special constants are also accepted in some contexts:
+</p>
+<dl>
+<dt><a name="index-inf"></a>Constant: <strong>inf</strong></dt>
+<dd><p>Represents infinity.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-nan"></a>Constant: <strong>nan</strong></dt>
+<dd><p>&ldquo;Not a number&rdquo;: represents an undefined or unrepresentable value.
+</p></dd></dl>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#Parameters-and-variables" accesskey="1">Parameters and variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Operators" accesskey="2">Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Functions" accesskey="3">Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#A-few-words-of-warning-in-stochastic-context" accesskey="4">A few words of warning in stochastic context</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="Parameters-and-variables"></a>
+<div class="header">
+<p>
+Next: <a href="#Operators" accesskey="n" rel="next">Operators</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Parameters-and-variables-1"></a>
+<h4 class="subsection">4.3.1 Parameters and variables</h4>
+
+<p>Parameters and variables can be introduced in expressions by simply
+typing their names. The semantics of parameters and variables is quite
+different whether they are used inside or outside the model block.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#Inside-the-model" accesskey="1">Inside the model</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#Outside-the-model" accesskey="2">Outside the model</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="Inside-the-model"></a>
+<div class="header">
+<p>
+Next: <a href="#Outside-the-model" accesskey="n" rel="next">Outside the model</a>, Up: <a href="#Parameters-and-variables" accesskey="u" rel="up">Parameters and variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Inside-the-model-1"></a>
+<h4 class="subsubsection">4.3.1.1 Inside the model</h4>
+
+<p>Parameters used inside the model refer to the value given through
+parameter initialization (see <a href="Parameter-initialization.html#Parameter-initialization">Parameter initialization</a>) or
+<code>homotopy_setup</code> when doing a simulation, or are the estimated
+variables when doing an estimation.
+</p>
+<p>Variables used in a <var>MODEL_EXPRESSION</var> denote <em>current period</em>
+values when neither a lead or a lag is given. A lead or a lag can be
+given by enclosing an integer between parenthesis just after the
+variable name: a positive integer means a lead, a negative one means a
+lag. Leads or lags of more than one period are allowed. For example, if
+<code>c</code> is an endogenous variable, then <code>c(+1)</code> is the variable
+one period ahead, and <code>c(-2)</code> is the variable two periods before.
+</p>
+<p>When specifying the leads and lags of endogenous variables, it is
+important to respect the following convention: in Dynare, the timing of
+a variable reflects when that variable is decided. A control variable &mdash;
+which by definition is decided in the current period &mdash; must have no
+lead. A predetermined variable &mdash; which by definition has been decided in
+a previous period &mdash; must have a lag. A consequence of this is that all
+stock variables must use the &ldquo;stock at the end of the period&rdquo;
+convention. Please refer to <cite>Mancini-Griffoli (2007)</cite> for more
+details and concrete examples.
+</p>
+<p>Leads and lags are primarily used for endogenous variables, but can be
+used for exogenous variables. They have no effect on parameters and are
+forbidden for local model variables (see <a href="Model-declaration.html#Model-declaration">Model declaration</a>).
+</p>
+<hr>
+<a name="Outside-the-model"></a>
+<div class="header">
+<p>
+Previous: <a href="#Inside-the-model" accesskey="p" rel="prev">Inside the model</a>, Up: <a href="#Parameters-and-variables" accesskey="u" rel="up">Parameters and variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Outside-the-model-1"></a>
+<h4 class="subsubsection">4.3.1.2 Outside the model</h4>
+
+<p>When used in an expression outside the model block, a parameter or a
+variable simply refers to the last value given to that variable. More
+precisely, for a parameter it refers to the value given in the
+corresponding parameter initialization (see <a href="Parameter-initialization.html#Parameter-initialization">Parameter initialization</a>); for an endogenous or exogenous variable, it refers to
+the value given in the most recent <code>initval</code> or <code>endval</code> block.
+</p>
+<hr>
+<a name="Operators"></a>
+<div class="header">
+<p>
+Next: <a href="#Functions" accesskey="n" rel="next">Functions</a>, Previous: <a href="#Parameters-and-variables" accesskey="p" rel="prev">Parameters and variables</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Operators-1"></a>
+<h4 class="subsection">4.3.2 Operators</h4>
+
+<p>The following operators are allowed in both <var>MODEL_EXPRESSION</var> and
+<var>EXPRESSION</var>:
+</p>
+<ul>
+<li> binary arithmetic operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>
+
+</li><li> unary arithmetic operators: <code>+</code>, <code>-</code>
+
+</li><li> binary comparison operators (which evaluate to either <code>0</code> or
+<code>1</code>): <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>,
+<code>!=</code>
+
+<p>Note that these operators are differentiable everywhere except on a
+line of the 2-dimensional real plane. However for facilitating
+convergence of Newton-type methods, Dynare assumes that, at the points
+of non-differentiability, the partial derivatives of these operators
+with respect to both arguments is equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN> (since this is the
+value of the partial derivatives everywhere else).
+</p></li></ul>
+
+<p>The following special operators are accepted in <var>MODEL_EXPRESSION</var>
+(but not in <var>EXPRESSION</var>):
+</p>
+<dl>
+<dt><a name="index-STEADY_005fSTATE"></a>Operator: <strong>STEADY_STATE</strong> <em>(<var>MODEL_EXPRESSION</var>)</em></dt>
+<dd><p>This operator is used to take the value of the enclosed expression at
+the steady state. A typical usage is in the Taylor rule, where you may
+want to use the value of GDP at steady state to compute the output gap.
+</p></dd></dl>
+
+<a name="expectation"></a><dl>
+<dt><a name="index-EXPECTATION"></a>Operator: <strong>EXPECTATION</strong> <em>(<var>INTEGER</var>) (<var>MODEL_EXPRESSION</var>)</em></dt>
+<dd><p>This operator is used to take the expectation of some expression using
+a different information set than the information available at current
+period. For example, <code>EXPECTATION(-1)(x(+1))</code> is equal to the
+expected value of variable <code>x</code> at next period, using the
+information set available at the previous period. See <a href="Auxiliary-variables.html#Auxiliary-variables">Auxiliary variables</a>, for an explanation of how this operator is handled
+internally and how this affects the output.
+</p></dd></dl>
+
+<hr>
+<a name="Functions"></a>
+<div class="header">
+<p>
+Next: <a href="#A-few-words-of-warning-in-stochastic-context" accesskey="n" rel="next">A few words of warning in stochastic context</a>, Previous: <a href="#Operators" accesskey="p" rel="prev">Operators</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Functions-1"></a>
+<h4 class="subsection">4.3.3 Functions</h4>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#Built_002din-Functions" accesskey="1">Built-in Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#External-Functions" accesskey="2">External Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="Built_002din-Functions"></a>
+<div class="header">
+<p>
+Next: <a href="#External-Functions" accesskey="n" rel="next">External Functions</a>, Up: <a href="#Functions" accesskey="u" rel="up">Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Built_002din-Functions-1"></a>
+<h4 class="subsubsection">4.3.3.1 Built-in Functions</h4>
+
+<p>The following standard functions are supported internally for both
+<var>MODEL_EXPRESSION</var> and <var>EXPRESSION</var>:
+</p>
+<dl>
+<dt><a name="index-exp"></a>Function: <strong>exp</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Natural exponential.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-log"></a>Function: <strong>log</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-ln"></a>Function: <strong>ln</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Natural logarithm.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-log10"></a>Function: <strong>log10</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Base 10 logarithm.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-sqrt"></a>Function: <strong>sqrt</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Square root.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-abs"></a>Function: <strong>abs</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Absolute value.
+</p>
+<p>Note that this function is not differentiable at <SPAN CLASS="MATH"><IMG
+ WIDTH="43" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_3.png"
+ ALT="$x=0$"></SPAN>. However,
+for facilitating convergence of Newton-type methods, Dynare assumes
+that the derivative at <SPAN CLASS="MATH"><IMG
+ WIDTH="43" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_3.png"
+ ALT="$x=0$"></SPAN> is equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN> (this
+assumption comes from the observation that the derivative of
+<SPAN CLASS="MATH"><IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_4.png"
+ ALT="$abs(x)$"></SPAN> is equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_5.png"
+ ALT="$sign(x)$"></SPAN> for <SPAN CLASS="MATH"><IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_6.png"
+ ALT="$x\neq 0$"></SPAN> and from
+the convention for the derivative of <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_5.png"
+ ALT="$sign(x)$"></SPAN> at <SPAN CLASS="MATH"><IMG
+ WIDTH="43" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_3.png"
+ ALT="$x=0$"></SPAN>).
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-sign"></a>Function: <strong>sign</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Signum function.
+</p>
+<p>Note that this function is not differentiable at <SPAN CLASS="MATH"><IMG
+ WIDTH="43" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_3.png"
+ ALT="$x=0$"></SPAN>. However,
+for facilitating convergence of Newton-type methods, Dynare assumes
+that the derivative at <SPAN CLASS="MATH"><IMG
+ WIDTH="43" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_3.png"
+ ALT="$x=0$"></SPAN> is equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN> (this assumption
+comes from the observation that both the right- and left-derivatives
+at this point exist and are equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>).
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-sin"></a>Function: <strong>sin</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-cos"></a>Function: <strong>cos</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-tan"></a>Function: <strong>tan</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-asin"></a>Function: <strong>asin</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-acos"></a>Function: <strong>acos</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-atan"></a>Function: <strong>atan</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Trigonometric functions.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-max"></a>Function: <strong>max</strong> <em>(<var>a</var>, <var>b</var>)</em></dt>
+<dt><a name="index-min"></a>Function: <strong>min</strong> <em>(<var>a</var>, <var>b</var>)</em></dt>
+<dd><p>Maximum and minimum of two reals.
+</p>
+<p>Note that these functions are differentiable everywhere except on a
+line of the 2-dimensional real plane defined by <SPAN CLASS="MATH"><IMG
+ WIDTH="41" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_7.png"
+ ALT="$a=b$"></SPAN>. However
+for facilitating convergence of Newton-type methods, Dynare assumes
+that, at the points of non-differentiability, the partial derivative
+of these functions with respect to the first (resp. the second)
+argument is equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> (resp. to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>) (<i>i.e.</i> the
+derivatives at the kink are equal to the derivatives observed on the
+half-plane where the function is equal to its first argument).
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-normcdf"></a>Function: <strong>normcdf</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-normcdf-1"></a>Function: <strong>normcdf</strong> <em>(<var>x</var>, <var>mu</var>, <var>sigma</var>)</em></dt>
+<dd><p>Gaussian cumulative density function, with mean <var>mu</var> and standard
+deviation <var>sigma</var>. Note that <code>normcdf(<var>x</var>)</code> is equivalent
+to <code>normcdf(<var>x</var>,0,1)</code>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-normpdf"></a>Function: <strong>normpdf</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-normpdf-1"></a>Function: <strong>normpdf</strong> <em>(<var>x</var>, <var>mu</var>, <var>sigma</var>)</em></dt>
+<dd><p>Gaussian probability density function, with mean <var>mu</var> and standard
+deviation <var>sigma</var>. Note that <code>normpdf(<var>x</var>)</code> is equivalent
+to <code>normpdf(<var>x</var>,0,1)</code>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-erf"></a>Function: <strong>erf</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Gauss error function.
+</p></dd></dl>
+
+<hr>
+<a name="External-Functions"></a>
+<div class="header">
+<p>
+Previous: <a href="#Built_002din-Functions" accesskey="p" rel="prev">Built-in Functions</a>, Up: <a href="#Functions" accesskey="u" rel="up">Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="External-Functions-1"></a>
+<h4 class="subsubsection">4.3.3.2 External Functions</h4>
+
+<p>Any other user-defined (or built-in) MATLAB or Octave function may be
+used in both a <var>MODEL_EXPRESSION</var> and an <var>EXPRESSION</var>, provided
+that this function has a scalar argument as a return value.
+</p>
+<p>To use an external function in a <var>MODEL_EXPRESSION</var>, one must
+declare the function using the <code>external_function</code> statement. This
+is not necessary for external functions used in an <var>EXPRESSION</var>.
+</p>
+<dl>
+<dt><a name="index-external_005ffunction"></a>Command: <strong>external_function</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command declares the external functions used in the model block. It
+is required for every unique function used in the model block.
+</p>
+<p><code>external_function</code> commands can appear several times in the file
+and must come before the model block.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>name = <var>NAME</var></code></dt>
+<dd><p>The name of the function, which must also be the name of the M-/MEX file
+implementing it. This option is mandatory.
+</p>
+</dd>
+<dt><code>nargs = <var>INTEGER</var></code></dt>
+<dd><p>The number of arguments of the function. If this option is not provided,
+Dynare assumes <code>nargs = 1</code>.
+</p>
+</dd>
+<dt><code>first_deriv_provided [= <var>NAME</var>]</code></dt>
+<dd><p>If <var>NAME</var> is provided, this tells Dynare that the Jacobian is
+provided as the only output of the M-/MEX file given as the option
+argument. If <var>NAME</var> is not provided, this tells Dynare that the
+M-/MEX file specified by the argument passed to <code>name</code> returns the
+Jacobian as its second output argument.
+</p>
+</dd>
+<dt><code>second_deriv_provided [= <var>NAME</var>]</code></dt>
+<dd><p>If <var>NAME</var> is provided, this tells Dynare that the Hessian is
+provided as the only output of the M-/MEX file given as the option
+argument. If <var>NAME</var> is not provided, this tells Dynare that the
+M-/MEX file specified by the argument passed to <code>name</code> returns the
+Hessian as its third output argument. NB: This option can only be used
+if the <code>first_deriv_provided</code> option is used in the same
+<code>external_function</code> command.
+</p></dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">external_function(name = funcname);
+external_function(name = otherfuncname, nargs = 2,
+                  first_deriv_provided, second_deriv_provided);
+external_function(name = yetotherfuncname, nargs = 3,
+                  first_deriv_provided = funcname_deriv);
+</pre></div>
+
+</dd></dl>
+
+<hr>
+<a name="A-few-words-of-warning-in-stochastic-context"></a>
+<div class="header">
+<p>
+Previous: <a href="#Functions" accesskey="p" rel="prev">Functions</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="A-few-words-of-warning-in-stochastic-context-1"></a>
+<h4 class="subsection">4.3.4 A few words of warning in stochastic context</h4>
+
+<p>The use of the following functions and operators is strongly
+discouraged in a stochastic context: <code>max</code>, <code>min</code>,
+<code>abs</code>, <code>sign</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>,
+<code>==</code>, <code>!=</code>.
+</p>
+<p>The reason is that the local approximation used by <code>stoch_simul</code>
+or <code>estimation</code> will by nature ignore the non-linearities
+introduced by these functions if the steady state is away from the
+kink. And, if the steady state is exactly at the kink, then the
+approximation will be bogus because the derivative of these functions
+at the kink is bogus (as explained in the respective documentations of
+these functions and operators).
+</p>
+<p>Note that <code>extended_path</code> is not affected by this problem,
+because it does not rely on a local approximation of the model.
+</p>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h3><a name="FOOT1" href="#DOCF1">(1)</a></h3>
+<p>Note that arbitrary MATLAB or Octave expressions can
+be put in a <samp>.mod</samp> file, but those expressions have to be on
+separate lines, generally at the end of the file for post-processing
+purposes. They are not interpreted by Dynare, and are simply passed on
+unmodified to MATLAB or Octave. Those constructions are not addresses in
+this section.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#Functions" accesskey="p" rel="prev">Functions</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

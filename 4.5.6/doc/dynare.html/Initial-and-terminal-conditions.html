@@ -1,0 +1,684 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Initial and terminal conditions</title>
+
+<meta name="description" content="Dynare Reference Manual: Initial and terminal conditions">
+<meta name="keywords" content="Dynare Reference Manual: Initial and terminal conditions">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Shocks-on-exogenous-variables.html#Shocks-on-exogenous-variables" rel="next" title="Shocks on exogenous variables">
+<link href="Auxiliary-variables.html#Auxiliary-variables" rel="prev" title="Auxiliary variables">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Initial-and-terminal-conditions"></a>
+<div class="header">
+<p>
+Next: <a href="Shocks-on-exogenous-variables.html#Shocks-on-exogenous-variables" accesskey="n" rel="next">Shocks on exogenous variables</a>, Previous: <a href="Auxiliary-variables.html#Auxiliary-variables" accesskey="p" rel="prev">Auxiliary variables</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Initial-and-terminal-conditions-1"></a>
+<h3 class="section">4.7 Initial and terminal conditions</h3>
+
+<p>For most simulation exercises, it is necessary to provide initial (and
+possibly terminal) conditions. It is also necessary to provide initial
+guess values for non-linear solvers. This section describes the
+statements used for those purposes.
+</p>
+<p>In many contexts (deterministic or stochastic), it is necessary to
+compute the steady state of a non-linear model: <code>initval</code> then
+specifies numerical initial values for the non-linear solver. The
+command <code>resid</code> can be used to compute the equation residuals for
+the given initial values.
+</p>
+<p>Used in perfect foresight mode, the types of forward-looking models for
+which Dynare was designed require both initial and terminal
+conditions. Most often these initial and terminal conditions are
+static equilibria, but not necessarily.
+</p>
+<p>One typical application is to consider an economy at the equilibrium at time 0,
+trigger a shock in first period, and study the trajectory of return to
+the initial equilibrium. To do that, one needs <code>initval</code> and
+<code>shocks</code> (see <a href="Shocks-on-exogenous-variables.html#Shocks-on-exogenous-variables">Shocks on exogenous variables</a>).
+</p>
+<p>Another one is to study, how an economy, starting from arbitrary
+initial conditions at time 0 converges toward equilibrium. 
+In this case models, the command <code>histval</code> permits to specify different 
+historical initial values for variables with lags for the 
+periods before the beginning of the simulation. Due to the design of Dynare, 
+in this case <code>initval</code> is used to specify the terminal conditions.
+</p>
+
+<dl>
+<dt><a name="index-initval"></a>Block: <strong>initval</strong> <em>;</em></dt>
+<dt><a name="index-initval-1"></a>Block: <strong>initval</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>The <code>initval</code> block has two main purposes: providing guess values 
+for non-linear solvers in the context of perfect foresight simulations 
+and providing guess values for steady state computations in both perfect 
+foresight and stochastic simulations. Depending on the presence of <code>histval</code> 
+and <code>endval</code>-blocks it is also used for declaring the initial and 
+terminal conditions in a perfect foresight simulation exercise. 
+Because of this interaction of the meaning of an <code>initval</code>-block 
+with the presence of <code>histval</code> and <code>endval</code>-blocks in perfect foresight 
+simulations, it is strongly recommended to check that the 
+constructed <code>oo_.endo_simul</code> and <code>oo_.exo_simul</code> variables 
+contain the desired values after running <code>perfect_foresight_setup</code> 
+and before running <code>perfect_foresight_solver</code>. In the presence of leads 
+and lags, these subfields of the results structure will store the historical 
+values for the lags in the first 
+column/row and the terminal values for the leads in the last column/row.
+</p>
+<p>The <code>initval</code> block is terminated by <code>end;</code>, and contains lines of the
+form:
+</p><div class="example">
+<pre class="example"><var>VARIABLE_NAME</var> = <var>EXPRESSION</var>;
+</pre></div>
+
+<p><em>In a deterministic (<i>i.e.</i> perfect foresight) model</em>
+</p>
+<p>First, it will fill both the <code>oo_.endo_simul</code> and <code>oo_.exo_simul</code> variables 
+storing the endogenous and exogenous variables with the values provided by this block. 
+If there are no other blocks present, it will therefore provide the initial and 
+terminal conditions for all the endogenous and exogenous variables, because it 
+will also fill the last column/row of these matrices. For the intermediate simulation periods 
+it thereby provides the starting values for the solver.
+In the presence of a <code>histval</code> block (and therefore absence of an <code>endval</code>-block), 
+this <code>histval</code> block will provide/overwrite the historical values for the state variables (lags) by 
+setting the first column/row of <code>oo_.endo_simul</code> and <code>oo_.exo_simul</code>. 
+This implies that the <code>initval</code>-block in the presence of <code>histval</code> only sets the terminal values 
+for the variables with leads and provides initial values for the perfect foresight solver.
+</p>
+
+<p>Because of these various functions of <code>initval</code> it is often necessary to provide values for all the
+endogenous variables in an <code>initval</code> block. Initial and terminal conditions are strictly 
+necessary for lagged/leaded variables, while feasible starting values are required for the solver. 
+It is important to be aware that if some variables, endogenous or exogenous, are not mentioned in the
+<code>initval</code> block, a zero value is assumed. It is particularly important to keep 
+this in mind when specifying exogenous variables using <code>varexo</code> that are not allowed 
+to take on the value of zero, like <i>e.g.</i> TFP.
+</p>
+<p>Note that if the <code>initval</code> block is immediately followed by a
+<code>steady</code> command, its semantics are slightly changed. 
+The <code>steady</code> command will compute the steady state of the model for all the 
+endogenous variables, assuming that exogenous variables are kept constant at the value 
+declared in the <code>initval</code> block. These steady state values conditional on 
+the declared exogenous variables are then written into <code>oo_.endo_simul</code> and take up the 
+potential roles as historical and terminal conditions as well 
+as starting values for the solver. An <code>initval</code> block followed by <code>steady</code>
+is therefore formally equivalent to an <code>initval</code> block with the specified values
+for the exogenous variables, and the endogenous variables set to the associated steady state values
+conditional on the exogenous variables.
+</p>
+<p><em>In a stochastic model</em>
+</p>
+<p>The main purpose of <code>initval</code> is to provide initial guess values
+for the non-linear solver in the steady state computation. Note that
+if the <code>initval</code> block is not followed by <code>steady</code>, the
+steady state computation will still be triggered by subsequent
+commands (<code>stoch_simul</code>, <code>estimation</code>&hellip;).
+</p>
+<p>It is not necessary to declare <code>0</code> as initial value for exogenous
+stochastic variables, since it is the only possible value.
+</p>
+<p>The subsequently computed steady state (not the initial values, use
+<a href="#histval">histval</a> for this) will be used as the initial condition at all
+the periods preceeding the first simulation period for the three
+possible types of simulations in stochastic mode:
+</p>
+<ul>
+<li> <a href="Stochastic-solution-and-simulation.html#stoch_005fsimul">stoch_simul</a>, if the <code>periods</code> option is specified
+
+</li><li> <a href="Estimation.html#forecast">forecast</a> as the initial point at which the forecasts are computed
+
+</li><li> <a href="Forecasting.html#conditional_005fforecast">conditional_forecast</a> as the initial point at which the conditional forecasts are computed
+</li></ul>
+
+<p>To start simulations at a particular set of starting values that are not a computed steady state, use <a href="#histval">histval</a>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>all_values_required</code></dt>
+<dd><a name="all_005fvalues_005frequired"></a><p>Issues an error and stops processing the <samp>.mod</samp> file if there is at least
+one endogenous or exogenous variable that has not been set in the <code>initval</code>
+block.
+</p></dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">initval;
+c = 1.2;
+k = 12;
+x = 1;
+end;
+
+steady;
+</pre></div>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-endval"></a>Block: <strong>endval</strong> <em>;</em></dt>
+<dt><a name="index-endval-1"></a>Block: <strong>endval</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This block is terminated by <code>end;</code>, and contains lines of the
+form:
+</p><div class="example">
+<pre class="example"><var>VARIABLE_NAME</var> = <var>EXPRESSION</var>;
+</pre></div>
+
+<p>The <code>endval</code> block makes only sense in a deterministic model and cannot 
+be used together with <code>histval</code>. Similar to the <code>initval</code> command, 
+it will fill both the <code>oo_.endo_simul</code> and <code>oo_.exo_simul</code> variables 
+storing the endogenous and exogenous variables with the values provided by this block. 
+If no <code>initval</code>-block is present, it will fill the whole matrices, therefore 
+providing the initial and terminal conditions for all the endogenous and exogenous 
+variables, because it will also fill the first and last column/row of these matrices. Due to
+also filling the intermediate simulation periods it will provide the starting values for the solver as well.
+</p>
+<p>If an <code>initval</code>-block is present, <code>initval</code> will provide the historical 
+values for the variables (if there are states/lags), while <code>endval</code> will fill 
+the remainder of the matrices, thereby still providing i) the terminal conditions 
+for variables entering the model with a lead and ii) the initial guess values 
+for all endogenous variables at all the simulation dates for the perfect foresight solver.
+</p>
+<p>Note that if some variables, endogenous or exogenous, are NOT mentioned in the
+<code>endval</code> block, the value assumed is that of the last
+<code>initval</code> block or <code>steady</code> command (if present). Therefore, 
+in contrast to <code>initval</code>, omitted variables are not automatically assumed to be 0 
+in this case. Again, it is strongly recommended to check the 
+constructed <code>oo_.endo_simul</code> and <code>oo_.exo_simul</code> variables 
+after running <code>perfect_foresight_setup</code> and before running <code>perfect_foresight_solver</code>
+to see whether the desired outcome has been achieved. 
+</p>
+<p>Like <code>initval</code>, if the <code>endval</code> block is immediately followed by a
+<code>steady</code> command, its semantics are slightly changed. 
+The <code>steady</code> command will compute the steady state of the model for all 
+the endogenous variables, assuming that exogenous variables are kept constant 
+to the value declared in the <code>endval</code> block. These steady state values 
+conditional on the declared exogenous variables are then written into <code>oo_.endo_simul</code> 
+and therefore take up the potential roles as historical and terminal conditions 
+as well as starting values for the solver. An <code>endval</code> block followed by <code>steady</code>
+is therefore formally equivalent to an <code>endval</code> block with the specified values
+for the exogenous variables, and the endogenous variables set to the associated steady state values.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>all_values_required</code></dt>
+<dd><p>See <a href="#all_005fvalues_005frequired">all_values_required</a>.
+</p></dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">var c k;
+varexo x;
+&hellip;
+initval;
+c = 1.2;
+k = 12;
+x = 1;
+end;
+
+steady;
+
+endval;
+c = 2;
+k = 20;
+x = 2;
+end;
+
+steady;
+</pre></div>
+
+<p>The initial equilibrium is computed by <code>steady</code> conditional on <code>x=1</code>,
+and the terminal one conditional on <code>x=2</code>. The <code>initval</code>-block sets 
+the initial condition for <code>k</code>, while the <code>endval</code>-block sets the terminal
+condition for <code>c</code>. The starting values for the perfect foresight solver are 
+given by the <code>endval</code>-block. A detailed explanation follows below the next example.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">var c k;
+varexo x;
+&hellip;
+model;
+c + k - aa*x*k(-1)^alph - (1-delt)*k(-1);
+c^(-gam) - (1+bet)^(-1)*(aa*alph*x(+1)*k^(alph-1) + 1 - delt)*c(+1)^(-gam);
+end;
+
+initval;
+k = 12;
+end;
+
+endval;
+c = 2;
+x = 1.1;
+end;
+simul(periods=200);
+
+</pre></div>
+
+<p>In this example, the problem is finding the optimal path for consumption and
+capital for the periods <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_12.png"
+ ALT="$t=1$"></SPAN> to <SPAN CLASS="MATH"><IMG
+ WIDTH="61" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_13.png"
+ ALT="$T=200$"></SPAN>, given the path of the exogenous
+technology level <code>x</code>. <code>c</code> is a forward looking variable and the
+exogenous variable <code>x</code> appears with a lead in the expected return of
+physical capital, so we need terminal conditions for them, while <code>k</code> is a
+purely backward-looking (state) variable, so we need an initial condition for
+it.
+</p>
+<p>Setting <code>x=1.1</code> in the <code>endval</code>-block without a <code>shocks</code>-block implies that technology
+is at <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_14.png"
+ ALT="$1.1$"></SPAN> in <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_12.png"
+ ALT="$t=1$"></SPAN> and stays there forever, because <code>endval</code>
+is filling all entries of <code>oo_.endo_simul</code> and <code>oo_.exo_simul</code> except 
+for the very first one, which stores the initial conditions and was set to <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN> by the <code>initval</code>-block when not 
+explicitly specifying a value for it. 
+</p>
+<p>Because the law of motion for capital is backward-looking, we need an initial
+condition for <code>k</code> at time <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN>. Due to the presence of <code>endval</code>, this cannot be 
+done via a <code>histval</code>-block, but rather must be specified in the <code>initval</code>-block.
+Similarly, because the Euler equation is forward-looking, we need a
+terminal condition for <code>c</code> at <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_15.png"
+ ALT="$t=201$"></SPAN>, which is specified in the
+<code>endval</code>-block. 
+</p>
+<p>As can be seen, it is not necessary to specify <code>c</code> and <code>x</code> in the <code>initval</code>-block and
+<code>k</code> in the <code>endval</code>-block, because they have no impact on the results. Due to 
+the optimization problem in the first period being to choose <code>c,k</code>
+at <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_12.png"
+ ALT="$t=1$"></SPAN> given the predetermined capital stock <code>k</code> inherited from <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_16.png"
+ ALT="$t=0$"></SPAN> as
+well as the current and future values for technology <code>x</code>, the values for
+<code>c</code> and <code>x</code> at time <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_16.png"
+ ALT="$t=0$"></SPAN> play no role. The same applies to the choice of
+<code>c,k</code> at time <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_17.png"
+ ALT="$t=200$"></SPAN>, which does not depend on <code>k</code> at <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_15.png"
+ ALT="$t=201$"></SPAN>. As
+the Euler equation shows, that choice only depends on current capital as
+well as future consumption <code>c</code> and technology <code>x</code>, but not on
+future capital <code>k</code>. The intuitive reason is that those variables are
+the consequence of optimization problems taking place in at periods <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_16.png"
+ ALT="$t=0$"></SPAN>
+and <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_15.png"
+ ALT="$t=201$"></SPAN>, respectively, which are not modeled here.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">initval;
+c = 1.2;
+k = 12;
+x = 1;
+end;
+
+endval;
+c = 2;
+k = 20;
+x = 1.1;
+end;
+</pre></div>
+
+<p>In this example, initial conditions for the forward-looking variables <code>x</code>
+and <code>c</code> are provided, together with a terminal condition for the backward-looking
+variable <code>k</code>. As shown in the previous example, these values will not affect the simulation 
+results. Dynare simply takes them as given and basically assumes that there were realizations
+of exogenous variables and states that make those choices
+equilibrium values (basically initial/terminal conditions
+at the unspecified time periods <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_18.png"
+ ALT="$t&lt;0$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_19.png"
+ ALT="$t&gt;201$"></SPAN>).
+</p> 
+<p>The above example suggests another way of looking at the use of <code>steady</code>
+after <code>initval</code> and <code>endval</code>. Instead of saying that the
+implicit unspecified conditions before and after the simulation range
+have to fit the initial/terminal conditions of the endogenous variables
+in those blocks, <code>steady</code> specifies that those conditions at <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_18.png"
+ ALT="$t&lt;0$"></SPAN> and
+<SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_19.png"
+ ALT="$t&gt;201$"></SPAN> are equal to being at the steady state given the exogenous
+variables in the <code>initval</code> and <code>endval</code>-blocks. The
+endogenous variables at <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_16.png"
+ ALT="$t=0$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_15.png"
+ ALT="$t=201$"></SPAN> are then set to the corresponding steady state
+equilibrium values.
+</p> 
+<p>The fact that <code>c</code> at <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_16.png"
+ ALT="$t=0$"></SPAN> and <code>k</code> at <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_15.png"
+ ALT="$t=201$"></SPAN> specified in
+<code>initval</code> and <code>endval</code> are taken as given has an important
+implication for plotting the simulated vector for the endogenous
+variables, <i>i.e.</i> the rows of <code>oo_.endo_simul</code>: this vector will
+also contain the initial and terminal
+conditions and thus is 202 periods long in the example. When you specify
+arbitrary values for the initial and terminal conditions for forward- and
+backward-looking variables, respectively, these values can be very far
+away from the endogenously determined values at <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_12.png"
+ ALT="$t=1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_17.png"
+ ALT="$t=200$"></SPAN>. While the
+values at <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_16.png"
+ ALT="$t=0$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_15.png"
+ ALT="$t=201$"></SPAN> are unrelated to the dynamics for <SPAN CLASS="MATH"><IMG
+ WIDTH="85" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_20.png"
+ ALT="$0&lt;t&lt;201$"></SPAN>, they
+may result in strange-looking large jumps. In the example above,
+consumption will display a large jump from <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_16.png"
+ ALT="$t=0$"></SPAN> to <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_12.png"
+ ALT="$t=1$"></SPAN> and capital will
+jump from <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_17.png"
+ ALT="$t=200$"></SPAN> to <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_15.png"
+ ALT="$t=201$"></SPAN> when using <a href="Displaying-and-saving-results.html#rplot">rplot</a> or manually plotting <code>oo_.endo_val</code>.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-histval"></a>Block: <strong>histval</strong> <em>;</em></dt>
+<dt><a name="index-histval-1"></a>Block: <strong>histval</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><a name="histval"></a><p><em>Description</em>
+</p>
+<p><em>In a deterministic perfect foresight context</em>
+</p>
+<p>In models with lags on more than one period, the <code>histval</code> block
+permits to specify different historical initial values for different
+periods of the state variables. In this case, the <code>initval</code>-block takes over the role of specifying 
+terminal conditions and starting values for the solver. Note that the <code>histval</code> block does not 
+take non-state variables.   
+</p>
+<p>This block is terminated by <code>end;</code>, and contains lines of the
+form:
+</p><div class="example">
+<pre class="example"><var>VARIABLE_NAME</var>(<var>INTEGER</var>) = <var>EXPRESSION</var>;
+</pre></div>
+
+<p><var>EXPRESSION</var> is any valid expression returning a numerical value
+and can contain already initialized variable names.
+</p>
+<p>By convention in Dynare, period 1 is the first period of the
+simulation. Going backward in time, the first period before the start
+of the simulation is period <code>0</code>, then period <code>-1</code>, and so on.
+</p>
+<p>State variables not initialized in the <code>histval</code> block are assumed to
+have a value of zero at period 0 and before. Note that <code>histval</code>
+cannot be followed by <code>steady</code>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">model;
+x=1.5*x(-1)-0.6*x(-2)+epsilon;
+log(c)=0.5*x+0.5*log(c(+1));
+end;
+
+histval;
+x(0)=-1;
+x(-1)=0.2;
+end;
+
+initval;
+c=1;
+x=1;
+end;
+</pre></div>
+
+<p>In this example, <code>histval</code> is used to set the historical conditions for the two lags
+of the endogenous variable <code>x</code>, stored in the first column of <code>oo_.endo_simul</code>. 
+The <code>initval</code> block is used to set the terminal condition for the forward looking variable <code>c</code>,
+stored in the last column of <code>oo_.endo_simul</code>. Moreover, the <code>initval</code> block defines
+the starting values for the perfect foresight solver for both endogenous variables <code>c</code> and <code>x</code>.
+</p>
+<p><em>In a stochastic simulation context</em>
+</p>
+<p>In the context of stochastic simulations, <code>histval</code> allows setting
+the starting point of those simulations in the state space. As for the case of
+perfect foresight simulations, all not explicitly specified variables are set to 0.
+Moreover, as only states enter the recursive policy functions, all values specified for control variables will be ignored. This can be used
+</p>
+<ul>
+<li> in <a href="Stochastic-solution-and-simulation.html#stoch_005fsimul">stoch_simul</a>, if the <code>periods</code> option is specified. Note that this
+only affects the starting point for the simulation, but not for the impulse
+response functions. When using the <a href="Estimation.html#loglinear">loglinear</a> option, the
+<code>histval</code>-block nevertheless takes the unlogged starting values.
+
+</li><li> in <a href="Estimation.html#forecast">forecast</a> as the initial point at which the forecasts are computed. When using the <a href="Estimation.html#loglinear">loglinear</a> option, 
+the <code>histval</code>-block nevertheless takes the unlogged starting values.
+
+</li><li> in <a href="Forecasting.html#conditional_005fforecast">conditional_forecast</a> for a calibrated model as the initial point at which the conditional forecasts are computed.
+When using the <a href="Estimation.html#loglinear">loglinear</a> option, the <code>histval</code>-block nevertheless takes the unlogged starting values.
+
+</li><li> in <a href="Optimal-policy.html#Ramsey">Ramsey</a> policy, where it also specifies the values of the endogenous states at 
+which the objective function of the planner is computed. Note that the initial values 
+of the Lagrange multipliers associated with the planner&rsquo;s problem cannot be set
+(see <a href="Optimal-policy.html#planner_005fobjective_005fvalue">planner_objective_value</a>).
+
+</li></ul>
+
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>all_values_required</code></dt>
+<dd><p>See <a href="#all_005fvalues_005frequired">all_values_required</a>.
+</p></dd>
+</dl>
+
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">var x y;
+varexo e;
+
+model;
+x = y(-1)^alpha*y(-2)^(1-alpha)+e;
+&hellip;
+end;
+
+initval;
+x = 1;
+y = 1;
+e = 0.5;
+end;
+
+steady;
+
+histval;
+y(0) = 1.1;
+y(-1) = 0.9;
+end;
+
+stoch_simul(periods=100);
+</pre></div>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-resid"></a>Command: <strong>resid</strong> <em>;</em></dt>
+<dd>
+<p>This command will display the residuals of the static equations of the
+model, using the values given for the endogenous in the last
+<code>initval</code> or <code>endval</code> block (or the steady state file if you
+provided one, see <a href="Steady-state.html#Steady-state">Steady state</a>).
+</p>
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-initval_005ffile"></a>Command: <strong>initval_file</strong> <em>(filename = <var>FILENAME</var>);</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>In a deterministic setup, this command is used to specify a path for
+all endogenous and exogenous variables. The length of these paths must
+be equal to the number of simulation periods, plus the number of leads
+and the number of lags of the model (for example, with 50 simulation
+periods, in a model with 2 lags and 1 lead, the paths must have a
+length of 53). Note that these paths cover two different things:
+</p>
+<ul>
+<li> the constraints of the problem, which are given by the path for
+exogenous and the initial and terminal values for endogenous
+
+</li><li> the initial guess for the non-linear solver, which is given by the
+path for endogenous variables for the simulation periods (excluding
+initial and terminal conditions)
+</li></ul>
+
+<p>The command accepts three file formats:
+</p>
+<ul>
+<li> M-file (extension <samp>.m</samp>): for each endogenous and exogenous
+variable, the file must contain a row or column vector of the same name. Their length must be <code>periods+M_.maximum_lag+M_.maximum_lead</code> 
+
+</li><li> MAT-file (extension <samp>.mat</samp>): same as for M-files.
+
+</li><li> Excel file (extension <samp>.xls</samp> or <samp>.xlsx</samp>): for each endogenous and
+exogenous, the file must contain a column of the same name. NB: Octave only
+supports the <samp>.xlsx</samp> file extension and must have the
+<a href="http://octave.sourceforge.net/io/">io</a> package installed (easily done via octave by typing &lsquo;<code>pkg install -forge io</code>&rsquo;).
+</li></ul>
+
+<p><em>Warning</em>
+</p>
+<p>The extension must be omitted in the command argument. Dynare will
+automatically figure out the extension and select the appropriate file
+type.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-histval_005ffile"></a>Command: <strong>histval_file</strong> <em>(filename = <var>FILENAME</var>);</em></dt>
+<dd>
+<p>This command is equivalent to <code>histval</code>, except that it reads its input
+from a file.
+</p>
+<p>This command is typically used in conjunction with <code>smoother2histval</code>.
+</p>
+</dd></dl>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Shocks-on-exogenous-variables.html#Shocks-on-exogenous-variables" accesskey="n" rel="next">Shocks on exogenous variables</a>, Previous: <a href="Auxiliary-variables.html#Auxiliary-variables" accesskey="p" rel="prev">Auxiliary variables</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

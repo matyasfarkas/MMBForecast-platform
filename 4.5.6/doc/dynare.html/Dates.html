@@ -1,0 +1,827 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Dates</title>
+
+<meta name="description" content="Dynare Reference Manual: Dates">
+<meta name="keywords" content="Dynare Reference Manual: Dates">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Time-Series.html#Time-Series" rel="up" title="Time Series">
+<link href="dseries-class.html#dseries-class" rel="next" title="dseries class">
+<link href="Time-Series.html#Time-Series" rel="prev" title="Time Series">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Dates"></a>
+<div class="header">
+<p>
+Next: <a href="dseries-class.html#dseries-class" accesskey="n" rel="next">dseries class</a>, Up: <a href="Time-Series.html#Time-Series" accesskey="u" rel="up">Time Series</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Dates-1"></a>
+<h3 class="section">6.1 Dates</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#dates-in-a-mod-file" accesskey="1">dates in a mod file</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#dates-class" accesskey="2">dates class</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="dates-in-a-mod-file"></a>
+<div class="header">
+<p>
+Next: <a href="#dates-class" accesskey="n" rel="next">dates class</a>, Up: <a href="#Dates" accesskey="u" rel="up">Dates</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="dates-in-a-mod-file-1"></a>
+<h4 class="subsection">6.1.1 dates in a mod file</h4>
+
+<p>Dynare  understands dates  in  a  mod file.  Users  can declare  annual,
+quarterly, monthly or weekly dates using the following syntax:
+</p>
+<div class="example">
+<pre class="example">1990Y
+1990Q3
+1990M11
+1990W49
+</pre></div>
+
+<p>Behind the scene, Dynare&rsquo;s preprocessor translates these expressions
+into instantiations of the  Matlab/Octave&rsquo;s class <code>dates </code> described
+below. Basic  operations can be performed  on dates:
+</p><dl compact="compact">
+<dt><strong>plus binary operator (<code>+</code>)</strong></dt>
+<dd>
+<p>An integer scalar, interpreted as a number of periods, can be added to a date. For instance, if <code>a = 1950Q1</code> then
+<code>b = 1951Q2</code> and <code>b = a + 5</code> are identical.
+</p>
+</dd>
+<dt><strong>plus unary operator (<code>+</code>)</strong></dt>
+<dd>
+<p>Increments a date by one period. <code>+1950Q1</code> is identical to <code>1950Q2</code>, <code>++++1950Q1</code> is identical to <code>1951Q1</code>.
+</p>
+</dd>
+<dt><strong>minus binary operator (<code>-</code>)</strong></dt>
+<dd>
+<p>Has two functions: difference and subtraction. If the second argument
+is a date, calculates the difference between the first date and the
+second date (<i>e.g.</i> <code>1951Q2-1950Q1</code> is equal to <code>5</code>). If
+the second argument is an integer <code>X</code>, subtracts <code>X</code> periods
+from the date (<i>e.g.</i> <code>1951Q2-2</code> is equal to <code>1950Q4</code>).
+</p>
+</dd>
+<dt><strong>minus unary operator (<code>-</code>)</strong></dt>
+<dd>
+<p>Subtracts one period to a date. <code>-1950Q1</code> is identical to <code>1949Q4</code>. The unary minus operator is the reciprocal of the unary plus operator, <code>+-1950Q1</code> is identical to <code>1950Q1</code>.
+</p>
+</dd>
+<dt><strong>colon operator (<code>:</code>)</strong></dt>
+<dd>
+<p>Can be used to create a range of dates. For instance, <code>r = 1950Q1:1951Q1</code> creates a <code>dates </code> object with five elements: <code>1950Q1</code>, <code>1950Q2</code>, <code>1950Q3</code>, <code>1950Q4</code> and <code>1951Q1</code>. By default the increment between each element is one period. This default can be changed using, for instance, the following instruction: <code>1950Q1:2:1951Q1</code> which will instantiate a <code>dates </code> object with three elements: <code>1950Q1</code>, <code>1950Q3</code> and <code>1951Q1</code>.
+</p>
+</dd>
+<dt><strong>horzcat operator (<code>[,]</code>)</strong></dt>
+<dd>
+<p>Concatenates <code>dates </code> objects without removing repetitions. For instance <code>[1950Q1, 1950Q2]</code> is a a <code>dates </code> object with two elements (<code>1950Q1</code> and <code>1950Q2</code>).
+</p>
+</dd>
+<dt><strong>vertcat operator (<code>[;]</code>)</strong></dt>
+<dd>
+<p>Same as <code>horzcat</code> operator.
+</p>
+</dd>
+<dt><strong>eq operator (equal, <code>==</code>)</strong></dt>
+<dd>
+<p>Tests if two <code>dates </code> objects are equal. <code>+1950Q1==1950Q2</code> returns <code>1</code>, <code>1950Q1==1950Q2</code> returns <code>0</code>. If the compared objects have both <code>n&gt;1</code> elements, the <code>eq</code> operator returns a column vector, <code>n</code> by <code>1</code>, of zeros and ones.
+</p>
+</dd>
+<dt><strong>ne operator (not equal, <code>~=</code>)</strong></dt>
+<dd>
+<p>Tests if two <code>dates </code> objects are not equal. <code>+1950Q1~=1950Q2</code>
+returns <code>0</code> while <code>1950Q1~=1950Q2</code> returns <code>1</code>. If the
+compared objects both have <code>n&gt;1</code> elements, the <code>ne</code> operator
+returns an <code>n</code> by <code>1</code> column vector of zeros and ones.
+</p>
+</dd>
+<dt><strong>lt operator (less than, <code>&lt;</code>)</strong></dt>
+<dd>
+<p>Tests if a <code>dates </code> object preceeds another <code>dates </code> object. For instance, <code>1950Q1&lt;1950Q3</code> returns <code>1</code>.  If the compared objects have both <code>n&gt;1</code> elements, the <code>lt</code> operator returns a column vector, <code>n</code> by <code>1</code>, of zeros and ones.
+</p>
+</dd>
+<dt><strong>gt operator (greater than, <code>&gt;</code>)</strong></dt>
+<dd>
+<p>Tests if a <code>dates </code> object follows another <code>dates </code> object. For instance, <code>1950Q1&gt;1950Q3</code> returns <code>0</code>.  If the compared objects have both <code>n&gt;1</code> elements, the <code>gt</code> operator returns a column vector, <code>n</code> by <code>1</code>, of zeros and ones.
+</p>
+</dd>
+<dt><strong>le operator (less or equal, <code>&lt;=</code>)</strong></dt>
+<dd>
+<p>Tests if a <code>dates </code> object preceeds another <code>dates </code> object or is equal to this object. For instance, <code>1950Q1&lt;=1950Q3</code> returns <code>1</code>.  If the compared objects have both <code>n&gt;1</code> elements, the <code>le</code> operator returns a column vector, <code>n</code> by <code>1</code>, of zeros and ones.
+</p>
+</dd>
+<dt><strong>ge operator (greater or equal, <code>&gt;=</code>)</strong></dt>
+<dd>
+<p>Tests if a <code>dates </code> object follows another <code>dates </code> object or is equal to this object. For instance, <code>1950Q1&gt;=1950Q3</code> returns <code>0</code>.  If the compared objects have both <code>n&gt;1</code> elements, the <code>ge</code> operator returns a column vector, <code>n</code> by <code>1</code>, of zeros and ones.
+</p>
+</dd>
+</dl>
+
+<p>One can select an element, or some elements, in a <code>dates </code> object as he would extract some elements from a vector in Matlab/Octave. Let <code>a = 1950Q1:1951Q1</code> be a <code>dates </code> object, then <code>a(1)==1950Q1</code> returns <code>1</code>, <code>a(end)==1951Q1</code> returns <code>1</code> and <code>a(end-1:end)</code> selects the two last elements of <code>a</code> (by instantiating the <code>dates </code> object <code>[1950Q4, 1951Q1]</code>).
+</p>
+<p><em>Remark</em>
+Dynare substitutes any occurrence of dates in the mod file into an instantiation of the <code>dates </code> class regardless of the context. For instance, <code>d = 1950Q1;</code> will be translated as <code>d = dates('1950Q1');</code>. This automatic substitution can lead to a crash if a date is defined in a string. Typically, if the user wants to display a date:
+</p>
+<div class="example">
+<pre class="example">disp('Initial period is 1950Q1');
+</pre></div>
+
+<p>Dynare will translate this as:
+</p>
+<div class="example">
+<pre class="example">disp('Initial period is dates('1950Q1')');
+</pre></div>
+
+<p>which will lead to a crash because this expression is illegal in Matlab. For this situation, Dynare provides the <code>$</code> escape parameter. The following expression:
+</p>
+<div class="example">
+<pre class="example">disp('Initial period is $1950Q1');
+</pre></div>
+
+<p>will be translated as:
+</p>
+<div class="example">
+<pre class="example">disp('Initial period is 1950Q1');
+</pre></div>
+
+<p>in the generated MATLAB script.
+</p>
+<hr>
+<a name="dates-class"></a>
+<div class="header">
+<p>
+Previous: <a href="#dates-in-a-mod-file" accesskey="p" rel="prev">dates in a mod file</a>, Up: <a href="#Dates" accesskey="u" rel="up">Dates</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="dates-class-1"></a>
+<h4 class="subsection">6.1.2 dates class</h4>
+
+<p>The <code>dates </code> class has three members:
+</p><dl compact="compact">
+<dd><a name="dates-class-members"></a>
+</dd>
+<dt><code>freq</code></dt>
+<dd><p>an integer equal to 1, 4, 12  or 52 (resp. for annual, quarterly, monthly
+or weekly dates).
+</p>
+</dd>
+<dt><code>ndat</code></dt>
+<dd><p>an integer scalar, the number of declared dates in the object.
+</p>
+</dd>
+<dt><code>time</code></dt>
+<dd><p>a <code>ndat</code>*2  array of integers,  the years  are stored in  the first
+column, the subperiods (1 for annual dates, 1-4 for quarterly dates, 1-12
+for monthly  dates and 1-52 for  weekly dates) are stored  in the second
+column.
+</p>
+</dd>
+</dl>
+
+<p>Each member is private, one can display the content of a member but cannot change its value:
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; d = dates('2009Q2');
+&gt;&gt; d.time
+
+ans =
+
+        2009           2
+
+&gt;&gt;
+</pre></div>
+
+<p>Note that it is not possible to mix frequencies in a <code>dates </code> object: all the elements must have common frequency. The <code>dates </code> class has five constructors:
+</p>
+<br>
+
+<dl>
+<dt><a name="index-_0028_0029"></a>dates: <em>dates</em> <strong>()</strong></dt>
+<dt><a name="index-_0028FREQ_0029"></a>dates: <em>dates</em> <strong>(<code>FREQ</code>)</strong></dt>
+<dd>
+<p>Returns an empty <code>dates </code> object with  a given frequency (if the constructor is called with one input argument).  <code>FREQ</code> is a character equal to &rsquo;Y&rsquo; or &rsquo;A&rsquo;  for annual dates, &rsquo;Q&rsquo; for quarterly dates, &rsquo;M&rsquo; for monthly dates or &rsquo;W&rsquo;  for weekly dates. Note that <code>FREQ</code> is not  case sensitive,  so that,  for instance,  &rsquo;q&rsquo; is  also allowed  for quarterly dates. The frequency can also be set with an integer scalar equal to 1 (annual), 4 (quarterly), 12 (monthly) or 52 (weekly). The instantiation of empty objects can be used to rename  the <code>dates </code> class. For  instance, if one  only works  with quarterly dates, he can create <code>qq</code> as:
+</p>
+<div class="example">
+<pre class="example">qq = dates('Q')
+</pre></div>
+
+<p>and a <code>dates </code> object holding the date <code>2009Q2</code>:
+</p>
+<div class="example">
+<pre class="example">d0 = qq(2009,2);
+</pre></div>
+
+<p>which is much simpler if <code>dates </code> objects have to be defined programmatically.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-_0028STRING_0029"></a>dates: <em>dates</em> <strong>(<code>STRING</code>)</strong></dt>
+<dt><a name="index-_0028STRING_002c"></a>dates: <em>dates</em> <strong>(<code>STRING</code>,</strong> <em><code>STRING</code>, ...)</em></dt>
+<dd>
+<p>Returns a <code>dates </code> object that represents a date as given by the string <code>STRING</code>. This string has to be interpretable as a date (only strings of the following forms are admitted: <code>'1990Y'</code>, <code>'1990A'</code>, <code>'1990Q1'</code>, <code>'1990M2'</code>, <code>'1990W5'</code>), the routine <code>isdate</code> can be used to test if a string is interpretable as a date. If more than one argument is provided, they should all be dates represented as strings, the resulting <code>dates </code> object contains as many elements as arguments to the constructor.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-_0028DATES_0029"></a>dates: <em>dates</em> <strong>(<code>DATES</code>)</strong></dt>
+<dt><a name="index-_0028DATES_002c"></a>dates: <em>dates</em> <strong>(<code>DATES</code>,</strong> <em><code>DATES</code>, ...)</em></dt>
+<dd>
+<p>Returns a copy of the  <code>dates </code> object <code>DATES</code> passed as input arguments. If more than one argument is provided, they should all be <code>dates </code> objects. The number of elements in the instantiated <code>dates </code> object is equal to the sum of the elements in the <code>dates </code> passed as arguments to the constructor.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-_0028FREQ_002c"></a>dates: <em>dates</em> <strong>(<code>FREQ</code>,</strong> <em><code>YEAR</code>, <code>SUBPERIOD</code>)</em></dt>
+<dd>
+<p>where <code>FREQ</code> is a single character (&rsquo;Y&rsquo;, &rsquo;A&rsquo;, &rsquo;Q&rsquo;, &rsquo;M&rsquo;, &rsquo;W&rsquo;) or integer (1, 4, 12 or 52) specifying the frequency, <code>YEAR</code> and <code>SUBPERIOD</code> are <code>n*1</code> vectors of integers. Returns a <code>dates </code> object with <code>n</code> elements. If <code>FREQ</code> is equal to <code>'Y', 'A'</code> or <code>1</code>, the third argument is not needed (because <code>SUBPERIOD</code> is necessarily a vector of ones in this case).
+</p>
+</dd></dl>
+
+<br>
+
+<p><em>Examples</em>
+</p><div class="example">
+<pre class="example">do1 = dates('1950Q1');
+do2 = dates('1950Q2','1950Q3');
+do3 = dates(do1,do2);
+do4 = dates('Q',1950, 1);
+</pre></div>
+
+<br>
+
+<p>A list of the available methods, by alphabetical order, is given below. Note that the Matlab/Octave classes do not allow in place modifications: when a method is applied to an object a new object is instantiated. For instance, to apply the method <code>multiplybytwo</code> to an object <code>X</code> we write:
+</p>
+<div class="example">
+<pre class="example">Y = X.multiplybytwo()
+</pre></div>
+
+<p>or equivalently:
+</p>
+<div class="example">
+<pre class="example">Y = multiplybytwo(X)
+</pre></div>
+
+<p>the object <code>X</code> is left unchanged, and the object <code>Y</code> is a modified copy of <code>X</code>.
+</p>
+<br>
+
+<dl>
+<dt><a name="index-append"></a>dates: <em><var>C</var> =</em> <strong>append</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Appends <code>dates </code> object <var>B</var>, or a string that can be interpreted as a date, to the <code>dates </code> object <var>A</var>. If <var>B</var> is a <code>dates </code> object it is assumed that it has no more than one element.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; D = dates('1950Q1','1950Q2');
+&gt;&gt; d = dates('1950Q3');
+&gt;&gt; E = D.append(d);
+&gt;&gt; F = D.append('1950Q3')
+&gt;&gt; isequal(E,F)
+
+ans =
+
+     1
+&gt;&gt; F
+F = &lt;dates: 1950Q1, 1950Q2, 1950Q3&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-colon"></a>dates: <em><var>C</var> =</em> <strong>colon</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-colon-1"></a>dates: <em><var>C</var> =</em> <strong>colon</strong> <em>(<var>A</var>, <var>i</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave colon (:) operator. <var>A</var> and <var>B</var> are <code>dates </code> objects. The optional increment <var>i</var> is a scalar integer (default value is <code>i=1</code>). This method returns a <code>dates </code> object and can be used to create ranges of dates.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1');
+&gt;&gt; B = dates('1951Q2');
+&gt;&gt; C = A:B
+C = &lt;dates: 1950Q1, 1950Q2, 1950Q3, 1950Q4, 1951Q1&gt;
+&gt;&gt; D = A:2:B
+D = &lt;dates: 1950Q1, 1950Q3, 1951Q1&gt;
+
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-double"></a>dates: <em><var>B</var> =</em> <strong>double</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>double</code> function. <var>A</var> is a <code>dates </code> object. The method returns a floating point representation of a <code>dates </code> object, the integer and fractional parts respectively corresponding to the year and the subperiod. The fractional part is the subperiod number minus one divided by the frequency (<code>1</code>, <code>4</code>, <code>12</code> or <code>52</code>).
+</p>
+
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; a = dates('1950Q1'):dates('1950Q4');
+&gt;&gt; a.double()
+
+ans =
+
+   1950.00
+   1950.25
+   1950.50
+   1950.75
+
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-eq"></a>dates: <em><var>C</var> =</em> <strong>eq</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>eq</code> (equal, <code>==</code>) operator. <code>dates </code> objects <var>A</var> and <var>B</var> must have the  same number of elements (say, <code>n</code>). The returned argument is a <code>n</code> by <code>1</code> vector of zeros and ones. The i-th element of <var>C</var> is equal to <code>1</code> if and only if the dates <code>A(i)</code> and <code>B(i)</code> are the same.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1','1951Q2');
+&gt;&gt; B = dates('1950Q1','1950Q2');
+&gt;&gt; A==B
+
+ans =
+
+     1
+     0
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-ge"></a>dates: <em><var>C</var> =</em> <strong>ge</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>ge</code> (greater or equal, <code>&gt;=</code>) operator. <code>dates </code> objects <var>A</var> and <var>B</var> must have the  same number of elements (say, <code>n</code>). The returned argument is a <code>n</code> by <code>1</code> vector of zeros and ones. The i-th element of <var>C</var> is equal to <code>1</code> if and only if the date <code>A(i)</code> is posterior or equal to the date <code>B(i)</code>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1','1951Q2');
+&gt;&gt; B = dates('1950Q1','1950Q2');
+&gt;&gt; A&gt;=B
+
+ans =
+
+     1
+     1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-gt"></a>dates: <em><var>C</var> =</em> <strong>gt</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>gt</code> (greater than, <code>&gt;</code>) operator. <code>dates </code> objects <var>A</var> and <var>B</var> must have the  same number of elements (say, <code>n</code>). The returned argument is a <code>n</code> by <code>1</code> vector of zeros and ones. The i-th element of <var>C</var> is equal to <code>1</code> if and only if the date <code>A(i)</code> is posterior to the date <code>B(i)</code>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1','1951Q2');
+&gt;&gt; B = dates('1950Q1','1950Q2');
+&gt;&gt; A&gt;B
+
+ans =
+
+     0
+     1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-horzcat"></a>dates: <em><var>D</var> =</em> <strong>horzcat</strong> <em>(<var>A</var>, <var>B</var>, <var>C</var>, ...)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>horzcat</code> operator. All the input arguments must be <code>dates </code> objects. The returned argument is a <code>dates </code> object gathering all the dates given in the input arguments (repetitions are not removed).
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1');
+&gt;&gt; B = dates('1950Q2');
+&gt;&gt; C = [A, B];
+&gt;&gt; C
+C = &lt;dates: 1950Q1, 1950Q2&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-intersect"></a>dates: <em><var>C</var> =</em> <strong>intersect</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>intersect</code> function. All the input arguments must be <code>dates </code> objects. The returned argument is a <code>dates </code> object gathering all the common dates given in the input arguments. If <var>A</var> and <var>B</var> are disjoint <code>dates </code> objects, the function returns an empty <code>dates </code> object. Returned dates in <code>dates </code> object <var>C</var> are sorted by increasing order.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1'):dates('1951Q4');
+&gt;&gt; B = dates('1951Q1'):dates('1951Q4');
+&gt;&gt; C = intersect(A, B);
+&gt;&gt; C
+C = &lt;dates: 1951Q1, 1951Q2, 1951Q3, 1951Q4&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-setdiff"></a>dates: <em><var>C</var> =</em> <strong>setdiff</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>setdiff</code> function. All the input arguments must be <code>dates </code> objects. The returned argument is a <code>dates </code> object all dates present in <var>A</var> but not in <var>B</var>. If <var>A</var> and <var>B</var> are disjoint <code>dates </code> objects, the function returns <var>A</var>. Returned dates in <code>dates </code> object <var>C</var> are sorted by increasing order.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1'):dates('1969Q4') ;
+&gt;&gt; B = dates('1960Q1'):dates('1969Q4') ;
+&gt;&gt; C = dates('1970Q1'):dates('1979Q4') ;
+&gt;&gt; d1 = setdiff(d1,d2);
+&gt;&gt; d2 = setdiff(d1,d3);
+d1 = &lt;dates: 1950Q1, 1950Q2,  ..., 1959Q3, 1959Q4&gt;
+d2 = &lt;dates: 1950Q1, 1950Q2,  ..., 1969Q3, 1969Q4&gt;
+</pre></div>
+
+</dd></dl>
+
+
+<br>
+
+
+<dl>
+<dt><a name="index-isempty"></a>dates: <em><var>B</var> =</em> <strong>isempty</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave isempty function for <code>dates </code> object.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1'):dates('1951Q4');
+&gt;&gt; A.isempty()
+
+ans =
+
+     0
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-isequal"></a>dates: <em><var>C</var> =</em> <strong>isequal</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>isequal</code> function for <code>dates </code> objects.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1'):dates('1951Q4');
+&gt;&gt; isequal(A,A)
+
+ans =
+
+     1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-le"></a>dates: <em><var>C</var> =</em> <strong>le</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>le</code> (less or equal, <code>&lt;=</code>) operator. <code>dates </code> objects <var>A</var> and <var>B</var> must have the  same number of elements (say, <code>n</code>). The returned argument is a <code>n</code> by <code>1</code> vector of zeros and ones. The i-th element of <var>C</var> is equal to <code>1</code> if and only if the date <code>A(i)</code> is not posterior to the date <code>B(i)</code>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1','1951Q2');
+&gt;&gt; B = dates('1950Q1','1950Q2');
+&gt;&gt; A&lt;=B
+
+ans =
+
+     1
+     0
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-length"></a>dates: <em><var>B</var> =</em> <strong>length</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>length</code>  function. Returns the number of dates in <code>dates </code> object <var>A</var> (<var>B</var> is a scalar integer).
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1','1951Q2');
+&gt;&gt; A.length()
+
+ans =
+
+     2
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-lt"></a>dates: <em><var>C</var> =</em> <strong>lt</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>lt</code> (less than, <code>&lt;</code>) operator. <code>dates </code> objects <var>A</var> and <var>B</var> must have the  same number of elements (say, <code>n</code>). The returned argument is a <code>n</code> by <code>1</code> vector of zeros and ones. The i-th element of <var>C</var> is equal to <code>1</code> if and only if the date <code>A(i)</code> preceeds the date <code>B(i)</code>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1','1951Q2');
+&gt;&gt; B = dates('1950Q1','1950Q2');
+&gt;&gt; A&lt;B
+
+ans =
+
+     0
+     0
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-max-1"></a>dates: <em><var>D</var> =</em> <strong>max</strong> <em>(<var>A</var>, <var>B</var>, <var>C</var>, ...)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>max</code> function. All input arguments must be <code>dates </code> objects. The function returns a single element <code>dates </code> object containing the greatest date.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = {dates('1950Q2'), dates('1953Q4','1876Q2'), dates('1794Q3')};
+&gt;&gt; max(A{:})
+ans = &lt;dates: 1953Q4&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-min-1"></a>dates: <em><var>D</var> =</em> <strong>min</strong> <em>(<var>A</var>, <var>B</var>, <var>C</var>, ...)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>min</code> function. All input arguments must be <code>dates </code> objects. The function returns a single element <code>dates </code> object containing the smallest date.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = {dates('1950Q2'), dates('1953Q4','1876Q2'), dates('1794Q3')};
+&gt;&gt; min(A{:})
+ans = &lt;dates: 1794Q3&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-minus"></a>dates: <em><var>C</var> =</em> <strong>minus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>minus</code> operator (<code>-</code>). If both input arguments are <code>dates </code> objects, then number of periods between <var>A</var> and <var>B</var> is returned (so that <code>A+C=B</code>). If <var>B</var> is a vector of integers, the <code>minus</code> operator shifts the <code>dates </code> object by <var>B</var> periods backward.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; d1 = dates('1950Q1','1950Q2','1960Q1');
+&gt;&gt; d2 = dates('1950Q3','1950Q4','1960Q1');
+&gt;&gt; ee = d2-d1
+
+ee =
+
+     2
+     2
+     0
+
+&gt;&gt; d1-(-ee)
+ans = &lt;dates: 1950Q3, 1950Q4, 1960Q1&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-ne"></a>dates: <em><var>C</var> =</em> <strong>ne</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>ne</code> (not equal, <code>~=</code>) operator. <code>dates </code> objects <var>A</var> and <var>B</var> must have the  same number of elements (say, <code>n</code>) or one of the inputs must be a single element <code>dates </code> object. The returned argument is a <code>n</code> by <code>1</code> vector of zeros and ones. The i-th element of <var>C</var> is equal to <code>1</code> if and only if the dates <code>A(i)</code> and <code>B(i)</code> are different.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; A = dates('1950Q1','1951Q2');
+&gt;&gt; B = dates('1950Q1','1950Q2');
+&gt;&gt; A~=B
+
+ans =
+
+     0
+     1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-plus"></a>dates: <em><var>C</var> =</em> <strong>plus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>plus</code> operator (<code>+</code>). If both input arguments are <code>dates </code> objects, then the method combines A and B without removing repetitions. If <var>B</var> is a vector of integers, the <code>plus</code> operator shifts the <code>dates </code> object by <var>B</var> periods forward.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; d1 = dates('1950Q1','1950Q2')+dates('1960Q1');
+&gt;&gt; d2 = (dates('1950Q1','1950Q2')+2)+dates('1960Q1');
+&gt;&gt; ee = d2-d1;
+
+ee =
+
+     2
+     2
+     0
+
+&gt;&gt; d1+ee
+ans = &lt;dates: 1950Q3, 1950Q4, 1960Q1&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-pop"></a>dates: <em><var>C</var> =</em> <strong>pop</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-pop-1"></a>dates: <em><var>C</var> =</em> <strong>pop</strong> <em>(<var>A</var>,<var>B</var>)</em></dt>
+<dd>
+<p>Pop method for <code>dates </code> class. If only one input is provided, the method removes the last element of a <code>dates </code> object. If a second input argument is provided, a scalar integer between <code>1</code> and <code>A.length()</code>, the method removes element number <var>B</var> from <code>dates </code> object <var>A</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; d1 = dates('1950Q1','1950Q2');
+&gt;&gt; d1.pop()
+ans = &lt;dates: 1950Q1&gt;
+
+&gt;&gt; d1.pop(1)
+ans = &lt;dates: 1950Q2&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-sort"></a>dates: <em><var>B</var> =</em> <strong>sort</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Sort method for <code>dates </code> objects. Returns a <code>dates </code> object with elements sorted by increasing order.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; dd = dates('1945Q3','1938Q4','1789Q3');
+&gt;&gt; dd.sort()
+ans = &lt;dates: 1789Q3, 1938Q4, 1945Q3&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-uminus"></a>dates: <em><var>B</var> =</em> <strong>uminus</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave unary minus operator. Returns a <code>dates </code> object with elements shifted one period backward.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; dd = dates('1945Q3','1938Q4','1973Q1');
+&gt;&gt; -dd
+ans = &lt;dates: 1945Q2, 1938Q3, 1972Q4&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-union"></a>dates: <em><var>D</var> =</em> <strong>union</strong> <em>(<var>A</var>, <var>B</var>, <var>C</var>, ...)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>union</code> function. Returns a <code>dates </code> object with elements sorted by increasing order (repetitions are removed, to keep the repetitions use the <code>horzcat</code> or <code>plus</code> operators).
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; d1 = dates('1945Q3','1973Q1','1938Q4');
+&gt;&gt; d2 = dates('1973Q1','1976Q1');
+&gt;&gt; union(d1,d2)
+ans = &lt;dates: 1938Q4, 1945Q3, 1973Q1, 1976Q1&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-unique"></a>dates: <em><var>B</var> =</em> <strong>unique</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>unique</code> function. Returns a <code>dates </code> object with repetitions removed (only the last occurence of a date is kept).
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; d1 = dates('1945Q3','1973Q1','1945Q3');
+&gt;&gt; d1.unique()
+ans = &lt;dates: 1973Q1, 1945Q3&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-uplus"></a>dates: <em><var>B</var> =</em> <strong>uplus</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave unary plus operator. Returns a <code>dates </code> object with elements shifted one period ahead.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; dd = dates('1945Q3','1938Q4','1973Q1');
+&gt;&gt; +dd
+ans = &lt;dates: 1945Q4, 1939Q1, 1973Q2&gt;
+</pre></div>
+
+</dd></dl>
+
+
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#dates-in-a-mod-file" accesskey="p" rel="prev">dates in a mod file</a>, Up: <a href="#Dates" accesskey="u" rel="up">Dates</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

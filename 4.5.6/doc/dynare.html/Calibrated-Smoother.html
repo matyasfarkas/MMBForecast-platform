@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Calibrated Smoother</title>
+
+<meta name="description" content="Dynare Reference Manual: Calibrated Smoother">
+<meta name="keywords" content="Dynare Reference Manual: Calibrated Smoother">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Forecasting.html#Forecasting" rel="next" title="Forecasting">
+<link href="Shock-Decomposition.html#Shock-Decomposition" rel="prev" title="Shock Decomposition">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Calibrated-Smoother"></a>
+<div class="header">
+<p>
+Next: <a href="Forecasting.html#Forecasting" accesskey="n" rel="next">Forecasting</a>, Previous: <a href="Shock-Decomposition.html#Shock-Decomposition" accesskey="p" rel="prev">Shock Decomposition</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Calibrated-Smoother-1"></a>
+<h3 class="section">4.17 Calibrated Smoother</h3>
+
+<p>Dynare can also run the smoother on a calibrated model:
+</p>
+<dl>
+<dt><a name="index-calib_005fsmoother"></a>Command: <strong>calib_smoother</strong> <em>[<var>VARIABLE_NAME</var>]&hellip;;</em></dt>
+<dt><a name="index-calib_005fsmoother-1"></a>Command: <strong>calib_smoother</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>]&hellip;;</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command computes the smoothed variables (and possible the filtered
+variables) on a <code>calibrated</code> model.
+</p>
+<p>A datafile must be provided, and the observable variables declared with
+<code>varobs</code>. The smoother is based on a first-order approximation of
+the model.
+</p>
+<p>By default, the command computes the smoothed variables and shocks and stores the
+results in <code>oo_.SmoothedVariables</code> and
+<code>oo_.SmoothedShocks</code>. It also fills <code>oo_.UpdatedVariables</code>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>datafile = <var>FILENAME</var></code></dt>
+<dd><p>See <a href="Estimation.html#datafile">datafile</a>.
+</p>
+</dd>
+<dt><code>filtered_vars</code></dt>
+<dd><p>Triggers the computation of filtered variables. See <a href="Estimation.html#filtered_005fvars">filtered_vars</a>, for
+more details.
+</p>
+</dd>
+<dt><code>filter_step_ahead = [<var>INTEGER1</var>:<var>INTEGER2</var>]</code></dt>
+<dd><p>See <a href="Estimation.html#filter_005fstep_005fahead">filter_step_ahead</a>.
+</p>
+</dd>
+<dt><code>prefilter = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#prefilter">prefilter</a>.
+</p>
+</dd>
+<dt><code>loglinear</code></dt>
+<dd><p>See <a href="Estimation.html#loglinear">loglinear</a>.
+</p>
+</dd>
+<dt><code>first_obs = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#first_005fobs">first_obs</a>.
+</p>
+</dd>
+<dt><code>filter_decomposition</code></dt>
+<dd><p>See <a href="Estimation.html#filter_005fdecomposition">filter_decomposition</a>.
+</p>
+</dd>
+<dt><code>diffuse_filter = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="Estimation.html#diffuse_005ffilter">diffuse_filter</a>.
+</p>
+</dd>
+<dt><code>diffuse_kalman_tol = <var>DOUBLE</var></code></dt>
+<dd><p>See <a href="Estimation.html#diffuse_005fkalman_005ftol">diffuse_kalman_tol</a>.
+</p>
+</dd>
+</dl>
+
+</dd></dl>
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Forecasting.html#Forecasting" accesskey="n" rel="next">Forecasting</a>, Previous: <a href="Shock-Decomposition.html#Shock-Decomposition" accesskey="p" rel="prev">Shock Decomposition</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

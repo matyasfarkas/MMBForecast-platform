@@ -1,0 +1,599 @@
+Starting Dynare (version 4.4.2).
+Starting preprocessing of the model file ...
+Found 47 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...done
+Preprocessing completed.
+Starting MATLAB/Octave computing.
+[Warning: Some of the parameters have no value (bet, pistar, sprd, Fom, zstar, rstar, Rstarn, rkstar, omegastar, Lstar, kstar,
+kbarstar, istar, ystar, cstar, wl_c, zwstar, sigwstar, omegabarstar, Gstar, Gammastar, dGdomegastar, d2Gdomega2star,
+dGammadomegastar, d2Gammadomega2star, dGdsigmastar, d2Gdomegadsigmastar, dGammadsigmastar, d2Gammadomegadsigmastar, muestar,
+nkstar, Rhostar, wekstar, vkstar, nstar, vstar, GammamuG, GammamuGprime, zeta_bw, zeta_zw, zeta_bw_zw, zeta_bsigw, zeta_zsigw,
+zeta_spsigw, zeta_bmue, zeta_zmue, zeta_spmue, Rkstar, zeta_Gw, zeta_Gsigw, zeta_nRk, zeta_nR, zeta_nqk, zeta_nn, zeta_nmue,
+zeta_nsigw) when using steady. If these parameters are not initialized in a steadystate file, Dynare may not be able to solve the
+model...] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('test_for_deep_parameters_calibration', 'C:\dynare\4.4.2\matlab\test_for_deep_parameters_calibration.m', 46)" style="font-weight:bold">test_for_deep_parameters_calibration</a> (<a href="matlab: opentoline('C:\dynare\4.4.2\matlab\test_for_deep_parameters_calibration.m',46,0)">line 46</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('steady', 'C:\dynare\4.4.2\matlab\steady.m', 33)" style="font-weight:bold">steady</a> (<a href="matlab: opentoline('C:\dynare\4.4.2\matlab\steady.m',33,0)">line 33</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('US_DNGS14_20074', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\MODELS\US_DNGS14\US_DNGS14_20074\US_DNGS14_20074.m', 713)" style="font-weight:bold">US_DNGS14_20074</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\MODELS\US_DNGS14\US_DNGS14_20074\US_DNGS14_20074.m',713,0)">line 713</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', 'C:\dynare\4.4.2\matlab\dynare.m', 180)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('C:\dynare\4.4.2\matlab\dynare.m',180,0)">line 180</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('modeestimate', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\modeestimate.m', 12)" style="font-weight:bold">modeestimate</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\modeestimate.m',12,0)">line 12</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Main', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\Main.m', 97)" style="font-weight:bold">Main</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\Main.m',97,0)">line 97</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('run', 'C:\Program Files\MATLAB\R2018a\toolbox\matlab\lang\run.m', 91)" style="font-weight:bold">run</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018a\toolbox\matlab\lang\run.m',91,0)">line 91</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface>pushbutton1_Callback', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 843)" style="font-weight:bold">EstimationInterface>pushbutton1_Callback</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',843,0)">line 843</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('gui_mainfcn', 'C:\Program Files\MATLAB\R2018a\toolbox\matlab\guide\gui_mainfcn.m', 95)" style="font-weight:bold">gui_mainfcn</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018a\toolbox\matlab\guide\gui_mainfcn.m',95,0)">line 95</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 42)" style="font-weight:bold">EstimationInterface</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',42,0)">line 42</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface(''pushbutton1_Callback'',hObject,eventdata,guidata(hObject))')" style="font-weight:bold">matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface('pushbutton1_Callback',hObject,eventdata,guidata(hObject))</a>] 
+
+STEADY-STATE RESULTS:
+
+y_t         		 0
+c_t         		 0
+i_t         		 0
+k_t         		 0
+kbar_t      		 0
+L_t         		 0
+mc_t        		 0
+pi_t        		 0
+R_t         		 0
+rk_t        		 0
+u_t         		 0
+w_t         		 0
+muw_t       		 0
+qk_t        		 0
+Rktil_t     		 0
+n_t         		 0
+z_t         		 0
+ztil_t      		 0
+b_t         		 0
+g_t         		 0
+laf_t       		 0
+law_t       		 0
+sigw_t      		 0
+mu_t        		 0
+rm_t        		 0
+xgdp_q_obs  		 0.675032
+hours_obs   		 0.467095
+wage_obs    		 0.675032
+pgdp_q_obs  		 0.636515
+rff_q_obs   		 1.24246
+pcer_q_obs  		 0.675032
+fpi_q_obs   		 0.675032
+cp_q_obs    		 0.449254
+y_ft        		 0
+c_ft        		 0
+i_ft        		 0
+k_ft        		 0
+kbar_ft     		 0
+L_ft        		 0
+r_ft        		 0
+rk_ft       		 0
+u_ft        		 0
+w_ft        		 0
+qk_ft       		 0
+outputgap_t 		 0
+r_ft_obs    		 2.42378
+r_ann_t     		 2.42378
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+       8.673e-17       -8.673e-17                0
+       9.096e-17       -9.096e-17                0
+       1.802e-16        1.802e-16                0
+          0.2185           0.2185                0
+          0.2654           0.2654                0
+          0.3293           0.3293                0
+          0.3298           0.3298                0
+          0.3639           0.3639                0
+          0.6151           0.6151                0
+          0.7042           0.7042                0
+          0.8408           0.8408                0
+          0.9034           0.9002          0.07578
+          0.9034           0.9002         -0.07578
+          0.9077           0.9063          0.04968
+          0.9077           0.9063         -0.04968
+          0.9279           0.9279                0
+          0.9326           0.9326                0
+          0.9583           0.9583                0
+          0.9729           0.9729                0
+          0.9738           0.9738                0
+          0.9788           0.9788                0
+           1.053            1.053                0
+           1.108            1.106          0.07199
+           1.108            1.106         -0.07199
+           1.135            1.125           0.1509
+           1.135            1.125          -0.1509
+           1.253            1.225           0.2632
+           1.253            1.225          -0.2632
+       5.508e+16        5.508e+16                0
+       6.717e+17       -6.717e+17                0
+       4.151e+18       -4.151e+18                0
+       1.023e+19        1.023e+19                0
+             Inf             -Inf                0
+
+
+There are 12 eigenvalue(s) larger than 1 in modulus 
+for 12 forward-looking variable(s)
+
+The rank condition is verified.
+
+Total computing time : 0h00m04s
+Note: warning(s) encountered in MATLAB/Octave code
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('union>unionR2012a', 'C:\Program Files\MATLAB\R2018a\toolbox\matlab\ops\union.p', 246)" style="font-weight:bold">union>unionR2012a</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018a\toolbox\matlab\ops\union.p',246,0)">line 246</a>)
+Inputs A and B must be matrices with the same number of columns in the 'rows' case.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('union', 'C:\Program Files\MATLAB\R2018a\toolbox\matlab\ops\union.p', 168)" style="font-weight:bold">union</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018a\toolbox\matlab\ops\union.p',168,0)">line 168</a>)
+        [varargout{1:nlhs}] = unionR2012a(varargin{1:2},logical(flaginds(1:3)));
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation_init', 'C:\dynare\4.4.2\matlab\dynare_estimation_init.m', 343)" style="font-weight:bold">dynare_estimation_init</a> (<a href="matlab: opentoline('C:\dynare\4.4.2\matlab\dynare_estimation_init.m',343,0)">line 343</a>)
+k2 = union(var_obs_index,[M_.nstatic+1:M_.nstatic+M_.nspred]', 'rows');
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation_1', 'C:\dynare\4.4.2\matlab\dynare_estimation_1.m', 81)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('C:\dynare\4.4.2\matlab\dynare_estimation_1.m',81,0)">line 81</a>)
+[dataset_,xparam1, hh, M_, options_, oo_, estim_params_,bayestopt_] = dynare_estimation_init(var_list_, dname, [], M_, options_,
+oo_, estim_params_, bayestopt_);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation', 'C:\dynare\4.4.2\matlab\dynare_estimation.m', 89)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('C:\dynare\4.4.2\matlab\dynare_estimation.m',89,0)">line 89</a>)
+    dynare_estimation_1(var_list,dname);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('modeestimate', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\modeestimate.m', 69)" style="font-weight:bold">modeestimate</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\modeestimate.m',69,0)">line 69</a>)
+dynare_estimation(var_list_); % run the estimation
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Main', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\Main.m', 97)" style="font-weight:bold">Main</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\Main.m',97,0)">line 97</a>)
+                        eval([basics.currentmodel '_' num2str(basics.vintage(basics.vintagenr,:)) ' = modeestimate(basics);']); %
+                        function for the estimation
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('run', 'C:\Program Files\MATLAB\R2018a\toolbox\matlab\lang\run.m', 91)" style="font-weight:bold">run</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018a\toolbox\matlab\lang\run.m',91,0)">line 91</a>)
+evalin('caller', strcat(script, ';'));
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface>pushbutton1_Callback', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 843)" style="font-weight:bold">EstimationInterface>pushbutton1_Callback</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',843,0)">line 843</a>)
+    run Main
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('gui_mainfcn', 'C:\Program Files\MATLAB\R2018a\toolbox\matlab\guide\gui_mainfcn.m', 95)" style="font-weight:bold">gui_mainfcn</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018a\toolbox\matlab\guide\gui_mainfcn.m',95,0)">line 95</a>)
+        feval(varargin{:});
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 42)" style="font-weight:bold">EstimationInterface</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',42,0)">line 42</a>)
+    gui_mainfcn(gui_State, varargin{:});
+
+Error in
+<a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface(''pushbutton1_Callback'',hObject,eventdata,guidata(hObject))')" style="font-weight:bold">matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface('pushbutton1_Callback',hObject,eventdata,guidata(hObject))</a>} 
+Error while evaluating UIControl Callback.
+
+clear
+EstimationInterface
+{'EstimationInterface' is not found in the current folder or on the MATLAB path, but exists in:
+    C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface
+    C:\Users\Farkas\Documents\R\DNGS_stan\dynare\Forecast platform\MMB_Estimation\EstimationInterface
+
+Change the MATLAB current folder or add its folder to the MATLAB path.
+} 
+Exception in thread "AWT-EventQueue-0" java.util.regex.PatternSyntaxException: Illegal/unsupported escape sequence near index 121
+.*\QC:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\E.*
+                                                                                                                         ^
+	at java.util.regex.Pattern.error(Pattern.java:1955)
+	at java.util.regex.Pattern.escape(Pattern.java:2471)
+	at java.util.regex.Pattern.atom(Pattern.java:2198)
+	at java.util.regex.Pattern.sequence(Pattern.java:2130)
+	at java.util.regex.Pattern.expr(Pattern.java:1996)
+	at java.util.regex.Pattern.compile(Pattern.java:1696)
+	at java.util.regex.Pattern.<init>(Pattern.java:1351)
+	at java.util.regex.Pattern.compile(Pattern.java:1054)
+	at com.mathworks.matlab.api.explorer.SearchCriteria.<init>(SearchCriteria.java:86)
+	at com.mathworks.mde.explorer.Explorer$12$1.run(Explorer.java:683)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+EstimationInterface
+EstimationInterface
+Generating vintages...
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('horzcat')" style="font-weight:bold">horzcat</a>
+Dimensions of arrays being concatenated are not consistent.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('code_vintagesexp', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\code_vintagesexp.m', 85)" style="font-weight:bold">code_vintagesexp</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\code_vintagesexp.m',85,0)">line 85</a>)
+                    VintData = [VintData [cell2mat(basics.observables{i});[DATAMAT{i}(FirstObsAll:position_LastObs,vint); NaN ]]];
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface>GenerateDataIdentifier', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 764)" style="font-weight:bold">EstimationInterface>GenerateDataIdentifier</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',764,0)">line 764</a>)
+                    code_vintagesexp
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface>pushbutton1_Callback', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 805)" style="font-weight:bold">EstimationInterface>pushbutton1_Callback</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',805,0)">line 805</a>)
+    GenerateDataIdentifier(hObject, eventdata, handles);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('gui_mainfcn', 'C:\Program Files\MATLAB\R2018a\toolbox\matlab\guide\gui_mainfcn.m', 95)" style="font-weight:bold">gui_mainfcn</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018a\toolbox\matlab\guide\gui_mainfcn.m',95,0)">line 95</a>)
+        feval(varargin{:});
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 42)" style="font-weight:bold">EstimationInterface</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',42,0)">line 42</a>)
+    gui_mainfcn(gui_State, varargin{:});
+
+Error in
+<a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface(''pushbutton1_Callback'',hObject,eventdata,guidata(hObject))')" style="font-weight:bold">matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface('pushbutton1_Callback',hObject,eventdata,guidata(hObject))</a>} 
+Error while evaluating UIControl Callback.
+
+opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\code_vintagesexp.m',85,0)
+EstimationInterface
+Generating vintages...
+<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\EstimationInterface\code_vintagesexp.m',85,1)">85  </a>                    VintData = [VintData [cell2mat(basics.observables{i});[DATAMAT{i}(FirstObsAll:position_LastObs,vint); NaN ]]];
+[cell2mat(basics.observables{i});[DATAMAT{i}(FirstObsAll:position_LastObs,vint); NaN ]
+]
+
+ans =
+
+  177×1 <a href="matlab:helpPopup cell" style="font-weight:bold">cell</a> array
+
+    {'xgdp_q_obs'}
+    {[    2.2172]}
+    {[    1.1558]}
+    {[    1.3544]}
+    {[    0.2674]}
+    {[    2.4294]}
+    {[    1.3422]}
+    {[    2.0081]}
+    {[    2.3887]}
+    {[    2.4160]}
+    {[    0.3463]}
+    {[    0.6568]}
+    {[    0.8012]}
+    {[    0.8814]}
+    {[    0.0058]}
+    {[    0.7907]}
+    {[    0.7532]}
+    {[    2.0398]}
+    {[    1.6818]}
+    {[    0.6796]}
+    {[    0.4207]}
+    {[    1.5641]}
+    {[    0.2849]}
+    {[    0.6176]}
+    {[   -0.4741]}
+    {[   -0.1674]}
+    {[    0.1887]}
+    {[    0.8827]}
+    {[   -1.0767]}
+    {[    2.7363]}
+    {[    0.5626]}
+    {[    0.7895]}
+    {[    0.2855]}
+    {[    1.7614]}
+    {[    2.3339]}
+    {[    0.9485]}
+    {[    1.6231]}
+    {[    2.5072]}
+    {[    1.1501]}
+    {[   -0.5341]}
+    {[    0.9512]}
+    {[   -0.8704]}
+    {[    0.2879]}
+    {[   -0.9730]}
+    {[   -0.3933]}
+    {[   -1.2033]}
+    {[    0.7289]}
+    {[    1.6796]}
+    {[    1.3023]}
+    {[    2.2262]}
+    {[    0.7422]}
+    {[    0.4779]}
+    {[    0.7136]}
+    {[    1.2012]}
+    {[    1.9443]}
+    {[    1.7744]}
+    {[   -0.0104]}
+    {[    0.3214]}
+    {[    3.8657]}
+    {[    0.9810]}
+    {[    1.3068]}
+    {[    0.1945]}
+    {[    0.0951]}
+    {[    0.7175]}
+    {[    0.2944]}
+    {[    0.3184]}
+    {[   -2.0393]}
+    {[   -0.1663]}
+    {[    1.8372]}
+    {[    2.0059]}
+    {[   -0.7831]}
+    {[    1.2024]}
+    {[   -1.2537]}
+    {[   -1.6532]}
+    {[    0.5355]}
+    {[   -0.3792]}
+    {[    0.0887]}
+    {[    1.2256]}
+    {[    2.2304]}
+    {[    1.9557]}
+    {[    2.0256]}
+    {[    1.9362]}
+    {[    1.7065]}
+    {[    0.9681]}
+    {[    0.8183]}
+    {[    0.9191]}
+    {[    0.8508]}
+    {[    1.5509]}
+    {[    0.7657]}
+    {[    0.9518]}
+    {[    0.3955]}
+    {[    0.9534]}
+    {[    0.5026]}
+    {[    0.6557]}
+    {[    1.0938]}
+    {[    0.9034]}
+    {[    1.7313]}
+    {[    0.4877]}
+    {[    1.2632]}
+    {[    0.5325]}
+    {[    1.3110]}
+    {[    1.0097]}
+    {[    0.6541]}
+    {[    0.7098]}
+    {[    0.2535]}
+    {[    1.1483]}
+    {[    0.2556]}
+    {[    0.0070]}
+    {[   -0.7587]}
+    {[   -0.5114]}
+    {[    0.6470]}
+    {[    0.4814]}
+    {[    0.4680]}
+    {[    1.0304]}
+    {[    0.9597]}
+    {[    0.9763]}
+    {[    1.0958]}
+    {[    0.1207]}
+    {[    0.5054]}
+    {[    0.5122]}
+    {[    1.3366]}
+    {[    1.0122]}
+    {[    1.2955]}
+    {[    0.5588]}
+    {[    1.1650]}
+    {[    0.2775]}
+    {[    0.1792]}
+    {[    0.8117]}
+    {[    0.7287]}
+    {[    0.7027]}
+    {[    1.6258]}
+    {[    0.8347]}
+    {[    1.1625]}
+    {[    0.7703]}
+    {[    1.5080]}
+    {[    1.2374]}
+    {[    0.7347]}
+    {[    1.1005]}
+    {[    0.6592]}
+    {[    1.1451]}
+    {[    1.5074]}
+    {[    0.8452]}
+    {[    0.8242]}
+    {[    1.1601]}
+    {[    1.7619]}
+    {[    0.2530]}
+    {[    1.5586]}
+    {[   -0.1148]}
+    {[    0.5181]}
+    {[   -0.1224]}
+    {[    0.3063]}
+    {[   -0.3519]}
+    {[    0.3933]}
+    {[    0.6768]}
+    {[    0.5428]}
+    {[    0.5874]}
+    {[    0.0505]}
+    {[    0.2987]}
+    {[    0.8526]}
+    {[    1.8049]}
+    {[    0.6547]}
+    {[    0.7292]}
+    {[    0.8556]}
+    {[    0.8847]}
+    {[    0.6290]}
+    {[    0.7566]}
+    {[    0.6935]}
+    {[    1.0913]}
+    {[    0.2966]}
+    {[    1.1770]}
+    {[    0.6032]}
+    {[    0.2650]}
+    {[    0.5173]}
+    {[    0.1499]}
+    {[    0.9375]}
+    {[    0.9555]}
+    {[       NaN]}
+
+VintData
+
+VintData =
+
+  176×1 <a href="matlab:helpPopup cell" style="font-weight:bold">cell</a> array
+
+    {[   NaN]}
+    {'1964Q1'}
+    {'1964Q2'}
+    {'1964Q3'}
+    {'1964Q4'}
+    {'1965Q1'}
+    {'1965Q2'}
+    {'1965Q3'}
+    {'1965Q4'}
+    {'1966Q1'}
+    {'1966Q2'}
+    {'1966Q3'}
+    {'1966Q4'}
+    {'1967Q1'}
+    {'1967Q2'}
+    {'1967Q3'}
+    {'1967Q4'}
+    {'1968Q1'}
+    {'1968Q2'}
+    {'1968Q3'}
+    {'1968Q4'}
+    {'1969Q1'}
+    {'1969Q2'}
+    {'1969Q3'}
+    {'1969Q4'}
+    {'1970Q1'}
+    {'1970Q2'}
+    {'1970Q3'}
+    {'1970Q4'}
+    {'1971Q1'}
+    {'1971Q2'}
+    {'1971Q3'}
+    {'1971Q4'}
+    {'1972Q1'}
+    {'1972Q2'}
+    {'1972Q3'}
+    {'1972Q4'}
+    {'1973Q1'}
+    {'1973Q2'}
+    {'1973Q3'}
+    {'1973Q4'}
+    {'1974Q1'}
+    {'1974Q2'}
+    {'1974Q3'}
+    {'1974Q4'}
+    {'1975Q1'}
+    {'1975Q2'}
+    {'1975Q3'}
+    {'1975Q4'}
+    {'1976Q1'}
+    {'1976Q2'}
+    {'1976Q3'}
+    {'1976Q4'}
+    {'1977Q1'}
+    {'1977Q2'}
+    {'1977Q3'}
+    {'1977Q4'}
+    {'1978Q1'}
+    {'1978Q2'}
+    {'1978Q3'}
+    {'1978Q4'}
+    {'1979Q1'}
+    {'1979Q2'}
+    {'1979Q3'}
+    {'1979Q4'}
+    {'1980Q1'}
+    {'1980Q2'}
+    {'1980Q3'}
+    {'1980Q4'}
+    {'1981Q1'}
+    {'1981Q2'}
+    {'1981Q3'}
+    {'1981Q4'}
+    {'1982Q1'}
+    {'1982Q2'}
+    {'1982Q3'}
+    {'1982Q4'}
+    {'1983Q1'}
+    {'1983Q2'}
+    {'1983Q3'}
+    {'1983Q4'}
+    {'1984Q1'}
+    {'1984Q2'}
+    {'1984Q3'}
+    {'1984Q4'}
+    {'1985Q1'}
+    {'1985Q2'}
+    {'1985Q3'}
+    {'1985Q4'}
+    {'1986Q1'}
+    {'1986Q2'}
+    {'1986Q3'}
+    {'1986Q4'}
+    {'1987Q1'}
+    {'1987Q2'}
+    {'1987Q3'}
+    {'1987Q4'}
+    {'1988Q1'}
+    {'1988Q2'}
+    {'1988Q3'}
+    {'1988Q4'}
+    {'1989Q1'}
+    {'1989Q2'}
+    {'1989Q3'}
+    {'1989Q4'}
+    {'1990Q1'}
+    {'1990Q2'}
+    {'1990Q3'}
+    {'1990Q4'}
+    {'1991Q1'}
+    {'1991Q2'}
+    {'1991Q3'}
+    {'1991Q4'}
+    {'1992Q1'}
+    {'1992Q2'}
+    {'1992Q3'}
+    {'1992Q4'}
+    {'1993Q1'}
+    {'1993Q2'}
+    {'1993Q3'}
+    {'1993Q4'}
+    {'1994Q1'}
+    {'1994Q2'}
+    {'1994Q3'}
+    {'1994Q4'}
+    {'1995Q1'}
+    {'1995Q2'}
+    {'1995Q3'}
+    {'1995Q4'}
+    {'1996Q1'}
+    {'1996Q2'}
+    {'1996Q3'}
+    {'1996Q4'}
+    {'1997Q1'}
+    {'1997Q2'}
+    {'1997Q3'}
+    {'1997Q4'}
+    {'1998Q1'}
+    {'1998Q2'}
+    {'1998Q3'}
+    {'1998Q4'}
+    {'1999Q1'}
+    {'1999Q2'}
+    {'1999Q3'}
+    {'1999Q4'}
+    {'2000Q1'}
+    {'2000Q2'}
+    {'2000Q3'}
+    {'2000Q4'}
+    {'2001Q1'}
+    {'2001Q2'}
+    {'2001Q3'}
+    {'2001Q4'}
+    {'2002Q1'}
+    {'2002Q2'}
+    {'2002Q3'}
+    {'2002Q4'}
+    {'2003Q1'}
+    {'2003Q2'}
+    {'2003Q3'}
+    {'2003Q4'}
+    {'2004Q1'}
+    {'2004Q2'}
+    {'2004Q3'}
+    {'2004Q4'}
+    {'2005Q1'}
+    {'2005Q2'}
+    {'2005Q3'}
+    {'2005Q4'}
+    {'2006Q1'}
+    {'2006Q2'}
+    {'2006Q3'}
+    {'2006Q4'}
+    {'2007Q1'}
+    {'2007Q2'}
+    {'2007Q3'}
+
+if system_dependent('IsDebugMode')==1, dbquit all; end
+EstimationInterface

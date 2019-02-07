@@ -1,0 +1,42 @@
+%\documentclass[a4paper,10pt] {article}
+%\usepackage[english]{babel}
+%\usepackage[latin1]{inputenc}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+%\usepackage{enumitem}
+%\usepackage{multicol}
+%\usepackage{mathrsfs}
+%\usepackage{a4wide}
+%\usepackage{graphicx}
+%\title{A Real Time Data Set For DSGE-Estimation And Forecasting }
+%\author{Meguy Kuete}
+%\begin{document}
+%\newtheorem{T0}{Theorem}
+%\newtheorem{D1}{Lemma}
+%\maketitle
+
+%\section{Loans to euro area households and to non-financial corporations}
+%
+%\begin{description}
+%\item[(a)] \textbf{Raw Time Series:}
+%\begin{enumerate}
+%\item Loans HH House:  Loans to euro area  households for house purchase (Millions of Euros, seasonally adjusted)
+%\item Loans NFC: Loans to non-financial corporations (Millions of Euros, seasonally adjusted)
+%
+%\begin{itemize}
+%\item Source: ECB,
+%\item monthly observations: from 2003-Jan to 2014-May
+%%\item Quarterly vintages obtained by taking the middle month of the quarter and averaging the monthly observations
+%%\footnote{See the sheet Match\_PHIL\_StLOUIS in M2 for a comparison with Philadelphia Vintages}. The series so-obtained is called M2\_Q.
+%\end{itemize}
+%\item PNGP\_J is the deflator (for the definition see Section 5).
+%\end{enumerate}
+%\item[(b)] \textbf{Transformation:}
+%\begin{itemize}
+%\item DLNQuaterly real money balances
+%$$real\_m2\_growth_{t}=\left(\ln\left(\frac{M2\_Q_t}{PNGP\_J_t}\right)-\ln\left(\frac{M2\_Q_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$
+%\item Saved in 	M2/real\_m2\_growth
+%\end{itemize}
+%\end{description} 
+%\end{document} 

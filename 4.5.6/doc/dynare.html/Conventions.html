@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Conventions</title>
+
+<meta name="description" content="Dynare Reference Manual: Conventions">
+<meta name="keywords" content="Dynare Reference Manual: Conventions">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Variable-declarations.html#Variable-declarations" rel="next" title="Variable declarations">
+<link href="The-Model-file.html#The-Model-file" rel="prev" title="The Model file">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Conventions"></a>
+<div class="header">
+<p>
+Next: <a href="Variable-declarations.html#Variable-declarations" accesskey="n" rel="next">Variable declarations</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Conventions-1"></a>
+<h3 class="section">4.1 Conventions</h3>
+
+<p>A model file contains a list of commands and of blocks.  Each command
+and each element of a block is terminated by a semicolon
+(<code>;</code>). Blocks are terminated by <code>end;</code>.
+</p>
+<p>Most Dynare commands have arguments and several accept options,
+indicated in parentheses after the command keyword. Several options
+are separated by commas.
+</p>
+<p>In the description of Dynare commands, the following conventions are
+observed:
+</p>
+<ul>
+<li> optional arguments or options are indicated between square brackets:
+&lsquo;<samp>[]</samp>&rsquo;;
+
+</li><li> repreated arguments are indicated by ellipses: &ldquo;&hellip;&rdquo;;
+
+</li><li> mutually exclusive arguments are separated by vertical bars: &lsquo;<samp>|</samp>&rsquo;;
+
+</li><li> <var>INTEGER</var> indicates an integer number;
+
+</li><li> <var>INTEGER_VECTOR</var> indicates a vector of integer numbers separated by spaces,
+enclosed by square brackets;
+
+</li><li> <var>DOUBLE</var> indicates a double precision number. The following syntaxes
+are valid: <code>1.1e3</code>, <code>1.1E3</code>, <code>1.1d3</code>, <code>1.1D3</code>. In
+some places, infinite values <code>Inf</code> and <code>-Inf</code> are also allowed;
+
+</li><li> <var>NUMERICAL_VECTOR</var> indicates a vector of numbers separated by spaces,
+enclosed by square brackets;
+
+</li><li> <var>EXPRESSION</var> indicates a mathematical expression valid outside the
+model description (see <a href="Expressions.html#Expressions">Expressions</a>);
+
+</li><li> <var>MODEL_EXPRESSION</var> indicates a mathematical expression valid in the
+model description (see <a href="Expressions.html#Expressions">Expressions</a> and <a href="Model-declaration.html#Model-declaration">Model declaration</a>);
+
+</li><li> <var>MACRO_EXPRESSION</var> designates an expression of the macro-processor
+(see <a href="Macro_002dprocessing-language.html#Macro-expressions">Macro expressions</a>);
+
+</li><li> <var>VARIABLE_NAME</var> indicates a variable name starting with an
+alphabetical character and can&rsquo;t contain: &lsquo;<samp>()+-*/^=!;:@#.</samp>&rsquo; or
+accentuated characters;
+
+</li><li> <var>PARAMETER_NAME</var> indicates a parameter name starting with an
+alphabetical character and can&rsquo;t contain: &lsquo;<samp>()+-*/^=!;:@#.</samp>&rsquo; or
+accentuated characters;
+
+</li><li> <var>LATEX_NAME</var> indicates a valid LaTeX expression in math mode
+(not including the dollar signs);
+
+</li><li> <var>FUNCTION_NAME</var> indicates a valid MATLAB function name;
+
+</li><li> <var>FILENAME</var> indicates a filename valid in the underlying operating
+system; it is necessary to put it between quotes when specifying the
+extension or if the filename contains a non-alphanumeric character;
+
+</li></ul>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Variable-declarations.html#Variable-declarations" accesskey="n" rel="next">Variable declarations</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

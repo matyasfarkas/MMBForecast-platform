@@ -1,0 +1,637 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: Forecasting</title>
+
+<meta name="description" content="Dynare Reference Manual: Forecasting">
+<meta name="keywords" content="Dynare Reference Manual: Forecasting">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="The-Model-file.html#The-Model-file" rel="up" title="The Model file">
+<link href="Optimal-policy.html#Optimal-policy" rel="next" title="Optimal policy">
+<link href="Calibrated-Smoother.html#Calibrated-Smoother" rel="prev" title="Calibrated Smoother">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Forecasting"></a>
+<div class="header">
+<p>
+Next: <a href="Optimal-policy.html#Optimal-policy" accesskey="n" rel="next">Optimal policy</a>, Previous: <a href="Calibrated-Smoother.html#Calibrated-Smoother" accesskey="p" rel="prev">Calibrated Smoother</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="Forecasting-1"></a>
+<h3 class="section">4.18 Forecasting</h3>
+
+<p>On a calibrated model, forecasting is done using the <code>forecast</code>
+command. On an estimated model, use the <code>forecast</code> option of
+<code>estimation</code> command.
+</p>
+<p>It is also possible to compute forecasts on a calibrated or estimated
+model for a given constrained path of the future endogenous
+variables. This is done, from the reduced form representation of the
+DSGE model, by finding the structural shocks that are needed to match
+the restricted paths. Use <code>conditional_forecast</code>,
+<code>conditional_forecast_paths</code> and <code>plot_conditional_forecast</code>
+for that purpose.
+</p>
+<p>Finally, it is possible to do forecasting with a Bayesian VAR using
+the <code>bvar_forecast</code> command.
+</p>
+<dl>
+<dt><a name="index-forecast"></a>Command: <strong>forecast</strong> <em>[<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dt><a name="index-forecast-1"></a>Command: <strong>forecast</strong> <em>(<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command computes a simulation of a stochastic model from an
+arbitrary initial point.
+</p>
+<p>When the model also contains deterministic exogenous shocks, the
+simulation is computed conditionally to the agents knowing the future
+values of the deterministic exogenous variables.
+</p>
+<p><code>forecast</code> must be called after <code>stoch_simul</code>.
+</p>
+<p><code>forecast</code> plots the trajectory of endogenous variables. When a
+list of variable names follows the command, only those variables are
+plotted. A 90% confidence interval is plotted around the mean
+trajectory. Use option <code>conf_sig</code> to change the level of the
+confidence interval.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>periods = <var>INTEGER</var></code></dt>
+<dd><p>Number of periods of the forecast. Default: <code>5</code>.
+</p>
+</dd>
+<dt><code>conf_sig = <var>DOUBLE</var></code></dt>
+<dd><a name="conf_005fsig"></a><p>Level of significance for confidence
+interval. Default: <code>0.90</code>
+</p>
+</dd>
+<dt><code>nograph</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nograph">nograph</a>.
+</p>
+</dd>
+<dt><code>nodisplay</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#nodisplay">nodisplay</a>.
+</p>
+</dd>
+<dt><code>graph_format = <var>FORMAT</var></code></dt>
+<dt><code>graph_format = ( <var>FORMAT</var>, <var>FORMAT</var>&hellip; )</code></dt>
+<dd><p>See <a href="Stochastic-solution-and-simulation.html#graph_005fformat">graph_format</a>.
+</p>
+</dd>
+</dl>
+
+<p><em>Initial Values</em>
+</p>
+<p><code>forecast</code> computes the forecast taking as initial values the values specified in <code>histval</code> (see <a href="Initial-and-terminal-conditions.html#Initial-and-terminal-conditions">histval</a>). When no <code>histval</code> block is present, the initial values are the one stated in <code>initval</code>. When <code>initval</code> is followed by command <code>steady</code>, the initial values are the steady state (see <a href="Steady-state.html#Steady-state">steady</a>).
+</p>
+<p><em>Output</em>
+</p>
+<p>The results are stored in <code>oo_.forecast</code>, which is described below.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">varexo_det tau;
+varexo e;
+
+&hellip;
+
+shocks;
+var e; stderr 0.01;
+var tau;
+periods 1:9;
+values -0.15;
+end;
+
+stoch_simul(irf=0);
+
+forecast;
+</pre></div>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eforecast"></a>MATLAB/Octave variable: <strong>oo_.forecast</strong></dt>
+<dd><p>Variable set by the <code>forecast</code> command, or by the
+<code>estimation</code> command if used with the <code>forecast</code> option and
+if no Metropolis-Hastings has been computed (in that case, the
+forecast is computed for the posterior mode). Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.forecast.<var>FORECAST_MOMENT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+<p>where <var>FORECAST_MOMENT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>HPDinf</code></dt>
+<dd><p>Lower bound of a 90% HPD interval<a name="DOCF8" href="#FOOT8"><sup>8</sup></a> of forecast due to parameter
+uncertainty, but ignoring the effect of measurement error on 
+observed variables
+</p>
+</dd>
+<dt><code>HPDsup</code></dt>
+<dd><p>Upper bound of a 90% HPD forecast interval due to parameter uncertainty, but 
+ignoring the effect of measurement error on 
+observed variables
+</p>
+</dd>
+<dt><code>HPDinf_ME</code></dt>
+<dd><p>Lower bound of a 90% HPD interval<a name="DOCF9" href="#FOOT9"><sup>9</sup></a> of forecast for observed variables 
+due to parameter uncertainty and measurement error 
+</p>
+</dd>
+<dt><code>HPDsup_ME</code></dt>
+<dd><p>Upper bound of a 90% HPD interval of forecast for observed variables 
+due to parameter uncertainty and measurement error 
+</p>
+</dd>
+<dt><code>Mean</code></dt>
+<dd><p>Mean of the posterior distribution of forecasts
+</p>
+</dd>
+<dt><code>Median</code></dt>
+<dd><p>Median of the posterior distribution of forecasts
+</p>
+</dd>
+<dt><code>Std</code></dt>
+<dd><p>Standard deviation of the posterior distribution of forecasts
+</p></dd>
+</dl>
+
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-oo_005f_002ePointForecast"></a>MATLAB/Octave variable: <strong>oo_.PointForecast</strong></dt>
+<dd><a name="oo_005f_002ePointForecast"></a><p>Set by the <code>estimation</code> command, if it is used with the
+<code>forecast</code> option and if either <code>mh_replic &gt; 0</code> or
+<code>load_mh_file</code> option is used.
+</p>
+<p>Contains the distribution of forecasts taking into account the
+uncertainty about both parameters and shocks.
+</p>
+<p>Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.PointForecast.<var>MOMENT_NAME</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eMeanForecast"></a>MATLAB/Octave variable: <strong>oo_.MeanForecast</strong></dt>
+<dd><a name="oo_005f_002eMeanForecast"></a><p>Set by the <code>estimation</code> command, if it is used with the
+<code>forecast</code> option and if either <code>mh_replic &gt; 0</code> or
+<code>load_mh_file</code> option is used.
+</p>
+<p>Contains the distribution of forecasts where the uncertainty about
+shocks is averaged out. The distribution of forecasts therefore only
+represents the uncertainty about parameters.
+</p>
+<p>Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>oo_.MeanForecast.<var>MOMENT_NAME</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-conditional_005fforecast"></a>Command: <strong>conditional_forecast</strong> <em>(<var>OPTIONS</var>&hellip;);</em></dt>
+<dd><a name="conditional_005fforecast"></a><p><em>Description</em>
+</p>
+<p>This command computes forecasts on an estimated or calibrated model for a
+given constrained path of some future endogenous variables. This is done
+using the reduced form first order state-space representation of the DSGE
+model by finding the structural shocks that are needed to match the
+restricted paths. Consider the an augmented state space representation
+that stacks both predetermined and non-predetermined variables into a
+vector <SPAN CLASS="MATH"><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_112.png"
+ ALT="$y_{t}$"></SPAN>:
+</p>
+<p><!-- MATH
+ $y_t=Ty_{t-1}+R\varepsilon_t$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="125" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_113.png"
+ ALT="$y_t=Ty_{t-1}+R\varepsilon_t$"></SPAN>
+</p>
+<p>Both
+<SPAN CLASS="MATH"><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_47.png"
+ ALT="$y_t$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_114.png"
+ ALT="$\varepsilon_t$"></SPAN> are split up into controlled and
+uncontrolled ones to get:
+</p>
+<p><!-- MATH
+ $y_t(contr\_vars)=Ty_{t-1}(contr\_vars)+R(contr\_vars,uncontr\_shocks)\varepsilon_t(uncontr\_shocks)
++R(contr\_vars,contr\_shocks)\varepsilon_t(contr\_shocks)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="956" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_115.png"
+ ALT="$y_t(contr\_vars)=Ty_{t-1}(contr\_vars)+R(contr\_vars,uncontr\_shocks)\varepsilon_t(uncontr\_shocks)
++R(contr\_vars,contr\_shocks)\varepsilon_t(contr\_shocks)$"></SPAN>
+</p>
+<p>which can be solved algebraically for <!-- MATH
+ $\varepsilon_t(contr\_shocks)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="121" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_116.png"
+ ALT="$\varepsilon_t(contr\_shocks)$"></SPAN>.
+</p>
+<p>Using these controlled shocks, the state-space representation can be used
+for forecasting. A few things need to be noted. First, it is assumed that
+controlled exogenous variables are fully under control of the policy
+maker for all forecast periods and not just for the periods where the
+endogenous variables are controlled. For all uncontrolled periods, the
+controlled exogenous variables are assumed to be 0. This implies that
+there is no forecast uncertainty arising from these exogenous variables
+in uncontrolled periods. Second, by making use of the first order state
+space solution, even if a higher-order approximation was performed, the
+conditional forecasts will be based on a first order approximation.
+Third, although controlled exogenous variables are taken as instruments
+perfectly under the control of the policy-maker, they are nevertheless
+random and unforeseen shocks from the perspective of the households. That is,
+households are in each period surprised by the realization of a shock
+that keeps the controlled endogenous variables at their respective level.
+Fourth, keep in mind that if the structural innovations are correlated,
+because the calibrated or estimated covariance matrix has non zero off
+diagonal elements, the results of the conditional forecasts will depend on
+the ordering of the innovations (as declared after <code>varexo</code>). As in VAR
+models, a Cholesky decomposition is used to factorize the covariance matrix
+and identify orthogonal impulses. It is preferable to declare the correlations
+in the <code>model</code> block (explicitly imposing the identification restrictions),
+unless you are satisfied with the implicit identification restrictions implied
+by the Cholesky decomposition.
+</p>
+<p>This command has to be called after <code>estimation</code> or <code>stoch_simul</code>.
+</p>
+<p>Use <code>conditional_forecast_paths</code> block to give the list of
+constrained endogenous, and their constrained future path.
+Option <code>controlled_varexo</code> is used to specify the structural shocks
+which will be matched to generate the constrained path.
+</p>
+<p>Use <a href="#plot_005fconditional_005fforecast">plot_conditional_forecast</a> to graph the results.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>parameter_set = <code>calibration</code> | <code>prior_mode</code> | <code>prior_mean</code> | <code>posterior_mode</code> | <code>posterior_mean</code> | <code>posterior_median</code></code></dt>
+<dd><p>Specify the parameter set to use for the forecasting. No default
+value, mandatory option. Note that in case of estimated models, <code>conditional_forecast</code> does not support the <code>prefilter</code>-option.
+</p>
+</dd>
+<dt><code>controlled_varexo = (<var>VARIABLE_NAME</var>&hellip;)</code></dt>
+<dd><p>Specify the exogenous variables to use as control variables. No
+default value, mandatory option.
+</p>
+</dd>
+<dt><code>periods = <var>INTEGER</var></code></dt>
+<dd><p>Number of periods of the forecast. Default: <code>40</code>.  <code>periods</code>
+cannot be less than the number of constrained periods.
+</p>
+</dd>
+<dt><code>replic = <var>INTEGER</var></code></dt>
+<dd><p>Number of simulations. Default: <code>5000</code>.
+</p>
+</dd>
+<dt><code>conf_sig = <var>DOUBLE</var></code></dt>
+<dd><p>Level of significance for confidence interval. Default: <code>0.90</code>
+</p>
+</dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<p>The results are not stored in the <code>oo_</code> structure but in a separate structure <code>forecasts</code> saved to the harddisk into a file called <code>conditional_forecasts.mat</code>.
+</p>
+<dl>
+<dt><a name="index-forecasts_002econd"></a>MATLAB/Octave variable: <strong>forecasts.cond</strong></dt>
+<dd><p>Variable set by the <code>conditional_forecast</code> command. It stores the conditional forecasts. Fields are <code>periods+1</code> by 1 vectors storing the steady state (time 0) and the subsequent <code>periods</code> forecasts periods. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>forecasts.cond.<var>FORECAST_MOMENT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+<p>where <var>FORECAST_MOMENT</var> is one of the following:
+</p>
+<dl compact="compact">
+<dt><code>Mean</code></dt>
+<dd><p>Mean of the conditional forecast distribution.
+</p>
+</dd>
+<dt><code>ci</code></dt>
+<dd><p>Confidence interval of the conditional forecast distribution. The size corresponds to <code>conf_sig</code>.
+</p></dd>
+</dl>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-forecasts_002euncond"></a>MATLAB/Octave variable: <strong>forecasts.uncond</strong></dt>
+<dd><p>Variable set by the <code>conditional_forecast</code> command. It stores the unconditional forecasts. Fields are of the form:
+</p><div class="example">
+<pre class="example"><code>forecasts.uncond.<var>FORECAST_MOMENT</var>.<var>VARIABLE_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-forecasts_002einstruments"></a>MATLAB/Octave variable: <strong>forecasts.instruments</strong></dt>
+<dd><p>Variable set by the <code>conditional_forecast</code> command. Stores the names of the exogenous instruments.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-forecasts_002econtrolled_005fvariables"></a>MATLAB/Octave variable: <strong>forecasts.controlled_variables</strong></dt>
+<dd><p>Variable set by the <code>conditional_forecast</code> command. Stores the position of the constrained endogenous variables in declaration order.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-forecasts_002econtrolled_005fexo_005fvariables"></a>MATLAB/Octave variable: <strong>forecasts.controlled_exo_variables</strong></dt>
+<dd><p>Variable set by the <code>conditional_forecast</code> command. Stores the values of the controlled exogenous 
+variables underlying the conditional forecasts to achieve the constrained endogenous 
+variables. Fields are number of constrained periods by 1 vectors and are of the form:
+</p><div class="example">
+<pre class="example"><code>forecasts.controlled_exo_variables.<var>FORECAST_MOMENT</var>.<var>SHOCK_NAME</var></code>
+</pre></div>
+</dd></dl>
+
+<dl>
+<dt><a name="index-forecasts_002egraphs"></a>MATLAB/Octave variable: <strong>forecasts.graphs</strong></dt>
+<dd><p>Variable set by the <code>conditional_forecast</code> command. Stores the information for generating the conditional forecast plots.
+</p></dd></dl>
+
+
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">var y a
+varexo e u;
+
+&hellip;
+
+estimation(&hellip;);
+
+conditional_forecast_paths;
+var y;
+periods 1:3, 4:5;
+values 2, 5;
+var a;
+periods 1:5;
+values 3;
+end;
+
+conditional_forecast(parameter_set = calibration, controlled_varexo = (e, u),
+replic = 3000);
+
+plot_conditional_forecast(periods = 10) a y;
+</pre></div>
+
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-conditional_005fforecast_005fpaths"></a>Block: <strong>conditional_forecast_paths</strong> <em>;</em></dt>
+<dd>
+<p>Describes the path of constrained endogenous, before calling
+<code>conditional_forecast</code>. The syntax is similar to deterministic
+shocks in <code>shocks</code>, see <code>conditional_forecast</code> for an
+example.
+</p>
+<p>The syntax of the block is the same as for the deterministic shocks in
+the <code>shocks</code> blocks (see <a href="Shocks-on-exogenous-variables.html#Shocks-on-exogenous-variables">Shocks on exogenous variables</a>). Note that you need to specify the full path for all constrained endogenous 
+variables between the first and last specified period. If an intermediate period 
+is not specified, a value of 0 is assumed. That is, if you specify only 
+values for periods 1 and 3, the values for period 2 will be 0. Currently, it is not 
+possible to have uncontrolled intermediate periods.
+In case of the presence of <code>observation_trends</code>, the specified controlled path for 
+these variables needs to include the trend component. When using the <a href="Estimation.html#loglinear">loglinear</a> option, 
+it is necessary to specify the logarithm of the controlled variables.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-plot_005fconditional_005fforecast"></a>Command: <strong>plot_conditional_forecast</strong> <em>[<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dt><a name="index-plot_005fconditional_005fforecast-1"></a>Command: <strong>plot_conditional_forecast</strong> <em>(periods = <var>INTEGER</var>) [<var>VARIABLE_NAME</var>&hellip;];</em></dt>
+<dd><a name="plot_005fconditional_005fforecast"></a><p><em>Description</em>
+</p>
+<p>Plots the conditional (plain lines) and unconditional (dashed lines) forecasts.
+</p>
+<p>To be used after <code>conditional_forecast</code>.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>periods = <var>INTEGER</var></code></dt>
+<dd><p>Number of periods to be plotted. Default: equal to <code>periods</code> in
+<code>conditional_forecast</code>. The number of periods declared in
+<code>plot_conditional_forecast</code> cannot be greater than the one
+declared in <code>conditional_forecast</code>.
+</p></dd>
+</dl>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-bvar_005fforecast"></a>Command: <strong>bvar_forecast</strong> <em>;</em></dt>
+<dd><p>This command computes (out-of-sample) forecasts for an estimated BVAR
+model, using Minnesota priors.
+</p>
+<p>See <samp>bvar-a-la-sims.pdf</samp>, which comes with Dynare distribution,
+for more information on this command.
+</p></dd></dl>
+
+<p>If the model contains strong non-linearities or if some perfectly expected shocks are considered, the forecasts and the conditional forecasts
+can be computed using an extended path method. The forecast scenario describing the shocks and/or the constrained paths on some endogenous variables should be build.
+The first step is the forecast scenario initialization using the function <code>init_plan</code>:
+</p>
+<a name="init_005fplan"></a><dl>
+<dt><a name="index-init_005fplan"></a>MATLAB/Octave command: <em>HANDLE =</em> <strong>init_plan</strong> <em>(DATES) ;</em></dt>
+<dd>
+<p>Creates a new forecast scenario for a forecast period (indicated as a dates class, see <a href="Dates.html#dates-class-members">dates class members</a>). This function return a handle on the new forecast scenario.
+</p>
+</dd></dl>
+
+<p>The forecast scenario can contain some simple shocks on the exogenous variables. This shocks are described using the function <code>basic_plan</code>:
+</p>
+<a name="basic_005fplan"></a><dl>
+<dt><a name="index-basic_005fplan"></a>MATLAB/Octave command: <em>HANDLE =</em> <strong>basic_plan</strong> <em>(HANDLE, 'VARIABLE_NAME', 'SHOCK_TYPE', DATES, MATLAB VECTOR OF DOUBLE |  [DOUBLE | EXPRESSION [DOUBLE | | EXPRESSION] ] ) ;</em></dt>
+<dd>
+<p>Adds to the forecast scenario a shock on the exogenous variable indicated between quotes in the second argument. The shock type has to be specified in the third argument between quotes: &rsquo;surprise&rsquo; in case of an unexpected shock  or &rsquo;perfect_foresight&rsquo; for a perfectly anticipated shock. The fourth argument indicates the period of the shock using a dates class (see <a href="Dates.html#dates-class-members">dates class members</a>). The last argument is the shock path indicated as a Matlab vector of double. This function return the handle of the updated forecast scenario.
+</p>
+</dd></dl>
+
+<p>The forecast scenario can also contain a constrained path on an endogenous variable. The values of the related exogenous variable compatible with the constrained path are in this case computed. In other words, a conditional forecast is performed. This kind of shock is described with the function  <code>flip_plan</code>:
+</p>
+<a name="flip_005fplan"></a><dl>
+<dt><a name="index-flip_005fplan"></a>MATLAB/Octave command: <em>HANDLE =</em> <strong>flip_plan</strong> <em>(HANDLE, 'VARIABLE_NAME, 'VARIABLE_NAME', 'SHOCK_TYPE', DATES, MATLAB VECTOR OF DOUBLE |  [DOUBLE | EXPRESSION [DOUBLE | | EXPRESSION] ] ) ;</em></dt>
+<dd>
+<p>Adds to the forecast scenario a constrained path on the endogenous variable specified between quotes in the second argument. The associated exogenous variable provided in the third argument between quotes, is considered as an endogenous variable and its values compatible with the constrained path on the endogenous variable will be computed. The nature of the expectation on the constrained  path has to be specified in the fourth argument between quotes: &rsquo;surprise&rsquo; in case of an unexpected path or &rsquo;perfect_foresight&rsquo; for a perfectly anticipated path. The fifth argument indicates the period where the path of the endogenous variable is constrained using a dates class (see <a href="Dates.html#dates-class-members">dates class members</a>). The last argument contains the constrained path as a Matlab vector of double. This function return the handle of the updated forecast scenario.
+</p>
+</dd></dl>
+
+<p>Once the forecast scenario if fully described, the forecast is computed with the command <code>det_cond_forecast</code>:
+<a name="det_005fcond_005fforecast"></a></p><dl>
+<dt><a name="index-det_005fcond_005fforecast"></a>MATLAB/Octave command: <em>DSERIES =</em> <strong>det_cond_forecast</strong> <em>(HANDLE[, DSERIES [, DATES]]) ;</em></dt>
+<dd>
+<p>Computes the forecast or the conditional forecast using an extended path method for the given forecast scenario (first argument). The past values of the endogenous and exogenous variables provided with a dseries class (see <a href="dseries-class.html#dseries-class-members">dseries class members</a>) can be indicated in the second argument. By default, the past values of the variables are equal to their steady-state values. The initial date of the forecast can be provided in the third argument. By default, the forecast will start at the first date indicated in the <code>init_plan</code> command. This function returns a dset containing the historical and forecast values for the endogenous and exogenous variables.
+</p>
+</dd></dl>
+
+
+
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">/* conditional forecast using extended path method
+with perfect foresight on r path*/
+var y r
+varexo e u;
+
+&hellip;
+
+smoothed = dseries('smoothed_variables.csv');
+
+fplan = init_plan(2013Q4:2029Q4);
+
+fplan = flip_plan(fplan, 'y', 'u', 'surprise', 2013Q4:2014Q4,  [1 1.1 1.2 1.1 ]);
+
+fplan = flip_plan(fplan, 'r', 'e', 'perfect_foresight', 2013Q4:2014Q4,  [2 1.9 1.9 1.9 ]);
+
+dset_forecast = det_cond_forecast(fplan, smoothed);
+
+plot(dset_forecast.{'y','u'});
+plot(dset_forecast.{'r','e'});
+</pre></div>
+
+<dl>
+<dt><a name="index-smoother2histval"></a>Command: <strong>smoother2histval</strong> <em>[(<var>OPTIONS</var>&hellip;)]</em></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>The purpose of this command is to construct initial conditions (for a
+subsequent simulation) that are the smoothed values of a previous estimation.
+</p>
+<p>More precisely, after an estimation run with the <code>smoother</code> option,
+<code>smoother2histval</code> will extract the smoothed values (from
+<code>oo_.SmoothedVariables</code>, and possibly from <code>oo_.SmoothedShocks</code> if
+there are lagged exogenous), and will use these values to construct initial
+conditions (as if they had been manually entered through <code>histval</code>).
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt><code>period = <var>INTEGER</var></code></dt>
+<dd><p>Period number to use as the starting point for the subsequent simulation.
+It should be between <code>1</code> and the number of observations that were used to produce the
+smoothed values. Default: the last observation.
+</p>
+</dd>
+<dt><code>infile = <var>FILENAME</var></code></dt>
+<dd><p>Load the smoothed values from a <samp>_results.mat</samp> file created by a previous
+Dynare run. Default: use the smoothed values currently in the global workspace.
+</p>
+</dd>
+<dt><code>invars = ( <var>VARIABLE_NAME</var> [<var>VARIABLE_NAME</var> &hellip;] )</code></dt>
+<dd><p>A list of variables to read from the smoothed values. It can contain state
+endogenous variables, and also exogenous variables having a lag. Default: all
+the state endogenous variables, and all the exogenous variables with a lag.
+</p>
+</dd>
+<dt><code>outfile = <var>FILENAME</var></code></dt>
+<dd><p>Write the initial conditions to a file. Default: write the initial conditions
+in the current workspace, so that a simulation can be performed.
+</p>
+</dd>
+<dt><code>outvars = ( <var>VARIABLE_NAME</var> [<var>VARIABLE_NAME</var> &hellip;] )</code></dt>
+<dd><p>A list of variables which will be given the initial conditions. This list must
+have the same length than the list given to <code>invars</code>, and there will be a
+one-to-one mapping between the two list. Default: same value as option
+<code>invars</code>.
+</p>
+</dd>
+</dl>
+
+<p><em>Use cases</em>
+</p>
+<p>There are three possible ways of using this command:
+</p>
+<ul>
+<li> Everything in a single file: run an estimation with a smoother, then run <code>smoother2histval</code> (without the <code>infile</code> and <code>outfile</code> options), then run a stochastic simulation.
+
+</li><li> In two files: in the first file, run the smoother and then run <code>smoother2histval</code> with the <code>outfile</code> option; in the second file, run <code>histval_file</code> to load the initial conditions, and run a (deterministic or stochastic) simulation
+
+</li><li> In two files: in the first file, run the smoother; in the second file, run <code>smoother2histval</code> with the <code>infile</code> option equal to the <samp>_results.mat</samp> file created by the first file, and then run a (deterministic or stochastic) simulation
+
+</li></ul>
+
+</dd></dl>
+
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h3><a name="FOOT8" href="#DOCF8">(8)</a></h3>
+<p>See option <a href="#conf_005fsig">conf_sig</a>
+to change the size of the HPD interval</p>
+<h3><a name="FOOT9" href="#DOCF9">(9)</a></h3>
+<p>See option <a href="#conf_005fsig">conf_sig</a>
+to change the size of the HPD interval</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Optimal-policy.html#Optimal-policy" accesskey="n" rel="next">Optimal policy</a>, Previous: <a href="Calibrated-Smoother.html#Calibrated-Smoother" accesskey="p" rel="prev">Calibrated Smoother</a>, Up: <a href="The-Model-file.html#The-Model-file" accesskey="u" rel="up">The Model file</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

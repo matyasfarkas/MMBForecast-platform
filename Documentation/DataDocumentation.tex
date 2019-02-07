@@ -1,0 +1,889 @@
+
+% Template for Elsevier CRC journal article
+% version 1.2 dated 09 May 2011
+
+% This file (c) 2009-2011 Elsevier Ltd.  Modifications may be freely made,
+% provided the edited file is saved under a different name
+
+% This file contains modifications for Procedia Computer Science
+% but may easily be adapted to other journals
+
+% Changes since version 1.1
+% - added "procedia" option compliant with ecrc.sty version 1.2a
+%   (makes the layout approximately the same as the Word CRC template)
+% - added example for generating copyright line in abstract
+
+%-----------------------------------------------------------------------------------
+
+%% This template uses the elsarticle.cls document class and the extension package ecrc.sty
+%% For full documentation on usage of elsarticle.cls, consult the documentation "elsdoc.pdf"
+%% Further resources available at http://www.elsevier.com/latex
+
+%-----------------------------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                          %%
+%% Important note on usage                                  %%
+%% -----------------------                                  %%
+%% This file should normally be compiled with PDFLaTeX      %%
+%% Using standard LaTeX should work but may produce clashes %%
+%%                                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% The '3p' and 'times' class options of elsarticle are used for Elsevier CRC
+%% Add the 'procedia' option to approximate to the Word template
+%\documentclass[3p,times,procedia]{elsarticle}
+\documentclass[3p,review,times]{elsarticle}		% review increases spacing
+
+%% The `ecrc' package must be called to make the CRC functionality available
+%\usepackage{ecrc}
+
+%% The ecrc package defines commands needed for running heads and logos.
+%% For running heads, you can set the journal name, the volume, the starting page and the authors
+
+%% set the volume if you know. Otherwise `00'
+%\volume{00}
+
+%% set the starting page if not 1
+%\firstpage{1}
+
+%% Give the name of the journal
+%\journalname{Procedia Computer Science}
+
+%% Give the author list to appear in the running head
+%% Example \runauth{C.V. Radhakrishnan et al.}
+%\runauth{}
+
+%% The choice of journal logo is determined by the \jid and \jnltitlelogo commands.
+%% A user-supplied logo with the name <\jid>logo.pdf will be inserted if present.
+%% e.g. if \jid{yspmi} the system will look for a file yspmilogo.pdf
+%% Otherwise the content of \jnltitlelogo will be set between horizontal lines as a default logo
+
+%% Give the abbreviation of the Journal.  Contact the journal editorial office if in any doubt
+%\jid{procs}
+
+%% Give a short journal name for the dummy logo (if needed)
+%\jnltitlelogo{Procedia Computer Science}
+
+%% Provide the copyright line to appear in the abstract
+%% Usage:
+%   \CopyrightLine[<text-before-year>]{<year>}{<restt-of-the-copyright-text>}
+%   \CopyrightLine[Crown copyright]{2011}{Published by Elsevier Ltd.}
+%   \CopyrightLine{2011}{Elsevier Ltd. All rights reserved}
+%\CopyrightLine{2011}{Published by Elsevier Ltd.}
+
+%% Hereafter the template follows `elsarticle'.
+%% For more details see the existing template files elsarticle-template-harv.tex and elsarticle-template-num.tex.
+
+%% Elsevier CRC generally uses a numbered reference style
+%% For this, the conventions of elsarticle-template-num.tex should be followed (included below)
+%% If using BibTeX, use the style file elsarticle-num.bst
+
+%% End of ecrc-specific commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+\usepackage{amsthm}
+
+%%% Loading additional packages
+\usepackage{graphicx}
+%%%\usepackage{subfig}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{mathrsfs}
+\usepackage{a4wide}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\captionsetup[table]{font=sc} % labelfont=bf, 
+\captionsetup[figure]{font=sc} % labelfont=bf, 
+\usepackage[multiple]{footmisc}    %for multiple footnotes at one reference point
+\usepackage{epstopdf} 		% needed to use .eps %might need option --shell-escape (oder -shell-escape?) in old versions 
+
+\usepackage{setspace}		% for changing spacing for certain paragraphs (tex tables)
+%\usepackage[onehalfspacing]{setspace} %[singlespacing] or [doublespacing]
+\usepackage{subcaption}
+
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+\usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+
+
+% \biboptions{}
+
+% if you have landscape tables
+\usepackage[figuresright]{rotating}
+
+% put your own definitions here:
+%   \newcommand{\cZ}{\cal{Z}}
+%   \newtheorem{def}{Definition}[section]
+%   ...
+
+% add words to TeX's hyphenation exception list
+%\hyphenation{author another created financial paper re-commend-ed Post-Script}
+
+% declarations for front matter
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+
+%\dochead{}
+%% Use \dochead if there is an article header, e.g. \dochead{Short communication}
+%% \dochead can also be used to include a conference title, if directed by the editors
+%% e.g. \dochead{17th International Conference on Dynamical Processes in Excited States of Solids}
+
+\title{Draft of the Data Report\tnoteref{t1}} %,t2}}
+\tnotetext[t1]{MMB forecast platform documentation.}
+%\tnotetext[t2]{First draft}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author[vw]{V. Wieland \corref{cor1}}
+
+\author[vw]{M. Kuete \corref{cor3}}
+\author[vw]{M. Farkas \corref{cor4}}
+
+\cortext[cor1]{Project supervisor}
+%\cortext[cor2]{Responsible for drafting and model comparison}
+\cortext[cor3]{Responsible for data}
+\cortext[cor4]{Responsible for models}
+
+
+\address[vw]{IMFS, Goethe University Frankfurt, House of Finance, Theodor-W.-Adorno Platz 3, 60629 Frankfurt am Main, Germany}
+
+
+%\begin{abstract}
+%% Text of abstract
+%\end{abstract}
+
+%\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+
+%% PACS codes here, in the form: \PACS code \sep code
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+%\end{keyword}
+
+\end{frontmatter}
+
+
+\newpage
+%%
+%% Start line numbering here if you want
+%%
+\linenumbers
+
+%% main text
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{A Real Time Data Set For DSGE-Estimation And Forecasting }
+\label{}
+
+\newtheorem{T0}{Theorem}
+\newtheorem{D1}{Lemma}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%  US VARIABLES      %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{US Variables}
+\subsection{Real Output (xgdp\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item ROUTPUT: Real GNP/GDP (Billions of real dollars, seasonally adjusted)
+		\begin{itemize}
+			\item Source: Philadelphia Fed,
+			\item Quarterly observations.
+			\item Quarterly vintages from 1965:Q4 to 2014:Q1. Reflect the data available in the middle month of the quarter.
+		\end{itemize}			
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item xgdp\_q\_obs: Quarterly  Real GNP/GDP Growth
+		\item First Difference in log quarterly observations:
+		$$xgdp\_q\_obs_{t}=(\ln(ROUTPUT_t)-\ln(ROUTPUT_{t-1}))\times 100$$
+		\item Saved in OUTPUT/xgdp\_q\_obs
+	\end{itemize}
+\end{description}
+\subsection{Real Consumption (pcer\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item NCON: Nominal Personal Consumption Expenditures (Billions of real dollars, seasonally adjusted)
+		\begin{itemize}
+			\item Source: Philadelphia Fed,
+			\item Quarterly observations 
+			\item Release frequency: quarterly (from 1965:Q4 to 2014:Q1). Quarterly vintages reflect the data available in the middle of the quarter.
+		\end{itemize}
+		\item PNGP\_J is the deflator (for the definition see Section 5)
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item pcer\_q\_obs: Quarterly  Real Personal Consumption Expenditures Growth
+		\item  First Difference in log of deflated quarterly observations:
+		$$pcer\_q\_obs_{t}=\left(\ln\left(\frac{NCON_t}{PNGP\_J_t}\right)-\ln\left(\frac{NCON_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$
+		\item Saved in PCER/pcer\_q\_obs
+	\end{itemize}
+\end{description}
+\subsection{Real Investment (fpi\_q\_obs)}
+
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item FPI: Fixed Private Investment\footnote{This title is as given by ALFRED and values are in nominal terms.} (Billions of real dollars, seasonally adjusted annual rate)
+		\begin{itemize}
+			\item Source: ALFRED/StLouis,
+			\item Quarterly observations.
+			\item Release frequency: neither monthly nor quarterly.
+		\end{itemize}
+		\item PNGP\_J is the deflator (for the definition see Section 5)
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}			
+		\item Quarterly vintages reflect the latest ALFRED/StLouis-release before the 15th of the middle month of the quarter.
+		\item fpi\_q\_obs: Quarterly Real Fixed Private Investment Growth
+		\item First Difference in log of deflated quarterly observations:
+		$$fpi\_q\_obs_{t}=\left(\ln\left(\frac{FPI_t}{PNGP\_J_t}\right)-\ln\left(\frac{FPI_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$
+		\item Saved in FPI/fpi\_q\_obs
+	\end{itemize}
+\end{description}
+
+\subsection{Real Wages (wage\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item WSD: Wage and Salary Disbursements  (Billions of real dollars, seasonally adjusted, at annual rate)
+		\begin{itemize}
+			\item Source: Philadelphia Fed,
+			\item Quarterly observations
+			\item Release frequency:Quarterly(from 1965:Q4 to 2014:Q1). Quarterly vintages reflect the data available in the middle of the quarter.
+		\end{itemize}
+		\item PNGP\_J is the deflator (for the definition see Section 5).
+	\end{enumerate}
+	
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item wage\_obs:  Real Wage Growth
+		\item First Difference in log of quarterly observations:
+		$$wage\_obs=\left(\ln\left(\frac{WSD_t}{PNGP\_J_t}\right)-\ln\left(\frac{WSD_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$
+		\item Saved in WAGE/wage\_obs
+	\end{itemize}
+	
+\end{description}
+\subsection{Inflation (pgdp\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item P: Price Index for GNP/GDP. Index level, seasonally adjusted. Base Year: see DATADSGE/BaseIndex
+		\begin{itemize}
+			\item Source: Philadelphia Fed,
+			\item Quarterly observations
+			\item Release frequency: Quarterly (from 1965:Q4 to 2014:Q1). Quarterly vintages reflect the data available in the middle of the quarter.
+		\end{itemize}
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item pgdp\_q\_obs: Quarter-To-Quarter Rate of Inflation
+		\item First Difference in log of quarterly observations:
+		$$pgdp\_q\_obs=\left(\ln(P_t)-\ln(P_{t-1}\right))\times 100$$
+	\end{itemize}
+	\item[(c)] Computation of $PNGP\_J$ (column J in MW vintages)
+	\begin{itemize}
+		\item Computation of $PNGP\_Level$ (column I in MW vintages)
+		$$PNGP\_Level_t=\left\{\begin{array}{cc}
+		&\ln(P_t)\mbox{ if }t=1\mbox{ which corresponds to}1960Q1\\
+		\\
+		&PNGP\_Level_{t-1}+pgdp\_q\_obs_t\mbox{ if }t> 1
+		\end{array}\right.$$
+		\item Finally, $PNGP\_J_t=\exp(PNGP\_Level_t)$
+		\item Saved in PGNP/PNGP\_J
+	\end{itemize}
+\end{description}
+\subsection{RFF (rff\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item FEDFUNDS: Effective Federal Funds Rate
+		\begin{itemize}
+			\item Source: FRED/StLouis
+			\item Quarterly observations: from 1954:Q1 to 2014:Q1
+			\item Release: Not revised
+			\item Quarterly data corresponds to the average of monthly data over months in the quarter. Not Seasonally Adjusted
+		\end{itemize} 			
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:} Divide annual rate by four: $rff\_q\_obs=FEDFUNDS/4$
+	\begin{itemize}
+		\item Saved in FEDFUNDS
+	\end{itemize}		
+\end{description}
+\subsection{Hours (hours\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item H: Indexes of Aggregate Weekly Hours, Total. Base Year: see DATADSGE/BaseIndex
+		\begin{itemize}
+			\item Source: Philadelphia Fed,
+			\item Monthly observations: from 1964-Jan onward
+			\item Release frequency: Monthly. From 1971:M9 onward					 
+		\end{itemize}
+		\item CE16OV:Civilian Employment
+		\begin{itemize}
+			\item Source: ALFRED/StLouis,
+			\item Monthly observations. 
+			\item Release frequency: neither monthly nor quarterly.
+		\end{itemize}
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item Hours worked quarterly vintages are obtained by taking the index in the middle month of the quarter. Quarterly observations are averages of the monthly observations in the quarter (HOURS\_Q). For employment, quarterly vintages obtained by considering the latest release before the 15th of the month in the middle of the quarter while quarterly observations are computed by averaging.
+		\item Hours Per Capita:
+		$$HOURS\_PER\_CAPITA_t=\ln\left(\frac{HOURS\_Q_t}{CE16OV_t}\right)$$
+		\item  Finally:
+		$$hours\_obs_t=HOURS\_PER\_CAPITA_t-HPTrend(HOURS\_PER\_CAPITA_t, 16000)$$
+		\item  Saved in HOURS/hours\_obs
+	\end{itemize}			
+\end{description}
+\subsection{Real Money Balances: M2 (real\_m2\_growth)}
+
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item M2SL: M2 Money Stock (Billions of real dollars, seasonally adjusted)
+		
+		\begin{itemize}
+			\item Source: ALFRED/StLouis,
+			\item Monthly observations: from 1959-Jan to 2014-Feb
+			\item Release frequency: Monthly. 
+			% \footnote{See the sheet Match\_PHIL\_StLOUIS in M2 for a comparison with Philadelphia Vintages}.
+			The series so-obtained is dubbed M2\_Q.
+		\end{itemize}
+		\item PNGP\_J is the deflator (for the definition see Section 5).
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}			     
+		\item Quarterly vintages obtained by taking the middle month of the quarter and averaging the monthly observations
+		\item First Difference in log of quarterly observations:
+		$$real\_m2\_growth_{t}=\left(\ln\left(\frac{M2\_Q_t}{PNGP\_J_t}\right)-\ln\left(\frac{M2\_Q_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$
+		\item Saved in 	M2/real\_m2\_growth
+	\end{itemize}
+\end{description}
+
+\subsection{Credit Spreads: }
+
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item Moody's Baa (FRB\_H15\_Baa\_monthly): the annualized Moody's Seasoned Baa Corporate Bond Yield
+		\begin{itemize}
+			\item Source: Board of Governors of the Federal Reserve System
+			\item Monthly observations: from 1919-Jan onward
+			\item Quarterly observations,FRB\_H15\_Baa\_Q, obtained by averaging the monthly observations
+		\end{itemize}
+		\item Moody's Aaa (FRB\_H15\_Aaa\_monthly): the annualized Moody's Seasoned Aaa Corporate Bond Yield
+		\begin{itemize}
+			\item Source: Board of Governors of the Federal Reserve System
+			\item Monthly observations: from 1919-Jan up to 2014-May
+			\item Quarterly observations,FRB\_H15\_Aaa\_Q, obtained by averaging the monthly observations
+		\end{itemize}
+		\item TB10YR(FRB\_H15\_Treasury): the 10-Year Treasury Note Yield at Constant Maturity 	
+		\begin{itemize}
+			\item Source: Board of Governors of the Federal Reserve System
+			\item Monthly observations: from 1953-Apr up to 2014-May
+			\item Quarterly observations,FRB\_H15\_Treasury\_Q, obtained by averaging the monthly observations
+		\end{itemize}
+		\item Gilchrist and Zakrajšek(gzspr\_nf) spread index 
+		\begin{itemize}
+			\item Source: http://www.aeaweb.org/articles.php?doi=10.1257/aer.102.4.1692
+			\item Monthly observations: from 1973-Jan up to 2012-Dec
+			\item Quarterly observations,GZ\_Q, obtained by averaging the monthly observations
+		\end{itemize}		
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item Baa\_10YTB: quarterly spread as Moody's Baa over TB10YR, 
+		$$Baa\_10YTB=(FRB\_H15\_Baa\_Q - FRB\_H15\_Treasury\_Q)/4 $$
+		\item Baa\_Aaa: quarterly spread as Moody's Baa over Aaa
+		$$Baa\_Aaa=(FRB\_H15\_Baa\_Q - FRB\_H15\_Aaa\_Q)/4 $$
+		\item Baa\_RFF: quarterly spread as Moody's Baa over FEDFUNDS
+		$$ Baa\_RFF=(FRB\_H15\_Baa\_Q - FEDFUNDS)/4 $$
+		\item Gilchrist and Zakrajšek index:
+		$$GZ=GZ\_Q/4$$
+	\end{itemize}
+\end{description}
+
+\subsection{Mortgage debt by type of holder and property}
+
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item $MDOTHMFICBTPMFR\_2$ and $MDOTHMFICBTP1T4FR\_2$: Mortgage Debt Outstanding by Type of Holder and Property: Major Financial Institutions: Commercial Banks for Multifamily residences and One-to-four family residences 
+		(Millions of Dollars, not seasonally adjusted)
+		\item $MDOTHMFIDITPMFR\_2$ and $MDOTHMFIDITP1T4FR\_2$: Mortgage Debt Outstanding by Type of Holder and Property: Major Financial Institutions: Depository institutions for Multifamily residences and One-to-four family residences 
+		(Millions of Dollars, not seasonally adjusted)
+		
+		\begin{itemize}
+			\item Source: ALFRED/StLouis,
+			\item $MDOTHMFICBTPMFR\_2$, observations: from 1951-Oct to 2013-Oct. Vintages releases: Jan 23th 2014 and March 06th 2014
+			\item $MDOTHMFICBTP1T4FR\_2$,observations: from 1951-Oct to 2013-Oct. Vintages releases: Jan 23th 2014 and March 06th 2014
+			\item $MDOTHMFIDITPMFR\_2$,  observations: from 1949-Oct to  2014-Jan. Vintages release: June 05th 2014
+			\item $MDOTHMFIDITP1T4FR\_2$, ,observations: from 1951-Oct to 2013-Oct. Vintages releases: Jan 23th 2014 and March 06th 2014
+			For each of these variables,  the quarterly observations obtained by taking the observation of the first month in the quarter. 
+		\end{itemize}
+		\item PNGP\_J is the deflator .
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item MDOTHMFICB: Mortgage Debt Outstanding by Type of Holder and Property: Commercial banks;
+		$$MDOTHMFICB=MDOTHMFICBTPMFR\_2+MDOTHMFICBTP1T4FR\_2$$
+		\item  MDOTHMFIDI: Mortgage Debt Outstanding by Type of Holder and Property: Depository Institution;
+		$$MDOTHMFIDI=MDOTHMFIDITPMFR\_2+MDOTHMFIDITP1T4FR\_2$$
+		
+		\item DLNQuaterly 
+		$$MDOTHMFICBGROWTH_{t}=\left(\ln\left(\frac{MDOTHMFICB_t}{PNGP\_J_t}\right)-\ln\left(\frac{MDOTHMFICB_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$ 
+		and
+		$$MDOTHMFIDIGROWTH_{t}=\left(\ln\left(\frac{MDOTHMFIDI_t}{PNGP\_J_t}\right)-\ln\left(\frac{MDOTHMFIDI_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$ 
+	\end{itemize}
+\end{description}
+%
+%\section{Commercial and industrial loans}
+%
+%\begin{description}
+%\item[(a)] \textbf{Raw Time Series:}
+%\begin{enumerate}
+%\item $BI1023NCBAM$: Commercial and industrial loans, all commercial banks (Millions of Dollars, seasonally adjusted)
+%
+%\begin{itemize}
+%\item Source: ALFRED/StLouis,
+%\item monthly observations: from 1947-Jan to 2014-May
+%%\item Quarterly vintages obtained by taking the middle month of the quarter and averaging the monthly observations
+%%\footnote{See the sheet Match\_PHIL\_StLOUIS in M2 for a comparison with Philadelphia Vintages}. The series so-obtained is called M2\_Q.
+%\end{itemize}
+%\item PNGP\_J is the deflator (for the definition see Section 5).
+%\end{enumerate}
+%\item[(b)] \textbf{Transformation:}
+%\begin{itemize}
+%\item DLNQuaterly real money balances
+%$$real\_m2\_growth_{t}=\left(\ln\left(\frac{M2\_Q_t}{PNGP\_J_t}\right)-\ln\left(\frac{M2\_Q_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$
+%\item Saved in 	M2/real\_m2\_growth
+%\end{itemize}
+%\end{description}
+\subsection{C and I Loans}
+
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item $EVANQ$: Total Value of Loans for All C and I Loans, All Commercial Banks (Millions of Dollars, not seasonally adjusted)
+		
+		\begin{itemize}
+			\item Source: ALFRED/StLouis,
+			\item Quarterly, 1st Full Wk. in 2nd Mo. Of Qtr: from 1997-Apr to 2014-Jan
+			\item These data are collected during the middle month of each quarter and are released in the middle of the succeeding month. First vintage release: 2011-03-21. Latest vintage release: 2014-04-01. 
+			
+			%\footnote{See the sheet Match\_PHIL\_StLOUIS in M2 for a comparison with Philadelphia Vintages}. The series so-obtained is called M2\_Q.
+		\end{itemize}
+		\item PNGP\_J is the deflator.
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}			
+		\item The vintage of a quarter (EVANQ\_Q) corresponds to the latest release before the 15th of the middle month of the quarter
+		\item First Difference in log of quarterly observations:
+		$$EVANQ\_QGROWTH_{t}=\left(\ln\left(\frac{EVANQ\_Q_t}{PNGP\_J_t}\right)-\ln\left(\frac{EVANQ\_Q_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$
+		%\item Saved in 	M2/real\_m2\_growth
+	\end{itemize}
+\end{description}
+
+
+\section{Christiano Motto Rostagno (2014) dataset}
+
+As in Christiano Motto Rostagno (2014) Risk shock paper the aim is to collect observations on 12 variables. These include the 8 standard variables used in the DNSG14 model \footnote{1. xgdp\_q\_obs,2. pgdp\_a\_obs, 3. rff\_a\_obs, 4. pcer\_q\_obs, 5. fpi\_q\_obs, 6. wage\_obs, 7. hours\_obs, 8.     cp\_q\_obs} and extends it with the following 4 variables:
+\begin{enumerate}
+	\item Relative price of investment goods (pinv\_q\_obs) ,
+	\item Loans to non financial corporations (credit\_q\_obs),
+	\item Measure for the slope of the term structure (spreadl\_obs),
+	\item Indicator for the entrepreneurial net worth (networth\_q\_obs).
+\end{enumerate}
+In what follows we discuss the aforementioned 4 series and their construction. Due to data availability the real time data series are substituted for their final, most recent release, as of 2019.01.01.
+
+
+\subsection{Relative price of investment goods (pinv\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item $A006RD$: Implicit Price Deflators for Gross Domestic Product: Gross private domestic investment - Quarterly
+		
+		\begin{itemize}
+			\item Source: BEA/NIPA-T10109, https://db.nomics.world/BEA/NIPA-T10109
+			\item Quarterly, 1st Full Wk. in 2nd Mo. Of Qtr.
+			\item Seasonally adjusted
+			\item Index 2012=100
+			\item 1947-01-01 to 2018-07-01
+
+		
+			%\footnote{See the sheet Match\_PHIL\_StLOUIS in M2 for a comparison with Philadelphia Vintages}. The series so-obtained is called M2\_Q.
+		\end{itemize}
+		\item $A191RD$: Implicit Price Deflators for Gross Domestic Product: Gross private domestic investment price deflator - Quarterly
+				\begin{itemize}
+					\item Seasonally adjusted
+					\item Index 2012=100
+					\item 1947-01-01 to 2018-07-01
+					\item Note: The final reading of the GDP deflator was used to ensure data consistency.
+				\end{itemize}
+
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}			
+		\item First Difference in log of quarterly observations of the investment deflator devided by the GDP deflator:
+		$$pinv\_q\_obs_{t}=\left(\ln\left(\frac{A006RD_t}{A191RD_t}\right)-\ln\left(\frac{A006RD_{t-1}}{A191RD_{t-1}}\right)\right) + 1 $$ 
+		%\item Saved in 	M2/real\_m2\_growth
+	\end{itemize}
+\end{description}
+
+\subsection{Loans to non financial corporations (credit\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+	\item $ Loans to HH: loans\_hh = DBNOMICS: BIS/data/CNFS/Q.US.H.A.M.XDC.A$
+    \item $ Loans to NFC: loans\_nfc = DBNOMICS: BIS/data/CNFS/Q.US.H.A.M.XDC.A$
+    \item $ US population: pop = DBNOMICS: OECD/MEI/USA.LFWA64TT.STSA.Q$
+    \item $ US DGP deflator: A191RD = DBNOMICS: BEA/A191RD$
+			
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+
+		\begin{align*}
+			credit\_q\_obs_{t}&=ln\left( \left(\frac{loans\_hh_t}{pop_t*A191RD_t}\right) + \left(\frac{loans\_nfc_t}{pop_t*A191RD_t}\right) *10^6\right) - \\
+		&-	ln\left(\left(\frac{loans\_hh_{t-1}}{pop_{t-1}*A191RD_{t-1}}\right) + \left(\frac{loans\_nfc_{t-1}}{pop_{t-1}*A191RD_{t-1}}\right) *10^6\right) +1;
+		%\item Saved in 	M2/real\_m2\_growth
+\end{align*} 
+\end{description}
+
+
+\subsection{Measure for the slope of the term structure (spreadl\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item $ Long rate : longrate =DBNOMICS: USA.IRLTLT01.ST.Q Yield 10-year federal government securities$
+		\item $ Short rate: shortrate = DBNOMICS: FED/H15/129.FF.O - Qaurterly average of Federal funds – Overnight$
+		
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	
+	\begin{align*}
+	spreadl\_obs_t = (longrate_t - shortrate_t) +1
+	\end{align*} 
+\end{description}
+
+\subsection{Indicator for the entrepreneurial net worth (networth\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:}
+	\begin{enumerate}
+		\item $ nw = Dow Jones Wilshire 5000 index, deflated by the GDP price deflator. Board of Governors of the Federal Reserve System and US Department of Commerce - Bureau of Economic Analysis, Quarterly frequency$
+	
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	
+	\begin{align*}
+	networth\_q\_obs_t = ln \left(nw_t\right) - ln \left(nw_{t-1}\right)+1 
+	\end{align*} 
+\end{description}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%  EURO AREA VARIABLES      %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Euro Area Variables}
+\subsection{Real Output Growth (xgdp\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:} 
+	\begin{enumerate}
+		\item RTD.Q.S0.S.G\_GDPM\_TO\_U.E: Nominal GDP (Seasonally adjusted, not working day adjusted, Gross domestic product at market price - Current prices, Euro)
+		\begin{itemize}
+			\item Source:  Real Time Database-RTD- (context of Euro Area Business Cycle Network). 
+			\item Quarterly observations. 
+			\item Release frequency: Quarterly. Quarterly vintages (GDPVint) reflect the latest RTD-release before the 15th of the middle month of the quarter.
+			\item DEFLATORVint is the GDP-deflator
+		\end{itemize}			
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item xgdp\_q\_obs: Quarterly  Real GDP Growth
+		\item First Difference in log of quarterly observations:
+		$$xgdp\_q\_obs_{t}=(\ln\left(\frac{GDPVint_t}{DEFLATORVint_t}\right)-\ln\left(\frac{GDPVint_{t-1}}{DEFLATORVint_{t-1}}\right))\times 100$$
+		%\item Saved in OUTPUT/xgdp\_q\_obs
+	\end{itemize}
+\end{description}
+\subsection{Real Consumption Growth (pcer\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:} 
+	\begin{enumerate}
+		\item RTD.Q.S0.S.G\_FCHI\_TO\_U.E: Private Consumption Nominal (PCN) (Seasonally adjusted, not working day adjusted, Final consumption of households and NPISHs - Current prices, Euro).
+		\begin{itemize}
+			\item Source: Real Time Database-RTD- (context of Euro Area Business Cycle Network). 
+			\item Quarterly observations from 1995:Q1 to 2013:Q4. 
+			\item Release frequency: Quarterly. Quarterly vintages (PCNVint) reflect the latest RTD-release before the 15th of the middle month of the quarter.
+		\end{itemize}
+		\item DEFLATORVint is the GDP-deflator (for the definition see Section 5)
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item pcer\_q\_obs: Quarterly  Real Personal Consumption Expenditures Growth
+		\item First Difference in log of quarterly observations:
+		$$pcer\_q\_obs_{t}=\left(\ln\left(\frac{PCNVint_t}{DEFLATORVint_t}\right)-\ln\left(\frac{PCNVint_{t-1}}{DEFLATORVint_{t-1}}\right)\right)\times 100$$
+		%\item Saved in PCER/pcer\_q\_obs
+	\end{itemize}
+\end{description}
+\subsection{Real Investment (fpi\_q\_obs)}
+
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:} 
+	\begin{enumerate}
+		\item RTD.Q.S0.S.G\_GFCF\_TO\_U.E: Gross Fixed Capital Formation Nominal (Seasonally adjusted, not working day adjusted, Gross fixed capital formation - Current prices, Euro).
+		\begin{itemize}
+			\item Source: Real Time Database-RTD- (context of Euro Area Business Cycle Network).
+			\item Quarterly observations from 1995:Q1 to 2013:Q4 
+			\item Release frequency: Quarterly. Quarterly vintages (GFCFVint) reflect the latest RTD-release before the 15th of the middle month of the quarter. 
+		\end{itemize}
+		\item DEFLATORVint  is the GDP-deflator (for the definition see Section 5).
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item fpi\_q\_obs: Quarterly Real Fixed Private Investment Growth
+		\item First Difference in log of quarterly observations:
+		$$fpi\_q\_obs_{t}=\left(\ln\left(\frac{GFCFVint_t}{DEFLATORVint_t}\right)-\ln\left(\frac{GFCFVint_{t-1}}{DEFLATORVint_{t-1}}\right)\right)\times 100$$
+		%\item Saved in FPI/fpi\_q\_obs
+	\end{itemize}
+\end{description}
+%\section{Real Wages (wage\_obs)}
+%\begin{description}
+%\item[(a)] \textbf{Raw Time Series:} 
+%\begin{enumerate}
+%\item WSD: Wage and Salary Disbursements  (Billions of real dollars, seasonally adjusted, at annual rate)
+%\begin{itemize}
+%\item Source: Philadelphia Fed, 
+%\item Quarterly observations: from 1965:Q4 to 2014:Q1 
+%\item Quarterly vintages reflect the data available in the middle of the quarter. 
+%\end{itemize}
+%\item PNGP\_J is the deflator (for the definition see Section 5).
+%\end{enumerate}
+%\item[(b)] \textbf{Transformation:}
+%\begin{itemize}
+%\item wage\_obs:  Real Wage Growth
+%\item DLNQuaterly
+%$$wage\_obs=\left(\ln\left(\frac{WSD_t}{PNGP\_J_t}\right)-\ln\left(\frac{WSD_{t-1}}{PNGP\_J_{t-1}}\right)\right)\times 100$$
+%\item Saved in WAGE/wage\_obs
+%\end{itemize}
+%\end{description}
+\subsection{Inflation (pgdp\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:} 
+	\begin{enumerate}
+		\item RTD.Q.S0.S.G\_GDPM\_TO\_D.X : Price Index for GDP (Seasonally adjusted, not working day adjusted, Gross domestic product at market price - Deflator, Index). 
+		\begin{itemize}
+			\item Source: Real Time Database-RTD- (context of Euro Area Business Cycle Network). 
+			\item Quarterly observations: from 1995:Q1 to 2013:Q4
+			\item Quarterly vintages (DEFLATORVint) reflect the latest RTD-release before the 15th of the middle month of the quarter. 
+		\end{itemize} 
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item pgdp\_q\_obs: Quarter-To-Quarter Rate of Inflation
+		\item DLNQuaterly
+		$$pgdp\_q\_obs=\left(\ln(DEFLATORVint_t)-\ln(DEFLATORVint_{t-1}\right))\times 100$$
+	\end{itemize}
+	%\item[(C)] Computation of $DEFLATORVint\_J$ (column J in MW vintages)
+	%\begin{itemize}
+	%\item Computation of $DEFLATORVint\_Level$ (column I in MW vintages)
+	%$$DEFLATORVint\_Level_t=\left\{\begin{array}{cc}
+	%&\ln(P_t)\mbox{ if }t=1\\
+	%\\
+	%&PNGP\_Level_{t-1}+pgdp\_q\_obs_t\mbox{ if }t> 1			
+	%\end{array}\right.$$	where $t=1$ corresponds to the first observation available for the vintage.
+	%\item Finally, $DEFLATORVint\_J_t=\exp(DEFLATORVint\_Level_J)$
+	%\item Saved in PGNP/PNGP\_J
+	%\end{itemize}
+\end{description}
+\subsection{RFF (rff\_q\_obs)}
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:} 
+	\begin{enumerate}
+		\item RTD.M.S0.N.C\_EONIA.E: Monthly, Neither seasonally nor working day adjusted, Rate - Eonia rate, Euro.
+		\begin{itemize}
+			\item Source: Real Time Database-RTD- (context of Euro Area Business Cycle Network). 
+			\item Monthly observations from 1994Jan to 2014Feb of annual nominal interest rate. 
+			\item Quarterly vintages (RFFVint) reflect average of monthly observations-in the quarter- of the latest RTD-release before the 15th of the middle month of the quarter.  
+		\end{itemize} 			
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:} Divide annual rate by four: $rff\_q\_obs=RFFVint/4$
+	%\begin{itemize}
+	%\item Saved in FEDFUNDS
+	%\end{itemize}
+	
+	
+\end{description}
+%\section{Hours (hours\_obs)}
+%\begin{description}
+%\item[(a)] \textbf{Raw Time Series:} 
+%\begin{enumerate}
+%\item H: Indexes of Aggregate Weekly Hours, Total. Base Year: see DATADSGE/BaseIndex
+%\begin{itemize}
+%\item Source: Philadelphia Fed, 
+%\item Monthly observations: from 1971:M9 to 2014:M1 
+%\item Quarterly vintages obtained by taking the index in the middle month of the quarter and averaging the monthly observations within the quarter (HOURS\_Q). 
+%\end{itemize} 
+%\item CE16OV:Civilian Employment
+%\begin{itemize}
+%\item Source: ALFRED/StLouis, 
+%\item Monthly observations: from 1961:M9 to 2014:M1 
+%\item Quarterly vintages obtained by considering the latest release before the 15th of the month in the middle of the quarter and averaging the monthly observations. 
+%\end{itemize}
+%\end{enumerate}
+%\item[(b)] \textbf{Transformation:}
+%\begin{itemize}
+%\item Hours Per Capita:
+%$$HOURS\_PER\_CAPITA_t=\ln\left(\frac{HOURS\_Q_t}{CE16OV_t}\right)$$ 
+%\item  Finally:
+%$$hours\_obs_t=HOURS\_PER\_CAPITA_t-HPTrend(HOURS\_PER\_CAPITA_t, 16000)$$
+%\item  Saved in HOURS/hours\_obs
+%\end{itemize}			 
+%\end{description}
+\subsection{Real Money Balances: M3 (real\_m3\_growth)}
+
+\begin{description}
+	\item[(a)] \textbf{Raw Time Series:} 
+	\begin{enumerate}
+		\item RTD.M.S0.Y.M\_M3\_V\_NC.E: Monthly, Working day and seasonally adjusted, Monetary aggregate M3, all currencies combined - MFIs, central government and post office giro institutions reporting sector - Euro area counterpart, Non-MFIs excluding central government sector - outstanding amounts at the end of the period (stocks), Euro
+		
+		\begin{itemize}
+			\item Source: Real Time Database-RTD- (context of Euro Area Business Cycle Network). 
+			\item Monthly observations: from 1970Jan to 2014Jan 
+			\item Quarterly vintages (M3Vint) obtained by taking the latest RTD-release before the 15th of the middle month of the quarter and averaging the monthly observations. 
+		\end{itemize}
+		\item  DEFLATORVint is the GDP-deflator.
+	\end{enumerate}
+	\item[(b)] \textbf{Transformation:}
+	\begin{itemize}
+		\item DLNQuaterly real money balances
+		$$real\_m3\_growth_{t}=\left(\ln\left(\frac{M3Vint_t}{DEFLATORVint_t}\right)-\ln\left(\frac{M3Vint_{t-1}}{DEFLATORVint_{t-1}}\right)\right)\times 100$$
+		%\item Saved in 	M2/real\_m2\_growth
+	\end{itemize}
+\end{description}
+
+\newpage
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}         ==>>  [#]
+%%   \cite[chap. 2]{key} ==>> [#, chap. 2]
+%%
+
+%% References with BibTeX database:
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+
+\bibliographystyle{plainnat} %elsarticle-num}
+
+\bibliography{References}
+\nocite{*}
+
+%% Authors are advised to use a BibTeX database file for their reference list.
+%% The provided style file elsarticle-num.bst formats references in the required Procedia style
+
+%% For references without a BibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+\end{document}
+
+%%
+%% End of file `ecrc-template.tex'. 

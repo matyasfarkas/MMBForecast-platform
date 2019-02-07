@@ -1,0 +1,1964 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Copyright (C) 1996-2017, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt. -->
+<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Dynare Reference Manual: dseries class</title>
+
+<meta name="description" content="Dynare Reference Manual: dseries class">
+<meta name="keywords" content="Dynare Reference Manual: dseries class">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Command-and-Function-Index.html#Command-and-Function-Index" rel="index" title="Command and Function Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Time-Series.html#Time-Series" rel="up" title="Time Series">
+<link href="Reporting.html#Reporting" rel="next" title="Reporting">
+<link href="Dates.html#dates-class" rel="prev" title="dates class">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="dseries-class"></a>
+<div class="header">
+<p>
+Previous: <a href="Dates.html#Dates" accesskey="p" rel="prev">Dates</a>, Up: <a href="Time-Series.html#Time-Series" accesskey="u" rel="up">Time Series</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<a name="dseries-class-1"></a>
+<h3 class="section">6.2 dseries class</h3>
+
+<p>The Matlab/Octave <code>dseries </code> class handles time series data. As any Matlab/Octave statements, this class can be used in a Dynare&rsquo;s mod file. A <code>dseries </code> object has eight members:
+</p>
+<dl compact="compact">
+<dd><a name="dseries-class-members"></a>
+</dd>
+<dt><code>name</code></dt>
+<dd><p>A <code>nobs</code>*1 cell of strings or a <code>nobs</code>*p character array, the names of the variables.
+</p>
+</dd>
+<dt><code>tex</code></dt>
+<dd><p>A <code>nobs</code>*1 cell of strings or a <code>nobs</code>*p character array, the tex names of the variables.
+</p>
+</dd>
+<dt><code>dates</code></dt>
+<dd><p>A <code>dates </code> object with <code>nobs</code> element, the dates of the sample.
+</p>
+</dd>
+<dt><code>data</code></dt>
+<dd><p>A <code>nobs</code> by <code>vobs</code> array of doubles, the data.
+</p>
+</dd>
+</dl>
+
+<p><code>data</code>, <code>name</code>, <code>tex</code> are private members. The following constructors are available:
+</p>
+<dl>
+<dt><a name="index-_0028_0029-1"></a>dseries: <em>dseries</em> <strong>()</strong></dt>
+<dt><a name="index-_0028INITIAL_005fDATE_0029"></a>dseries: <em>dseries</em> <strong>(<var>INITIAL_DATE</var>)</strong></dt>
+<dd>
+<p>Instantiates an empty <code>dseries </code> object, with, if defined, an initial date given by the single element <code>dates </code> object <var>INITIAL_DATE</var>.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-_0028FILENAME_005b_002c"></a>dseries: <em>dseries</em> <strong>(<var>FILENAME</var>[,</strong> <em><var>INITIAL_DATE</var>])</em></dt>
+<dd>
+<p>Instantiates and populates a <code>dseries </code> object with a data file specified by <var>FILENAME</var>, a string passed as input. Valid file types are <samp>.m</samp> file, <samp>.mat</samp> file, <samp>.csv</samp> file, and <samp>.xls</samp>/<samp>.xlsx</samp> file (Octave only supports <samp>.xlsx</samp> files and the <a href="http://octave.sourceforge.net/io/">io</a> package from Octave-Forge must be installed). A typical <samp>.m</samp> file will have the following form:
+</p>
+<div class="example">
+<pre class="example">INIT__ = '1994Q3';
+NAMES__ = {'azert';'yuiop'};
+TEX__ = {'azert';'yuiop'};
+
+azert = randn(100,1);
+yuiop = randn(100,1);
+</pre></div>
+
+<p>If a <samp>.mat</samp> file is used instead, it should provide the same informations. Note that the <code>INIT__</code> variable can be either a <code>dates </code> object or a string which could be used to instantiate the same <code>dates </code> object. If <code>INIT__</code> is not provided in the <samp>.mat</samp> or <samp>.m</samp> file, the initial is by default set equal to <code>dates('1Y')</code>. If a second input argument is passed to the constructor, <code>dates </code> object <var>INITIAL_DATE</var>, the initial date defined in <var>FILENAME</var> is reset to <var>INITIAL_DATE</var>. This is typically usefull if <code>INIT__</code> is not provided in the data file.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-_0028DATA_005fMATRIX_005b_002c"></a>dseries: <em>dseries</em> <strong>(<var>DATA_MATRIX</var>[,</strong> <em><var>INITIAL_DATE</var>[, <var>LIST_OF_NAMES</var>[, <var>LIST_OF_TEX_NAMES</var>]]])</em></dt>
+<dt><a name="index-_0028DATA_005fMATRIX_005b_002c-1"></a>dseries: <em>dseries</em> <strong>(<var>DATA_MATRIX</var>[,</strong> <em><var>RANGE_OF_DATES</var>[, <var>LIST_OF_NAMES</var>[, <var>LIST_OF_TEX_NAMES</var>]]])</em></dt>
+<dd>
+<p>If the data is not read from a file, it can be provided via a <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN>x<SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_155.png"
+ ALT="$N$"></SPAN> matrix as the first argument to <code>dseries</code>&rsquo; constructor, with <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN> representing the number of observations on <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_155.png"
+ ALT="$N$"></SPAN> variables. The optional second argument, <var>INITIAL_DATE</var>, can be either a <code>dates </code> object representing the period of the first observation or a string which would be used to instantiate a <code>dates </code> object. Its default value is <code>dates('1Y')</code>. The optional third argument, <var>LIST_OF_NAMES</var>, is a <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_155.png"
+ ALT="$N$"></SPAN> by <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> cell of strings  with one entry for each variable name. The default name associated with column <code>i</code> of <var>DATA_MATRIX</var> is <code>Variable_i</code>. The final argument, <var>LIST_OF_TEX_NAMES</var>, is a <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_155.png"
+ ALT="$N$"></SPAN> by <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> cell of strings composed of the LaTeX names associated with the variables. The default LaTeX name associated with column <code>i</code> of <var>DATA_MATRIX</var> is <code>Variable\_i</code>. If the optional second input argument is a range of dates, <code>dates </code> object <var>RANGE_OF_DATES</var>, the number of rows in the first argument must match the number of elements <var>RANGE_OF_DATES</var> or be equal to one (in which case the single observation is replicated).
+</p>
+</dd></dl>
+
+<br>
+
+<p><em>Examples</em>
+</p>
+<p>Various ways to create a <code>dseries</code> object:
+</p>
+<br>
+
+<div class="example">
+<pre class="example">do1 = dseries(1999Q3);
+do2 = dseries('filename.csv');
+do3 = dseries([1; 2; 3], 1999Q3, {'var123'}, {'var_{123}'});
+</pre></div>
+
+<br>
+
+<div class="example">
+<pre class="example">&gt;&gt; do1 = dseries(dates('1999Q3'));
+&gt;&gt; do2 = dseries('filename.csv');
+&gt;&gt; do3 = dseries([1; 2; 3], dates('1999Q3'), {'var123'}, {'var_{123}'});
+</pre></div>
+
+<br>
+
+<p>One can easily create subsamples from a <code>dseries </code> object using the overloaded parenthesis operator. If <var>ds</var> is a <code>dseries </code> object with <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN> observations and <var>d</var> is a <code>dates </code> object with <SPAN CLASS="MATH"><IMG
+ WIDTH="48" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_156.png"
+ ALT="$S&lt;T$"></SPAN> elements, such that <SPAN CLASS="MATH"><IMG
+ WIDTH="54" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_157.png"
+ ALT="$min(d)$"></SPAN> is not smaller than the date associated to the first observation in <var>ds</var> and <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_158.png"
+ ALT="$max(d)$"></SPAN> is not greater than the date associated to the last observation, then <code>ds(d)</code> instantiates a new <code>dseries </code> object containing the subsample defined by <var>d</var>.
+</p>
+<p>A list of the available methods, by alphabetical order, is given below.
+</p>
+<dl>
+<dt><a name="index-abs-1"></a>dseries: <em><var>A</var> =</em> <strong>abs</strong> <em>(<var>B</var>)</em></dt>
+<dd>
+<p>Overloads the <code>abs()</code> function for <code>dseries </code> objects. Returns the absolute value of the variables in <code>dseries </code> object <var>B</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(randn(3,2),'1973Q1',{'A1'; 'A2'},{'A_1'; 'A_2'});
+&gt;&gt; ts1 = ts0.abs();
+&gt;&gt; ts0
+
+ts0 is a dseries object:
+
+       | A1       | A2
+1973Q1 | -0.67284 | 1.4367
+1973Q2 | -0.51222 | -0.4948
+1973Q3 | 0.99791  | 0.22677
+
+&gt;&gt; ts1
+
+ts1 is a dseries object:
+
+       | abs(A1) | abs(A2)
+1973Q1 | 0.67284 | 1.4367
+1973Q2 | 0.51222 | 0.4948
+1973Q3 | 0.99791 | 0.22677
+
+&gt;&gt; ts1.tex
+
+ans =
+
+    '|A_1|'
+    '|A_2|'
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-align"></a>dseries: <em>[<var>A</var>, <var>B</var>] =</em> <strong>align</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>If <code>dseries </code> objects <var>A</var> and <var>B</var> are defined on different time ranges, this function extends <var>A</var> and/or <var>B</var> with NaNs so that they are defined on the same time range. Note that both <code>dseries </code> objects must have the same frequency.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(rand(5,1),dates('2000Q1')); % 2000Q1 -&gt; 2001Q1
+&gt;&gt; ts1 = dseries(rand(3,1),dates('2000Q4')); % 2000Q4 -&gt; 2001Q2
+&gt;&gt; [ts0, ts1] = align(ts0, ts1);             % 2000Q1 -&gt; 2001Q2
+&gt;&gt; ts0
+
+ts0 is a dseries object:
+
+       | Variable_1
+2000Q1 | 0.81472
+2000Q2 | 0.90579
+2000Q3 | 0.12699
+2000Q4 | 0.91338
+2001Q1 | 0.63236
+2001Q2 | NaN
+
+&gt;&gt; ts1
+
+ts1 is a dseries object:
+
+       | Variable_1
+2000Q1 | NaN
+2000Q2 | NaN
+2000Q3 | NaN
+2000Q4 | 0.66653
+2001Q1 | 0.17813
+2001Q2 | 0.12801
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-baxter_005fking_005ffilter"></a>dseries: <em><var>B</var> =</em> <strong>baxter_king_filter</strong> <em>(<var>A</var>, <var>hf</var>, <var>lf</var>, <var>K</var>)</em></dt>
+<dd>
+<p>Implementation of the <cite>Baxter and King (1999)</cite> band pass filter for <code>dseries </code> objects. This filter isolates business cycle fluctuations with a period of length ranging between <var>hf</var> (high frequency) to <var>lf</var> (low frequency) using a symmetric moving average smoother with <SPAN CLASS="MATH"><IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_159.png"
+ ALT="$2K+1$"></SPAN> points, so that K observations at the beginning and at the end of the  sample are lost in the computation of the filter. The default value for <var>hf</var> is <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_28.png"
+ ALT="$6$"></SPAN>, for <var>lf</var> is <SPAN CLASS="MATH"><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_29.png"
+ ALT="$32$"></SPAN>, and for <var>K</var> is 12.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">% Simulate a component model (stochastic trend, deterministic trend, and a
+% stationary autoregressive process).
+e = .2*randn(200,1);
+u = randn(200,1);
+stochastic_trend = cumsum(e);
+deterministic_trend = .1*transpose(1:200);
+x = zeros(200,1);
+for i=2:200
+    x(i) = .75*x(i-1) + e(i);
+end
+y = x + stochastic_trend + deterministic_trend;
+
+% Instantiates time series objects.
+ts0 = dseries(y,'1950Q1');
+ts1 = dseries(x,'1950Q1'); % stationary component.
+
+% Apply the Baxter-King filter.
+ts2 = ts0.baxter_king_filter();
+
+% Plot the filtered time series.
+plot(ts1(ts2.dates).data,'-k'); % Plot of the stationary component.
+hold on
+plot(ts2.data,'--r');           % Plot of the filtered y.
+hold off
+axis tight
+id = get(gca,'XTick');
+set(gca,'XTickLabel',strings(ts1.dates(id)));
+</pre></div>
+
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-chain"></a>dseries: <em><var>C</var> =</em> <strong>chain</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Merge two <code>dseries </code> objects along the time dimension. The two objects must have the same number of observed variables, and the initial date in <var>B</var> must not be posterior to the last date in <var>A</var>. The returned <code>dseries </code> object, <var>C</var>, is built by extending <var>A</var> with the cumulated growth factors of <var>B</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts = dseries([1; 2; 3; 4],dates(`1950Q1'))
+
+ts is a dseries object:
+
+       | Variable_1
+1950Q1 | 1
+1950Q2 | 2
+1950Q3 | 3
+1950Q4 | 4
+
+&gt;&gt; us = dseries([3; 4; 5; 6],dates(`1950Q3'))
+
+us is a dseries object:
+
+       | Variable_1
+1950Q3 | 3
+1950Q4 | 4
+1951Q1 | 5
+1951Q2 | 6
+
+&gt;&gt; chain(ts, us)
+
+ans is a dseries object:
+
+       | Variable_1
+1950Q1 | 1
+1950Q2 | 2
+1950Q3 | 3
+1950Q4 | 4
+1951Q1 | 5
+1951Q2 | 6
+
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-check-2"></a>dseries: <em>[<var>error_flag</var>, <var>message</var> ] =</em> <strong>check</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Sanity check of <code>dseries </code> object <var>A</var>. Returns <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> if there is an error, <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_2.png"
+ ALT="$0$"></SPAN> otherwise. The second output argument is a string giving brief informations about the error.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-cumprod"></a>dseries: <em><var>B</var> =</em> <strong>cumprod</strong> <em>(<var>A</var>[, <var>d</var>[, <var>v</var>]])</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>cumprod</code> function for <code>dseries </code> objects. The cumulated product cannot be computed if the variables in <code>dseries </code> object <var>A</var> has <code>NaN</code>s. If a <code>dates </code> object <var>d</var> is provided as a second argument, then the method computes the cumulated product with the additional constraint that the variables in the <code>dseries </code> object <var>B</var> are equal to one in period <var>d</var>. If a single observation <code>dseries </code> object <var>v</var> is provided as a third argument, the cumulated product in <var>B</var> is normalized such that <code>B(<var>d</var>)</code> matches <var>v</var> (<code>dseries </code> objects <var>A</var> and <var>v</var> must have the same number of variables).
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts1 = dseries(2*ones(7,1));
+&gt;&gt; ts2 = ts1.cumprod();
+&gt;&gt; ts2
+
+ts2 is a dseries object:
+
+   | cumprod(Variable_1)
+1Y | 2
+2Y | 4
+3Y | 8
+4Y | 16
+5Y | 32
+6Y | 64
+7Y | 128
+
+&gt;&gt; ts3 = ts1.cumsum(dates('3Y'));
+&gt;&gt; ts3
+
+ts3 is a dseries object:
+
+   | cumprod(Variable_1)
+1Y | 0.25
+2Y | 0.5
+3Y | 1
+4Y | 2
+5Y | 4
+6Y | 8
+7Y | 16
+
+&gt;&gt; ts4 = ts1.cumsum(dates('3Y'),dseries(pi));
+&gt;&gt; ts4
+
+ts4 is a dseries object:
+
+   | cumprod(Variable_1)
+1Y | 0.7854
+2Y | 1.5708
+3Y | 3.1416
+4Y | 6.2832
+5Y | 12.5664
+6Y | 25.1327
+7Y | 50.2655
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-cumsum"></a>dseries: <em><var>B</var> =</em> <strong>cumsum</strong> <em>(<var>A</var>[, <var>d</var>[, <var>v</var>]])</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>cumsum</code> function for <code>dseries </code> objects. The cumulated sum cannot be computed if the variables in <code>dseries </code> object <var>A</var> has <code>NaN</code>s. If a <code>dates </code> object <var>d</var> is provided as a second argument, then the method computes the cumulated sum with the additional constraint that the variables in the <code>dseries </code> object <var>B</var> are zero in period <var>d</var>. If a single observation <code>dseries </code> object <var>v</var> is provided as a third argument, the cumulated sum in <var>B</var> is such that <code>B(<var>d</var>)</code> matches <var>v</var> (<code>dseries </code> objects <var>A</var> and <var>v</var> must have the same number of variables).
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts1 = dseries(ones(10,1));
+&gt;&gt; ts2 = ts1.cumsum();
+&gt;&gt; ts2
+
+ts2 is a dseries object:
+
+    | cumsum(Variable_1)
+1Y  | 1
+2Y  | 2
+3Y  | 3
+4Y  | 4
+5Y  | 5
+6Y  | 6
+7Y  | 7
+8Y  | 8
+9Y  | 9
+10Y | 10
+
+&gt;&gt; ts3 = ts1.cumsum(dates('3Y'));
+&gt;&gt; ts3
+
+ts3 is a dseries object:
+
+    | cumsum(Variable_1)
+1Y  | -2
+2Y  | -1
+3Y  | 0
+4Y  | 1
+5Y  | 2
+6Y  | 3
+7Y  | 4
+8Y  | 5
+9Y  | 6
+10Y | 7
+
+&gt;&gt; ts4 = ts1.cumsum(dates('3Y'),dseries(pi));
+&gt;&gt; ts4
+
+ts4 is a dseries object:
+
+    | cumsum(Variable_1)
+1Y  | 1.1416
+2Y  | 2.1416
+3Y  | 3.1416
+4Y  | 4.1416
+5Y  | 5.1416
+6Y  | 6.1416
+7Y  | 7.1416
+8Y  | 8.1416
+9Y  | 9.1416
+10Y | 10.1416
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-eq-1"></a>dseries: <em><var>C</var> =</em> <strong>eq</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>eq</code> (equal, <code>==</code>) operator. <code>dseries </code> objects <var>A</var> and <var>B</var> must have the  same number of observations (say, <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN>) and variables (<SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_155.png"
+ ALT="$N$"></SPAN>). The returned argument is a <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN> by <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_155.png"
+ ALT="$N$"></SPAN> matrix of zeros and ones. Element <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_160.png"
+ ALT="$(i,j)$"></SPAN> of <var>C</var> is equal to <code>1</code> if and only if observation <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_1.png"
+ ALT="$i$"></SPAN> for variable <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_161.png"
+ ALT="$j$"></SPAN> in <var>A</var> and <var>B</var> are the same.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(2*ones(3,1));
+&gt;&gt; ts1 = dseries([2; 0; 2]);
+&gt;&gt; ts0==ts1
+
+ans =
+
+     1
+     0
+     1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-exp-1"></a>dseries: <em><var>B</var> =</em> <strong>exp</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>exp</code> function for <code>dseries </code> objects.
+<em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(rand(10,1));
+&gt;&gt; ts1 = ts0.exp();
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-exist"></a>dseries: <em><var>l</var> =</em> <strong>exist</strong> <em>(<var>A</var>, <var>varname</var>)</em></dt>
+<dd>
+<p>Tests if <var>variable</var> exists in <code>dseries </code> object <var>A</var>. Returns 1 (true) iff <var>variable</var> exists in <var>A</var>.
+</p>
+<p><em>Examples</em>
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; ts = dseries(randn(100,1));
+&gt;&gt; ts.exist('Variable_1')
+
+ans =
+
+     1
+
+&gt;&gt; ts.exist('Variable_2')
+
+ans =
+
+     0
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-extract"></a>dseries: <em><var>C</var> =</em> <strong>extract</strong> <em>(<var>A</var>, <var>B</var>[, ...])</em></dt>
+<dd>
+<p>Extracts some variables from a <code>dseries </code> object <var>A</var> and returns a <code>dseries </code> object <var>C</var>. The input arguments following <var>A</var> are strings representing the variables to be selected in the new <code>dseries </code> object <var>C</var>. To simplify the creation of sub-objects, the <code>dseries </code> class overloads the curly braces (<code>D = extract (A, B, C)</code> is equivalent to <code>D = A{B,C}</code>) and allows implicit loops (defined between a pair of @ symbol, see examples below) or Matlab/Octave&rsquo;s regular expressions (introduced by square brackets).
+</p>
+<p><em>Examples</em>
+</p>
+<p>The following selections are equivalent:
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(100,10));
+&gt;&gt; ts1 = ts0{'Variable_1','Variable_2','Variable_3'};
+&gt;&gt; ts2 = ts0{'Variable_@1,2,3@'}
+&gt;&gt; ts3 = ts0{'Variable_[1-3]$'}
+&gt;&gt; isequal(ts1,ts2) &amp;&amp; isequal(ts1,ts3)
+
+ans =
+
+     1
+</pre></div>
+
+<p>It is possible to use up to two implicit loops to select variables:
+</p><div class="example">
+<pre class="example">names = {'GDP_1';'GDP_2';'GDP_3'; 'GDP_4'; 'GDP_5'; 'GDP_6'; 'GDP_7'; 'GDP_8'; ...
+      'GDP_9'; 'GDP_10'; 'GDP_11'; 'GDP_12'; ...
+      'HICP_1';'HICP_2';'HICP_3'; 'HICP_4'; 'HICP_5'; 'HICP_6'; 'HICP_7'; 'HICP_8'; ...
+      'HICP_9'; 'HICP_10'; 'HICP_11'; 'HICP_12'};
+
+ts0 = dseries(randn(4,24),dates('1973Q1'),names);
+ts0{'@GDP,HICP@_@1,3,5@'}
+
+ans is a dseries object:
+
+       | GDP_1    | GDP_3     | GDP_5     | HICP_1   | HICP_3   | HICP_5
+1973Q1 | 1.7906   | -1.6606   | -0.57716  | 0.60963  | -0.52335 | 0.26172
+1973Q2 | 2.1624   | 3.0125    | 0.52563   | 0.70912  | -1.7158  | 1.7792
+1973Q3 | -0.81928 | 1.5008    | 1.152     | 0.2798   | 0.88568  | 1.8927
+1973Q4 | -0.03705 | -0.35899  | 0.85838   | -1.4675  | -2.1666  | -0.62032
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-freq"></a>dseries: <em><var>f</var> =</em> <strong>freq</strong> <em>(<var>B</var>)</em></dt>
+<dd>
+<p>Returns the frequency of the variables in <code>dseries </code> object <var>B</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts = dseries(randn(3,2),'1973Q1');
+&gt;&gt; ts.freq
+
+ans =
+
+     4
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-horzcat-1"></a>dseries: <em><var>D</var> =</em> <strong>horzcat</strong> <em>(<var>A</var>, <var>B</var>[, ...])</em></dt>
+<dd>
+<p>Overloads the <code>horzcat</code> Matlab/Octave&rsquo;s method for <code>dseries </code>
+objects. Returns a <code>dseries </code> object <var>D</var> containing the variables
+in <code>dseries </code> objects passed as inputs: <var>A</var>, <var>B</var>, ... If the
+inputs are not defined on the same time ranges, the method adds
+<code>NaN</code>s to the variables so that the variables are redefined on
+the smallest common time range. Note that the names in the <code>dseries </code>
+objects passed as inputs must be different and these objects must have
+common frequency.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(rand(5,2),'1950Q1',{'nifnif';'noufnouf'});
+&gt;&gt; ts1 = dseries(rand(7,1),'1950Q3',{'nafnaf'});
+&gt;&gt; ts2 = [ts0, ts1];
+&gt;&gt; ts2
+
+ts2 is a dseries object:
+
+       | nifnif  | noufnouf | nafnaf
+1950Q1 | 0.17404 | 0.71431  | NaN
+1950Q2 | 0.62741 | 0.90704  | NaN
+1950Q3 | 0.84189 | 0.21854  | 0.83666
+1950Q4 | 0.51008 | 0.87096  | 0.8593
+1951Q1 | 0.16576 | 0.21184  | 0.52338
+1951Q2 | NaN     | NaN      | 0.47736
+1951Q3 | NaN     | NaN      | 0.88988
+1951Q4 | NaN     | NaN      | 0.065076
+1952Q1 | NaN     | NaN      | 0.50946
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-hpcycle"></a>dseries: <em><var>B</var> =</em> <strong>hpcycle</strong> <em>(<var>A</var>[, <var>lambda</var>])</em></dt>
+<dd>
+<p>Extracts the cycle component from a <code>dseries </code> <var>A</var> object using
+Hodrick Prescott (1997) filter and returns a <code>dseries </code> object, <var>B</var>. The
+default value for <var>lambda</var>, the smoothing parameter, is
+<SPAN CLASS="MATH"><IMG
+ WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_162.png"
+ ALT="$1600$"></SPAN>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">% Simulate a component model (stochastic trend, deterministic trend, and a
+% stationary autoregressive process).
+e = .2*randn(200,1);
+u = randn(200,1);
+stochastic_trend = cumsum(e);
+deterministic_trend = .1*transpose(1:200);
+x = zeros(200,1);
+for i=2:200
+    x(i) = .75*x(i-1) + e(i);
+end
+y = x + stochastic_trend + deterministic_trend;
+
+% Instantiates time series objects.
+ts0 = dseries(y,'1950Q1');
+ts1 = dseries(x,'1950Q1'); % stationary component.
+
+% Apply the HP filter.
+ts2 = ts0.hpcycle();
+
+% Plot the filtered time series.
+plot(ts1(ts2.dates).data,'-k'); % Plot of the stationary component.
+hold on
+plot(ts2.data,'--r');           % Plot of the filtered y.
+hold off
+axis tight
+id = get(gca,'XTick');
+set(gca,'XTickLabel',strings(ts.dates(id)));
+</pre></div>
+
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-hptrend"></a>dseries: <em><var>B</var> =</em> <strong>hptrend</strong> <em>(<var>A</var>[, <var>lambda</var>])</em></dt>
+<dd>
+<p>Extracts the trend component from a <code>dseries </code> <var>A</var> object using Hodrick Prescott (1997) filter and returns a <code>dseries </code> object, <var>B</var>. Default value for <var>lambda</var>, the smoothing parameter, is  <SPAN CLASS="MATH"><IMG
+ WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_162.png"
+ ALT="$1600$"></SPAN>.
+</p>
+<p><em>Example</em>
+Using the same generating data process as in the previous example:
+</p><div class="example">
+<pre class="example">ts1 = dseries(stochastic_trend + deterministic_trend,'1950Q1');
+% Apply the HP filter.
+ts2 = ts0.hptrend();
+
+% Plot the filtered time series.
+plot(ts1.data,'-k'); % Plot of the nonstationary components.
+hold on
+plot(ts2.data,'--r');           % Plot of the estimated trend.
+hold off
+axis tight
+id = get(gca,'XTick');
+set(gca,'XTickLabel',strings(ts0.dates(id)));
+</pre></div>
+
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-init"></a>dseries: <em><var>f</var> =</em> <strong>init</strong> <em>(<var>B</var>)</em></dt>
+<dd>
+<p>Returns the initial date in <code>dseries </code> object <var>B</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts = dseries(randn(3,2),'1973Q1');
+&gt;&gt; ts.init
+ans = &lt;dates: 1973Q1&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-insert"></a>dseries: <em><var>C</var> =</em> <strong>insert</strong> <em>(<var>A</var>, <var>B</var>, <var>I</var>)</em></dt>
+<dd>
+<p>Inserts variables contained in <code>dseries </code> object <var>B</var> in <code>dseries </code> object <var>A</var> at positions specified by integer scalars in vector <var>I</var>, returns augmented <code>dseries </code> object <var>C</var>. The integer scalars in <var>I</var> must take values between <code>1</code> and <code>A.length()+1</code> and refers to <var>A</var>&rsquo;s column numbers. The <code>dseries </code> objects <var>A</var> and <var>B</var> need not to be defined over the same time ranges, but it is assumed that they have common frequency.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(2,4),'1950Q1',{'Sly'; 'Gobbo'; 'Sneaky'; 'Stealthy'});
+&gt;&gt; ts1 = dseries(pi*ones(2,1),'1950Q1',{'Noddy'});
+&gt;&gt; ts2 = ts0.insert(ts1,3)
+
+ts2 is a dseries object:
+
+       | Sly | Gobbo | Noddy  | Sneaky | Stealthy
+1950Q1 | 1   | 1     | 3.1416 | 1      | 1
+1950Q2 | 1   | 1     | 3.1416 | 1      | 1
+
+&gt;&gt; ts3 = dseries([pi*ones(2,1) sqrt(pi)*ones(2,1)],'1950Q1',{'Noddy';'Tessie Bear'});
+&gt;&gt; ts4 = ts0.insert(ts1,[3, 4])
+
+ts4 is a dseries object:
+
+       | Sly | Gobbo | Noddy  | Sneaky | Tessie Bear | Stealthy
+1950Q1 | 1   | 1     | 3.1416 | 1      | 1.7725      | 1
+1950Q2 | 1   | 1     | 3.1416 | 1      | 1.7725      | 1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-isempty-1"></a>dseries: <em><var>B</var> =</em> <strong>isempty</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/octave&rsquo;s <code>isempty</code> function. Returns <code>1</code> if <code>dseries </code> object <var>A</var> is empty, <code>0</code> otherwise.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-isequal-1"></a>dseries: <em><var>C</var> =</em> <strong>isequal</strong> <em>(<var>A</var>,<var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/octave&rsquo;s <code>isequal</code> function. Returns <code>1</code> if <code>dseries </code> objects <var>A</var> and <code>B</code> are identical, <code>0</code> otherwise.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-lag"></a>dseries: <em><var>B</var> =</em> <strong>lag</strong> <em>(<var>A</var>[, <var>p</var>])</em></dt>
+<dd>
+<p>Returns lagged time series. Default value of <var>p</var>, the number of lags, is <code>1</code>.
+</p>
+<p><em>Examples</em>
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(transpose(1:4),'1950Q1')
+
+ts0 is a dseries object:
+
+       | Variable_1
+1950Q1 | 1
+1950Q2 | 2
+1950Q3 | 3
+1950Q4 | 4
+
+&gt;&gt; ts1 = ts0.lag()
+
+ts1 is a dseries object:
+
+       | lag(Variable_1,1)
+1950Q1 | NaN
+1950Q2 | 1
+1950Q3 | 2
+1950Q4 | 3
+
+&gt;&gt; ts2 = ts0.lag(2)
+
+ts2 is a dseries object:
+
+       | lag(Variable_1,2)
+1950Q1 | NaN
+1950Q2 | NaN
+1950Q3 | 1
+1950Q4 | 2
+</pre></div>
+
+<p><code>dseries </code> class overloads the parenthesis so that <code>ts.lag(p)</code> can be written more compactly as <code>ts(-p)</code>. For instance:
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; ts0.lag(1)
+
+ans is a dseries object:
+
+       | lag(Variable_1,1)
+1950Q1 | NaN
+1950Q2 | 1
+1950Q3 | 2
+1950Q4 | 3
+</pre></div>
+
+<p>or alternatively:
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; ts0(-1)
+
+ans is a dseries object:
+
+       | lag(Variable_1,1)
+1950Q1 | NaN
+1950Q2 | 1
+1950Q3 | 2
+1950Q4 | 3
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-last"></a>dseries: <em><var>l</var> =</em> <strong>last</strong> <em>(<var>B</var>)</em></dt>
+<dd>
+<p>Returns the last date in <code>dseries </code> object <var>B</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts = dseries(randn(3,2),'1973Q1');
+&gt;&gt; ts.last
+ans = &lt;dates: 1973Q3&gt;
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-lead"></a>dseries: <em><var>B</var> =</em> <strong>lead</strong> <em>(<var>A</var>[, <var>p</var>])</em></dt>
+<dd>
+<p>Returns leaded time series. Default value of <var>p</var>, the number of leads, is <code>1</code>. As for the <code>lag</code> method, the <code>dseries </code> class overloads the parenthesis so that <code>ts.lead(p)</code> is equivalent to <code>ts(p)</code>.
+</p>
+<p><em>Example</em>
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(transpose(1:4),'1950Q1');
+&gt;&gt; ts1 = ts0.lead()
+
+ts1 is a dseries object:
+
+       | lead(Variable_1,1)
+1950Q1 | 2
+1950Q2 | 3
+1950Q3 | 4
+1950Q4 | NaN
+
+&gt;&gt; ts2 = ts0(2)
+
+ts2 is a dseries object:
+
+       | lead(Variable_1,2)
+1950Q1 | 3
+1950Q2 | 4
+1950Q3 | NaN
+1950Q4 | NaN
+</pre></div>
+
+</dd></dl>
+
+<p><em>Remark</em>
+</p>
+<p>The overloading of the parenthesis for <code>dseries </code> objects, allows to easily create new <code>dseries </code> objects by copying/pasting equations declared in the <code>model</code> block. For instance, if an Euler equation is defined in the <code>model</code> block:
+</p>
+<div class="example">
+<pre class="example">model;
+    ...
+    1/C - beta/C(1)*(exp(A(1))*K^(alpha-1)+1-delta) ;
+    ...
+end;
+</pre></div>
+
+<p>and if variables <var>C</var>, <var>A</var> and <var>K</var> are defined as <code>dseries </code> objects, then by writting:
+</p>
+<div class="example">
+<pre class="example">Residuals = 1/C - beta/C(1)*(exp(A(1))*K^(alpha-1)+1-delta) ;
+</pre></div>
+
+<p>outside of the <code>model</code> block, we create a new <code>dseries </code> object, called <code>Residuals</code>, for the residuals of the Euler equation (the conditional expectation of the equation defined in the <code>model</code> block is zero, but the residuals are non zero).
+</p>
+<br>
+
+<dl>
+<dt><a name="index-log-1"></a>dseries: <em><var>B</var> =</em> <strong>log</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>log</code> function for <code>dseries </code> objects.
+<em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(rand(10,1));
+&gt;&gt; ts1 = ts0.log();
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-merge"></a>dseries: <em><var>C</var> =</em> <strong>merge</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Merges two <code>dseries </code> objects <var>A</var> and <var>B</var> in <code>dseries </code> object <var>C</var>. Objects <var>A</var> and <var>B</var> need to have common frequency but can be defined on different time ranges. If a variable, say <code>x</code>, is defined both in <code>dseries </code> objects <var>A</var> and <var>B</var>, then the merge will select the variable <code>x</code> as defined in the second input argument, <var>B</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(rand(3,2),'1950Q1',{'A1';'A2'})
+
+ts0 is a dseries object:
+
+       | A1       | A2
+1950Q1 | 0.42448  | 0.92477
+1950Q2 | 0.60726  | 0.64208
+1950Q3 | 0.070764 | 0.1045
+
+&gt;&gt; ts1 = dseries(rand(3,1),'1950Q2',{'A1'})
+
+ts1 is a dseries object:
+
+       | A1
+1950Q2 | 0.70023
+1950Q3 | 0.3958
+1950Q4 | 0.084905
+
+&gt;&gt; merge(ts0,ts1)
+
+ans is a dseries object:
+
+       | A1       | A2
+1950Q1 | NaN      | 0.92477
+1950Q2 | 0.70023  | 0.64208
+1950Q3 | 0.3958   | 0.1045
+1950Q4 | 0.084905 | NaN
+
+&gt;&gt; merge(ts1,ts0)
+
+ans is a dseries object:
+
+       | A1       | A2
+1950Q1 | 0.42448  | 0.92477
+1950Q2 | 0.60726  | 0.64208
+1950Q3 | 0.070764 | 0.1045
+1950Q4 | NaN      | NaN
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-minus-1"></a>dseries: <em><var>C</var> =</em> <strong>minus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the <code>minus</code> (<code>-</code>) operator for <code>dseries </code> objects,
+element by element subtraction. If both <var>A</var> and <var>B</var>
+are <code>dseries </code> objects, they do not need to be defined over the same
+time ranges. If <var>A</var> and <var>B</var> are <code>dseries </code> objects with
+<SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_163.png"
+ ALT="$T_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_164.png"
+ ALT="$T_B$"></SPAN> observations and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN>
+variables, then <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> must be equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> or <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> and
+<SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> must be equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> or <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>. If <SPAN CLASS="MATH"><IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_167.png"
+ ALT="$T_A=T_B$"></SPAN>,
+<code>isequal(A.init,B.init)</code> returns 1 and <SPAN CLASS="MATH"><IMG
+ WIDTH="73" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_168.png"
+ ALT="$N_A=N_B$"></SPAN>, then the
+<code>minus</code> operator will compute for each couple <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_169.png"
+ ALT="$(t,n)$"></SPAN>, with
+<SPAN CLASS="MATH"><IMG
+ WIDTH="80" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_170.png"
+ ALT="$1\le t\le T_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="88" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_171.png"
+ ALT="$1\le n\le N_A$"></SPAN>,
+<code>C.data(t,n)=A.data(t,n)-B.data(t,n)</code>. If <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> is equal to
+<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_172.png"
+ ALT="$N_A&gt;1$"></SPAN>, the smaller <code>dseries </code> object (<var>B</var>) is
+&ldquo;broadcast&rdquo; across the larger <code>dseries </code> (<var>A</var>) so that they have
+compatible shapes, the <code>minus</code> operator will subtract the
+variable defined in <var>B</var> from each variable in <var>A</var>. If <var>B</var>
+is a double scalar, then the method <code>minus</code> will subtract
+<var>B</var> from all the observations/variables in <var>A</var>. If <var>B</var> is
+a row vector of length <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN>, then the <code>minus</code> method will
+subtract <code>B(i)</code> from all the observations of variable <code>i</code>,
+for <SPAN CLASS="MATH"><IMG
+ WIDTH="90" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_173.png"
+ ALT="$i=1,...,N_A$"></SPAN>. If <var>B</var> is a column vector of length
+<SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_163.png"
+ ALT="$T_A$"></SPAN>, then the <code>minus</code> method will subtract <code>B</code> from
+all the variables.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(rand(3,2));
+&gt;&gt; ts1 = ts0{'Variable_2'};
+&gt;&gt; ts0-ts1
+
+ans is a dseries object:
+
+   | minus(Variable_1,Variable_2) | minus(Variable_2,Variable_2)
+1Y | -0.48853                     | 0
+2Y | -0.50535                     | 0
+3Y | -0.32063                     | 0
+
+&gt;&gt; ts1
+
+ts1 is a dseries object:
+
+   | Variable_2
+1Y | 0.703
+2Y | 0.75415
+3Y | 0.54729
+
+&gt;&gt; ts1-ts1.data(1)
+
+ans is a dseries object:
+
+   | minus(Variable_2,0.703)
+1Y | 0
+2Y | 0.051148
+3Y | -0.15572
+
+&gt;&gt; ts1.data(1)-ts1
+
+ans is a dseries object:
+
+   | minus(0.703,Variable_2)
+1Y | 0
+2Y | -0.051148
+3Y | 0.15572
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-mpower"></a>dseries: <em><var>C</var> =</em> <strong>mpower</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the <code>mpower</code> (<code>^</code>) operator for <code>dseries </code> objects and computes element-by-element power. <var>A</var> is a <code>dseries </code> object with <code>N</code> variables and <code>T</code> observations. If <var>B</var> is a real scalar, then <code>mpower(<var>A</var>,<var>B</var>)</code> returns a <code>dseries </code> object <var>C</var> with <code>C.data(t,n)=A.data(t,n)^C</code>. If <var>B</var> is a <code>dseries </code> object with <code>N</code> variables and <code>T</code> observations then <code>mpower(<var>A</var>,<var>B</var>)</code> returns a <code>dseries </code> object <var>C</var> with <code>C.data(t,n)=A.data(t,n)^C.data(t,n)</code>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(transpose(1:3));
+&gt;&gt; ts1 = ts0^2
+
+ts1 is a dseries object:
+
+   | power(Variable_1,2)
+1Y | 1
+2Y | 4
+3Y | 9
+
+&gt;&gt; ts2 = ts0^ts0
+
+ts2 is a dseries object:
+
+   | power(Variable_1,Variable_1)
+1Y | 1
+2Y | 4
+3Y | 27
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-mrdivide"></a>dseries: <em><var>C</var> =</em> <strong>mrdivide</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the <code>mrdivide</code> (<code>/</code>) operator for <code>dseries </code>
+objects, element by element division (like the <code>./</code> Matlab/Octave
+operator). If both <var>A</var> and <var>B</var> are <code>dseries </code> objects, they do
+not need to be defined over the same time ranges. If <var>A</var> and
+<var>B</var> are <code>dseries </code> objects with <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_163.png"
+ ALT="$T_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_164.png"
+ ALT="$T_B$"></SPAN>
+observations and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> variables, then <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN>
+must be equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> or <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> must be equal
+to <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> or <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>. If <SPAN CLASS="MATH"><IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_167.png"
+ ALT="$T_A=T_B$"></SPAN>,
+<code>isequal(A.init,B.init)</code> returns 1 and <SPAN CLASS="MATH"><IMG
+ WIDTH="73" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_168.png"
+ ALT="$N_A=N_B$"></SPAN>, then the
+<code>mrdivide</code> operator will compute for each couple <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_169.png"
+ ALT="$(t,n)$"></SPAN>,
+with <SPAN CLASS="MATH"><IMG
+ WIDTH="80" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_170.png"
+ ALT="$1\le t\le T_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="88" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_171.png"
+ ALT="$1\le n\le N_A$"></SPAN>,
+<code>C.data(t,n)=A.data(t,n)/B.data(t,n)</code>. If <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> is equal to
+<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_172.png"
+ ALT="$N_A&gt;1$"></SPAN>, the smaller <code>dseries </code> object (<var>B</var>) is
+&ldquo;broadcast&rdquo; across the larger <code>dseries </code> (<var>A</var>) so that they have
+compatible shapes. In this case the <code>mrdivides</code> operator will
+divide each variable defined in <var>A</var> by the variable in <var>B</var>,
+observation per observation. If <var>B</var> is a double scalar, then
+<code>mrdivide</code> will divide all the observations/variables in <var>A</var>
+by <var>B</var>. If <var>B</var> is a row vector of length <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN>, then
+<code>mrdivide</code> will divide all the observations of variable <code>i</code>
+by <code>B(i)</code>, for <SPAN CLASS="MATH"><IMG
+ WIDTH="90" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_173.png"
+ ALT="$i=1,...,N_A$"></SPAN>. If <var>B</var> is a column vector
+of length <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_163.png"
+ ALT="$T_A$"></SPAN>, then <code>mrdivide</code> will perform a division of
+all the variables by <code>B</code>, element by element.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(rand(3,2))
+
+ts0 is a dseries object:
+
+   | Variable_1 | Variable_2
+1Y | 0.72918    | 0.90307
+2Y | 0.93756    | 0.21819
+3Y | 0.51725    | 0.87322
+
+&gt;&gt; ts1 = ts0{'Variable_2'};
+&gt;&gt; ts0/ts1
+
+ans is a dseries object:
+
+   | divide(Variable_1,Variable_2) | divide(Variable_2,Variable_2)
+1Y | 0.80745                       | 1
+2Y | 4.2969                        | 1
+3Y | 0.59235                       | 1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-mtimes"></a>dseries: <em><var>C</var> =</em> <strong>mtimes</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the <code>mtimes</code> (<code>*</code>) operator for <code>dseries </code> objects
+and the Hadammard product (the <code>.*</code> Matlab/Octave operator). If
+both <var>A</var> and <var>B</var> are <code>dseries </code> objects, they do not need to be
+defined over the same time ranges. If <var>A</var> and <var>B</var> are <code>dseries </code>
+objects with <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_163.png"
+ ALT="$T_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_164.png"
+ ALT="$T_B$"></SPAN> observations and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> and
+<SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> variables, then <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> must be equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> or
+<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> must be equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> or <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>. If
+<SPAN CLASS="MATH"><IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_167.png"
+ ALT="$T_A=T_B$"></SPAN>, <code>isequal(A.init,B.init)</code> returns 1 and
+<SPAN CLASS="MATH"><IMG
+ WIDTH="73" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_168.png"
+ ALT="$N_A=N_B$"></SPAN>, then the <code>mtimes</code> operator will compute for each
+couple <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_169.png"
+ ALT="$(t,n)$"></SPAN>, with <SPAN CLASS="MATH"><IMG
+ WIDTH="80" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_170.png"
+ ALT="$1\le t\le T_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="88" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_171.png"
+ ALT="$1\le n\le N_A$"></SPAN>,
+<code>C.data(t,n)=A.data(t,n)*B.data(t,n)</code>. If <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> is equal to
+<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_172.png"
+ ALT="$N_A&gt;1$"></SPAN>, the smaller <code>dseries </code> object (<var>B</var>) is
+&ldquo;broadcast&rdquo; across the larger <code>dseries </code> (<var>A</var>) so that they have
+compatible shapes, <code>mtimes</code> operator will multiply each variable
+defined in <var>A</var> by the variable in <var>B</var>, observation per
+observation. If <var>B</var> is a double scalar, then the method
+<code>mtimes</code> will multiply all the observations/variables in <var>A</var>
+by <var>B</var>. If <var>B</var> is a row vector of length <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN>, then the
+<code>mtimes</code> method will multiply all the observations of variable
+<code>i</code> by <code>B(i)</code>, for <SPAN CLASS="MATH"><IMG
+ WIDTH="90" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_173.png"
+ ALT="$i=1,...,N_A$"></SPAN>. If <var>B</var> is a
+column vector of length <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_163.png"
+ ALT="$T_A$"></SPAN>, then the <code>mtimes</code> method will
+perform a multiplication of all the variables by <code>B</code>, element by
+element.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-ne-1"></a>dseries: <em><var>C</var> =</em> <strong>ne</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>ne</code> (equal, <code>~=</code>) operator. <code>dseries </code> objects <var>A</var> and <var>B</var> must have the  same number of observations (say, <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN>) and variables (<SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_155.png"
+ ALT="$N$"></SPAN>). The returned argument is a <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_75.png"
+ ALT="$T$"></SPAN> by <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_155.png"
+ ALT="$N$"></SPAN> matrix of zeros and ones. Element <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_160.png"
+ ALT="$(i,j)$"></SPAN> of <var>C</var> is equal to <code>1</code> if and only if observation <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_1.png"
+ ALT="$i$"></SPAN> for variable <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_161.png"
+ ALT="$j$"></SPAN> in <var>A</var> and <var>B</var> are not equal.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(2*ones(3,1));
+&gt;&gt; ts1 = dseries([2; 0; 2]);
+&gt;&gt; ts0~=ts1
+
+ans =
+
+     0
+     1
+     0
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-nobs"></a>dseries: <em><var>B</var> =</em> <strong>nobs</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Returns the number of observations in <code>dseries </code> object <var>A</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(randn(10));
+&gt;&gt; ts0.nobs
+
+ans =
+
+    10
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-plot"></a>dseries: <em><var>h</var> =</em> <strong>plot</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-plot-1"></a>dseries: <em><var>h</var> =</em> <strong>plot</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-plot-2"></a>dseries: <em><var>h</var> =</em> <strong>plot</strong> <em>(<var>A</var>[, ...])</em></dt>
+<dt><a name="index-plot-3"></a>dseries: <em><var>h</var> =</em> <strong>plot</strong> <em>(<var>A</var>, <var>B</var>[, ...])</em></dt>
+<dd>
+<p>Overloads Matlab/Octave&rsquo;s <code>plot</code> function for <code>dseries </code> objects. Returns a Matlab/Octave plot handle, that can be used to modify the properties of the plotted time series. If only one <code>dseries </code> object, <var>A</var>, is passed as argument, then the <code>plot</code> function will put the associated dates on the x-abscissa. If this <code>dseries </code> object contains only one variable, additional arguments can be passed to modify the properties of the plot (as one would do with the Matlab/Octave&rsquo;s version of the <code>plot</code> function). If <code>dseries </code> object <var>A</var> contains more than one variable, it is not possible to pass these additional arguments and the properties of the plotted time series must be modify using the returned plot handle and the Matlab/Octave <code>set</code> function (see example below). If two <code>dseries </code> objects, <var>A</var> and <var>B</var>, are passed as input arguments, the <code>plot</code> function will plot the variables in <var>A</var> against the variables in <var>B</var> (the number of variables in each object must be the same otherwise an error is issued). Again, if each object contains only one variable additional arguments can be passed to modify the properties of the plotted time series, otherwise the Matlab/Octave <code>set</code> command has to be used.
+</p>
+<p><em>Examples</em>
+</p>
+<p>Define a <code>dseries </code> object with two variables (named by default <code>Variable_1</code> and <code>Variable_2</code>):
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; ts = dseries(randn(100,2),'1950Q1');
+</pre></div>
+
+<p>The following command will plot the first variable in <code>ts</code>
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; plot(ts{'Variable_1'},'-k','linewidth',2);
+</pre></div>
+
+<p>The next command will draw all the variables in <code>ts</code> on the same figure:
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; h = plot(ts);
+</pre></div>
+
+<p>If one wants to modify the properties of the plotted time series (line style, colours, ...), the <code>set</code> function can be used (see Matlab&rsquo;s documentation):
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; set(h(1),'-k','linewidth',2);
+&gt;&gt; set(h(2),'--r');
+</pre></div>
+
+<p>The follwing command will plot <code>Variable_1</code> against <code>exp(Variable_1)</code>:
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; plot(ts{'Variable_1'},ts{'Variable_1'}.exp(),'ok');
+</pre></div>
+
+<p>Again, the properties can also be modified using the returned plot handle and the <code>set</code> function:
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; h = plot(ts, ts.exp());
+&gt;&gt; set(h(1),'ok');
+&gt;&gt; set(h(2),'+r');
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-plus-1"></a>dseries: <em><var>C</var> =</em> <strong>plus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Overloads the <code>plus</code> (<code>+</code>) operator for <code>dseries </code> objects,
+element by element addition. If both <var>A</var> and <var>B</var> are <code>dseries </code>
+objects, they do not need to be defined over the same time ranges. If
+<var>A</var> and <var>B</var> are <code>dseries </code> objects with <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_163.png"
+ ALT="$T_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_164.png"
+ ALT="$T_B$"></SPAN>
+observations and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> variables, then <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN>
+must be equal to <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> or <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> must be equal
+to <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN> or <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN>. If <SPAN CLASS="MATH"><IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_167.png"
+ ALT="$T_A=T_B$"></SPAN>,
+<code>isequal(A.init,B.init)</code> returns 1 and <SPAN CLASS="MATH"><IMG
+ WIDTH="73" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_168.png"
+ ALT="$N_A=N_B$"></SPAN>, then the
+<code>plus</code> operator will compute for each couple <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_169.png"
+ ALT="$(t,n)$"></SPAN>, with
+<SPAN CLASS="MATH"><IMG
+ WIDTH="80" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_170.png"
+ ALT="$1\le t\le T_A$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="88" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_171.png"
+ ALT="$1\le n\le N_A$"></SPAN>,
+<code>C.data(t,n)=A.data(t,n)+B.data(t,n)</code>. If <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_166.png"
+ ALT="$N_B$"></SPAN> is equal to
+<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="dynare.html_8.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_172.png"
+ ALT="$N_A&gt;1$"></SPAN>, the smaller <code>dseries </code> object (<var>B</var>) is
+&ldquo;broadcast&rdquo; across the larger <code>dseries </code> (<var>A</var>) so that they have
+compatible shapes, the <code>plus</code> operator will add the variable
+defined in <var>B</var> to each variable in <var>A</var>. If <var>B</var> is a double
+scalar, then the method <code>plus</code> will add <var>B</var> to all the
+observations/variables in <var>A</var>. If <var>B</var> is a row vector of
+length <SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_165.png"
+ ALT="$N_A$"></SPAN>, then the <code>plus</code> method will add <code>B(i)</code> to
+all the observations of variable <code>i</code>, for <SPAN CLASS="MATH"><IMG
+ WIDTH="90" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_173.png"
+ ALT="$i=1,...,N_A$"></SPAN>. If
+<var>B</var> is a column vector of length <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="dynare.html_163.png"
+ ALT="$T_A$"></SPAN>, then the <code>plus</code>
+method will add <code>B</code> to all the variables.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-pop-2"></a>dseries: <em><var>C</var> =</em> <strong>pop</strong> <em>(<var>A</var>[, <var>B</var>])</em></dt>
+<dd>
+<p>Removes variable <var>B</var> from <code>dseries </code> object <var>A</var>. By default, if the second argument is not provided, the last variable is removed.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(3,3));
+&gt;&gt; ts1 = ts0.pop('Variable_2');
+
+ts1 is a dseries object:
+
+   | Variable_1 | Variable_3
+1Y | 1          | 1
+2Y | 1          | 1
+3Y | 1          | 1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-qdiff"></a>dseries: <em><var>B</var> =</em> <strong>qdiff</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-qgrowth"></a>dseries: <em><var>B</var> =</em> <strong>qgrowth</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Computes quarterly differences or growth rates.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(transpose(1:4),'1950Q1');
+&gt;&gt; ts1 = ts0.qdiff()
+
+ts1 is a dseries object:
+
+       | qdiff(Variable_1)
+1950Q1 | NaN
+1950Q2 | 1
+1950Q3 | 1
+1950Q4 | 1
+
+&gt;&gt; ts0 = dseries(transpose(1:6),'1950M1');
+&gt;&gt; ts1 = ts0.qdiff()
+
+ts1 is a dseries object:
+
+        | qdiff(Variable_1)
+1950M1  | NaN
+1950M2  | NaN
+1950M3  | NaN
+1950M4  | 3
+1950M5  | 3
+1950M6  | 3
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-remove"></a>dseries: <em><var>C</var> =</em> <strong>remove</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Alias for the <code>pop</code> method with two arguments. Removes variable <var>B</var> from <code>dseries </code> object <var>A</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(3,3));
+&gt;&gt; ts1 = ts0.remove('Variable_2');
+
+ts1 is a dseries object:
+
+   | Variable_1 | Variable_3
+1Y | 1          | 1
+2Y | 1          | 1
+3Y | 1          | 1
+</pre></div>
+
+<br>
+
+<p>A shorter syntax is available: <code>remove(ts,'Variable_2')</code> is
+equivalent to <code>ts{'Variable_2'} = []</code> (<code>[]</code> can be replaced
+by any empty object). This alternative syntax is usefull if more than
+one variable has to be removed. For instance:
+</p><div class="example">
+<pre class="example">ts{'Variable_@2,3,4@'} = [];
+</pre></div>
+<p>will remove <code>Variable_2</code>, <code>Variable_3</code> and <code>Variable_4</code>
+from <code>dseries </code> object <code>ts</code> (if these variables exist). Regular
+expressions cannot be used but implicit loops can.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-rename"></a>dseries: <em><var>B</var> =</em> <strong>rename</strong> <em>(<var>A</var>,<var>oldname</var>,<var>newname</var>)</em></dt>
+<dd>
+<p>Rename variable <var>oldname</var> to <var>newname</var> in <code>dseries </code> object
+<var>A</var>. Returns a <code>dseries </code> object.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(2,2));
+&gt;&gt; ts1 = ts0.rename('Variable_1','Stinkly')
+
+ts1 is a dseries object:
+
+   | Stinkly | Variable_2
+1Y | 1       | 1
+2Y | 1       | 1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-rename-1"></a>dseries: <em><var>B</var> =</em> <strong>rename</strong> <em>(<var>A</var>,<var>newname</var>)</em></dt>
+<dd>
+<p>Replace the names in <var>A</var> with those passed in the cell string array
+<var>newname</var>. <var>newname</var> must have the same number of cells as <var>A</var> has
+<var>dseries</var>. Returns a <code>dseries </code> object.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(2,3));
+&gt;&gt; ts1 = ts0.rename({'Tree','Worst','President'})
+
+ts1 is a dseries object:
+
+   | Bush | Worst | President
+1Y | 1    | 1     | 1
+2Y | 1    | 1     | 1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-_0028A_002c"></a>dseries: <em>save</em> <strong>(<var>A</var>,</strong> <em><var>basename</var>[, <var>format</var>])</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave <code>save</code> function and saves <code>dseries </code>
+object <var>A</var> to disk. Possible formats are <code>csv</code> (this is the
+default), <code>m</code> (Matlab/Octave script), and <code>mat</code> (Matlab
+binary data file). The name of the file without extension is specified
+by <var>basename</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(2,2));
+&gt;&gt; ts0.save('ts0');
+</pre></div>
+
+<p>The last command will create a file <code>ts0.csv</code> with the following content:
+</p>
+<div class="example">
+<pre class="example">,Variable_1,Variable_2
+1Y,               1,               1
+2Y,               1,               1
+</pre></div>
+
+<p>To create a Matlab/octave script, the following command:
+</p>
+<div class="example">
+<pre class="example">&gt;&gt; ts0.save('ts0','m');
+</pre></div>
+
+<p>will produce a file <code>ts0.m</code> with the following content:
+</p>
+<div class="example">
+<pre class="example">% File created on 14-Nov-2013 12:08:52.
+
+FREQ__ = 1;
+INIT__ = ' 1Y';
+
+NAMES__ = {'Variable_1'; 'Variable_2'};
+TEX__ = {'Variable_{1}'; 'Variable_{2}'};
+
+Variable_1 = [
+              1
+              1];
+
+Variable_2 = [
+              1
+              1];
+</pre></div>
+
+<p>The generated (<code>csv</code>, <code>m</code>, or <code>mat</code>) files can be loaded when instantiating a <code>dseries </code> object as explained above.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-set_005fnames"></a>dseries: <em><var>B</var> =</em> <strong>set_names</strong> <em>(<var>A</var>, <var>s1</var>, <var>s2</var>, ...)</em></dt>
+<dd>
+<p>Renames variables in <code>dseries </code> object <var>A</var> and returns a <code>dseries </code>
+object <var>B</var> with new names <var>s1</var>, <var>s2</var>, <var>s3</var>, ... The
+number of input arguments after the first one (<code>dseries </code> object
+<var>A</var>) must be equal to <code>A.vobs</code> (the number of variables in
+<var>A</var>). <var>s1</var> will be the name of the first variable in <var>B</var>,
+<var>s2</var> the name of the second variable in <var>B</var>, and so on.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(1,3));
+&gt;&gt; ts1 = ts0.set_names('Barbibul',[],'Barbouille')
+
+ts1 is a dseries object:
+
+   | Barbibul | Variable_2 | Barbouille
+1Y | 1        | 1          | 1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-size"></a>dseries: <em>[<var>T</var>, <var>N</var> ] =</em> <strong>size</strong> <em>(<var>A</var>[, <var>dim</var>])</em></dt>
+<dd>
+<p>Overloads the Matlab/Octave&rsquo;s <code>size</code> function. Returns the number of observations in <code>dseries </code> object <var>A</var> (<em>ie</em> <code>A.nobs</code>) and the number of variables (<em>ie</em> <code>A.vobs</code>). If a second input argument is passed, the <code>size</code> function returns the number of observations if <code>dim=1</code> or the number of variables if <code>dim=2</code> (for all other values of <var>dim</var> an error is issued).
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(ones(1,3));
+&gt;&gt; ts0.size()
+
+ans =
+
+     1     3
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<a name="tex_005frename"></a><dl>
+<dt><a name="index-tex_005frename"></a>dseries: <em><var>B</var> =</em> <strong>tex_rename</strong> <em>(<var>A</var>, <var>name</var>, <var>newtexname</var>)</em></dt>
+<dd>
+<p>Redefines the tex name of variable <var>name</var> to <var>newtexname</var>
+in <code>dseries </code> object <var>A</var>. Returns a <code>dseries </code> object.
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-tex_005frename-1"></a>dseries: <em><var>B</var> =</em> <strong>tex_rename</strong> <em>(<var>A</var>, <var>newtexname</var>)</em></dt>
+<dd>
+<p>Redefines the tex names of the <var>A</var> to those contained in
+<var>newtexname</var>. Here, <var>newtexname</var> is a cell string array with the same
+number of entries as variables in <var>A</var>
+</p>
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-uminus-1"></a>dseries: <em><var>B</var> =</em> <strong>uminus</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Overloads <code>uminus</code> (<code>-</code>, unary minus) for <code>dseries </code> object.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(1)
+
+ts0 is a dseries object:
+
+   | Variable_1
+1Y | 1
+
+&gt;&gt; ts1 = -ts0
+
+ts1 is a dseries object:
+
+   | -Variable_1
+1Y | -1
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-vertcat"></a>dseries: <em><var>D</var> =</em> <strong>vertcat</strong> <em>(<var>A</var>, <var>B</var>[, ...])</em></dt>
+<dd>
+<p>Overloads the <code>vertcat</code> Matlab/Octave method for <code>dseries </code>
+objects. This method is used to append more observations to a <code>dseries </code>
+object. Returns a <code>dseries </code> object <var>D</var> containing the variables
+in <code>dseries </code> objects passed as inputs. All the input arguments must
+be <code>dseries </code> objects with the same variables defined on <em>different
+time ranges</em>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(rand(2,2),'1950Q1',{'nifnif';'noufnouf'});
+&gt;&gt; ts1 = dseries(rand(2,2),'1950Q3',{'nifnif';'noufnouf'});
+&gt;&gt; ts2 = [ts0; ts1]
+
+ts2 is a dseries object:
+
+       | nifnif   | noufnouf
+1950Q1 | 0.82558  | 0.31852
+1950Q2 | 0.78996  | 0.53406
+1950Q3 | 0.089951 | 0.13629
+1950Q4 | 0.11171  | 0.67865
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-vobs"></a>dseries: <em><var>B</var> =</em> <strong>vobs</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Returns the number of variables in <code>dseries </code> object <var>A</var>.
+</p>
+<p><em>Example</em>
+</p><div class="example">
+<pre class="example">&gt;&gt; ts0 = dseries(randn(10,2));
+&gt;&gt; ts0.vobs
+
+ans =
+
+    2
+</pre></div>
+
+</dd></dl>
+
+<br>
+
+<dl>
+<dt><a name="index-ydiff"></a>dseries: <em><var>B</var> =</em> <strong>ydiff</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-ygrowth"></a>dseries: <em><var>B</var> =</em> <strong>ygrowth</strong> <em>(<var>A</var>)</em></dt>
+<dd>
+<p>Computes yearly differences or growth rates.
+</p>
+</dd></dl>
+
+<br>
+
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Dates.html#Dates" accesskey="p" rel="prev">Dates</a>, Up: <a href="Time-Series.html#Time-Series" accesskey="u" rel="up">Time Series</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Command-and-Function-Index.html#Command-and-Function-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>
