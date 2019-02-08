@@ -56,21 +56,23 @@ for vintage_index = 1:numel(current_vintages)
     dynare_folder = root_folder + "MODELS//" + basics.currentmodel + "//" + basics.currentmodel + "_" + current_vintages(vintage_index);
     cd(dynare_folder);
     load("hvd.mat");
+    total_length = size(hvd,3);
+    total_periods = (1:total_length);
     
     % hvd contains the absolute contributions of ungrouped shocks to three observables
     % size(hvd) = (n_vars, n_shocks, n_periods)
-    hvd = hvd(:, :, end:-1:end - periods_length +1); 
+    hvd = hvd(:, :, end:-1:end - total_length +1); 
     
     % hvda contains the absolute contributions of shocks to three observables
     % size(hvda) = (n_vars, n_shock_groups, n_periods)
-    hvda = zeros(numel(var_names), numel(shock_group_names), periods_length);
-    for period = periods
+    hvda = zeros(numel(var_names), numel(shock_group_names), total_length);
+    for period = total_periods
         for shock_index = 1:size(hvd(:,:,period), 2) - 1
             hvda(:, shock_group_identifiers(shock_index), period) = hvda(:, shock_group_identifiers(shock_index), period) + hvd(:, shock_index, period);
         end
     end
     hvda_temp = shiftdim(hvda, 1);
-    hvda = zeros(periods_length, numel(shock_group_names), numel(var_names));
+    hvda = zeros(total_length, numel(shock_group_names), numel(var_names));
     for var_index = 1:numel(var_names)
         hvda(:, :, var_index) = transpose(hvda_temp(:, :, var_index));
     end
@@ -119,6 +121,7 @@ for vintage_index = 1:numel(current_vintages)
     xls_names = convertCharsToStrings({temp.name});
     for xls_index = 1:numel(xls_names)
         xls_name = xls_names(xls_index);
+        disp(xls_name)
         if (contains(xls_name, current_vintages(vintage_index))) && ~(contains(xls_name, current_full_name))
             for var_index = 1:numel(var_names)
                 table_absolute = readtable(xls_name, "Sheet", "absolute_" + var_names(var_index));
@@ -129,6 +132,7 @@ for vintage_index = 1:numel(current_vintages)
         end
         % make sure to present not more than five HVDs
         if numel(fieldnames(HVDs))>=5
+            warning('Found more than five variance decomposition result under the same vintage. Only show the first five');
             break
         end
     end
@@ -177,6 +181,7 @@ for vintage_index = 1:numel(current_vintages)
             else
                 matrix = table2array(HVDs.(full_names(fullname_index)).relative.(var_names(current_plot)));
             end
+            matrix = matrix(1:periods_length,:);
             
             matrix_neg = matrix;
             matrix_neg(matrix_neg > 0) = 0;
@@ -280,7 +285,11 @@ for vintage_index = 1:numel(current_vintages)
     choice = questdlg("Would you like to store the graph?", "Save to disk", "Yes", "No", "Yes");
     if convertCharsToStrings(choice) == "Yes"
         cd(charts_folder)
-        saveas(gcf, "HVD_" + current_full_name + ".png")
+        if basics.hvd_absolute
+            saveas(gcf, "HVD_absolute_" + current_full_name + ".png")
+        else
+            saveas(gcf, "HVD_relative_" + current_full_name + ".png")
+        end
     end
    
 end

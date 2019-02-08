@@ -10,9 +10,9 @@ Computing dynamic model derivatives:
 Processing outputs ...
 done
 Preprocessing completed.
-[Warning: Some of the parameters have no value (bet, pistar, sprd, Fom, zstar, rstar, Rstarn, rkstar, omegastar, Lstar, kstar,
-kbarstar, istar, ystar, cstar, wl_c, zwstar) when using steady. If these parameters are not initialized in a steadystate file or a
-steady_state_model-block, Dynare may not be able to solve the model...] 
+[Warning: Some of the parameters have no value (bet, pistar, sprd, Fom, zstar, rstar, Rstarn, rkstar, omegastar, Lstar, kstar, kbarstar, istar,
+ystar, cstar, wl_c, zwstar) when using steady. If these parameters are not initialized in a steadystate file or a steady_state_model-block,
+Dynare may not be able to solve the model...] 
 
 STEADY-STATE RESULTS:
 
@@ -101,11 +101,11 @@ for 13 forward-looking variable(s)
 
 The rank condition is verified.
 
-Total computing time : 0h00m01s
+Total computing time : 0h00m00s
 Note: warning(s) encountered in MATLAB/Octave code
 Trying mode_compute = 4, Chris Sims’s csminwel, and checking if estimation is feasible.
-[Warning: Some of the parameters have no value (zwstar) when using initial_estimation_checks. If these parameters are not initialized
-in a steadystate file or a steady_state_model-block, Dynare may not be able to solve the model...] 
+[Warning: Some of the parameters have no value (zwstar) when using initial_estimation_checks. If these parameters are not initialized in a
+steadystate file or a steady_state_model-block, Dynare may not be able to solve the model...] 
 Initial value of the log posterior (or likelihood): -2312.7756
 -----------------
 f at the beginning of new iteration,      2312.7755867990
@@ -369,8 +369,8 @@ rm_sh        0.100   0.2391     NaN invg  2.0000
 Log data density [Laplace approximation] is NaN.
 
 Mode_compute=5, Marco Ratto’s newrat, was unsuccessfull, trying mode_compute=7, fminsearch.
-[Warning: Some of the parameters have no value (zwstar) when using initial_estimation_checks. If these parameters are not initialized
-in a steadystate file or a steady_state_model-block, Dynare may not be able to solve the model...] 
+[Warning: Some of the parameters have no value (zwstar) when using initial_estimation_checks. If these parameters are not initialized in a
+steadystate file or a steady_state_model-block, Dynare may not be able to solve the model...] 
 Initial value of the log posterior (or likelihood): -2312.7756
  
  Iteration   Func-count     min f(x)         Procedure
@@ -2458,8 +2458,8 @@ rm_sh        0.100   0.2636     NaN invg  2.0000
 Log data density [Laplace approximation] is NaN.
 
 Mode_compute=7, fminsearch, was unsuccessfull, trying mode_compute=1, fmincon.
-[Warning: Some of the parameters have no value (zwstar) when using initial_estimation_checks. If these parameters are not initialized
-in a steadystate file or a steady_state_model-block, Dynare may not be able to solve the model...] 
+[Warning: Some of the parameters have no value (zwstar) when using initial_estimation_checks. If these parameters are not initialized in a
+steadystate file or a steady_state_model-block, Dynare may not be able to solve the model...] 
 Initial value of the log posterior (or likelihood): -2312.7756
                                             First-order      Norm of
  Iter F-count            f(x)  Feasibility   optimality         step
@@ -2700,64 +2700,66 @@ rm_sh        0.100   0.2298  0.0139 invg  2.0000
 
 Log data density [Laplace approximation] is -1070.897989.
 
-Estimation::mcmc: One Chain mode.
-Estimation::mcmc: Initialization at the posterior mode.
+Estimation::mcmc: Multiple chains mode.
+Estimation::mcmc: Searching for initial values...
+Estimation::mcmc: Initial values found!
 
 Estimation::mcmc: Write details about the MCMC... Ok!
 Estimation::mcmc: Details about the MCMC are available in US_SW07_20074/metropolis\US_SW07_20074_mh_history_0.mat
 
 
 Estimation::mcmc: Number of mh files: 1 per block.
-Estimation::mcmc: Total number of generated files: 1.
-Estimation::mcmc: Total number of iterations: 100.
+Estimation::mcmc: Total number of generated files: 2.
+Estimation::mcmc: Total number of iterations: 1000.
 Estimation::mcmc: Current acceptance ratio per chain: 
-                                                       Chain  1: 7%
-Estimation::mcmc: Total number of MH draws per chain: 100.
+                                                       Chain  1: 15%
+                                                       Chain  2: 11.7%
+Estimation::mcmc: Total number of MH draws per chain: 1000.
 Estimation::mcmc: Total number of generated MH files: 1.
 Estimation::mcmc: I'll use mh-files 1 to 1.
-Estimation::mcmc: In MH-file number 1 I'll start at line 31.
-Estimation::mcmc: Finally I keep 70 draws per chain.
+Estimation::mcmc: In MH-file number 1 I'll start at line 301.
+Estimation::mcmc: Finally I keep 700 draws per chain.
 
 
 
 MCMC Inefficiency factors per block
-Parameter        Block 1
-SE_z_sh           12.897
-SE_g_sh            7.332
-SE_b_sh           17.446
-SE_mu_sh          18.694
-SE_laf_sh         11.545
-SE_law_sh         17.983
-SE_rm_sh          11.136
-psi1              13.205
-rho_r              9.976
-psi2              12.551
-psi3              14.529
-zeta_p            15.420
-zeta_w            15.667
-iota_w            18.701
-iota_p            10.331
-alp               11.467
-Bigphi            11.658
-h                 11.512
-nu_l               6.729
-rstar_aux         16.715
-pistar_aux        11.934
-zstar_aux         10.719
-s2                17.204
-sigmac            13.916
-ppsi              16.203
-Lmean             13.970
-rho_z              9.683
-rho_b             17.271
-rho_g              5.296
-rho_mu             9.397
-rho_rm             9.189
-rho_laf           14.141
-rho_law           13.580
-eta_laf           14.757
-eta_law           13.466
-eta_gz            15.041
+Parameter        Block 1     Block 2
+SE_z_sh          108.189      66.557
+SE_g_sh           24.938      97.868
+SE_b_sh           21.045      39.391
+SE_mu_sh          33.897      22.725
+SE_laf_sh         55.116      62.522
+SE_law_sh        103.166      85.565
+SE_rm_sh          79.072      90.307
+psi1              52.572      34.793
+rho_r            119.634      78.904
+psi2              81.946     100.426
+psi3              93.703      69.348
+zeta_p            49.504      92.047
+zeta_w           112.550      91.366
+iota_w           122.742      40.574
+iota_p           101.981      14.760
+alp               54.990      94.177
+Bigphi            27.717      34.031
+h                 59.570      84.846
+nu_l              53.667      85.034
+rstar_aux         92.811      87.613
+pistar_aux        17.826      46.533
+zstar_aux         48.319     126.207
+s2                66.427      83.897
+sigmac            62.101      80.501
+ppsi              28.916      50.243
+Lmean             10.409      27.830
+rho_z             43.232      25.979
+rho_b             60.035      77.604
+rho_g             68.932     128.734
+rho_mu            71.889      87.110
+rho_rm           114.040     113.134
+rho_laf          109.393     103.547
+rho_law          167.536     108.939
+eta_laf           17.930      59.478
+eta_law           52.859      53.949
+eta_gz            73.890      38.561
 
 [Warning: estimation:: MCMC convergence diagnostics are not computed because the total number of iterations is not bigger than 2000!] 
 [> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('McMCDiagnostics', 'C:\dynare\4.5.6\matlab\convergence_diagnostics\McMCDiagnostics.m', 126)" style="font-weight:bold">McMCDiagnostics</a> (<a href="matlab: opentoline('C:\dynare\4.5.6\matlab\convergence_diagnostics\McMCDiagnostics.m',126,0)">line 126</a>)
@@ -2770,115 +2772,57 @@ eta_gz            15.041
   In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('gui_mainfcn', 'C:\Program Files\MATLAB\R2018b\toolbox\matlab\guide\gui_mainfcn.m', 95)" style="font-weight:bold">gui_mainfcn</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018b\toolbox\matlab\guide\gui_mainfcn.m',95,0)">line 95</a>)
   In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 42)" style="font-weight:bold">EstimationInterface</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',42,0)">line 42</a>)
   In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface(''pushbutton1_Callback'',hObject,eventdata,guidata(hObject))')" style="font-weight:bold">matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface('pushbutton1_Callback',hObject,eventdata,guidata(hObject))</a>] 
-Estimation::marginal density: I'm computing the posterior mean and covariance... [Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND =  2.444064e-18.] 
-[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('compute_mh_covariance_matrix', 'C:\dynare\4.5.6\matlab\compute_mh_covariance_matrix.m', 77)" style="font-weight:bold">compute_mh_covariance_matrix</a> (<a href="matlab: opentoline('C:\dynare\4.5.6\matlab\compute_mh_covariance_matrix.m',77,0)">line 77</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('marginal_density')" style="font-weight:bold">marginal_density</a>
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation_1', 'C:\dynare\4.5.6\matlab\dynare_estimation_1.m', 474)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('C:\dynare\4.5.6\matlab\dynare_estimation_1.m',474,0)">line 474</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation', 'C:\dynare\4.5.6\matlab\dynare_estimation.m', 105)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('C:\dynare\4.5.6\matlab\dynare_estimation.m',105,0)">line 105</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MHestimate', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\MHestimate.m', 122)" style="font-weight:bold">MHestimate</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\MHestimate.m',122,0)">line 122</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Main', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\Main.m', 174)" style="font-weight:bold">Main</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\Main.m',174,0)">line 174</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('run', 'C:\Program Files\MATLAB\R2018b\toolbox\matlab\lang\run.m', 91)" style="font-weight:bold">run</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018b\toolbox\matlab\lang\run.m',91,0)">line 91</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface>pushbutton1_Callback', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 853)" style="font-weight:bold">EstimationInterface>pushbutton1_Callback</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',853,0)">line 853</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('gui_mainfcn', 'C:\Program Files\MATLAB\R2018b\toolbox\matlab\guide\gui_mainfcn.m', 95)" style="font-weight:bold">gui_mainfcn</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018b\toolbox\matlab\guide\gui_mainfcn.m',95,0)">line 95</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 42)" style="font-weight:bold">EstimationInterface</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',42,0)">line 42</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface(''pushbutton1_Callback'',hObject,eventdata,guidata(hObject))')" style="font-weight:bold">matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface('pushbutton1_Callback',hObject,eventdata,guidata(hObject))</a>] 
-[Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND =  2.444064e-18.] 
-[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('marginal_density', 'C:\dynare\4.5.6\matlab\marginal_density.m', 59)" style="font-weight:bold">marginal_density</a> (<a href="matlab: opentoline('C:\dynare\4.5.6\matlab\marginal_density.m',59,0)">line 59</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation_1', 'C:\dynare\4.5.6\matlab\dynare_estimation_1.m', 474)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('C:\dynare\4.5.6\matlab\dynare_estimation_1.m',474,0)">line 474</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation', 'C:\dynare\4.5.6\matlab\dynare_estimation.m', 105)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('C:\dynare\4.5.6\matlab\dynare_estimation.m',105,0)">line 105</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MHestimate', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\MHestimate.m', 122)" style="font-weight:bold">MHestimate</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\MHestimate.m',122,0)">line 122</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Main', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\Main.m', 174)" style="font-weight:bold">Main</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\Main.m',174,0)">line 174</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('run', 'C:\Program Files\MATLAB\R2018b\toolbox\matlab\lang\run.m', 91)" style="font-weight:bold">run</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018b\toolbox\matlab\lang\run.m',91,0)">line 91</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface>pushbutton1_Callback', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 853)" style="font-weight:bold">EstimationInterface>pushbutton1_Callback</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',853,0)">line 853</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('gui_mainfcn', 'C:\Program Files\MATLAB\R2018b\toolbox\matlab\guide\gui_mainfcn.m', 95)" style="font-weight:bold">gui_mainfcn</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018b\toolbox\matlab\guide\gui_mainfcn.m',95,0)">line 95</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EstimationInterface', 'C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m', 42)" style="font-weight:bold">EstimationInterface</a> (<a href="matlab: opentoline('C:\Users\zsun\Documents\GitHub\MMBForecast-platform\MMB_Estimation\EstimationInterface\EstimationInterface.m',42,0)">line 42</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface(''pushbutton1_Callback'',hObject,eventdata,guidata(hObject))')" style="font-weight:bold">matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)EstimationInterface('pushbutton1_Callback',hObject,eventdata,guidata(hObject))</a>] 
- Done!
-Estimation::marginal density: I'm computing the posterior log marginal density (modified harmonic mean)... 
-Estimation::marginal density: The support of the weighting density function is not large enough...
-Estimation::marginal density: I increase the variance of this distribution.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-
-Estimation::marginal density: Let me try again.
-Estimation::marginal density: There's probably a problem with the modified harmonic mean estimator.
+Estimation::marginal density: I'm computing the posterior mean and covariance...  Done!
+Estimation::marginal density: I'm computing the posterior log marginal density (modified harmonic mean)... Done!
 
 
 ESTIMATION RESULTS
 
-Log data density is -Inf.
+Log data density is -1096.124341.
 
 parameters
              prior mean   post. mean        90% HPD interval    prior       pstdev
 
-psi1              1.500       1.9886      1.9182      2.0557   norm        0.2500
-rho_r             0.750       0.8490      0.8456      0.8545   beta        0.1000
-psi2              0.125       0.1918      0.1716      0.1978   norm        0.0500
-psi3              0.125       0.2149      0.2085      0.2210   norm        0.0500
-zeta_p            0.500       0.8220      0.8080      0.8307   beta        0.1000
-zeta_w            0.500       0.4512      0.4291      0.4628   beta        0.1000
-iota_w            0.500       0.6001      0.5072      0.7061   beta        0.1500
-iota_p            0.500       0.0985      0.0887      0.1156   beta        0.1500
-alp               0.300       0.1406      0.1258      0.1465   norm        0.0500
-Bigphi            1.250       1.5774      1.5615      1.6014   norm        0.1200
-h                 0.700       0.6321      0.6221      0.6655   beta        0.1000
-nu_l              2.000       3.3175      2.9871      3.6146   norm        0.7500
-rstar_aux         0.250       0.1171      0.0780      0.1411   gamm        0.1000
-pistar_aux        0.750       0.8444      0.7662      1.0030   gamm        0.4000
-zstar_aux         0.400       0.7631      0.7617      0.7673   norm        0.1000
-s2                4.000       3.5402      3.0193      3.8368   norm        1.5000
-sigmac            1.500       0.9734      0.8800      0.9967   norm        0.3700
-ppsi              0.500       0.3793      0.2907      0.4185   beta        0.1500
-Lmean             0.000       1.3118      1.0661      1.6592   norm        2.0000
-rho_z             0.500       0.9125      0.9068      0.9164   beta        0.2000
-rho_b             0.500       0.7646      0.7380      0.7938   beta        0.2000
-rho_g             0.500       0.9769      0.9727      0.9807   beta        0.2000
-rho_mu            0.500       0.7976      0.7827      0.8136   beta        0.2000
-rho_rm            0.500       0.1106      0.0949      0.1299   beta        0.2000
-rho_laf           0.500       0.7050      0.6961      0.7202   beta        0.2000
-rho_law           0.500       0.9768      0.9749      0.9792   beta        0.2000
-eta_laf           0.500       0.4574      0.1973      0.5418   beta        0.2000
-eta_law           0.500       0.6000      0.4622      0.6489   beta        0.2000
-eta_gz            0.500       0.5339      0.5098      0.5479   norm        0.2000
+psi1              1.500       2.0510      1.8315      2.3003   norm        0.2500
+rho_r             0.750       0.8320      0.7918      0.8716   beta        0.1000
+psi2              0.125       0.1609      0.0956      0.2177   norm        0.0500
+psi3              0.125       0.2594      0.2048      0.3047   norm        0.0500
+zeta_p            0.500       0.7784      0.7243      0.8367   beta        0.1000
+zeta_w            0.500       0.4773      0.3970      0.5611   beta        0.1000
+iota_w            0.500       0.5599      0.3473      0.8193   beta        0.1500
+iota_p            0.500       0.1513      0.0750      0.2522   beta        0.1500
+alp               0.300       0.1459      0.1243      0.1677   norm        0.0500
+Bigphi            1.250       1.5720      1.4996      1.6514   norm        0.1200
+h                 0.700       0.6716      0.6070      0.7283   beta        0.1000
+nu_l              2.000       3.2415      2.2957      4.1750   norm        0.7500
+rstar_aux         0.250       0.1652      0.0640      0.2615   gamm        0.1000
+pistar_aux        0.750       1.0478      0.8039      1.3808   gamm        0.4000
+zstar_aux         0.400       0.7573      0.7323      0.7737   norm        0.1000
+s2                4.000       3.7462      2.4882      4.9660   norm        1.5000
+sigmac            1.500       0.8874      0.7602      1.0791   norm        0.3700
+ppsi              0.500       0.5287      0.4275      0.6622   beta        0.1500
+Lmean             0.000       0.5954     -0.5309      1.8317   norm        2.0000
+rho_z             0.500       0.9162      0.8764      0.9523   beta        0.2000
+rho_b             0.500       0.7612      0.6412      0.8509   beta        0.2000
+rho_g             0.500       0.9790      0.9677      0.9926   beta        0.2000
+rho_mu            0.500       0.8132      0.7293      0.8953   beta        0.2000
+rho_rm            0.500       0.1641      0.0642      0.2801   beta        0.2000
+rho_laf           0.500       0.7160      0.6006      0.8234   beta        0.2000
+rho_law           0.500       0.9465      0.8945      0.9848   beta        0.2000
+eta_laf           0.500       0.4770      0.2084      0.7538   beta        0.2000
+eta_law           0.500       0.4714      0.0935      0.7570   beta        0.2000
+eta_gz            0.500       0.4797      0.1844      0.7508   norm        0.2000
 
 standard deviation of shocks
              prior mean   post. mean        90% HPD interval    prior       pstdev
 
-z_sh              0.100       0.4007      0.3969      0.4057   invg        2.0000
-g_sh              0.500       2.9687      2.9049      3.0654   invg        2.0000
-b_sh              0.100       0.1457      0.1350      0.1552   invg        2.0000
-mu_sh             0.100       0.3233      0.3148      0.3308   invg        2.0000
-laf_sh            0.100       0.0816      0.0775      0.0903   invg        2.0000
-law_sh            0.100       0.2875      0.2603      0.3322   invg        2.0000
-rm_sh             0.100       0.2259      0.2248      0.2276   invg        2.0000
+z_sh              0.100       0.4220      0.3818      0.4661   invg        2.0000
+g_sh              0.500       2.8438      2.6096      3.0572   invg        2.0000
+b_sh              0.100       0.1398      0.1131      0.1617   invg        2.0000
+mu_sh             0.100       0.3568      0.3204      0.3960   invg        2.0000
+laf_sh            0.100       0.0890      0.0672      0.1054   invg        2.0000
+law_sh            0.100       0.2913      0.2233      0.3748   invg        2.0000
+rm_sh             0.100       0.2347      0.2159      0.2491   invg        2.0000
 Estimation::mcmc: Posterior (dsge) IRFs...
 Estimation::mcmc: Posterior IRFs, done!
 Estimation::mcmc: Smoothed variables
