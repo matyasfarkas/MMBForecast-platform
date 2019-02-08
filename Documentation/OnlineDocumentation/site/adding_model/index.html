@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Adding new models - Forecasting Platform Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../extra.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Adding new models";
+    var mkdocs_page_input_path = "adding_model.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Forecasting Platform Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../installation_requirements/">Installation requirements</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../using_platform/">Using the platform</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../output/">Output Structure</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Adding new models</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#adding-dsge-models">Adding DSGE models</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#step-1-copy-your-mod-file">Step 1: Copy your mod-file</a></li>
+        
+            <li><a class="toctree-l3" href="#step-2-edit-estimationinterfacem">Step 2: Edit EstimationInterface.m</a></li>
+        
+            <li><a class="toctree-l3" href="#step-3-edit-estimationinterfacefig">Step 3: Edit EstimationInterface.fig</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../references/">References</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Forecasting Platform Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Adding new models</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="adding-dsge-models">Adding DSGE models</h2>
+<p>The Dynare mod-files of the DSGE models are stored in the folder named <code>MODELS</code>.</p>
+<p>To include your own DSGE model into the forecast platform, you have multiple options. If you merely wish to include your forecast into the forecast chart for comparison purpose, please consider only add the model forecast but not the model into the Platform. The details of adding model forecasts are described <a href="../output/#include_forecast">here</a>.</p>
+<p>If otherwise you wish to take the full advantage of the Platform, you may follow the steps below.</p>
+<p>As of now, only DSGE models written as Dynare mod-file can be added, and only models estimated based on (the complete set or a subset of) the <a href="..#observables">eight observables listed in the introduction</a> can be included in the Platform.</p>
+<p>The Dynare names of these eight observables are in the Excel spreadsheet <code>List_Observables_US.xls</code> in the <code>EstimationInterface</code> folder. Please make sure that in your mod-file you have established some relationships between the observables in your model with these eight observables. </p>
+<p>Please make sure the following steps are strictly followed to include your model in the Platform:</p>
+<h3 id="step-1-copy-your-mod-file">Step 1: Copy your mod-file</h3>
+<p>Create a subfolder in the <code>MODEL</code> folder to store your model. Make sure that all letters in the name of this subfolder are capitalized (e.g., <code>DSGE_TEST</code>).</p>
+<p>Copy your mod-file and necessary functions (e.g., the m-file for computing the steady state) into this subfolder, and make sure that the mod-file has the same name as the folder name (e.g., <code>DSGE_TEST.mod</code>).</p>
+<p>Comment out any estimation commands in the mod-file.</p>
+<p>Declare the eight observables as varobs in your mod-file and link these observables to your own observation equations.</p>
+<h3 id="step-2-edit-estimationinterfacem">Step 2: Edit <code>EstimationInterface.m</code></h3>
+<p>Find the m-file <code>EstimationInterface.m</code> that is stored in the <code>EstimationInterface</code> folder, and open it up in the Matlab editer.</p>
+<p>Add your model to the model handle list as other models in Line 53-55 in <code>basics.modelslist</code>. This will link the graphical user interface to your model folder and mod-file.</p>
+<p><img alt="Folders" src="../img/model_handle.png" /></p>
+<p>Add the name of the model into the list of model names as other models in Line 57-62 in <code>basics.models</code>. This will help Matlab recognize your model.</p>
+<p><img alt="Folders" src="../img/model_name.png" /></p>
+<p>Declare the region of your model as other models in Line 64-65 in <code>basics.region</code>: 1 for US model, and 2 for Euro-Area models</p>
+<p><img alt="Folders" src="../img/model_region.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For now only US data is available, so please to declare your model region as <strong>1</strong></p>
+</div>
+<p>Add an indicator vector in the matrix <code>basics.model_observables</code> that links observables to your model: for each observables, input 1 if it is used in your mod-file and input 0 if not. This vector shall be added in Line 80-85 in the m-file.</p>
+<p><img alt="Folders" src="../img/model_observables.png" /></p>
+<p>Save and close this m-file.</p>
+<h3 id="step-3-edit-estimationinterfacefig">Step 3: Edit <code>EstimationInterface.fig</code></h3>
+<p>Open up the graphical interface <code>EstimationInterface.fig</code> in the Matlab GUIDE editor, which is also in the <code>EstimationInterface</code> folder.</p>
+<p>Copy one of the model checkboxes from the <code>MODELS</code> block and paste it inside this block.</p>
+<p>Open the properties of your checkbox, and change the <code>tag</code> property to match the handle name you gave in the <code>basics.modelslist</code>.</p>
+<p><img alt="Folders" src="../img/box_tag.png" /></p>
+<p>Change the <code>string</code> property of your checkbox to the name of your model.</p>
+<p><img alt="Folders" src="../img/box_string.png" /></p>
+<p>Copy the <code>callback</code> property from another model checkbox, and paste it into the callback property of your checkbox.</p>
+<p><img alt="Folders" src="../img/box_callback.png" /></p>
+<p>Save and close this graphical interface.</p>
+<p>Now you should be able to estimation your model using the data in the platform, and compare its forecast performance with the performances of other models.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../references/" class="btn btn-neutral float-right" title="References">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../output/" class="btn btn-neutral" title="Output Structure"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../output/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../references/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

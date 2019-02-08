@@ -1,0 +1,24 @@
+site_name: Forecasting Platform Documentation
+
+nav:
+    - Home: index.md
+    - Installation requirements: installation_requirements.md
+    - Using the platform: using_platform.md
+    - Output Structure: output.md
+    - Adding new models: adding_model.md
+    - References: references.md
+
+theme:
+  name: readthedocs
+
+markdown_extensions:
+    - toc:
+        baselevel: 1
+
+extra_css: [extra.css]
+
+markdown_extensions:
+  - admonition
+
+plugins:
+    - search
