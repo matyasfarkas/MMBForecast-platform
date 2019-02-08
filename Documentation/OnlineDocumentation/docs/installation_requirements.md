@@ -18,3 +18,6 @@ The program utilizes Dynare, which is a Matlab toolkit for handling DSGE models,
 	For questions about Matlab please visit <https://www.mathworks.com>
 
 	For questions about Dynare, especially on how to install Dynare and set up the Dynare environment in Matlab, please visit <https://www.dynare.org>
+
+!!! Note
+	At the moment the platform can only be applied to Windows, and we are currently working on to make the platform compatible for MacOS and Linux as well.
