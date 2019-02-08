@@ -1,4 +1,4 @@
-function [residual, g1, g2] = US_DNGS14_20074_static(y, x, params)
+function [residual, g1, g2, g3] = US_DNGS14_20074_static(y, x, params)
 %
 % Status : Computes static model for Dynare
 %
@@ -9,13 +9,17 @@ function [residual, g1, g2] = US_DNGS14_20074_static(y, x, params)
 %
 % Outputs:
 %   residual  [M_.endo_nbr by 1] double    vector of residuals of the static model equations 
-%                                          in order of declaration of the equations
+%                                          in order of declaration of the equations.
+%                                          Dynare may prepend or append auxiliary equations, see M_.aux_vars
 %   g1        [M_.endo_nbr by M_.endo_nbr] double    Jacobian matrix of the static model equations;
-%                                                    columns: equations in order of declaration
-%                                                    rows: variables in declaration order
+%                                                       columns: variables in declaration order
+%                                                       rows: equations in order of declaration
 %   g2        [M_.endo_nbr by (M_.endo_nbr)^2] double   Hessian matrix of the static model equations;
-%                                                       columns: equations in order of declaration
-%                                                       rows: variables in declaration order
+%                                                       columns: variables in declaration order
+%                                                       rows: equations in order of declaration
+%   g3        [M_.endo_nbr by (M_.endo_nbr)^3] double   Third derivatives matrix of the static model equations;
+%                                                       columns: variables in declaration order
+%                                                       rows: equations in order of declaration
 %
 %
 % Warning : this file is generated automatically by Dynare
@@ -352,12 +356,19 @@ if nargout >= 2,
   if ~isreal(g1)
     g1 = real(g1)+2*imag(g1);
   end
-end
 if nargout >= 3,
   %
   % Hessian matrix
   %
 
   g2 = sparse([],[],[],47,2209);
+if nargout >= 4,
+  %
+  % Third order derivatives
+  %
+
+  g3 = sparse([],[],[],47,103823);
+end
+end
 end
 end

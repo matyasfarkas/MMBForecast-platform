@@ -88,7 +88,7 @@ eval(['diary ' basics.currentmodel '_' deblank(num2str(basics.vintage(basics.vin
 %global optimizationinfo
 
 options_.bayesian_irf = 1;
-options_.irf=40;
+options_.irf=100;
 
 global options_ oo_ optcrit
 try

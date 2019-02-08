@@ -353,6 +353,28 @@ for m = 1:size(basics.chosenmodels,2)
             %%%%%%%%%%%%%%%%%%%%%%%%%%%Load the Benchmark
             
             cd([basics.thispath '\MODELS'])
+            
+            if basics.hvd
+                global M_ oo_ options_ bayestopt_ estim_params_
+                cd(basics.currentmodel + "//" + basics.currentmodel + "_" + basics.vintage(basics.vintagenr,:));
+                var_list_ = char('rff_q_obs', 'pgdp_q_obs', 'xgdp_q_obs');
+                options_.no_graph.shock_decomposition = 1;
+                hvd = shock_decomposition(M_, oo_, options_, '', bayestopt_, estim_params_);
+                var_names = ["xgdp_q_obs", "pgdp_q_obs", "rff_q_obs"];
+                var_locations = zeros(1,3);
+                for all_var_index = 1:size(M_.endo_names, 1)
+                    all_var_name = convertCharsToStrings(M_.endo_names(all_var_index, :));
+                    for var_index = 1:3
+                        if startsWith(all_var_name, var_names(var_index))
+                            var_locations(var_index) = all_var_index;
+                        end
+                    end
+                end
+                hvd = hvd.shock_decomposition(var_locations, :, :);
+                save hvd hvd;
+                cd([basics.thispath '\MODELS']);
+            end
+            
         end
         
         if basics.deletefiles

@@ -22,7 +22,7 @@ function varargout = EstimationInterface(varargin)
 
 % Edit the above text to modify the response to help EstimationInterface
 
-% Last Modified by GUIDE v2.5 23-Sep-2018 19:33:27
+% Last Modified by GUIDE v2.5 07-Feb-2019 16:20:21
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -58,7 +58,7 @@ basics.models = char([ 'BVAR_MP     ';
     'BVAR_GLP    ';
     'US_SW07     ';
     'US_DNGS14   ';
-    'NK_RW97     '
+    'NK_RW97     ';
     'DSGE_TEST   ']);
 %% Settings for region, EA can be added as 2 (dataset to be updated)
 basics.region = [1,1,1,1,1,... %% This is for the core DSGE model s
@@ -106,7 +106,7 @@ for i = 1:size(basics.modelslist,2)
     basics.chosenmodels(i) = 0;
 end
 % Checkboxes 
-basics.checkboxes = [ handles.bmodeestimation, handles.bmhestimation, handles.rmse, handles.inspf, handles.plots, handles.fnc];
+basics.checkboxes = [handles.bmodeestimation, handles.bmhestimation, handles.rmse, handles.inspf, handles.plots, handles.fnc, handles.irf, handles.hvd];
 %Setting default values for the vintages and graphs
 basics.quarterfirstvint = 'Q4'; % set(handles.firstvintquarter,'string',basics.quarterfirstvint);
 basics.yearfirstvint = '2007';  set(handles.firstvintyear,'String',basics.yearfirstvint);
@@ -117,9 +117,9 @@ basics.quarterfirstvintfc = 'Q4'; basics.yearfirstvintfc = '2007'; set(handles.f
 basics.quarterlastvintfc = 'Q4';  basics.yearlastvintfc = '2007';  set(handles.lastvintyearfc,'String',basics.yearlastvintfc);
 basics.yearlastobs = '2017'; basics.quarterlastobs = 'Q4';
 
-basics.benchmarklist = ls('..\OUTPUT\USMODELS');basics.benchmarklist = basics.benchmarklist (3:end,:);
+basics.benchmarklist = ls('..//OUTPUT//USMODELS');basics.benchmarklist = basics.benchmarklist (3:end,:);
 set(handles.densitybenchmark,'String',basics.benchmarklist(find(cellfun(@isempty,strfind(cellstr(basics.benchmarklist),'_MH'))==0),:));
-basics.deletefiles = 0; basics.DataArea = '..\DATA\USDATA';
+basics.deletefiles = 0; basics.DataArea = '..//DATA//USDATA';
 basics.default_horizon = 5; basics.forecasthorizon = basics.default_horizon; basics.qh = 2; basics.expseriesvalue = 1; basics.windowlength = 80;
 basics.inspf = 0; basics.fnc = 0; basics.acceptance = 0.25; basics.numchains = 2; basics.chainslength = 50000; basics.numburnin =.3 ; basics.plots = 0;
 basics.real = 1; basics.rev = 0; basics.vintrev = 0; basics.create_new_vintages = 1; basics.computeRMSE = 0; basics.bvarNdraws = 20000;
@@ -127,6 +127,7 @@ basics.gvar=0;
 basics.densitymodel=[];
 basics.statistics='Mean';
 basics.bvarmpriors=[3, 0.5, 5, 2, 1, 0, 0 ];
+basics.irf = 0; basics.hvd = 0; basics.irf_periods = 10; basics.hvd_periods = 10; basics.hvd_absolute = 1;
 %Disable UI elements when opening
 set(findall(handles.mhsettingspanel, '-property', 'enable'), 'enable', 'off')
 set(findall(handles.plotoptionspanel, '-property', 'enable'), 'enable', 'off')
@@ -136,11 +137,11 @@ set(findall(handles.bvarpriors, '-property', 'enable'), 'enable', 'off')
 set(findall(handles.esttypepanel, '-property', 'enable'),'enable', 'on')
 set(findall(handles.datatypepanel, '-property', 'enable'),'enable', 'on')
 set(handles.rw,'enable', 'off')
+set(findall(handles.plottingpanel, '-property', 'enable'),'enable', 'off')
 %Disable UI elements when opening
 set(basics.modelslist,'Value',0);
 set(findall(handles.estpanel, '-property', 'enable'), 'Value', 0);
-  set(gcf,'units','normalized','outerposition',[0 0 0.8 0.8])
-
+set(gcf,'units','normalized','outerposition',[0 0 0.8 0.8])
 
 guidata(hObject, handles);
 
@@ -178,13 +179,17 @@ if ~isempty(findobj(basics.modelslist,'Tag',get(hObject,'Tag')))
     %%
         set(findall(handles.estpanel, '-property', 'enable'), 'enable', 'on')
         set(findall(handles.mhsettingspanel, '-property', 'enable'), 'enable', 'off')
+        set(findall(handles.plottingpanel, '-property', 'enable'), 'enable', 'off');
+        set(handles.irf,'Value', 0);
+        set(handles.hvd,'Value', 0);
+        basics.irf = 0; basics.hvd = 0;
         basics.DataArea = '..\DATA\USDATA';
         if find(basics.modelslist==findobj(basics.modelslist,'Tag',get(hObject,'Tag'))) == 2
             set(handles.spf, 'enable', 'on')
             set(handles.inspf, 'enable', 'on')
             set(handles.fnc,'enable', 'on');  
         end
-        basics.benchmarklist = ls('..\OUTPUT\USMODELS');
+        basics.benchmarklist = ls('..//OUTPUT//USMODELS');
         basics.benchmarklist = basics.benchmarklist(3:end,:);
         set(handles.densitybenchmark,'String',basics.benchmarklist(find(cellfun(@isempty,strfind(cellstr(basics.benchmarklist),'_MH'))==0),:));
         basics.region(1,1:2) = 1;
@@ -278,8 +283,6 @@ end
 function lastvintquarter_Callback(hObject, eventdata, handles)
 
 global basics;
-
-
 
 str = get(hObject, 'String');
 val = get(hObject,'Value');
@@ -403,13 +406,18 @@ if ~isempty(findobj(basics.checkboxes,'Tag',get(hObject,'Tag')))
             basics.EstimationMethod(2) = get(hObject,'Value');
        if handles.bmhestimation.Value == 1
        set(handles.bmhestimation,'Value',0);
-       set(findall(handles.mhsettingspanel, '-property', 'enable'), 'enable', 'off')  ;
+       set(findall(handles.mhsettingspanel, '-property', 'enable'), 'enable', 'off');
+       set(findall(handles.plottingpanel, '-property', 'enable'), 'enable', 'off');
+       set(handles.irf,'Value', 0);
+       set(handles.hvd,'Value', 0);
+       basics.irf = 0; basics.hvd = 0;
        end
          case 2
             basics.EstimationMethod = zeros(1,3); % Estimation method 1 = BVAR, 2 Mode, 3 MH
             basics.EstimationMethod(3) = get(hObject,'Value');
             if get(hObject,'Value')
-                set(findall(handles.mhsettingspanel, '-property', 'enable'), 'enable', 'on')  ;
+                set(findall(handles.mhsettingspanel, '-property', 'enable'), 'enable', 'on');
+                set(findall(handles.plottingpanel, '-property', 'enable'), 'enable', 'on');
                 basics.benchmarklist1=[{basics.benchmarklist(find(cellfun(@isempty,strfind(cellstr(basics.benchmarklist),'_MH'))==0),:)};{basics.models(find(basics.chosenmodels==1),:)}];
                 %Reset default values
                 basics.chainslength = 50000; set(handles.chainslength,'String','50000');
@@ -418,6 +426,10 @@ if ~isempty(findobj(basics.checkboxes,'Tag',get(hObject,'Tag')))
                 set(handles.densitybenchmark,'String',cellstr(basics.benchmarklist1));
             else
                 set(findall(handles.mhsettingspanel, '-property', 'enable'), 'enable', 'off')
+                set(findall(handles.plottingpanel, '-property', 'enable'), 'enable', 'off');
+                set(handles.irf,'Value', 0);
+                set(handles.hvd,'Value', 0);
+                basics.irf = 0; basics.hvd = 0;
             end
              if handles.bmodeestimation.Value == 1
                 set(handles.bmodeestimation,'Value',0);
@@ -448,6 +460,10 @@ if ~isempty(findobj(basics.checkboxes,'Tag',get(hObject,'Tag')))
         case 6  % Use Real time observations of financial variables as nowcasts
                basics.fnc = get(hObject,'Value');
                set(handles.inspf,'Value', 0); basics.inspf = 0;
+        case 7 % impulse response functions
+               basics.irf = get(hObject,'Value');
+        case 8 % historical variance decompositions
+               basics.hvd = get(hObject,'Value');
     end
 end
 
@@ -593,18 +609,13 @@ switch get(hObject,'Tag')
         basics.expseriesvalue= 0;
         set(handles.rw,'enable', 'on')
         set(handles.sampletxt4,'enable','on') 
-
-        
         set(handles.sampletxt1,'enable','off') 
         set(handles.sampletxt2,'enable','off')
         set(handles.sampletxt3,'enable','off')
         set(handles.yearfirstobs,'enable', 'off')
         set(handles.quarterfirstobs,'enable', 'off')
-        
 
 end
-
-
 
 % --- Executes on button press in spf.
 function spf_Callback(hObject, eventdata, handles)
@@ -672,9 +683,9 @@ end
         
         cd1 = cd;
         if ~basics.inspf
-            cd([basics.DataArea '\Tranformed_Data\'])
+            cd([basics.DataArea '//Tranformed_Data//'])
         else
-            cd([basics.DataArea '\Tranformed_Data_SPF\'])
+            cd([basics.DataArea '//Tranformed_Data_SPF//'])
         end
         
         basics.location = [cd '\'];
@@ -791,7 +802,8 @@ end
 %%%%%%%%%%%%%%%%%%% Main Function %%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function pushbutton1_Callback(hObject, eventdata, handles)
-global basics ;
+global basics;
+
 basics.IndVec= [];
 basics.thispath0 = cd;
 if basics.EstimationMethod(3) == 1 && isempty(basics.densitymodel)
@@ -820,11 +832,9 @@ else
             basics.benchmarkvintage = [basics.benchmarkvintage;a(m-8:m-4)];
         end
      end
-    
-   
-   
+
     if basics.spf
-        vintlistSPF = ls([basics.DataArea '\SPF\ExcelFileSPF']);
+        vintlistSPF = ls([basics.DataArea '//SPF//ExcelFileSPF']);
         vintlistSPF = vintlistSPF(4:end,:);
         basics.benchmarkvintageSPF = [];
         for vint = 1:size(vintlistSPF,1)
@@ -839,7 +849,7 @@ else
             basics.IndVec(vint) =~ isempty(strmatch(basics.benchmarkvintage(vint),basics.benchmarkvintageSPF));
         end
     end
-    cd('..\ALGORITHMS')
+    cd('..//ALGORITHMS')
     run Main
     path_ = cd;
     cd('..\MODELS')
@@ -852,7 +862,13 @@ else
     end
     if basics.computeRMSE
         Periods = periods(basics);
-        ForecastComparison
+        RMSE
+    end
+    if basics.irf
+        plot_irf
+    end
+    if basics.hvd
+        plot_hvd
     end
 end
 disp('Forecast exercise completed without errors.');
@@ -903,3 +919,51 @@ function dsgetest_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of dsgetest
+
+
+% --- Executes on button press in irf.
+function irf_Callback(hObject, eventdata, handles)
+% hObject    handle to irf (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of irf
+
+
+% --- Executes on button press in hvd.
+function hvd_Callback(hObject, eventdata, handles)
+% hObject    handle to hvd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of hvd
+
+function irf_periods_Callback(hObject, eventdata, handles)
+global basics;
+basics.irf_periods = 10;
+value = str2double(get(hObject,'String'));
+if (~isempty(value)&&~isnan(value))
+    basics.irf_periods = value;
+else
+    set(hObject,'string',10);
+end
+
+function hvd_periods_Callback(hObject, eventdata, handles)
+global basics;
+basics.hvd_periods = 10;
+value = str2double(get(hObject,'String'));
+if (~isempty(value)&&~isnan(value))
+    basics.hvd_periods = value;
+else
+    set(hObject,'string',10);
+end
+
+% --- Executes when selected object is changed in datatypepanel.
+function hvdpanel_SelectionChangeFcn(hObject, eventdata, handles)
+global basics;
+switch get(hObject,'Tag')
+    case 'hvd_absolute'
+        basics.hvd_absolute = get(hObject,'Value');
+    case 'hvd_relative'
+        basics.hvd_absolute = 0;
+end
