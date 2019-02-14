@@ -43,7 +43,7 @@ warning off
 % simply estimates the baseline model. The financial variables you want
 % included in the estimation are in the following list:
 
-@# define financial_data = ["networth_q_obs", "credit_q_obs", "cp_q_obs", "spreadl_obs"]
+@# define financial_data = ["networth_obs", "credit_obs", "premium_obs", "Spread1_obs"]
 
 % Depending on the variables included in the financial data, we need some
 % indicator variables.
@@ -52,20 +52,20 @@ warning off
 % included in the financial variables, it should not have measurement error,
 % and that measurement error should not be estimated.
  
-@#define net_worth_in_financial_data = ("networth_q_obs" in financial_data)
+@#define net_worth_in_financial_data = ("networth_obs" in financial_data)
 
 % The model estimates an autocorrelation and standard deviation term for
 % the term structure.  If the spread is not included in the data, then
 % the autocorrelation and standard deviation should not be estimated.
 
-@#define Spread1_in_financial_data = ("spreadl_obs" in financial_data)
+@#define Spread1_in_financial_data = ("Spread1_obs" in financial_data)
 
 % When no financial data were included in the model, sig_corr_p is also not
 % estimated. So, we need an indicator to see if no financial data are
 % in the observable variables.
 
-@#define credit_in_financial_data = ("credit_q_obs" in financial_data)
-@#define premium_in_financial_data = ("cp_q_obs" in financial_data)
+@#define credit_in_financial_data = ("credit_obs" in financial_data)
+@#define premium_in_financial_data = ("premium_obs" in financial_data)
 
 @#define some_financial_data = (Spread1_in_financial_data || credit_in_financial_data || premium_in_financial_data || net_worth_in_financial_data)
 
@@ -87,9 +87,9 @@ warning off
 
 var 
 c
-pcer_q_obs, 
+consumption_obs, 
 @#if cee == 0
-credit_q_obs,
+credit_obs,
 @# endif
 epsil, 
 Fp,
@@ -98,12 +98,12 @@ g,
 @# if cee == 0
 gamma,
 @# endif
-xgdp_q_obs,
+gdp_obs,
 h,
 hours_obs, 
 i,
-pgdp_q_obs, 
-fpi_q_obs,
+inflation_obs, 
+investment_obs,
 kbar,
 lambdaf, 
 lambdaz,
@@ -111,20 +111,20 @@ muup,
 muzstar, 
 @# if cee == 0
 n,
-networth_q_obs,
+networth_obs,
 omegabar,
 @# endif
 phi,
 pi,
-pinv_q_obs,
+pinvest_obs,
 pitarget,
 @# if cee == 0
-cp_q_obs,
+premium_obs,
 @# endif
 pstar,
 q,
 Re, 
-rff_q_obs,
+Re_obs,
 RealRe_obs,
 @# if cee == 0
 rL,
@@ -146,7 +146,7 @@ xi5,
 xi6, 
 xi7, 
 xi8, 
-spreadl_obs,
+Spread1_obs,
 term,
 volEquity,
 @# endif
@@ -562,7 +562,7 @@ model;
   @# if cee == 1
   % Eqn 20: Monetary Policy Rule
   %  log(Re / Re_p) = rhotil_p * log(Re(-1) / Re_p) + (1 / Re_p) * (1 - rhotil_p) 
-  %                   * (aptil_p * pi_p * log(pi(+1) / pitarget) + (1 / 4) * adytil_p * muzstar_p * (xgdp_q_obs));
+  %                   * (aptil_p * pi_p * log(pi(+1) / pitarget) + (1 / 4) * adytil_p * muzstar_p * log(gdp_obs));
   % monetary policy rule with short term interest rate:
     log(Re / Re_p) = rhotil_p * log(Re(-1) / Re_p) + (1 / Re_p) * (1 - rhotil_p) * pi_p * log(pitarget / pi_p) 
                      + (1 / Re_p) * (1 - rhotil_p) * aptil_p * pi_p * (log(pi(+1)) - log(pitarget)) 
@@ -624,27 +624,27 @@ model;
 % Observation equations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  exp(pcer_q_obs) = c / c(-1) * muzstar / muzstar_p; // log(c) -log(c(-1)) + log(muzstar) -log(muzstar_p); //  consumption_obs = c / c(-1) * muzstar / muzstar_p;
+  pcer_q_obs = c / c(-1) * muzstar / muzstar_p; // log(c) -log(c(-1)) + log(muzstar) -log(muzstar_p); //  consumption_obs = c / c(-1) * muzstar / muzstar_p;
   @#if cee == 0
-  exp(credit_q_obs) = (q * kbar - n) / (q(-1) * kbar(-1) - n(-1)) * muzstar / muzstar_p; // credit_obs      = (q * kbar - n) / (q(-1) * kbar(-1) - n(-1)) * muzstar / muzstar_p;
+  credit_q_obs = (q * kbar - n) / (q(-1) * kbar(-1) - n(-1)) * muzstar / muzstar_p; // credit_obs      = (q * kbar - n) / (q(-1) * kbar(-1) - n(-1)) * muzstar / muzstar_p;
   @#endif
-  exp(xgdp_q_obs)  = (c + i / muup + g) / (c(-1) + i(-1) / muup(-1) + g(-1)) * muzstar / muzstar_p; //  gdp_obs         = (c + i / muup + g) / (c(-1) + i(-1) / muup(-1) + g(-1)) * muzstar / muzstar_p;
-  exp(hours_obs) = h / h_ss; // hours_obs       = h / h_ss;
-  exp(pgdp_q_obs)  = pi/pi_p; // inflation_obs   =  pi / pi_p;
-  exp(fpi_q_obs) = i / i(-1) * muzstar / muzstar_p; // investment_obs  = i / i(-1) * muzstar / muzstar_p;
+  xgdp_q_obs = = (c + i / muup + g) / (c(-1) + i(-1) / muup(-1) + g(-1)) * muzstar / muzstar_p; //  gdp_obs         = (c + i / muup + g) / (c(-1) + i(-1) / muup(-1) + g(-1)) * muzstar / muzstar_p;
+  hours_obs = h / h_ss; // hours_obs       = h / h_ss;
+  pgdp_q_obs  = pi/pi_p; // inflation_obs   =  pi / pi_p;
+  fpi_q_obs = i / i(-1) * muzstar / muzstar_p; // investment_obs  = i / i(-1) * muzstar / muzstar_p;
   @# if cee == 0
-  exp(networth_q_obs) =  n / n(-1) * muzstar / muzstar_p; //networth_obs    = n / n(-1) * muzstar / muzstar_p;
-  exp(cp_q_obs)     = exp((((G + omegabar * (1 - F)) - ((1 - mu_p) * G + omegabar * (1 - F))) * (1 + Rk) * q(-1) * kbar(-1)/ (q(-1) * kbar(-1) - n(-1))) - mu_p * G_ss * (1 + Rk_ss) * kbar_ss / (kbar_ss - n_ss)); 
+  networth_obs =  n / n(-1) * muzstar / muzstar_p; //networth_obs    = n / n(-1) * muzstar / muzstar_p;
+  cp_q_obs     = exp((((G + omegabar * (1 - F)) - ((1 - mu_p) * G + omegabar * (1 - F))) * (1 + Rk) * q(-1) * kbar(-1)/ (q(-1) * kbar(-1) - n(-1))) - mu_p * G_ss * (1 + Rk_ss) * kbar_ss / (kbar_ss - n_ss)); 
                          //premium_obs     = exp((((G + omegabar * (1 - F)) - ((1 - mu_p) * G + omegabar * (1 - F))) * (1 + Rk) * q(-1) * kbar(-1) 
-                         //                  / (q(-1) * kbar(-1) - n(-1))) - mu_p * G_ss * (1 + Rk_ss) * kbar_ss / (kbar_ss - n_ss));
+                          //                  / (q(-1) * kbar(-1) - n(-1))) - mu_p * G_ss * (1 + Rk_ss) * kbar_ss / (kbar_ss - n_ss));
   @# endif
-  exp(pinv_q_obs) = muup(-1)/muup;    //pinvest_obs     = muup(-1) / muup;
-  exp(rff_q_obs) =  exp(Re - Re_p); //Re_obs          = exp(Re - Re_p);
+  pinv_q_obs = muup(-1)/muup;    //pinvest_obs     = muup(-1) / muup;
+  rff_q_obs =  exp(Re - Re_p); //Re_obs          = exp(Re - Re_p);
   RealRe_obs      = ((1 + Re) / pi(+1))/((1 + Re_p) / pi_p);
   @# if cee == 0
-  exp(spreadl_obs)  = 1 + RL - Re; //Spread1_obs     = 1 + RL - Re;  
+  spreadl_obs  = 1 + RL - Re; //Spread1_obs     = 1 + RL - Re;  
   @# endif
-  exp(wage_obs)        = wtilde / wtilde(-1) * muzstar / muzstar_p;
+  wage_obs        = wtilde / wtilde(-1) * muzstar / muzstar_p;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -876,7 +876,7 @@ stderr e_zetai,      INV_GAMMA2_PDF, 0.00233333333333,  0.00329983164554;
 stderr e_term,       INV_GAMMA2_PDF, 0.00233333333333,  0.00329983164554;
 @# endif
 @# if net_worth_in_financial_data
-stderr networth_q_obs, INV_GAMMA_PDF,  0.01,              5;
+stderr networth_obs, INV_GAMMA_PDF,  0.01,              5;
 @# endif
 @# endif
 end;
@@ -905,7 +905,7 @@ stderr e_zetai,          0.0549648244379450;
 stderr e_term,           0.0016037530257270;
 @# endif
 @# if net_worth_in_financial_data
-stderr networth_q_obs,     0.0174589738467390;
+stderr networth_obs,     0.0174589738467390;
 @# endif
 @# endif
 xiw_p,                   0.8127963113950160;
@@ -967,9 +967,9 @@ varobs
        @{fvar},
 @# endfor
 @# endif
-       pgdp_q_obs, hours_obs,  xgdp_q_obs,
-       wage_obs, fpi_q_obs, pcer_q_obs,  
-       rff_q_obs, pinv_q_obs;
+       inflation_obs, hours_obs,  gdp_obs,
+       wage_obs, investment_obs, consumption_obs,  
+       Re_obs, pinvest_obs;
 
 
 %%%estimation(datafile = data_BAAoverTB, order = 1, mode_compute = 4) sigma;

@@ -41,7 +41,11 @@ options_.filtered_vars = 0;
 options_.linear = 1;            
 options_.lik_init = 1;
 options_.mh_nblck = basics.numchains;% Number of Chains
-options_.prefilter = 0;
+if strcmp(basics.currentmodel,'US_CMR14')
+    options_.prefilter = 1; % In CMR14 the log variables are demeaned for the sample, for consistency we have to demean for every vintage.
+else
+    options_.prefilter = 0;
+end
 options_.order = 1; %added by Elena
 eval(['options_.datafile = ''' basics.datalocation '\ExcelFileVintages\' basics.zone deblank(num2str(basics.vintage(basics.vintagenr,:))) ''';']);
 options_.optim_opt = '''MaxIter'',2000';

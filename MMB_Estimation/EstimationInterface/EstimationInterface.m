@@ -52,17 +52,19 @@ global basics;
 
 basics.modelslist = [handles.bvarmp, handles.bvarglp, ...
     handles.ussw07,handles.usdngs14, ...
-     handles.usnkbas, handles.dsgetest ];
+     handles.usnkbas, handles.dsgetest, ...
+     handles.cmr14];
  
 basics.models = char([ 'BVAR_MP     ';
     'BVAR_GLP    ';
     'US_SW07     ';
     'US_DNGS14   ';
     'NK_RW97     ';
-    'DSGE_TEST   ']);
+    'DSGE_TEST   ';
+    'US_CMR14    ']);
 %% Settings for region, EA can be added as 2 (dataset to be updated)
 basics.region = [1,1,1,1,1,... %% This is for the core DSGE model s
-    1]; % this 1 is for the DGSE_TEST model, the BGG model.
+    1,1]; % this 1 is for the DGSE_TEST model, the BGG model.
 
 %% List of observables 
 % Set 1 in the column if it enters as an observable variable, otherwise 0.
@@ -76,14 +78,18 @@ basics.region = [1,1,1,1,1,... %% This is for the core DSGE model s
 %6.     wage_obs
 %7.     hours_obs
 %8.     cp_q_obs
+%9.     pinv_q_obs
+%10.    credit_q_obs
+%11.    spreadl_obs
+%12.    networth_q_obs
 
-basics.model_observables(1,:) = [1 1 1 1 1 1 1 1]; % BVAR_MP
-basics.model_observables(2,:) = [1 1 1 1 1 1 1 1]; % BVAR_GLP
-basics.model_observables(3,:) = [1 1 1 1 1 1 1 0]; % SW07
-basics.model_observables(4,:) = [1 1 1 1 1 1 1 1]; % DNS14
-basics.model_observables(5,:)=  [1 1 1 0 0 0 0 0]; % NK_BAS
-basics.model_observables(6,:) = [1 1 1 0 1 0 0 1]; % DSGE_TEST has the following observables xgdp_q_obs pgdp_q_obs rff_q_obs fpi_q_obs cp_q_obs 
-
+basics.model_observables(1,:) = [1 1 1 1 1 1 1 1 0 0 0 0]; % BVAR_MP
+basics.model_observables(2,:) = [1 1 1 1 1 1 1 1 0 0 0 0]; % BVAR_GLP
+basics.model_observables(3,:) = [1 1 1 1 1 1 1 0 0 0 0 0]; % SW07
+basics.model_observables(4,:) = [1 1 1 1 1 1 1 1 0 0 0 0]; % DNS14
+basics.model_observables(5,:)=  [1 1 1 0 0 0 0 0 0 0 0 0]; % NK_BAS
+basics.model_observables(6,:) = [1 1 1 0 1 0 0 1 0 0 0 0]; % DSGE_TEST has the following observables xgdp_q_obs pgdp_q_obs rff_q_obs fpi_q_obs cp_q_obs 
+basics.model_observables(7,:) = [1 1 1 1 1 1 1 1 1 1 1 1]; % CMR14
 
 
 %%
@@ -94,7 +100,8 @@ basics.charttitle = char([...
     '         Forecasts from Smets Wouters (2007) US model           ';
     'Forecasts with Del Negro Schorfheide Giannoni with credit spread';
     '               Forecasts from Small NK US model                 ';
-    ' Forecasts from the Small NK model with BGG financial frictions ']);
+    ' Forecasts from the Small NK model with BGG financial frictions ';
+    '   Forecasts from the Chritiano Motto Rostagno (2014) US model  ']);
 
 
 

@@ -1,0 +1,698 @@
+Starting Dynare (version 4.5.7).
+Starting preprocessing of the model file ...
+Substitution of endo leads >= 2: added 195 auxiliary variables and equations.
+Substitution of endo lags >= 2: added 28 auxiliary variables and equations.
+Found 279 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+Warning: A .m file created by Dynare will have more than 32 nested parenthesis. Matlab cannot support this. 
+         We are going to modify, albeit inefficiently, this output to have fewer than 32 nested parenthesis. 
+         It would hence behoove you to use the use_dll option of the model block to circumnavigate this problem.
+         If you have not yet set up a compiler on your system, see the Matlab documentation for doing so.
+         For Windows, see: https://www.mathworks.com/help/matlab/matlab_external/install-mingw-support-package.html
+
+done
+Preprocessing completed.
+
+STEADY-STATE RESULTS:
+
+c                  		 1.57075
+pcer_q_obs         		 0
+credit_q_obs       		 0
+epsil              		 1
+Fp                 		 7.02868
+Fw                 		 2.37527
+g                  		 0.608271
+gamma              		 0.985
+xgdp_q_obs         		 0
+h                  		 1.01373
+hours_obs          		 0
+i                  		 0.798323
+pgdp_q_obs         		 0
+fpi_q_obs          		 0
+kbar               		 24.1271
+lambdaf            		 1.2
+lambdaz            		 0.610222
+muup               		 1
+muzstar            		 1.00412
+n                  		 11.9712
+networth_q_obs     		 0
+omegabar           		 0.500971
+phi                		 0.598353
+pi                 		 1.00601
+pinv_q_obs         		 0
+pitarget           		 1.00601
+cp_q_obs           		 0
+pstar              		 1
+q                  		 1
+Re                 		 0.0114707
+rff_q_obs          		 0
+RealRe_obs         		 1
+rL                 		 1.00543
+rk                 		 0.050015
+Rk                 		 0.0188063
+RL                 		 0.0114707
+s                  		 0.833333
+sigma              		 0.259199
+xi0                		 1
+xi1                		 1
+xi2                		 1
+xi3                		 1
+xi4                		 1
+xi5                		 1
+xi6                		 1
+xi7                		 1
+xi8                		 1
+spreadl_obs        		 0
+term               		 1
+volEquity          		 0.536401
+u                  		 1
+wage_obs           		 0
+wtilde             		 1.77074
+wstar              		 1
+zetac              		 1
+zetai              		 1
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0               -0                0
+       1.565e-19        1.565e-19                0
+       5.365e-19        5.365e-19                0
+       2.715e-18       -2.715e-18                0
+       4.319e-18        4.319e-18                0
+       4.483e-18        4.483e-18                0
+       5.042e-18       -5.042e-18                0
+       5.052e-18       -5.052e-18                0
+       5.415e-18       -5.415e-18                0
+       6.848e-18       -6.848e-18                0
+        7.06e-18         7.06e-18                0
+        8.31e-18         8.31e-18                0
+       8.604e-18        8.604e-18                0
+       8.962e-18        8.962e-18                0
+       9.515e-18       -9.515e-18                0
+       9.617e-18       -9.617e-18                0
+        1.01e-17         1.01e-17                0
+       1.143e-17        1.143e-17                0
+       1.339e-17        1.339e-17                0
+       1.367e-17       -1.367e-17                0
+       1.439e-17        1.439e-17                0
+       1.507e-17        1.507e-17                0
+       1.561e-17       -1.561e-17                0
+       1.727e-17       -1.727e-17                0
+       1.912e-17        1.912e-17                0
+       1.951e-17        1.951e-17                0
+       2.055e-17       -2.055e-17                0
+       2.184e-17       -2.184e-17                0
+       2.249e-17        2.249e-17                0
+       2.302e-17        2.302e-17                0
+       2.628e-17        2.628e-17                0
+       2.968e-17        2.968e-17                0
+       3.104e-17        3.104e-17                0
+       3.105e-17       -3.105e-17                0
+       4.777e-17        4.777e-17                0
+       5.317e-17        5.317e-17                0
+       5.857e-17        5.857e-17                0
+       3.292e-16       -3.292e-16                0
+         0.09864          0.09864                0
+          0.1459           0.1459                0
+          0.7412           0.7412                0
+          0.7453           0.7396           0.0916
+          0.7453           0.7396          -0.0916
+          0.8057           0.8057                0
+          0.8089           0.8089                0
+          0.8128           0.8128                0
+          0.8968           0.8968                0
+          0.9087           0.9087                0
+          0.9109           0.9109                0
+          0.9251           0.9245          0.03449
+          0.9251           0.9245         -0.03449
+          0.9427           0.9427                0
+          0.9706           0.9706                0
+          0.9744           0.9744                0
+          0.9747           0.9747                0
+           0.975            0.975                0
+           0.987            0.987                0
+           1.056            1.047           0.1404
+           1.056            1.047          -0.1404
+           1.083            1.082          0.04506
+           1.083            1.082         -0.04506
+           1.232            1.232                0
+           1.255            1.255                0
+           1.351            1.351                0
+           1.358            1.358                0
+           2.681            2.649           0.4154
+           2.681            2.649          -0.4154
+           2.681            2.681          0.04759
+           2.681            2.681         -0.04759
+           2.684            2.541           0.8629
+           2.684            2.541          -0.8629
+           2.684            2.635           0.5115
+           2.684            2.635          -0.5115
+            2.69            2.364            1.284
+            2.69            2.364           -1.284
+           2.691            2.513           0.9616
+           2.691            2.513          -0.9616
+           2.699            2.122            1.669
+           2.699            2.122           -1.669
+           2.701            2.319            1.385
+           2.701            2.319           -1.385
+           2.711            1.821            2.008
+           2.711            1.821           -2.008
+           2.717             2.06            1.771
+           2.717             2.06           -1.771
+           2.725             1.47            2.294
+           2.725             1.47           -2.294
+            2.74            1.076             2.52
+            2.74            1.076            -2.52
+           2.744            1.746            2.117
+           2.744            1.746           -2.117
+           2.756           0.6511            2.678
+           2.756           0.6511           -2.678
+           2.756            1.339            2.409
+           2.756            1.339           -2.409
+           2.757           -2.748           0.2275
+           2.757           -2.748          -0.2275
+           2.758            1.397            2.377
+           2.758            1.397           -2.377
+           2.758           0.9066            2.605
+           2.758           0.9066           -2.605
+           2.759           -2.674           0.6764
+           2.759           -2.674          -0.6764
+           2.759           0.9887            2.575
+           2.759           0.9887           -2.575
+           2.761           -2.529            1.107
+           2.761           -2.529           -1.107
+           2.762            0.549            2.706
+           2.762            0.549           -2.706
+           2.762            0.454            2.724
+           2.762            0.454           -2.724
+           2.763           -2.315            1.509
+           2.763           -2.315           -1.509
+           2.765        -0.008028            2.765
+           2.765        -0.008028           -2.765
+           2.767          0.09243            2.765
+           2.767          0.09243           -2.765
+           2.767           -2.039            1.871
+           2.767           -2.039           -1.871
+           2.767            2.767                0
+           2.769          -0.4674            2.729
+           2.769          -0.4674           -2.729
+           2.769            2.733           0.4475
+           2.769            2.733          -0.4475
+            2.77           -1.707            2.182
+            2.77           -1.707           -2.182
+           2.771            1.758            2.142
+           2.771            1.758           -2.142
+           2.771          -0.9116            2.617
+           2.771          -0.9116           -2.617
+           2.772           -1.328            2.433
+           2.772           -1.328           -2.433
+           2.772           0.2044            2.764
+           2.772           0.2044           -2.764
+           2.773          -0.3678            2.749
+           2.773          -0.3678           -2.749
+           2.774           -2.151            1.751
+           2.774           -2.151           -1.751
+           2.774            -1.83            2.085
+           2.774            -1.83           -2.085
+           2.775             2.63            0.887
+           2.775             2.63           -0.887
+           2.777           -2.416            1.368
+           2.777           -2.416           -1.368
+           2.777           -1.461            2.362
+           2.777           -1.461           -2.362
+            2.78          -0.8191            2.657
+            2.78          -0.8191           -2.657
+           2.782           -1.055            2.574
+           2.782           -1.055           -2.574
+           2.782            2.456            1.306
+           2.782            2.456           -1.306
+           2.783           -2.618           0.9442
+           2.783           -2.618          -0.9442
+           2.786           -0.622            2.715
+           2.786           -0.622           -2.715
+           2.787          -0.2511            2.776
+           2.787          -0.2511           -2.776
+           2.788           -1.249            2.492
+           2.788           -1.249           -2.492
+           2.788            2.216            1.692
+           2.788            2.216           -1.692
+           2.789          -0.1713            2.783
+           2.789          -0.1713           -2.783
+           2.792           0.2852            2.778
+           2.792           0.2852           -2.778
+           2.793            1.914            2.034
+           2.793            1.914           -2.034
+           2.794           -2.751           0.4884
+           2.794           -2.751          -0.4884
+           2.795           -1.647            2.258
+           2.795           -1.647           -2.258
+           2.796           0.7342            2.698
+           2.796           0.7342           -2.698
+           2.796             1.56            2.321
+           2.796             1.56           -2.321
+           2.798            1.163            2.545
+           2.798            1.163           -2.545
+           2.799          -0.7015            2.709
+           2.799          -0.7015           -2.709
+           2.802           -2.002            1.961
+           2.802           -2.002           -1.961
+           2.804           -1.136            2.563
+           2.804           -1.136           -2.563
+           2.805            2.118             1.84
+           2.805            2.118            -1.84
+           2.807           -1.545            2.344
+           2.807           -1.545           -2.344
+           2.811           -2.304            1.609
+           2.811           -2.304           -1.609
+           2.811           -1.914            2.059
+           2.811           -1.914           -2.059
+           2.812           -2.812                0
+           2.817           -2.234            1.717
+           2.817           -2.234           -1.717
+           2.822           -2.548            1.212
+           2.822           -2.548           -1.212
+           2.824           -2.824                0
+           2.825           -2.494            1.327
+           2.825           -2.494           -1.327
+           2.832           -2.685           0.9013
+           2.832           -2.685          -0.9013
+           2.832            2.417            1.477
+           2.832            2.417           -1.477
+           2.835           -2.799           0.4512
+           2.835           -2.799          -0.4512
+           2.837           -2.728           0.7799
+           2.837           -2.728          -0.7799
+            2.86            2.653            1.068
+            2.86            2.653           -1.068
+            2.86           -2.842           0.3213
+            2.86           -2.842          -0.3213
+           2.892            2.824           0.6242
+           2.892            2.824          -0.6242
+           2.894            -2.89           0.1604
+           2.894            -2.89          -0.1604
+           2.933           -2.857           0.6652
+           2.933           -2.857          -0.6652
+            2.94            2.936           0.1507
+            2.94            2.936          -0.1507
+           2.963           -2.723             1.17
+           2.963           -2.723            -1.17
+           2.983           -2.488            1.645
+           2.983           -2.488           -1.645
+            2.99          -0.7682             2.89
+            2.99          -0.7682            -2.89
+           2.991           -1.288              2.7
+           2.991           -1.288             -2.7
+           2.993           -2.162            2.069
+           2.993           -2.162           -2.069
+           2.995           -1.758            2.424
+           2.995           -1.758           -2.424
+           2.997          -0.2206            2.989
+           2.997          -0.2206           -2.989
+           3.008           0.3344             2.99
+           3.008           0.3344            -2.99
+           3.011            2.987           0.3852
+           3.011            2.987          -0.3852
+            3.02           0.8816            2.888
+            3.02           0.8816           -2.888
+           3.032            1.405            2.686
+           3.032            1.405           -2.686
+           3.044            1.889            2.387
+           3.044            1.889           -2.387
+            3.05            2.893           0.9659
+            3.05            2.893          -0.9659
+           3.055            2.314            1.995
+           3.055            2.314           -1.995
+            3.06            2.659            1.516
+            3.06            2.659           -1.516
+           5.105            4.692            2.013
+           5.105            4.692           -2.013
+           11.57           -11.57                0
+           40.32          -0.1613            40.32
+           40.32          -0.1613           -40.32
+            1200            -1200                0
+            2709             2709                0
+       8.442e+17       -8.442e+17                0
+       8.647e+17        8.647e+17                0
+       1.846e+18       -1.846e+18                0
+       5.048e+22        5.048e+22                0
+       2.339e+23        2.339e+23                0
+       8.831e+23        8.831e+23                0
+        9.09e+23         9.09e+23                0
+       6.639e+24        6.639e+24                0
+        8.72e+24        -8.72e+24                0
+       3.963e+45       -3.963e+45                0
+             Inf             -Inf                0
+
+
+There are 211 eigenvalue(s) larger than 1 in modulus 
+for 211 forward-looking variable(s)
+
+The rank condition is verified.
+
+The standard deviation of e_sigma is not estimated (the value provided in estimated_params_init is not used).
+
+Total computing time : 0h00m14s
+<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\modeestimate.m',73,1)">73  </a>dynare_estimation(var_list_); % run the estimation
+if system_dependent('IsDebugMode')==1, dbstep; end
+Initial value of the log posterior (or likelihood): -4628879.3075
+-----------------
+f at the beginning of new iteration,   4628879.3074724199
+Predicted improvement: 27579241149265.238281250
+lambda =          1; f =      5282964.6261342
+lambda =    0.33333; f =      4700976.9487737
+lambda =    0.11111; f =      4636702.5490225
+lambda =   0.037037; f =      4629688.3073079
+lambda =   0.012346; f =      4628950.6581686
+lambda =  0.0041152; f =      4628882.6008369
+lambda =  0.0013717; f =      4633594.7995393
+lambda = 0.00045725; f =      4628970.9875509
+lambda = 0.00015242; f =      4628885.4735920
+lambda = 5.0805e-05; f =      4628879.9335453
+lambda = 1.6935e-05; f =      4628879.3593870
+lambda =  5.645e-06; f =      4628879.3091353
+lambda = 1.8817e-06; f =      1326888.7652962
+lambda = 6.2723e-07; f =      1746294.2729806
+lambda = 2.0908e-07; f =      2459939.1303507
+lambda = 6.9692e-08; f =      3272073.4788245
+Norm of dx      74269
+----
+Improvement on iteration 1 =  3301990.542176270
+-----------------
+f at the beginning of new iteration,   1326888.7652961502
+Predicted improvement: 41250933505.037231445
+lambda =          1; f =      2400631.9765154
+lambda =    0.33333; f =      1445834.3576303
+lambda =    0.11111; f =      1339989.9335350
+lambda =   0.037037; f =      1328308.2753870
+lambda =   0.012346; f =      1327035.8244065
+lambda =  0.0041152; f =      1326902.8233202
+lambda =  0.0013717; f =      1326890.1999085
+lambda = 0.00045725; f =      1326888.9052634
+lambda = 0.00015242; f =      1326888.7753375
+lambda = 5.0805e-05; f =      1326888.7653754
+lambda = 1.6935e-05; f =       722969.5429795
+Norm of dx     2874.5
+----
+Improvement on iteration 2 =   603919.222316640
+-----------------
+f at the beginning of new iteration,    722969.5429795106
+Predicted improvement: 840522375.124080181
+lambda =          1; f =       746071.3783132
+lambda =    0.33333; f =       725466.7957010
+lambda =    0.11111; f =       723226.2617739
+lambda =   0.037037; f =       722992.8712752
+lambda =   0.012346; f =       722971.3695134
+lambda =  0.0041152; f =       722969.6889697
+lambda =  0.0013717; f =       722969.5493678
+lambda = 0.00045725; f =      1208849.4806186
+lambda = 0.00015242; f =       589750.0207312
+Norm of dx     414.16
+----
+Improvement on iteration 3 =   133219.522248344
+-----------------
+f at the beginning of new iteration,    589750.0207311666
+Predicted improvement: 296016672.167624950
+lambda =          1; f =       605887.0961934
+lambda =    0.33333; f =       591480.2560678
+lambda =    0.11111; f =       589923.9508479
+lambda =   0.037037; f =       589765.3189257
+lambda =   0.012346; f =       589751.3601586
+lambda =  0.0041152; f =       589750.1281295
+lambda =  0.0013717; f =       589750.0252384
+lambda = 0.00045725; f =       589750.0207318
+lambda = 0.00015242; f =       545911.1169943
+Norm of dx     283.67
+----
+Improvement on iteration 4 =    43838.903736836
+-----------------
+f at the beginning of new iteration,    545911.1169943304
+Predicted improvement: 303951400.799747109
+lambda =          1; f =       570874.2891188
+lambda =    0.33333; f =       548613.1003294
+lambda =    0.11111; f =       546189.4220469
+lambda =   0.037037; f =       545936.5474614
+lambda =   0.012346; f =       545913.2236677
+lambda =  0.0041152; f =       545911.2788127
+lambda =  0.0013717; f =       545911.1218348
+lambda = 0.00045725; f =       545911.1170230
+lambda = 0.00015242; f =       545911.1169945
+lambda = 5.0805e-05; f =       519191.4595913
+lambda = 9.8216e-05; f =       501583.9701628
+lambda = 0.00018987; f =       545911.1169953
+lambda = 0.00012785; f =       494243.7114855
+Norm of dx     381.58
+----
+Improvement on iteration 5 =    51667.405508842
+-----------------
+f at the beginning of new iteration,    494243.7114854880
+Predicted improvement: 138616966.410641432
+lambda =          1; f =       508164.4657185
+lambda =    0.33333; f =       495756.9206404
+lambda =    0.11111; f =       494401.9945051
+lambda =   0.037037; f =       494259.2220588
+lambda =   0.012346; f =       494245.2034913
+lambda =  0.0041152; f =       494243.8350121
+lambda =  0.0013717; f =       494243.7182243
+lambda = 0.00045725; f =       494243.7115450
+lambda = 0.00015242; f =       494243.7115599
+lambda = 5.0805e-05; f =       494243.7114897
+lambda = 1.6935e-05; f =       489976.4713324
+lambda = 3.2739e-05; f =       494243.7114863
+lambda = 2.2044e-05; f =       494243.7114855
+lambda = 1.7388e-05; f =       489873.4510583
+lambda = 2.0048e-05; f =       494243.7114855
+lambda = 1.8407e-05; f =       489643.5826655
+lambda = 1.9375e-05; f =       494243.7114855
+lambda = 1.8788e-05; f =       489558.3767561
+lambda = 1.9138e-05; f =       494243.7114855
+lambda = 1.8927e-05; f =       489527.3907115
+Norm of dx     240.82
+Cliff.  Perturbing search direction.
+Predicted improvement: 347465309.749308705
+lambda =          1; f =       531170.4155710
+lambda =    0.33333; f =       498293.9638298
+lambda =    0.11111; f =       494677.9894524
+lambda =   0.037037; f =       494288.2305305
+lambda =   0.012346; f =       494248.0138990
+lambda =  0.0041152; f =       494244.1472335
+lambda =  0.0013717; f =       494243.7517423
+lambda = 0.00045725; f =       494243.7137903
+lambda = 0.00015242; f =       494243.7116637
+lambda = 5.0805e-05; f =       494243.7114986
+lambda = 1.6935e-05; f =       494243.7114856
+lambda =  5.645e-06; f =       490502.7594337
+lambda = 1.0913e-05; f =       487302.1937374
+lambda = 2.1097e-05; f =       494243.7114861
+lambda = 1.4205e-05; f =       494243.7114855
+lambda = 1.1204e-05; f =       487132.8607861
+lambda = 1.2919e-05; f =       486154.0113759
+lambda = 1.4896e-05; f =       494243.7114855
+lambda = 1.3676e-05; f =       494243.7114855
+lambda = 1.2993e-05; f =       494243.7114855
+Norm of dx     325.91
+Cliff again.  Try traversing
+Predicted improvement: 1967656248890.041259766
+lambda =          1; f = 1651026376817.3134766
+lambda =    0.33333; f = 183447287838.9303894
+lambda =    0.11111; f =  20383295829.6228142
+lambda =   0.037037; f =   2265191525.8737988
+lambda =   0.012346; f =    252107835.6634052
+lambda =  0.0041152; f =     28444871.4146081
+lambda =  0.0013717; f =      3597734.7131481
+lambda = 0.00045725; f =       838371.2850800
+lambda = 0.00015242; f =       532251.1563307
+lambda = 5.0805e-05; f =       498393.2131066
+lambda = 1.6935e-05; f =       494682.0433469
+lambda =  5.645e-06; f =       494286.2296801
+lambda = 1.8817e-06; f =       494247.1788869
+lambda = 6.2723e-07; f =       494243.9396765
+lambda = 2.0908e-07; f =       494243.7295854
+lambda = 6.9692e-08; f =       494243.7121499
+lambda = 2.3231e-08; f =       480824.5542682
+lambda = 7.7435e-09; f =       469154.2163318
+lambda =  1.497e-08; f =       460708.6971287
+Norm of dx 1.9838e+06
+----
+Improvement on iteration 6 =    33535.014356812
+-----------------
+f at the beginning of new iteration,    460708.6971286762
+Predicted improvement: 404461774.492479682
+lambda =          1; f =       483923.7392920
+lambda =    0.33333; f =       463204.8490225
+lambda =    0.11111; f =       460960.2256704
+lambda =   0.037037; f =       460729.3850941
+lambda =   0.012346; f =       460709.5006430
+lambda =  0.0041152; f =       460708.7179005
+lambda =  0.0013717; f =       460708.7017797
+lambda = 0.00045725; f =       460708.6972820
+lambda = 0.00015242; f =       460708.6971405
+lambda = 5.0805e-05; f =       460708.6971289
+lambda = 1.6935e-05; f =       447985.7590796
+lambda = 3.2739e-05; f =       437684.9694574
+lambda =  6.329e-05; f =       460708.6971293
+lambda = 4.2616e-05; f =       460708.6971287
+lambda = 3.3613e-05; f =       437154.4314762
+lambda = 3.8757e-05; f =       460708.6971287
+lambda = 3.5583e-05; f =       460708.6971287
+lambda = 3.3805e-05; f =       437038.5174050
+lambda = 3.4861e-05; f =       436404.4565170
+lambda =  3.595e-05; f =       460708.6971287
+lambda = 3.5293e-05; f =       436146.9868294
+lambda = 3.5685e-05; f =       460708.6971287
+Norm of dx     305.21
+Cliff.  Perturbing search direction.
+Predicted improvement: 676911207.395385265
+lambda =          1; f =       484291.3760377
+lambda =    0.33333; f =       463248.6596186
+lambda =    0.11111; f =       460966.0397758
+lambda =   0.037037; f =       460730.3485933
+lambda =   0.012346; f =       460709.5949243
+lambda =  0.0041152; f =       460708.7133869
+lambda =  0.0013717; f =       460708.7078905
+lambda = 0.00045725; f =       460708.6975827
+lambda = 0.00015242; f =       460708.6971697
+lambda = 5.0805e-05; f =       460708.6971308
+lambda = 1.6935e-05; f =       439786.3355091
+lambda = 3.2739e-05; f =       460708.6971290
+lambda = 2.2044e-05; f =       460708.6971287
+lambda = 1.7388e-05; f =       439277.5833878
+lambda = 2.0048e-05; f =       436333.9226450
+lambda = 2.3116e-05; f =       460708.6971287
+lambda = 2.1223e-05; f =       435059.7200051
+lambda = 2.2339e-05; f =       460708.6971287
+lambda = 2.1663e-05; f =       460708.6971287
+lambda = 2.1267e-05; f =       435012.7855948
+lambda = 2.1503e-05; f =       460708.6971287
+Norm of dx     400.25
+Cliff again.  Try traversing
+Predicted improvement: 26812550756.337951660
+lambda =          1; f =  12586027215.5460682
+lambda =    0.33333; f =   1398835938.2465262
+lambda =    0.11111; f =    155828727.8387550
+lambda =   0.037037; f =     17721496.4463951
+lambda =   0.012346; f =      2377808.4916541
+lambda =  0.0041152; f =       673474.0069869
+lambda =  0.0013717; f =       484276.3783680
+lambda = 0.00045725; f =       463305.6988138
+lambda = 0.00015242; f =       460990.9054321
+lambda = 5.0805e-05; f =       460738.6833799
+lambda = 1.6935e-05; f =       460711.6978183
+lambda =  5.645e-06; f =       460708.9341366
+lambda = 1.8817e-06; f =       460708.7050417
+lambda = 6.2723e-07; f =       460708.6973996
+lambda = 2.0908e-07; f =       460708.6971383
+lambda = 6.9692e-08; f =       462156.7005331
+lambda = 2.3231e-08; f =       460685.4011928
+lambda = 7.7435e-09; f =       460646.8180245
+lambda = 2.5812e-09; f =       460682.1235224
+Norm of dx 2.3157e+05
+----
+Improvement on iteration 7 =    25695.911533879
+back and forth on step length never finished
+-----------------
+f at the beginning of new iteration,    435012.7855947971
+Predicted improvement: 404461774.492479682
+lambda =          1; f =       458228.5546919
+lambda =    0.33333; f =       437509.1758138
+lambda =    0.11111; f =       435264.3897394
+lambda =   0.037037; f =       435033.4952412
+lambda =   0.012346; f =       435013.5932476
+lambda =  0.0041152; f =       435012.8067326
+lambda =  0.0013717; f =       435012.7905424
+lambda = 0.00045725; f =       435012.7857749
+lambda = 0.00015242; f =       435012.7856148
+lambda = 5.0805e-05; f =       435012.7855970
+lambda = 1.6935e-05; f =       435012.7855950
+lambda =  5.645e-06; f =       435012.7855948
+lambda = 1.8817e-06; f =       435012.7855948
+lambda = 6.2723e-07; f =       435012.7855948
+lambda = 2.0908e-07; f =       435012.7855948
+Norm of dx     305.21
+----
+Improvement on iteration 8 =        0.000000000
+improvement < crit termination
+
+Final value of minus the log posterior (or likelihood):435012.785595 
+
+POSTERIOR KERNEL OPTIMIZATION PROBLEM!
+ (minus) the hessian matrix at the "mode" is not positive definite!
+=> posterior variance of the estimated parameters are not positive.
+You should try to change the initial values of the parameters using
+the estimated_params_init block, or use another optimization routine.
+
+RESULTS FROM POSTERIOR ESTIMATION
+parameters
+             prior mean     mode    s.d. prior pstdev
+
+xiw_p            0.750   0.8101     NaN beta  0.1000 
+b_p              0.500   0.7055     NaN beta  0.1000 
+Fomegabar_p      0.007   0.0186     NaN beta  0.0037 
+mu_p             0.275   0.2139     NaN beta  0.1500 
+sigmaa_p         1.000   2.5356     NaN norm  1.0000 
+Sdoupr_p         5.000  10.7800     NaN norm  3.0000 
+xip_p            0.500   0.7250     NaN beta  0.1000 
+aptil_p          1.500   2.3947     NaN norm  0.2500 
+rhotil_p         0.750   0.9232     NaN beta  0.1000 
+iota_p           0.500   0.9050     NaN beta  0.1500 
+iotaw_p          0.500   0.4902     NaN beta  0.1500 
+iotamu_p         0.500   0.9429     NaN beta  0.1500 
+adytil_p         0.250   0.3663     NaN norm  0.1000 
+signal_corr_p    0.000   0.3878     NaN norm  0.5000 
+rholambdaf_p     0.500   0.8976     NaN beta  0.2000 
+rhomuup_p        0.500   0.9870     NaN beta  0.2000 
+rhog_p           0.500   0.9418     NaN beta  0.2000 
+rhomuzstar_p     0.500   0.1447     NaN beta  0.2000 
+rhoepsil_p       0.500   0.8116     NaN beta  0.2000 
+rhosigma_p       0.500   0.9999     NaN beta  0.2000 
+rhozetac_p       0.500   0.8816     NaN beta  0.2000 
+rhozetai_p       0.500   0.8853     NaN beta  0.2000 
+rhoterm_p        0.500   0.9772     NaN beta  0.2000 
+stdsigma2_p      0.001   0.0529     NaN invg2 0.0012 
+stdsigma1_p      0.002   0.0049     NaN invg2 0.0033 
+
+standard deviation of shocks
+             prior mean     mode    s.d. prior pstdev
+
+e_lambdaf        0.002   0.0725     NaN invg2 0.0033 
+e_muup           0.002   0.0039     NaN invg2 0.0033 
+e_g              0.002   0.0592     NaN invg2 0.0033 
+e_muzstar        0.002   0.0761     NaN invg2 0.0033 
+e_gamma          0.002   0.0355     NaN invg2 0.0033 
+e_epsil          0.002   0.0562     NaN invg2 0.0033 
+e_xp             0.583   0.5672     NaN invg2 0.8250 
+e_zetac          0.002   0.0629     NaN invg2 0.0033 
+e_zetai          0.002   0.1118     NaN invg2 0.0033 
+e_term           0.002   0.0979     NaN invg2 0.0033 
+
+standard deviation of measurement errors
+             prior mean     mode    s.d. prior pstdev
+
+networth_q_obs   0.010   0.0202     NaN invg  5.0000 
+
+
+Log data density [Laplace approximation] is NaN.
+
+<a href="matlab: opentoline('C:\Program Files\MATLAB\R2018b\toolbox\matlab\lang\run.m',39,1)">39  </a>cleaner = onCleanup(@() ([]));
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+{Matrix dimensions must agree.
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dyn_forecast', 'C:\dynare\4.5.7\matlab\dyn_forecast.m', 178)" style="font-weight:bold">dyn_forecast</a> (<a href="matlab: opentoline('C:\dynare\4.5.7\matlab\dyn_forecast.m',178,0)">line 178</a>)
+        yf(i_var_obs,:)=yf(i_var_obs,:)-repmat(oo.dr.ys(i_var_obs),1,horizon+M.maximum_lag)+
+        repmat(mean_varobs,1,horizon+M.maximum_lag);
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation_1', 'C:\dynare\4.5.7\matlab\dynare_estimation_1.m', 768)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('C:\dynare\4.5.7\matlab\dynare_estimation_1.m',768,0)">line 768</a>)
+    oo_.forecast = dyn_forecast(var_list_,M_,options_,oo_,'smoother',dataset_info);
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation', 'C:\dynare\4.5.7\matlab\dynare_estimation.m', 105)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('C:\dynare\4.5.7\matlab\dynare_estimation.m',105,0)">line 105</a>)
+    dynare_estimation_1(var_list,dname);
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('modeestimate', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\modeestimate.m', 73)" style="font-weight:bold">modeestimate</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\modeestimate.m',73,0)">line 73</a>)
+dynare_estimation(var_list_); % run the estimation
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Main', 'C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\Main.m', 97)" style="font-weight:bold">Main</a> (<a href="matlab: opentoline('C:\Users\Farkas\Dropbox\PhD\2018\Forecasting conference\Forecast platform\MMB_Estimation\ALGORITHMS\Main.m',97,0)">li

@@ -92,19 +92,19 @@ if wtilde <0 | i <0 | kbar <0 | c<0 | uzc<0 | lambdaz<0
     error('fatal (steadystate) w or i or k or y or c or uzc<0')
 end
 RL = Re;
-networth_q_obs    = 0;    %networth_obs    = 1;
-pgdp_q_obs      = 0;    %inflation_obs   = 1;
-hours_obs       = 0;    %hours_obs       = 1;
-credit_q_obs    = 0;    %credit_obs      = 1;
-xgdp_q_obs      = 0;    %gdp_obs         = 1;
-wage_obs        = 0;    %wage_obs        = 1;
-fpi_q_obs       = 0;    %investment_obs  = 1;
-pcer_q_obs      = 0;    %consumption_obs = 1;
-cp_q_obs        = 0;    %premium_obs     = 1;
-spreadl_obs     = 0;    %Spread1_obs     = 1;
-rff_q_obs       = 0;    %Re_obs          = 1;
-pinv_q_obs      = 0;    %pinvest_obs     = 1;
-RealRe_obs      = 1;    % 
+networth_obs    = 1;
+inflation_obs   = 1;
+hours_obs       = 1;
+credit_obs      = 1;
+gdp_obs         = 1;
+wage_obs        = 1;
+investment_obs  = 1;
+consumption_obs = 1;
+premium_obs     = 1;
+Spread1_obs     = 1;
+Re_obs          = 1;
+pinvest_obs     = 1;
+RealRe_obs      = 1;
 
 G          = (normcdf((log(omegabar) + sigma^2 / 2) / sigma - sigma));
 H          = (normcdf((log(omegabar) + sigma^2 / 2) / sigma - 2 * sigma));
