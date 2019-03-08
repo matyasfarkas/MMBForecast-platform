@@ -55,7 +55,7 @@ for vint = (2+(basics.region(find(basics.chosenmodels>0))==2)):size(DATAMAT{1}(1
                     VintData = [VintData [cell2mat(basics.observables{i});[DATAMAT{i}(position_FirstObs:position_LastObs,vint); NaN ]]];
                 end
             elseif basics.fnc == 1
-                if ( basics.modelvars(i) &&  (i==3 || i == basics.nvar)) % Short term rate and creadit spread
+                if ( basics.modelvars(i) &&  (i==3 || i > 7)) % Short term rate and creadit spread
                     VintData = [VintData [cell2mat(basics.observables{i});DATAMAT{i}(position_FirstObs:position_LastObs+basics.fnc,vint)]];
                 elseif basics.modelvars(i)
                     VintData = [VintData [cell2mat(basics.observables{i});[DATAMAT{i}(position_FirstObs:position_LastObs,vint); NaN ]]];

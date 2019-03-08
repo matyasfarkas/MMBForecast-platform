@@ -110,7 +110,15 @@ MarginalDensityLaPlace = oo_.MarginalDensity.LaplaceApproximation;
 eval(['save ' basics.currentmodel '_' deblank(num2str(basics.vintage(basics.vintagenr,:))) '_estimationresults MarginalDensityLaPlace M_ options_']);
 
 ModelOutput.MLLaPlace = oo_.MarginalDensity.LaplaceApproximation; % save ML for fit measurement
+if basics.fnc % If nowcasts were conditioned upon, use the Kalman filter's smoother as the value of the nowcast
+ModelOutput.Mean.xgdp_a_obs = [oo_.SmoothedVariables.xgdp_q_obs(end); oo_.forecast.Mean.xgdp_q_obs(1:basics.forecasthorizon)]*4; 
+ModelOutput.Mean.pgdp_a_obs = [oo_.SmoothedVariables.pgdp_q_obs(end); oo_.forecast.Mean.pgdp_q_obs(1:basics.forecasthorizon)]*4;
+ModelOutput.Mean.rff_a_obs  = [oo_.SmoothedVariables.rff_q_obs(end); oo_.forecast.Mean.rff_q_obs(1:basics.forecasthorizon)]*4;
 
+ModelOutput.Median.xgdp_a_obs = [oo_.SmoothedVariables.xgdp_q_obs(end); oo_.forecast.Mean.xgdp_q_obs(1:basics.forecasthorizon)]*4; % get rid of + maximum lag at both ends
+ModelOutput.Median.pgdp_a_obs = [oo_.SmoothedVariables.pgdp_q_obs(end); oo_.forecast.Mean.pgdp_q_obs(1:basics.forecasthorizon)]*4;
+ModelOutput.Median.rff_a_obs  = [oo_.SmoothedVariables.rff_q_obs(end); oo_.forecast.Mean.rff_q_obs(1:basics.forecasthorizon)]*4;
+else
 ModelOutput.Mean.xgdp_a_obs = oo_.forecast.Mean.xgdp_q_obs(1:basics.forecasthorizon)*4; % get rid of + maximum lag at both ends
 ModelOutput.Mean.pgdp_a_obs = oo_.forecast.Mean.pgdp_q_obs(1:basics.forecasthorizon)*4;
 ModelOutput.Mean.rff_a_obs  = oo_.forecast.Mean.rff_q_obs(1:basics.forecasthorizon)*4;
@@ -118,7 +126,7 @@ ModelOutput.Mean.rff_a_obs  = oo_.forecast.Mean.rff_q_obs(1:basics.forecasthoriz
 ModelOutput.Median.xgdp_a_obs = oo_.forecast.Mean.xgdp_q_obs(1:basics.forecasthorizon)*4; % get rid of + maximum lag at both ends
 ModelOutput.Median.pgdp_a_obs = oo_.forecast.Mean.pgdp_q_obs(1:basics.forecasthorizon)*4;
 ModelOutput.Median.rff_a_obs  = oo_.forecast.Mean.rff_q_obs(1:basics.forecasthorizon)*4;
-
+end
 close all
 
 diary off

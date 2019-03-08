@@ -18,9 +18,9 @@ dseries('initialize');
 global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
 M_.fname = 'US_SW07_20074';
-M_.dynare_version = '4.5.6';
-oo_.dynare_version = '4.5.6';
-options_.dynare_version = '4.5.6';
+M_.dynare_version = '4.5.7';
+oo_.dynare_version = '4.5.7';
+options_.dynare_version = '4.5.7';
 %
 % Some global variables initialization
 %
@@ -520,11 +520,11 @@ M_.Sigma_e(4, 4) = 0.10;
 M_.Sigma_e(5, 5) = 0.10;
 M_.Sigma_e(6, 6) = 0.10;
 M_.Sigma_e(7, 7) = 0.10;
-estim_params_.var_exo = [];
-estim_params_.var_endo = [];
-estim_params_.corrx = [];
-estim_params_.corrn = [];
-estim_params_.param_vals = [];
+estim_params_.var_exo = zeros(0, 10);
+estim_params_.var_endo = zeros(0, 10);
+estim_params_.corrx = zeros(0, 11);
+estim_params_.corrn = zeros(0, 11);
+estim_params_.param_vals = zeros(0, 10);
 estim_params_.param_vals = [estim_params_.param_vals; 1, 1.7985, 1.0, 3, 3, 1.5, 0.25, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 4, 0.8258, 0.5, 0.975, 1, 0.75, 0.10, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 2, 0.0893, 0.001, 0.5, 3, 0.125, 0.05, NaN, NaN, NaN ];

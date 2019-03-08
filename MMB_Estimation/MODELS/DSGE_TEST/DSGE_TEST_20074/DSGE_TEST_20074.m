@@ -18,9 +18,9 @@ dseries('initialize');
 global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
 M_.fname = 'DSGE_TEST_20074';
-M_.dynare_version = '4.5.6';
-oo_.dynare_version = '4.5.6';
-options_.dynare_version = '4.5.6';
+M_.dynare_version = '4.5.7';
+oo_.dynare_version = '4.5.7';
+options_.dynare_version = '4.5.7';
 %
 % Some global variables initialization
 %
@@ -327,11 +327,11 @@ M_.params( 4 ) = 0.64/(1-M_.params(5));
 omegav = M_.params( 4 );
 M_.params( 2 ) = 0.3333333333333333;
 H = M_.params( 2 );
-estim_params_.var_exo = [];
-estim_params_.var_endo = [];
-estim_params_.corrx = [];
-estim_params_.corrn = [];
-estim_params_.param_vals = [];
+estim_params_.var_exo = zeros(0, 10);
+estim_params_.var_endo = zeros(0, 10);
+estim_params_.corrx = zeros(0, 11);
+estim_params_.corrn = zeros(0, 11);
+estim_params_.param_vals = zeros(0, 10);
 estim_params_.param_vals = [estim_params_.param_vals; 22, NaN, (-Inf), Inf, 1, 0.05, 0.005, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 8, NaN, (-Inf), Inf, 3, 4, 1.5, NaN, NaN, NaN ];
 estim_params_.param_vals = [estim_params_.param_vals; 9, NaN, (-Inf), Inf, 1, 0.5, 0.1, NaN, NaN, NaN ];
@@ -353,45 +353,126 @@ estim_params_.var_exo = [estim_params_.var_exo; 3, NaN, (-Inf), Inf, 4, 0.1, 2.0
 estim_params_.var_exo = [estim_params_.var_exo; 4, NaN, (-Inf), Inf, 4, 0.1, 2.0, NaN, NaN, NaN ];
 estim_params_.var_exo = [estim_params_.var_exo; 5, NaN, (-Inf), Inf, 4, 0.05, 4.0, NaN, NaN, NaN ];
 tmp1 = find(estim_params_.param_vals(:,1)==22);
-estim_params_.param_vals(tmp1,2) = 0.05;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(22,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.05;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==8);
-estim_params_.param_vals(tmp1,2) = 5;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(8,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 5;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==9);
-estim_params_.param_vals(tmp1,2) = 0.75;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(9,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.75;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==13);
-estim_params_.param_vals(tmp1,2) = 0.7;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(13,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.7;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==11);
-estim_params_.param_vals(tmp1,2) = 1.5;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(11,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 1.5;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==12);
-estim_params_.param_vals(tmp1,2) = 0.125;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(12,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.125;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==19);
-estim_params_.param_vals(tmp1,2) = 0.625;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(19,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.625;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==23);
-estim_params_.param_vals(tmp1,2) = 0.25;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(23,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.25;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==24);
-estim_params_.param_vals(tmp1,2) = 0.5;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(24,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.5;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==18);
-estim_params_.param_vals(tmp1,2) = 0.4;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(18,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.4;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==20);
-estim_params_.param_vals(tmp1,2) = 0.5;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(20,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.5;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==14);
-estim_params_.param_vals(tmp1,2) = 0.90;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(14,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.90;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==15);
-estim_params_.param_vals(tmp1,2) = 0.80;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(15,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.80;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==16);
-estim_params_.param_vals(tmp1,2) = 0.80;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(16,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.80;
+end
 tmp1 = find(estim_params_.param_vals(:,1)==17);
-estim_params_.param_vals(tmp1,2) = 0.80;
+if isempty(tmp1)
+    disp(sprintf('Parameter %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.param_names(17,:))))
+else
+    estim_params_.param_vals(tmp1,2) = 0.80;
+end
 tmp1 = find(estim_params_.var_exo(:,1)==1);
-estim_params_.var_exo(tmp1,2) = 0.5;
+if isempty(tmp1)
+    disp(sprintf('The standard deviation of %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.exo_names(1,:))))
+else
+    estim_params_.var_exo(tmp1,2) = 0.5;
+end
 tmp1 = find(estim_params_.var_exo(:,1)==2);
-estim_params_.var_exo(tmp1,2) = 0.5;
+if isempty(tmp1)
+    disp(sprintf('The standard deviation of %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.exo_names(2,:))))
+else
+    estim_params_.var_exo(tmp1,2) = 0.5;
+end
 tmp1 = find(estim_params_.var_exo(:,1)==3);
-estim_params_.var_exo(tmp1,2) = 0.0625;
+if isempty(tmp1)
+    disp(sprintf('The standard deviation of %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.exo_names(3,:))))
+else
+    estim_params_.var_exo(tmp1,2) = 0.0625;
+end
 tmp1 = find(estim_params_.var_exo(:,1)==4);
-estim_params_.var_exo(tmp1,2) = 0.5;
+if isempty(tmp1)
+    disp(sprintf('The standard deviation of %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.exo_names(4,:))))
+else
+    estim_params_.var_exo(tmp1,2) = 0.5;
+end
 tmp1 = find(estim_params_.var_exo(:,1)==5);
-estim_params_.var_exo(tmp1,2) = 0.5;
+if isempty(tmp1)
+    disp(sprintf('The standard deviation of %s is not estimated (the value provided in estimated_params_init is not used).', deblank(M_.exo_names(5,:))))
+else
+    estim_params_.var_exo(tmp1,2) = 0.5;
+end
+skipline()
 save('DSGE_TEST_20074_results.mat', 'oo_', 'M_', 'options_');
 if exist('estim_params_', 'var') == 1
   save('DSGE_TEST_20074_results.mat', 'estim_params_', '-append');

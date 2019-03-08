@@ -185,7 +185,8 @@ val=get(hObject,'Value');
 
 handles.filename = ObsInfos(val,1);aa=ObsInfos(val,1);
 try
-    a=ObsInfos(val,1);a=a{:};a=cell2mat(a(2,:));
+    a=ObsInfos(val,1);a=a{:};a=cell2mat(a(1,:));
+    % Old code   a=ObsInfos(val,1);a=a{:};a=cell2mat(a(2,:));
     set(handles.filehandles(2),'String',a(l:end));
 catch
     set(findall(handles.uipanel5, '-property', 'enable'), 'enable', 'off')
@@ -376,9 +377,11 @@ cd('..\DATA\USDATA\Tranformed_Data')
 location=[cd '\'];
 
 cd(cd1)
-f = ObsInfos(2,1);
+% f = ObsInfos(2,1);
+f = ObsInfos(1,1);
 
-[~,~,PGNP] = xlsread(cell2mat(f{1}));
+% [~,~,PGNP] = xlsread(cell2mat(f{1}));
+[~,~,PGNP] = xlsread(cell2mat(f{1}(1,:)));
 
 a = cell2mat(PGNP(1,2)); m = size(a,2);
 

@@ -70,6 +70,9 @@ if transformation~=3
             q = q0;
         end
     end
+    if  isempty(q) 
+    q =size(B1(:,1),1)+1; 
+    end
     
     l1 = find(strcmp(OBSERVATION,B1(q-1,1))==1);     
     

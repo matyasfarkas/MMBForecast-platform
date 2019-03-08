@@ -134,12 +134,12 @@ for i = 1:size(Periods,1)
                         end
                         % Append with the density  forecasts
                         for j = 2:size(data,2)
-                            dataplotf_dens1(:,(1+(j-2)*9):(j-1)*9) = [repmat(data(:,j),1,9); dataplotf_dens_orig(2:end,(1+(j-2)*9):(j-1)*9)];
+                            dataplotf_dens1(:,(1+(j-2)*9):(j-1)*9) = [repmat(data(1:end-basics.fnc,j),1,9); dataplotf_dens_orig(2:end,(1+(j-2)*9):(j-1)*9)];
                         end
                         dataplotf_dens =dataplotf_dens1;
                         clear dataplotf_dens1;
                         %Creating forecast matrices that can be exported into Excel
-                        dataplotf_dens = [dataplotrev(:,1) dataplotf_dens];
+                        dataplotf_dens = [dataplotrev(:,1) dataplotf_dens(1:end,:)];
                         %Plotting densities
                         if available
                             for k = 1:8
