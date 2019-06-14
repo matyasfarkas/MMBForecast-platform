@@ -17,6 +17,8 @@ cd('..');
 
 % Number of Replications
 options_.mh_replic = 0;
+% Set fixed random seed
+rng('default')
 
 % Optimization Algorithm
 options_.mode_compute = 4 ;
@@ -34,18 +36,16 @@ options_.filtered_vars = 0;
 options_.linear = 1;
 options_.lik_init = 1;
 options_.mh_nblck = 1;
-if strcmp(basics.currentmodel,'US_CMR14')
-    options_.prefilter = 1; % In CMR14 the log variables are demeaned for the sample, for consistency we have to demean for every vintage.
-else
-    options_.prefilter = 0;
-end
+options_.prefilter = 0;
 options_.order = 1;
 eval(['options_.datafile = ''' basics.datalocation '\ExcelFileVintages\' basics.zone deblank(num2str(basics.vintage(basics.vintagenr,:))) ''';']);
 options_.optim_opt = '''MaxIter'',2000';
+options_csminwel.maxiter = 1000000;
+options_newrat.maxiter = 1000000;
 options_.varobs=[];
 
 for i=1:size(basics.model_observables,2)
-    if basics.model_observables(i) 
+    if basics.model_observables(i)
         options_.varobs = [options_.varobs basics.observables{i}];%[options_.varobs basics.variables{i}];%
     end
 end
@@ -65,60 +65,90 @@ clear Letters
 cd([basics.currentmodel '_' num2str(basics.vintage(basics.vintagenr,:))]);
 
 eval(['save ' basics.currentmodel '_' deblank(num2str(basics.vintage(basics.vintagenr,:))) '_options options_ var_list_']);
-
+%global optimizationinfo
 optimizationinfo = 1;
-
+global options_ oo_ optcrit
 eval(['diary ' basics.currentmodel '_' deblank(num2str(basics.vintage(basics.vintagenr,:))) '.log']);
 %while optimizationinfo
-dynare_estimation(var_list_); % run the estimation
-%global optimizationinfo
-global options_ oo_ optcrit
+options_.mode_check.status == 1;
 options_.mode_compute = 4; % start with Sims' algorithm
-if options_.mode_compute == 4 & optcrit==1 %oo_.MarginalDensity.LaplaceApproximation <-1000% NaN optcrit ==1
-    options_.mode_compute = 5;
-    disp('optcrit after mode 4 if unsuccessfull');
-    optcrit
-    dynare_estimation(var_list_);
-else optcrit = 0;
-    disp('optcrit after mode 4 if successfull');
-    optcrit
+warning on;
+try
+if strcmp(basics.currentmodel,'US_DSSW07FF') || strcmp(basics.currentmodel,'US_DSSW07  ') || (strcmp(basics.currentmodel,'US_DSSW07HH'))
+    options_.mode_compute = 6; % start with Sims' algorithm
+    disp('Trying mode_compute = 6, MCMC and checking if estimation is feasible.');
+    dynare_estimation(var_list_); % run the estimation
+else
+    
+    disp('Trying mode_compute = 4, Chris Sims’ csminwel, and checking if estimation is feasible.');
+    dynare_estimation(var_list_); % run the estimation
 end
-if options_.mode_compute == 5 & optcrit==1 %oo_.MarginalDensity.LaplaceApproximation == NaN
+catch
+    optcrit = 1;
+end
+if options_.mode_compute == 4 & optcrit==1 %oo_.MarginalDensity.LaplaceApproximation == NaN
     options_.mode_compute = 7;
-    disp('optcrit after mode 5 if unsuccessfull');
-    optcrit
-    dynare_estimation(var_list_);
-else optcrit = 0;
-    disp('optcrit after mode 5 if successfull');
-    optcrit
+    disp('Mode_compute=4, Chris Sims, csminwel algorithm was unsuccessfull, trying mode_compute=7, fminsearch.');
+    optcrit =0;
+    try
+        dynare_estimation(var_list_);
+        disp('Mode_compute=7, fminsearch, was successfull.');
+    catch
+        optcrit = 1;
+    end
 end
 if options_.mode_compute == 7 & optcrit==1 %oo_.MarginalDensity.LaplaceApproximation == NaN
     options_.mode_compute = 1;
-    dynare_estimation(var_list_);
+    disp('Mode_compute=7, fminsearch, was unsuccessfull, trying mode_compute=1, fmincon.');
+    optcrit =0;
+    try
+        dynare_estimation(var_list_);
+        disp('Mode_compute=1, fmincon, was successfull.');
+        
+    catch
+        optcrit = 1;
+    end
 end
 if options_.mode_compute == 1 & optcrit==1% oo_.MarginalDensity.LaplaceApproximation == NaN
     options_.mode_compute = 3;
-    dynare_estimation(var_list_);
+    disp('Mode_compute=1, fmincon, was unsuccessfull, trying mode_compute=3, fminunc.')
+    optcrit =0;
+    try
+        dynare_estimation(var_list_);
+        disp('Mode_compute=3, fminunc, was successfull.');
+    catch
+        optcrit = 1;
+    end
 end
-if options_.mode_compute == 3 & optcrit==1% oo_.MarginalDensity.LaplaceApproximation == NaN
+if options_.mode_compute == 3 & optcrit==1 %oo_.MarginalDensity.LaplaceApproximation <-1000% NaN optcrit ==1
+    options_.mode_compute = 5;
+    disp('Mode_compute=3,fminunc was unsuccessfull, trying mode_compute=5, Marco Ratto’s newrat.');
+    optcrit =0;
+    try
+        dynare_estimation(var_list_);
+        disp('Mode_compute=5,newrat, was successfull.');
+    catch
+        optcrit = 1;
+    end
+end
+if options_.mode_compute == 5 & optcrit==1% oo_.MarginalDensity.LaplaceApproximation == NaN
     options_.mode_compute = 6;
-    dynare_estimation(var_list_);
+    disp('Mode_compute=5, newrat, was unsuccessfull, trying mode_compute=6,  Monte-Carlo based optimization.')
+    optcrit =0;
+    try
+        dynare_estimation(var_list_);
+    catch
+        optcrit = 1;
+    end
+    disp('Mode_compute=6, Monte-Carlo based optimization failed, please check the model.');
 end
 global oo_ M_ %options_
 MarginalDensityLaPlace = oo_.MarginalDensity.LaplaceApproximation;
 
-eval(['save ' basics.currentmodel '_' deblank(num2str(basics.vintage(basics.vintagenr,:))) '_estimationresults MarginalDensityLaPlace M_ options_']);
+eval(['save ' basics.currentmodel '_' deblank(num2str(basics.vintage(basics.vintagenr,:))) '_estimation_results MarginalDensityLaPlace M_ options_ oo_']);
 
 ModelOutput.MLLaPlace = oo_.MarginalDensity.LaplaceApproximation; % save ML for fit measurement
-if basics.fnc % If nowcasts were conditioned upon, use the Kalman filter's smoother as the value of the nowcast
-ModelOutput.Mean.xgdp_a_obs = [oo_.SmoothedVariables.xgdp_q_obs(end); oo_.forecast.Mean.xgdp_q_obs(1:basics.forecasthorizon)]*4; 
-ModelOutput.Mean.pgdp_a_obs = [oo_.SmoothedVariables.pgdp_q_obs(end); oo_.forecast.Mean.pgdp_q_obs(1:basics.forecasthorizon)]*4;
-ModelOutput.Mean.rff_a_obs  = [oo_.SmoothedVariables.rff_q_obs(end); oo_.forecast.Mean.rff_q_obs(1:basics.forecasthorizon)]*4;
 
-ModelOutput.Median.xgdp_a_obs = [oo_.SmoothedVariables.xgdp_q_obs(end); oo_.forecast.Mean.xgdp_q_obs(1:basics.forecasthorizon)]*4; % get rid of + maximum lag at both ends
-ModelOutput.Median.pgdp_a_obs = [oo_.SmoothedVariables.pgdp_q_obs(end); oo_.forecast.Mean.pgdp_q_obs(1:basics.forecasthorizon)]*4;
-ModelOutput.Median.rff_a_obs  = [oo_.SmoothedVariables.rff_q_obs(end); oo_.forecast.Mean.rff_q_obs(1:basics.forecasthorizon)]*4;
-else
 ModelOutput.Mean.xgdp_a_obs = oo_.forecast.Mean.xgdp_q_obs(1:basics.forecasthorizon)*4; % get rid of + maximum lag at both ends
 ModelOutput.Mean.pgdp_a_obs = oo_.forecast.Mean.pgdp_q_obs(1:basics.forecasthorizon)*4;
 ModelOutput.Mean.rff_a_obs  = oo_.forecast.Mean.rff_q_obs(1:basics.forecasthorizon)*4;
@@ -126,7 +156,7 @@ ModelOutput.Mean.rff_a_obs  = oo_.forecast.Mean.rff_q_obs(1:basics.forecasthoriz
 ModelOutput.Median.xgdp_a_obs = oo_.forecast.Mean.xgdp_q_obs(1:basics.forecasthorizon)*4; % get rid of + maximum lag at both ends
 ModelOutput.Median.pgdp_a_obs = oo_.forecast.Mean.pgdp_q_obs(1:basics.forecasthorizon)*4;
 ModelOutput.Median.rff_a_obs  = oo_.forecast.Mean.rff_q_obs(1:basics.forecasthorizon)*4;
-end
+
 close all
 
 diary off

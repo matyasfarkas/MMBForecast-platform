@@ -1,0 +1,1908 @@
+Starting Dynare (version 4.5.7).
+Starting preprocessing of the model file ...
+Substitution of endo leads >= 2: added 195 auxiliary variables and equations.
+Substitution of endo lags >= 2: added 28 auxiliary variables and equations.
+Found 279 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+Warning: A .m file created by Dynare will have more than 32 nested parenthesis. Matlab cannot support this. 
+         We are going to modify, albeit inefficiently, this output to have fewer than 32 nested parenthesis. 
+         It would hence behoove you to use the use_dll option of the model block to circumnavigate this problem.
+         If you have not yet set up a compiler on your system, see the Matlab documentation for doing so.
+         For Windows, see: https://www.mathworks.com/help/matlab/matlab_external/install-mingw-support-package.html
+
+done
+Preprocessing completed.
+
+STEADY-STATE RESULTS:
+
+c                  		 1.57075
+pcer_q_obs         		 0
+credit_q_obs       		 0
+epsil              		 1
+Fp                 		 7.02868
+Fw                 		 2.37527
+g                  		 0.608271
+gamma              		 0.985
+xgdp_q_obs         		 0
+h                  		 1.01373
+hours_obs          		 0
+i                  		 0.798323
+pgdp_q_obs         		 0
+fpi_q_obs          		 0
+kbar               		 24.1271
+lambdaf            		 1.2
+lambdaz            		 0.610222
+muup               		 1
+muzstar            		 1.00412
+n                  		 11.9712
+networth_q_obs     		 0
+omegabar           		 0.500971
+phi                		 0.598353
+pi                 		 1.00601
+pinv_q_obs         		 0
+pitarget           		 1.00601
+cp_q_obs           		 0
+pstar              		 1
+q                  		 1
+Re                 		 0.0114707
+rff_q_obs          		 0
+RealRe_obs         		 1
+rL                 		 1.00543
+rk                 		 0.050015
+Rk                 		 0.0188063
+RL                 		 0.0114707
+s                  		 0.833333
+sigma              		 0.259199
+xi0                		 1
+xi1                		 1
+xi2                		 1
+xi3                		 1
+xi4                		 1
+xi5                		 1
+xi6                		 1
+xi7                		 1
+xi8                		 1
+spreadl_obs        		 0
+term               		 1
+volEquity          		 0.536401
+u                  		 1
+wage_obs           		 0
+wtilde             		 1.77074
+wstar              		 1
+zetac              		 1
+zetai              		 1
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0                0                0
+       1.718e-18       -1.718e-18                0
+        1.91e-18         1.91e-18                0
+       1.979e-18       -1.979e-18                0
+       2.658e-18       -2.658e-18                0
+       2.745e-18       -2.745e-18                0
+       4.574e-18        4.574e-18                0
+       5.786e-18       -5.786e-18                0
+       5.801e-18       -5.801e-18                0
+       6.989e-18       -6.989e-18                0
+       7.411e-18        7.411e-18                0
+       7.671e-18        7.671e-18                0
+       7.768e-18        7.768e-18                0
+       7.929e-18        7.929e-18                0
+       8.383e-18        8.383e-18                0
+       9.506e-18        9.506e-18                0
+       9.853e-18        9.853e-18                0
+       1.152e-17       -1.152e-17                0
+       1.421e-17       -1.421e-17                0
+       1.474e-17        1.474e-17                0
+       1.488e-17       -1.488e-17                0
+       1.522e-17       -1.522e-17                0
+        1.62e-17         1.62e-17                0
+       1.655e-17       -1.655e-17                0
+       1.671e-17        1.671e-17                0
+       1.674e-17        1.674e-17                0
+       1.722e-17        1.722e-17                0
+       1.779e-17        1.779e-17                0
+       1.988e-17       -1.988e-17                0
+       2.043e-17       -2.043e-17                0
+        2.22e-17        -2.22e-17                0
+       2.391e-17       -2.391e-17                0
+       2.457e-17        2.457e-17                0
+       2.711e-17       -2.711e-17                0
+       3.022e-17       -3.022e-17                0
+       3.248e-17        3.248e-17                0
+       3.847e-17       -3.847e-17                0
+        1.73e-15        -1.73e-15                0
+         0.09864          0.09864                0
+          0.1459           0.1459                0
+          0.7412           0.7412                0
+          0.7453           0.7396           0.0916
+          0.7453           0.7396          -0.0916
+          0.8057           0.8057                0
+          0.8089           0.8089                0
+          0.8128           0.8128                0
+          0.8968           0.8968                0
+          0.9087           0.9087                0
+          0.9109           0.9109                0
+          0.9251           0.9245          0.03449
+          0.9251           0.9245         -0.03449
+          0.9427           0.9427                0
+          0.9706           0.9706                0
+          0.9744           0.9744                0
+          0.9747           0.9747                0
+           0.975            0.975                0
+           0.987            0.987                0
+           1.056            1.047           0.1404
+           1.056            1.047          -0.1404
+           1.083            1.082          0.04506
+           1.083            1.082         -0.04506
+           1.232            1.232                0
+           1.255            1.255                0
+           1.351            1.351                0
+           1.358            1.358                0
+            2.56            2.551            0.215
+            2.56            2.551           -0.215
+           2.564            2.483           0.6389
+           2.564            2.483          -0.6389
+            2.57            2.348            1.045
+            2.57            2.348           -1.045
+           2.577            2.149            1.422
+           2.577            2.149           -1.422
+           2.584            1.891            1.761
+           2.584            1.891           -1.761
+           2.588            2.588                0
+            2.59            1.581            2.051
+            2.59            1.581           -2.051
+            2.59            2.553           0.4348
+            2.59            2.553          -0.4348
+           2.594            2.448           0.8572
+           2.594            2.448          -0.8572
+           2.595            1.227            2.286
+           2.595            1.227           -2.286
+           2.599           0.8377            2.461
+           2.599           0.8377           -2.461
+             2.6            2.276            1.256
+             2.6            2.276           -1.256
+           2.604           0.4244             2.57
+           2.604           0.4244            -2.57
+           2.606            2.041            1.619
+           2.606            2.041           -1.619
+            2.61        -0.001729             2.61
+            2.61        -0.001729            -2.61
+           2.611            1.749            1.939
+           2.611            1.749           -1.939
+           2.615          -0.4293             2.58
+           2.615          -0.4293            -2.58
+           2.617            1.407            2.207
+           2.617            1.407           -2.207
+           2.621          -0.8464            2.481
+           2.621          -0.8464           -2.481
+           2.624            1.023            2.416
+           2.624            1.023           -2.416
+           2.626           -1.242            2.314
+           2.626           -1.242           -2.314
+           2.629           -1.604            2.083
+           2.629           -1.604           -2.083
+           2.631           -1.925            1.793
+           2.631           -1.925           -1.793
+           2.632           -2.196            1.452
+           2.632           -2.196           -1.452
+           2.633           0.6062            2.562
+           2.633           0.6062           -2.562
+           2.634           -2.408            1.068
+           2.634           -2.408           -1.068
+           2.637           -2.554           0.6541
+           2.637           -2.554          -0.6541
+           2.638           -2.629           0.2202
+           2.638           -2.629          -0.2202
+           2.644           0.1669            2.638
+           2.644           0.1669           -2.638
+           2.645           -0.625             2.57
+           2.645           -0.625            -2.57
+           2.645           -1.039            2.433
+           2.645           -1.039           -2.433
+           2.647          -0.1925             2.64
+           2.647          -0.1925            -2.64
+           2.647           -1.426             2.23
+           2.647           -1.426            -2.23
+            2.65           -1.774            1.968
+            2.65           -1.774           -1.968
+           2.652           0.2486             2.64
+           2.652           0.2486            -2.64
+           2.654           -2.077            1.653
+           2.654           -2.077           -1.653
+           2.656          -0.2829            2.641
+           2.656          -0.2829           -2.641
+            2.66           0.6889            2.569
+            2.66           0.6889           -2.569
+           2.661           -2.325            1.293
+           2.661           -2.325           -1.293
+           2.661            2.661                0
+           2.662            2.625           0.4452
+           2.662            2.625          -0.4452
+           2.665            2.516           0.8791
+           2.665            2.516          -0.8791
+           2.669           -2.513           0.8979
+           2.669           -2.513          -0.8979
+            2.67            2.337            1.291
+            2.67            2.337           -1.291
+            2.67            1.117            2.426
+            2.67            1.117           -2.426
+           2.671           -0.728             2.57
+           2.671           -0.728            -2.57
+           2.677            2.093            1.669
+           2.677            2.093           -1.669
+           2.679           -2.636            0.478
+           2.679           -2.636           -0.478
+           2.682            1.518            2.211
+           2.682            1.518           -2.211
+           2.687           -1.152            2.427
+           2.687           -1.152           -2.427
+           2.688             1.79            2.005
+           2.688             1.79           -2.005
+           2.689           -2.689          0.04467
+           2.689           -2.689         -0.04467
+           2.696            1.881            1.932
+           2.696            1.881           -1.932
+           2.697           -2.669           0.3904
+           2.697           -2.669          -0.3904
+           2.698            -1.54            2.215
+           2.698            -1.54           -2.215
+           2.701           -2.575           0.8174
+           2.701           -2.575          -0.8174
+           2.702           -1.884            1.937
+           2.702           -1.884           -1.937
+           2.703            1.436             2.29
+           2.703            1.436            -2.29
+           2.703           -2.409            1.226
+           2.703           -2.409           -1.226
+           2.703           -2.177            1.603
+           2.703           -2.177           -1.603
+           2.712            -1.99            1.842
+           2.712            -1.99           -1.842
+           2.712           -2.271            1.482
+           2.712           -2.271           -1.482
+           2.713            2.193            1.596
+           2.713            2.193           -1.596
+           2.715           -2.488            1.086
+           2.715           -2.488           -1.086
+           2.717           -1.651            2.158
+           2.717           -1.651           -2.158
+           2.717           -2.635           0.6624
+           2.717           -2.635          -0.6624
+           2.719            -2.71           0.2226
+           2.719            -2.71          -0.2226
+           2.722            1.037            2.517
+           2.722            1.037           -2.517
+           2.732           -1.263            2.422
+           2.732           -1.263           -2.422
+           2.734            2.451            1.212
+           2.734            2.451           -1.212
+           2.744           0.5977            2.679
+           2.744           0.5977           -2.679
+           2.753          -0.8342            2.624
+           2.753          -0.8342           -2.624
+           2.765           0.1234            2.762
+           2.765           0.1234           -2.762
+           2.765            2.651           0.7865
+           2.765            2.651          -0.7865
+           2.769           -0.367            2.744
+           2.769           -0.367           -2.744
+           2.828            2.809           0.3223
+           2.828            2.809          -0.3223
+           3.033            3.033                0
+           3.382            3.278           0.8342
+           3.382            3.278          -0.8342
+           3.387            3.076            1.417
+           3.387            3.076           -1.417
+           3.404            2.792            1.948
+           3.404            2.792           -1.948
+           3.426            2.427            2.419
+           3.426            2.427           -2.419
+           3.447           -3.433           0.3111
+           3.447           -3.433          -0.3111
+           3.451            1.987            2.822
+           3.451            1.987           -2.822
+           3.464            3.458           0.2023
+           3.464            3.458          -0.2023
+           3.472           -3.345            0.929
+           3.472           -3.345           -0.929
+           3.481         -0.06775             3.48
+           3.481         -0.06775            -3.48
+           3.491             1.49            3.157
+           3.491             1.49           -3.157
+           3.495           -1.803            2.994
+           3.495           -1.803           -2.994
+           3.507           -1.243             3.28
+           3.507           -1.243            -3.28
+           3.513          -0.6494            3.452
+           3.513          -0.6494           -3.452
+           3.513           -2.338            2.622
+           3.513           -2.338           -2.622
+           3.516           -3.162            1.538
+           3.516           -3.162           -1.538
+           3.539           0.4844            3.505
+           3.539           0.4844           -3.505
+           3.549           -2.831            2.139
+           3.549           -2.831           -2.139
+           3.555           0.9855            3.415
+           3.555           0.9855           -3.415
+           4.077          -0.4428            4.053
+           4.077          -0.4428           -4.053
+           4.315           -3.484            2.545
+           4.315           -3.484           -2.545
+           69.49            69.49                0
+           97.39           -97.39                0
+       1.394e+18       -1.394e+18                0
+        1.96e+18         1.96e+18                0
+       1.298e+20       -1.298e+20                0
+       6.337e+20        6.337e+20                0
+       7.123e+20       -7.123e+20                0
+       1.084e+21        1.084e+21                0
+       1.854e+21       -1.854e+21                0
+        1.12e+22         1.12e+22                0
+       5.812e+25       -5.812e+25                0
+             Inf              Inf                0
+
+
+There are 211 eigenvalue(s) larger than 1 in modulus 
+for 211 forward-looking variable(s)
+
+The rank condition is verified.
+
+The standard deviation of e_sigma is not estimated (the value provided in estimated_params_init is not used).
+
+Total computing time : 0h00m09s
+Trying mode_compute = 4, Chris Sims’ csminwel, and checking if estimation is feasible.
+Initial value of the log posterior (or likelihood): -1403356233.5154
+-----------------
+f at the beginning of new iteration, 1403356233.5153951645
+Predicted improvement: 16969025158220367872.000000000
+lambda =          1; f =   1431659487.8627822
+lambda =    0.33333; f =   1406498931.2166102
+lambda =    0.11111; f =   1403704720.0056977
+lambda =   0.037037; f =   1403394720.8247800
+lambda =   0.012346; f =   1403360432.7151468
+lambda =  0.0041152; f =   1403356675.0064547
+lambda =  0.0013717; f =   1403356274.8436892
+lambda = 0.00045725; f =   1403356236.0909569
+lambda = 0.00015242; f =   1403356233.5218465
+lambda = 5.0805e-05; f =   1411869754.6628854
+lambda = 1.6935e-05; f =   1404250516.0693078
+lambda =  5.645e-06; f =   1403440746.7229507
+lambda = 1.8817e-06; f =   1403362063.0603287
+lambda = 6.2723e-07; f =   1403356360.7139103
+lambda = 2.0908e-07; f =   1403356235.4670193
+lambda = 6.9692e-08; f =   1403356233.7018273
+lambda = 2.3231e-08; f =   1403356233.5275030
+lambda = 7.7435e-09; f =   1403356233.5154030
+lambda = 2.5812e-09; f =     19062461.9678068
+Norm of dx 5.8256e+07
+----
+Improvement on iteration 1 = 1384293771.547588348
+smallest step still improving too slow
+-----------------
+f at the beginning of new iteration,  19062461.9678067677
+Predicted improvement: 169305201776730.531250000
+lambda =          1; f =    270975075.1606123
+lambda =    0.33333; f =     47050917.7342851
+lambda =    0.11111; f =     22171681.6135706
+lambda =   0.037037; f =     19407730.6271166
+lambda =   0.012346; f =     19100761.0383680
+lambda =  0.0041152; f =     19066698.3493097
+lambda =  0.0013717; f =     19062927.3688266
+lambda = 0.00045725; f =     19062512.2115595
+lambda = 0.00015242; f =     19062467.1417594
+lambda = 5.0805e-05; f =     19062462.4213165
+lambda = 1.6935e-05; f =     19062461.9914352
+lambda =  5.645e-06; f =     19062461.9686955
+lambda = 1.8817e-06; f =      2790713.8486368
+lambda = 6.2723e-07; f =      3370729.8219750
+lambda = 2.0908e-07; f =      5083214.2757872
+lambda = 6.9692e-08; f =      8676674.5016587
+Norm of dx 1.8401e+05
+----
+Improvement on iteration 2 = 16271748.119170003
+-----------------
+f at the beginning of new iteration,   2790713.8486367650
+Predicted improvement: 192986665702.424041748
+lambda =          1; f =      5168910.2239870
+lambda =    0.33333; f =      3054828.1370254
+lambda =    0.11111; f =      2820018.6748258
+lambda =   0.037037; f =      2793958.0190548
+lambda =   0.012346; f =      2791071.5698603
+lambda =  0.0041152; f =      2790752.7547372
+lambda =  0.0013717; f =      2790717.8974799
+lambda = 0.00045725; f =      2790714.2133330
+lambda = 0.00015242; f =      2790713.8669440
+lambda = 5.0805e-05; f =      2790713.8486507
+lambda = 1.6935e-05; f =      2790713.8503931
+lambda =  5.645e-06; f =      2479562.0968021
+lambda = 1.8817e-06; f =      2532280.7386892
+Norm of dx     6216.2
+----
+Improvement on iteration 3 =   311151.751834624
+-----------------
+f at the beginning of new iteration,   2479562.0968021415
+Predicted improvement: 28711184878.949028015
+lambda =          1; f =      3934348.2513187
+lambda =    0.33333; f =      2641055.2724095
+lambda =    0.11111; f =      2497457.9111657
+lambda =   0.037037; f =      2481536.5320408
+lambda =   0.012346; f =      2479778.4621996
+lambda =  0.0041152; f =      2479585.4096347
+lambda =  0.0013717; f =      2479564.5300924
+lambda = 0.00045725; f =      2479562.3228190
+lambda = 0.00015242; f =      2479562.1102211
+lambda = 5.0805e-05; f =      2479562.0968040
+lambda = 1.6935e-05; f =      1874744.2879710
+Norm of dx     2568.6
+----
+Improvement on iteration 4 =   604817.808831181
+-----------------
+f at the beginning of new iteration,   1874744.2879709608
+Predicted improvement: 4910958547.317999840
+lambda =          1; f =      2410734.3264813
+lambda =    0.33333; f =      1934232.4061956
+lambda =    0.11111; f =      1881334.3980108
+lambda =   0.037037; f =      1875471.5557744
+lambda =   0.012346; f =      1874823.8796392
+lambda =  0.0041152; f =      1874752.8898280
+lambda =  0.0013717; f =      1874745.1717476
+lambda = 0.00045725; f =      1874744.3655814
+lambda = 0.00015242; f =      1874744.2920632
+lambda = 5.0805e-05; f =      1874744.2879729
+lambda = 1.6935e-05; f =      1744646.2288986
+lambda = 3.2739e-05; f =      1697081.2272685
+Norm of dx     1084.1
+----
+Improvement on iteration 5 =   177663.060702479
+-----------------
+f at the beginning of new iteration,   1697081.2272684814
+Predicted improvement: 1332522229.344836950
+lambda =          1; f =      1809294.2289066
+lambda =    0.33333; f =      1709492.5621951
+lambda =    0.11111; f =      1698443.7169715
+lambda =   0.037037; f =      1697229.0468202
+lambda =   0.012346; f =      1697096.9092657
+lambda =  0.0041152; f =      1697082.9061033
+lambda =  0.0013717; f =      1697081.4058726
+lambda = 0.00045725; f =      1697081.2460092
+lambda = 0.00015242; f =      1697081.2291070
+lambda = 5.0805e-05; f =      1697081.2274016
+lambda = 1.6935e-05; f =      1697081.2272697
+lambda =  5.645e-06; f =      1682288.5083633
+lambda = 1.0913e-05; f =      1668944.4925848
+lambda = 2.1097e-05; f =      1697081.2272741
+lambda = 1.4205e-05; f =      1697081.2272685
+lambda = 1.1204e-05; f =      1668219.1231197
+lambda = 1.2919e-05; f =      1663985.8763408
+lambda = 1.4896e-05; f =      1697081.2272687
+lambda = 1.3676e-05; f =      1697081.2272685
+lambda = 1.2993e-05; f =      1663805.4161814
+lambda = 1.3398e-05; f =      1697081.2272685
+lambda = 1.3153e-05; f =      1663413.2156075
+lambda =   1.33e-05; f =      1663058.1978198
+lambda = 1.3448e-05; f =      1697081.2272685
+Norm of dx     594.15
+Cliff.  Perturbing search direction.
+Predicted improvement: 3939085684.697063446
+lambda =          1; f =      1801150.7384571
+lambda =    0.33333; f =      1708552.4966919
+lambda =    0.11111; f =      1698327.5796079
+lambda =   0.037037; f =      1697212.5146098
+lambda =   0.012346; f =      1697094.6101388
+lambda =  0.0041152; f =      1697082.5827667
+lambda =  0.0013717; f =      1697081.3757494
+lambda = 0.00045725; f =      1697081.2430665
+lambda = 0.00015242; f =      1697081.2288006
+lambda = 5.0805e-05; f =      1697081.2273744
+lambda = 1.6935e-05; f =      1697081.2272689
+lambda =  5.645e-06; f =      1653563.2050102
+lambda = 1.0913e-05; f =      1614620.9790556
+lambda = 2.1097e-05; f =      1697081.2272719
+lambda = 1.4205e-05; f =      1591072.3848318
+lambda =  1.801e-05; f =      1697081.2272694
+lambda =  1.562e-05; f =      1697081.2272686
+lambda = 1.4341e-05; f =      1590118.2203502
+lambda = 1.5095e-05; f =      1697081.2272685
+lambda = 1.4638e-05; f =      1697081.2272685
+lambda =  1.437e-05; f =      1589911.2268666
+lambda =  1.453e-05; f =      1588788.7298518
+lambda = 1.4692e-05; f =      1697081.2272685
+Norm of dx     876.61
+Cliff again.  Try traversing
+Predicted improvement: 51732894531799.984375000
+lambda =          1; f = 1834619596698.7890625
+lambda =    0.33333; f = 203847234737.8209534
+lambda =    0.11111; f =  22650902722.8422737
+lambda =   0.037037; f =   2518175973.9986987
+lambda =   0.012346; f =    281272678.7711332
+lambda =  0.0041152; f =     32749982.7012369
+lambda =  0.0013717; f =      5143721.3082298
+lambda = 0.00045725; f =      2078816.0991116
+lambda = 0.00015242; f =      1739090.1318372
+lambda = 5.0805e-05; f =      1701615.7402567
+lambda = 1.6935e-05; f =      1697542.8333008
+lambda =  5.645e-06; f =      1697120.5555447
+lambda = 1.8817e-06; f =      1697083.4226966
+lambda = 6.2723e-07; f =      1697081.2319838
+lambda = 2.0908e-07; f =      1697081.2272756
+lambda = 6.9692e-08; f =      1697081.2272937
+lambda = 2.3231e-08; f =       689295.6163733
+Norm of dx 1.0172e+07
+----
+Improvement on iteration 6 =  1007785.610895206
+-----------------
+f at the beginning of new iteration,    689295.6163732759
+Predicted improvement: 177713974.896512330
+lambda =          1; f =       703186.2451935
+lambda =    0.33333; f =       690818.9092142
+lambda =    0.11111; f =       689458.8307521
+lambda =   0.037037; f =       689312.1033084
+lambda =   0.012346; f =       689297.0529254
+lambda =  0.0041152; f =       689295.6952898
+lambda =  0.0013717; f =       689295.6212547
+lambda = 0.00045725; f =       689295.6168159
+lambda = 0.00015242; f =       689295.6163960
+lambda = 5.0805e-05; f =       671941.0698890
+lambda = 9.8216e-05; f =       689295.6163768
+lambda = 6.6133e-05; f =       689295.6163733
+lambda = 5.2163e-05; f =       671496.2205698
+lambda = 6.0144e-05; f =       668902.6974112
+lambda = 6.9347e-05; f =       689295.6163734
+lambda = 6.3669e-05; f =       689295.6163733
+lambda = 6.0488e-05; f =       668792.2103701
+lambda = 6.2377e-05; f =       668188.3690118
+lambda = 6.4325e-05; f =       689295.6163733
+lambda = 6.3149e-05; f =       667945.1548870
+lambda = 6.3852e-05; f =       689295.6163733
+Norm of dx     202.44
+Cliff.  Perturbing search direction.
+Predicted improvement: 510371796.364123881
+lambda =          1; f =       702733.1305061
+lambda =    0.33333; f =       690765.1664038
+lambda =    0.11111; f =       689451.7641735
+lambda =   0.037037; f =       689310.9719095
+lambda =   0.012346; f =       689296.9107954
+lambda =  0.0041152; f =       689295.6907038
+lambda =  0.0013717; f =       689295.6210287
+lambda = 0.00045725; f =       689295.6167932
+lambda = 0.00015242; f =       689295.6163943
+lambda = 5.0805e-05; f =       641962.5683318
+lambda = 9.8216e-05; f =       689295.6163763
+lambda = 6.6133e-05; f =       689295.6163733
+lambda = 5.2163e-05; f =       640811.8847449
+lambda = 6.0144e-05; f =       634156.1295690
+lambda = 6.9347e-05; f =       689295.6163733
+lambda = 6.3669e-05; f =       631281.0447413
+lambda = 6.7018e-05; f =       689295.6163733
+lambda = 6.4988e-05; f =       689295.6163733
+lambda =   6.38e-05; f =       631175.4897622
+lambda =  6.451e-05; f =       630603.8336441
+lambda = 6.5228e-05; f =       689295.6163733
+Norm of dx     339.18
+Cliff again.  Try traversing
+Predicted improvement: 4701684261151.547851563
+lambda =          1; f =  65951496198.1790009
+lambda =    0.33333; f =   7328472164.5063410
+lambda =    0.11111; f =    814859206.0641967
+lambda =   0.037037; f =     91143225.7814910
+lambda =   0.012346; f =     10736603.3759235
+lambda =  0.0041152; f =      1804622.3172529
+lambda =  0.0013717; f =       812876.0099018
+lambda = 0.00045725; f =       702913.8170417
+lambda = 0.00015242; f =       690771.9181388
+lambda = 5.0805e-05; f =       689448.0431171
+lambda = 1.6935e-05; f =       689309.2103501
+lambda =  5.645e-06; f =       689296.2884781
+lambda = 1.8817e-06; f =       689296.6181704
+lambda = 6.2723e-07; f =       689295.6191301
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+lambda = 2.0908e-07; f =       226701.8961700
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+lambda = 6.9692e-08; f =       378564.0721538
+Norm of dx 3.0665e+06
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+----
+Improvement on iteration 7 =   462593.720203308
+-----------------
+f at the beginning of new iteration,    226701.8961699675
+Predicted improvement: 19153070.234085541
+lambda =          1; f =       227368.0865082
+lambda =    0.33333; f =       226763.3559138
+lambda =    0.11111; f =       226705.4859591
+lambda =   0.037037; f =       226701.8988689
+lambda =   0.012346; f =       226701.8978653
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+lambda =  0.0041152; f =       144791.7964601
+Norm of dx     60.105
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+----
+Improvement on iteration 8 =    81910.099709906
+-----------------
+f at the beginning of new iteration,    144791.7964600620
+Predicted improvement:  5464423.633674688
+lambda =          1; f =       144961.5474613
+lambda =    0.33333; f =       144805.6871627
+lambda =    0.11111; f =       144792.3728372
+lambda =   0.037037; f =       144791.7967930
+lambda =   0.012346; f =       144791.7971979
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+lambda =  0.0041152; f =       114672.4594612
+Norm of dx     35.802
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+----
+Improvement on iteration 9 =    30119.336998873
+-----------------
+f at the beginning of new iteration,    114672.4594611889
+Predicted improvement:  1107840.116536709
+lambda =          1; f =       114713.5093989
+lambda =    0.33333; f =       114673.8897339
+lambda =    0.11111; f =       114672.6230353
+lambda =   0.037037; f =       154896.5760063
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+lambda =   0.012346; f =        99266.6218327
+Norm of dx     16.571
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+
+ans =
+
+    'Error using US_CMR14_20092_steadystate>nobanks_ss1 (line 174)
+     (nobanks_ss1) failed to find steady state on first try, will look more closely now'
+
+----
+Improvement on iteration 10 =    15405.837628476
+-----------------
+f at the beginning of new iteration,     99266.6218327134
+Predicted improvement:   441402.263071931
+lambda =          1; f =        99295.3659842
+lambda =    0.33333; f =        99268.1544368
+lambda =    0.11111; f =        99266.6224863
+lambda =   0.037037; f =        93554.6714644
+lambda =   0.012346; f =        91113.9782377
+lambda =   0.023866; f =        88707.4317546
+Norm of dx     10.396
+----
+Improvement on iteration 11 =    10559.190078096
+-----------------
+f at the beginning of new iteration,     88707.4317546176
+Predicted improvement:   322811.778682561
+lambda =          1; f =        88733.9724501
+lambda =    0.33333; f =        88709.0141368
+lambda =    0.11111; f =        88707.4375929
+lambda =   0.037037; f =        78301.5695607
+Norm of dx     11.128
+----
+Improvement on iteration 12 =    10405.862193889
+-----------------
+f at the beginning of new iteration,     78301.5695607288
+Predicted improvement:   703068.415223844
+lambda =          1; f =        78456.9309685
+lambda =    0.33333; f =        78315.6655363
+lambda =    0.11111; f =        78302.4183420
+lambda =   0.037037; f =        78301.5777033
+lambda =   0.012346; f =        78301.5755528
+lambda =  0.0041152; f =        75751.6128994
+Norm of dx     26.412
+----
+Improvement on iteration 13 =     2549.956661359
+-----------------
+f at the beginning of new iteration,     75751.6128993696
+Predicted improvement:  3872732.532833783
+lambda =          1; f =        80805.2518626
+lambda =    0.33333; f =        76294.0958038
+lambda =    0.11111; f =        75806.0411327
+lambda =   0.037037; f =        75756.0561284
+lambda =   0.012346; f =        75751.8118730
+lambda =  0.0041152; f =        75751.6747154
+lambda =  0.0013717; f =        75751.6178755
+lambda = 0.00045725; f =        75751.6130868
+lambda = 0.00015242; f =        73862.7951868
+lambda = 0.00029465; f =        75751.6129145
+lambda =  0.0001984; f =        72906.3465853
+lambda = 0.00025153; f =        75751.6129011
+lambda = 0.00021815; f =        72448.6156488
+lambda = 0.00023761; f =        75751.6128996
+lambda = 0.00022574; f =        72270.2390843
+lambda = 0.00023279; f =        75751.6128994
+lambda = 0.00022853; f =        72205.0356277
+lambda = 0.00023108; f =        75751.6128994
+Norm of dx     148.36
+Cliff.  Perturbing search direction.
+Predicted improvement:  6719770.236279661
+lambda =          1; f =        79962.7680771
+lambda =    0.33333; f =        76201.4340335
+lambda =    0.11111; f =        75796.0551159
+lambda =   0.037037; f =        75755.0499515
+lambda =   0.012346; f =        75751.7406500
+lambda =  0.0041152; f =        75751.7299093
+lambda =  0.0013717; f =        75751.6234067
+lambda = 0.00045725; f =        75751.6135021
+lambda = 0.00015242; f =        72178.3324428
+lambda = 0.00029465; f =        75751.6130180
+lambda =  0.0001984; f =        75751.6129073
+lambda = 0.00015649; f =        72038.1722562
+lambda = 0.00018043; f =        75751.6129011
+lambda = 0.00016566; f =        75751.6128994
+lambda = 0.00015738; f =        72007.3543274
+lambda =  0.0001623; f =        71838.1243319
+lambda = 0.00016737; f =        75751.6128994
+lambda = 0.00016431; f =        71769.7368118
+lambda = 0.00016614; f =        75751.6128994
+Norm of dx      161.6
+Cliff again.  Try traversing
+Predicted improvement: 1244765657.227002621
+lambda =          1; f =   1342586993.1354651
+lambda =    0.33333; f =    149193253.7171938
+lambda =    0.11111; f =     16627786.9061176
+lambda =   0.037037; f =      1909569.5681778
+lambda =   0.012346; f =       277966.8198619
+lambda =  0.0041152; f =        97806.4795322
+lambda =  0.0013717; f =        78071.1863494
+lambda = 0.00045725; f =        75971.3965228
+lambda = 0.00015242; f =        75768.1161527
+lambda = 5.0805e-05; f =        75752.6325356
+lambda = 1.6935e-05; f =        75751.6168735
+lambda =  5.645e-06; f =        82205.9133459
+lambda = 1.8817e-06; f =        74539.7674614
+lambda = 6.2723e-07; f =        74684.4672537
+Norm of dx      49895
+----
+Improvement on iteration 14 =     3981.876087569
+back and forth on step length never finished
+-----------------
+f at the beginning of new iteration,     71769.7368118004
+Predicted improvement:  3872732.532833783
+lambda =          1; f =        76824.8953747
+lambda =    0.33333; f =        72312.7164159
+lambda =    0.11111; f =        71824.3215031
+lambda =   0.037037; f =        71774.2235676
+lambda =   0.012346; f =        71769.9439352
+lambda =  0.0041152; f =        71769.8060795
+lambda =  0.0013717; f =        71769.7440128
+lambda = 0.00045725; f =        71769.7375675
+lambda = 0.00015242; f =        71769.7368951
+lambda = 5.0805e-05; f =        71769.7368208
+lambda = 1.6935e-05; f =        71769.7368127
+lambda =  5.645e-06; f =        71769.7368119
+lambda = 1.8817e-06; f =        71769.7368118
+lambda = 6.2723e-07; f =        71755.7181952
+Norm of dx     148.36
+----
+Improvement on iteration 15 =       14.018616563
+-----------------
+f at the beginning of new iteration,     71755.7181952372
+Predicted improvement: 33939233.861133970
+lambda =          1; f =       112451.7443134
+lambda =    0.33333; f =        76199.3418954
+lambda =    0.11111; f =        72231.9301192
+lambda =   0.037037; f =        71803.2558640
+lambda =   0.012346; f =        71759.5390084
+lambda =  0.0041152; f =        71755.8834529
+lambda =  0.0013717; f =        71755.7934080
+lambda = 0.00045725; f =        71755.7260517
+lambda = 0.00015242; f =        71755.7190179
+lambda = 5.0805e-05; f =        71755.7182864
+lambda = 1.6935e-05; f =        71755.7182053
+lambda =  5.645e-06; f =        71755.7181963
+lambda = 1.8817e-06; f =        71755.7181954
+lambda = 6.2723e-07; f =        71755.7181952
+lambda = 2.0908e-07; f =        71755.7181952
+lambda = 6.9692e-08; f =        71751.0040632
+lambda = 1.3473e-07; f =        71755.7181952
+lambda = 9.0717e-08; f =        71755.7181952
+lambda = 7.1554e-08; f =        71750.8786164
+lambda = 8.2502e-08; f =        71750.1418580
+lambda = 9.5127e-08; f =        71755.7181952
+lambda = 8.7338e-08; f =        71749.8168892
+lambda = 9.1931e-08; f =        71755.7181952
+lambda = 8.9147e-08; f =        71749.6953019
+lambda = 9.0807e-08; f =        71755.7181952
+lambda = 8.9807e-08; f =        71755.7181952
+Norm of dx     427.44
+Cliff.  Perturbing search direction.
+Predicted improvement: 40169660.072504528
+lambda =          1; f =       110030.8570266
+lambda =    0.33333; f =        75930.8315309
+lambda =    0.11111; f =        72202.3510127
+lambda =   0.037037; f =        71800.0573608
+lambda =   0.012346; f =        71759.2143104
+lambda =  0.0041152; f =        71755.8593505
+lambda =  0.0013717; f =        71755.8131599
+lambda = 0.00045725; f =        71755.7282562
+lambda = 0.00015242; f =        71755.7192680
+lambda = 5.0805e-05; f =        71755.7183142
+lambda = 1.6935e-05; f =        71755.7182084
+lambda =  5.645e-06; f =        71755.7181967
+lambda = 1.8817e-06; f =        71755.7181954
+lambda = 6.2723e-07; f =        71755.7181953
+lambda = 2.0908e-07; f =        71755.7181952
+lambda = 6.9692e-08; f =        71750.1412534
+lambda = 1.3473e-07; f =        71755.7181952
+lambda = 9.0717e-08; f =        71755.7181952
+lambda = 7.1554e-08; f =        71749.9930239
+lambda = 8.2502e-08; f =        71755.7181952
+lambda = 7.5747e-08; f =        71749.6592819
+lambda = 7.9731e-08; f =        71755.7181952
+lambda = 7.7316e-08; f =        71749.5344393
+lambda = 7.8756e-08; f =        71755.7181952
+lambda = 7.7889e-08; f =        71749.4888836
+Norm of dx     440.26
+Cliff again.  Try traversing
+Predicted improvement: 1091224525.257318258
+lambda =          1; f =   1288333179.1534746
+lambda =    0.33333; f =    143163701.5797752
+lambda =    0.11111; f =     15955019.1955313
+lambda =   0.037037; f =      1831511.3793377
+lambda =   0.012346; f =       265825.4096965
+lambda =  0.0041152; f =        92911.5215321
+lambda =  0.0013717; f =        73976.9440933
+lambda = 0.00045725; f =        71965.0327237
+lambda = 0.00015242; f =        71771.4203790
+lambda = 5.0805e-05; f =        71756.6574877
+lambda = 1.6935e-05; f =        71755.7223688
+lambda =  5.645e-06; f =        85049.8709141
+lambda = 1.8817e-06; f =        71645.8882399
+lambda = 6.2723e-07; f =        70980.3035393
+Norm of dx      46717
+----
+Improvement on iteration 16 =      775.414655979
+-----------------
+f at the beginning of new iteration,     70980.3035392587
+Predicted improvement: 31988138.599878702
+lambda =          1; f =       119805.9178211
+lambda =    0.33333; f =        76316.2968872
+lambda =    0.11111; f =        71553.4375971
+lambda =   0.037037; f =        71037.9211309
+lambda =   0.012346; f =        70985.0325722
+lambda =  0.0041152; f =        70980.5187977
+lambda =  0.0013717; f =        70980.3757576
+lambda = 0.00045725; f =        70980.3108231
+lambda = 0.00015242; f =        70980.3043033
+lambda = 5.0805e-05; f =        70980.3036208
+lambda = 1.6935e-05; f =        70980.3035472
+lambda =  5.645e-06; f =        70980.3035398
+lambda = 1.8817e-06; f =        70980.3035393
+lambda = 6.2723e-07; f =        70940.2807383
+lambda = 1.2125e-06; f =        70903.3066324
+lambda = 2.3441e-06; f =        70980.3035393
+lambda = 1.5784e-06; f =        70980.3035393
+lambda = 1.2449e-06; f =        70901.2821857
+lambda = 1.4354e-06; f =        70889.4690933
+lambda = 1.6551e-06; f =        70980.3035393
+lambda = 1.5196e-06; f =        70980.3035393
+lambda = 1.4436e-06; f =        70888.9652116
+lambda = 1.4887e-06; f =        70886.2031997
+lambda = 1.5352e-06; f =        70980.3035393
+lambda = 1.5071e-06; f =        70980.3035393
+lambda = 1.4905e-06; f =        70886.0913035
+Norm of dx     451.14
+Cliff.  Perturbing search direction.
+Predicted improvement: 41426221.973562054
+lambda =          1; f =       118490.4732636
+lambda =    0.33333; f =        76171.2569508
+lambda =    0.11111; f =        71537.5015055
+lambda =   0.037037; f =        71036.2063603
+lambda =   0.012346; f =        70984.8615399
+lambda =  0.0041152; f =        70980.5053610
+lambda =  0.0013717; f =        70980.4212395
+lambda = 0.00045725; f =        70980.3158805
+lambda = 0.00015242; f =        70980.3048649
+lambda = 5.0805e-05; f =        70980.3036821
+lambda = 1.6935e-05; f =        70980.3035537
+lambda =  5.645e-06; f =        70980.3035404
+lambda = 1.8817e-06; f =        70980.3035393
+lambda = 6.2723e-07; f =        70928.5410909
+lambda = 1.2125e-06; f =        70980.3035393
+lambda = 8.1646e-07; f =        70913.0670388
+lambda = 1.0351e-06; f =        70895.3770495
+lambda = 1.3123e-06; f =        70980.3035393
+lambda = 1.1382e-06; f =        70887.1718306
+lambda = 1.2397e-06; f =        70980.3035393
+lambda = 1.1778e-06; f =        70980.3035393
+lambda = 1.1421e-06; f =        70886.8643650
+lambda = 1.1634e-06; f =        70980.3035393
+lambda = 1.1505e-06; f =        70980.3035393
+Norm of dx     479.54
+Cliff again.  Try traversing
+Predicted improvement: 14965659.165955029
+lambda =          1; f =      9907309.7340748
+lambda =    0.33333; f =      1162130.8256143
+lambda =    0.11111; f =       191653.5170671
+lambda =   0.037037; f =        84225.7831515
+lambda =   0.012346; f =        72416.6842114
+lambda =  0.0041152; f =        71130.0164710
+lambda =  0.0013717; f =        70994.0959021
+lambda = 0.00045725; f =        70981.1942165
+lambda = 0.00015242; f =        70980.3195200
+lambda = 5.0805e-05; f =        70980.3051551
+lambda = 1.6935e-05; f =        70980.3035393
+lambda =  5.645e-06; f =        71251.0927439
+lambda = 1.8817e-06; f =        70969.1468677
+lambda = 6.2723e-07; f =        70967.0042188
+lambda = 1.2125e-06; f =        70963.0656554
+Norm of dx       5471
+----
+Improvement on iteration 17 =       94.212235727
+back and forth on step length never finished
+-----------------
+f at the beginning of new iteration,     70886.0913035321
+Predicted improvement: 31988138.599878702
+lambda =          1; f =       119711.8518642
+lambda =    0.33333; f =        76222.1328431
+lambda =    0.11111; f =        71459.2411252
+lambda =   0.037037; f =        70943.7138784
+lambda =   0.012346; f =        70890.8217393
+lambda =  0.0041152; f =        70886.3068308
+lambda =  0.0013717; f =        70886.1636862
+lambda = 0.00045725; f =        70886.0986375
+lambda = 0.00015242; f =        70886.0920828
+lambda = 5.0805e-05; f =        70886.0913901
+lambda = 1.6935e-05; f =        70886.0913131
+lambda =  5.645e-06; f =        70886.0913046
+lambda = 1.8817e-06; f =        70886.0913036
+lambda = 6.2723e-07; f =        70886.0913035
+lambda = 2.0908e-07; f =        70886.0913035
+lambda = 6.9692e-08; f =        70886.0913035
+lambda = 2.3231e-08; f =        70886.0913035
+Norm of dx     451.14
+----
+Improvement on iteration 18 =        0.000000000
+improvement < crit termination
+
+Final value of minus the log posterior (or likelihood):70886.091304 
+
+POSTERIOR KERNEL OPTIMIZATION PROBLEM!
+ (minus) the hessian matrix at the "mode" is not positive definite!
+=> posterior variance of the estimated parameters are not positive.
+You should try to change the initial values of the parameters using
+the estimated_params_init block, or use another optimization routine.
+[Warning: The results below are most likely wrong!] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation_1', 'C:\dynare\4.5.7\matlab\dynare_estimation_1.m', 316)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('C:\dynare\4.5.7\matlab\dynare_estimation_1.m',316,0)">line 316</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation', 'C:\dynare\4.5.7\matlab\dynare_estimation.m', 105)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('C:\dynare\4.5.7\matlab\dynare_estimation.m',105,0)">line 105</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('modeestimate', 'C:\Users\Farkas\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\modeestimate.m', 84)" style="font-weight:bold">modeestimate</a> (<a href="matlab: opentoline('C:\Users\Farkas\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\modeestimate.m',84,0)">line 84</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Main', 'C:\Users\Farkas\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\Main.m', 97)" style="font-weight:bold">Main</a> (<a href="matlab: opentoline('C:\Users\Farkas\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\Main.m',97,0)">line 97</a>)] 
+[Warning: Matrix is singular, close to singular or badly scaled. Results may be inaccurate. RCOND = NaN.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation_1', 'C:\dynare\4.5.7\matlab\dynare_estimation_1.m', 339)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('C:\dynare\4.5.7\matlab\dynare_estimation_1.m',339,0)">line 339</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare_estimation', 'C:\dynare\4.5.7\matlab\dynare_estimation.m', 105)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('C:\dynare\4.5.7\matlab\dynare_estimation.m',105,0)">line 105</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('modeestimate', 'C:\Users\Farkas\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\modeestimate.m', 84)" style="font-weight:bold">modeestimate</a> (<a href="matlab: opentoline('C:\Users\Farkas\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\modeestimate.m',84,0)">line 84</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Main', 'C:\Users\Farkas\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\Main.m', 97)" style="font-weight:bold">Main</a> (<a href="matlab: opentoline('C:\Users\Farkas\Documents\GitHub\MMBForecast-platform\MMB_Estimation\ALGORITHMS\Main.m',97,0)">line 97</a>)] 
+
+RESULTS FROM POSTERIOR ESTIMATION
+parameters
+             prior mean     mode    s.d. prior pstdev
+
+xiw_p            0.750   0.8869     NaN beta  0.1000 
+b_p              0.500   0.5831     NaN beta  0.1000 
+Fomegabar_p      0.007   0.0493     NaN beta  0.0037 
+mu_p             0.275   0.1852     NaN beta  0.1500 
+sigmaa_p         1.000   1.0396     NaN norm  1.0000 
+Sdoupr_p         5.000   5.0302     NaN norm  3.0000 
+xip_p            0.500   0.2553     NaN beta  0.1000 
+aptil_p          1.500   1.5721     NaN norm  0.2500 
+rhotil_p         0.750   0.9374     NaN beta  0.1000 
+iota_p           0.500   0.4978     NaN beta  0.1500 
+iotaw_p          0.500   0.4335     NaN beta  0.1500 
+iotamu_p         0.500   0.8347     NaN beta  0.1500 
+adytil_p         0.250   0.3147     NaN norm  0.1000 
+signal_corr_p    0.000   0.0195     NaN norm  0.5000 
+rholambdaf_p     0.500   0.5910     NaN beta  0.2000 
+rhomuup_p        0.500   0.9801     NaN beta  0.2000 
+rhog_p           0.500   0.9999     NaN beta  0.2000 
+rhomuzstar_p     0.500   0.4931     NaN beta  0.2000 
+rhoepsil_p       0.500   0.3397     NaN beta  0.2000 
+rhosigma_p       0.500   0.5296     NaN beta  0.2000 
+rhozetac_p       0.500   0.6485     NaN beta  0.2000 
+rhozetai_p       0.500   0.5771     NaN beta  0.2000 
+rhoterm_p        0.500   0.7687     NaN beta  0.2000 
+stdsigma2_p      0.001   0.0990     NaN invg2 0.0012 
+stdsigma1_p      0.002   0.3728     NaN invg2 0.0033 
+
+standard deviation of shocks
+             prior mean     mode    s.d. prior pstdev
+
+e_lambdaf        0.002   0.1004     NaN invg2 0.0033 
+e_muup           0.002   0.1354     NaN invg2 0.0033 
+e_g              0.002   0.5307     NaN invg2 0.0033 
+e_muzstar        0.002   0.0881     NaN invg2 0.0033 
+e_gamma          0.002   0.1836     NaN invg2 0.0033 
+e_epsil          0.002   0.1614     NaN invg2 0.0033 
+e_xp             0.583   1.3145     NaN invg2 0.8250 
+e_zetac          0.002   0.1275     NaN invg2 0.0033 
+e_zetai          0.002   0.3025     NaN invg2 0.0033 
+e_term           0.002   0.3151     NaN invg2 0.0033 
+
+standard deviation of measurement errors
+             prior mean     mode    s.d. prior pstdev
+
+networth_q_obs   0.010   0.2076     NaN invg  5.0000 
+
+
+Log data density [Laplace approximation] is NaN.
+
